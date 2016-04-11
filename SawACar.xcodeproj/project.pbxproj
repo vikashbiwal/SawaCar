@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		036A89501CBB7A9E00DFB631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A894F1CBB7A9E00DFB631 /* AppDelegate.swift */; };
-		036A89521CBB7A9E00DFB631 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A89511CBB7A9E00DFB631 /* ViewController.swift */; };
 		036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A89531CBB7A9E00DFB631 /* Main.storyboard */; };
 		036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 036A89561CBB7A9E00DFB631 /* SawACar.xcdatamodeld */; };
 		036A895A1CBB7A9E00DFB631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 036A89591CBB7A9E00DFB631 /* Assets.xcassets */; };
 		036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */; };
+		036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A896D1CBB7E2700DFB631 /* AppDelegate.swift */; };
+		036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A89701CBB7E6500DFB631 /* LoginVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		036A894C1CBB7A9E00DFB631 /* SawACar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SawACar.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		036A894F1CBB7A9E00DFB631 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		036A89511CBB7A9E00DFB631 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		036A89541CBB7A9E00DFB631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		036A89571CBB7A9E00DFB631 /* SawACar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SawACar.xcdatamodel; sourceTree = "<group>"; };
 		036A89591CBB7A9E00DFB631 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		036A895C1CBB7A9E00DFB631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		036A895E1CBB7A9E00DFB631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		036A896D1CBB7E2700DFB631 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		036A89701CBB7E6500DFB631 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +56,64 @@
 		036A894E1CBB7A9E00DFB631 /* SawACar */ = {
 			isa = PBXGroup;
 			children = (
-				036A894F1CBB7A9E00DFB631 /* AppDelegate.swift */,
-				036A89511CBB7A9E00DFB631 /* ViewController.swift */,
-				036A89531CBB7A9E00DFB631 /* Main.storyboard */,
+				036A89661CBB7D2A00DFB631 /* Storyboards */,
+				036A89641CBB7D0100DFB631 /* Classes */,
 				036A89591CBB7A9E00DFB631 /* Assets.xcassets */,
-				036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */,
 				036A895E1CBB7A9E00DFB631 /* Info.plist */,
 				036A89561CBB7A9E00DFB631 /* SawACar.xcdatamodeld */,
 			);
 			path = SawACar;
+			sourceTree = "<group>";
+		};
+		036A89641CBB7D0100DFB631 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				036A896C1CBB7E0300DFB631 /* AppDelegate */,
+				036A896B1CBB7DB400DFB631 /* ViewControllers */,
+				036A896A1CBB7D9B00DFB631 /* Models */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		036A89661CBB7D2A00DFB631 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */,
+				036A89531CBB7A9E00DFB631 /* Main.storyboard */,
+			);
+			name = Storyboards;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		036A896A1CBB7D9B00DFB631 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		036A896B1CBB7DB400DFB631 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				036A896F1CBB7E4100DFB631 /* LoginVC */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		036A896C1CBB7E0300DFB631 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				036A896D1CBB7E2700DFB631 /* AppDelegate.swift */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		036A896F1CBB7E4100DFB631 /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				036A89701CBB7E6500DFB631 /* LoginVC.swift */,
+			);
+			name = LoginVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +187,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				036A89521CBB7A9E00DFB631 /* ViewController.swift in Sources */,
+				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
+				036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */,
 				036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */,
-				036A89501CBB7A9E00DFB631 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +202,7 @@
 				036A89541CBB7A9E00DFB631 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */ = {
@@ -161,6 +211,7 @@
 				036A895C1CBB7A9E00DFB631 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -253,7 +304,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SawACar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yudiz.SawACar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -264,7 +315,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SawACar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yudiz.SawACar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
