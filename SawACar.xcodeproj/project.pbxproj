@@ -7,15 +7,79 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03112ECA1CC7A53D00205FDC /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */; };
+		031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */; };
+		034826BF1CFC30ED000B46AE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034826BE1CFC30ED000B46AE /* main.swift */; };
+		034826C11CFC3155000B46AE /* LocalizedApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034826C01CFC3155000B46AE /* LocalizedApplication.swift */; };
+		034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C31CFC5B3C000B46AE /* OpenSans-Bold.ttf */; };
+		034826CE1CFC5B46000B46AE /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C41CFC5B3C000B46AE /* OpenSans-BoldItalic.ttf */; };
+		034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C51CFC5B3C000B46AE /* OpenSans-ExtraBold.ttf */; };
+		034826D01CFC5B46000B46AE /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C61CFC5B3C000B46AE /* OpenSans-ExtraBoldItalic.ttf */; };
+		034826D11CFC5B46000B46AE /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C71CFC5B3C000B46AE /* OpenSans-Italic.ttf */; };
+		034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C81CFC5B3C000B46AE /* OpenSans-Light.ttf */; };
+		034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C91CFC5B3C000B46AE /* OpenSans-LightItalic.ttf */; };
+		034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */; };
+		034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */; };
+		034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */; };
 		036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A89531CBB7A9E00DFB631 /* Main.storyboard */; };
 		036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 036A89561CBB7A9E00DFB631 /* SawACar.xcdatamodeld */; };
 		036A895A1CBB7A9E00DFB631 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 036A89591CBB7A9E00DFB631 /* Assets.xcassets */; };
 		036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */; };
 		036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A896D1CBB7E2700DFB631 /* AppDelegate.swift */; };
 		036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A89701CBB7E6500DFB631 /* LoginVC.swift */; };
+		036F29321CBBD19200931121 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036F29311CBBD19200931121 /* General.swift */; };
+		03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */ = {isa = PBXBuildFile; fileRef = 03E7E6961CBCBDAE00DB7723 /* WSReponse.text */; };
+		03E7E6991CBCBFD200DB7723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6981CBCBFD200DB7723 /* User.swift */; };
+		03E7E69B1CBCEED300DB7723 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */; };
+		03E7E6A01CBCF22300DB7723 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */; };
+		03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6A21CBD0C5900DB7723 /* SignUpVC.swift */; };
+		03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6A91CBD146B00DB7723 /* TableViewCells.swift */; };
+		03E7E6AC1CBD14A500DB7723 /* ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6AB1CBD14A500DB7723 /* ParentVC.swift */; };
+		03E7E6AE1CBD14DF00DB7723 /* CollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6AD1CBD14DF00DB7723 /* CollectionViewCells.swift */; };
+		03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6B01CBD161400DB7723 /* CountryListVC.swift */; };
+		03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D171CBBDE8700C44B5A /* CGSizeExtension.swift */; };
+		03F65D341CBBDE8700C44B5A /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D181CBBDE8700C44B5A /* CollectionExtension.swift */; };
+		03F65D351CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D191CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift */; };
+		03F65D371CBBDE8700C44B5A /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D1B1CBBDE8700C44B5A /* StringExtension.swift */; };
+		03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D1C1CBBDE8700C44B5A /* UIColorExtension.swift */; };
+		03F65D391CBBDE8700C44B5A /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D1D1CBBDE8700C44B5A /* UIFontExtension.swift */; };
+		03F65D3A1CBBDE8700C44B5A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D1E1CBBDE8700C44B5A /* UIImageExtension.swift */; };
+		03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D1F1CBBDE8700C44B5A /* UIViewExtension.swift */; };
+		03F65D3D1CBBDE8700C44B5A /* ConstrainedSubclasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D221CBBDE8700C44B5A /* ConstrainedSubclasses.swift */; };
+		03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D231CBBDE8700C44B5A /* CustomActivityIndicatorView.swift */; };
+		03F65D3F1CBBDE8700C44B5A /* DocPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D241CBBDE8700C44B5A /* DocPicker.swift */; };
+		03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D251CBBDE8700C44B5A /* DocumentAccess.swift */; };
+		03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D261CBBDE8700C44B5A /* Extensions.swift */; };
+		03F65D421CBBDE8700C44B5A /* InteractiveNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D271CBBDE8700C44B5A /* InteractiveNavigationController.swift */; };
+		03F65D431CBBDE8700C44B5A /* JPUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D281CBBDE8700C44B5A /* JPUtility.swift */; };
+		03F65D441CBBDE8700C44B5A /* LazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D291CBBDE8700C44B5A /* LazyLoader.swift */; };
+		03F65D451CBBDE8700C44B5A /* ObjcHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D2B1CBBDE8700C44B5A /* ObjcHelper.m */; };
+		03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D2C1CBBDE8700C44B5A /* Popups.swift */; };
+		03F65D471CBBDE8700C44B5A /* RawdataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D2D1CBBDE8700C44B5A /* RawdataConverter.swift */; };
+		03F65D481CBBDE8700C44B5A /* ShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D2E1CBBDE8700C44B5A /* ShareController.swift */; };
+		03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D301CBBDE8700C44B5A /* Structures.swift */; };
+		03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D311CBBDE8700C44B5A /* Subclasses.swift */; };
+		03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D321CBBDE8700C44B5A /* UserLocation.swift */; };
+		03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10661CBB8AA400695AE2 /* Constants.swift */; };
+		03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10681CBB9E6E00695AE2 /* Webservice.swift */; };
+		E717E27B9A02098BC5290BD0 /* libPods-SawACar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
+		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
+		034826BE1CFC30ED000B46AE /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		034826C01CFC3155000B46AE /* LocalizedApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizedApplication.swift; path = ../LocalizedApplication.swift; sourceTree = "<group>"; };
+		034826C31CFC5B3C000B46AE /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		034826C41CFC5B3C000B46AE /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		034826C51CFC5B3C000B46AE /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		034826C61CFC5B3C000B46AE /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		034826C71CFC5B3C000B46AE /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		034826C81CFC5B3C000B46AE /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		034826C91CFC5B3C000B46AE /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		036A894C1CBB7A9E00DFB631 /* SawACar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SawACar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		036A89541CBB7A9E00DFB631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		036A89571CBB7A9E00DFB631 /* SawACar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SawACar.xcdatamodel; sourceTree = "<group>"; };
@@ -24,6 +88,46 @@
 		036A895E1CBB7A9E00DFB631 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		036A896D1CBB7E2700DFB631 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		036A89701CBB7E6500DFB631 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		036F29311CBBD19200931121 /* General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
+		03E7E6961CBCBDAE00DB7723 /* WSReponse.text */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = WSReponse.text; sourceTree = "<group>"; };
+		03E7E6981CBCBFD200DB7723 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		03E7E6A21CBD0C5900DB7723 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		03E7E6A91CBD146B00DB7723 /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewCells.swift; path = Cells/TableViewCells.swift; sourceTree = "<group>"; };
+		03E7E6AB1CBD14A500DB7723 /* ParentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParentVC.swift; path = ViewControllers/ParentVC.swift; sourceTree = "<group>"; };
+		03E7E6AD1CBD14DF00DB7723 /* CollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCells.swift; sourceTree = "<group>"; };
+		03E7E6B01CBD161400DB7723 /* CountryListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryListVC.swift; sourceTree = "<group>"; };
+		03F65D171CBBDE8700C44B5A /* CGSizeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGSizeExtension.swift; sourceTree = "<group>"; };
+		03F65D181CBBDE8700C44B5A /* CollectionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
+		03F65D191CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+HexAndCSSColorNames.swift"; sourceTree = "<group>"; };
+		03F65D1B1CBBDE8700C44B5A /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		03F65D1C1CBBDE8700C44B5A /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		03F65D1D1CBBDE8700C44B5A /* UIFontExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
+		03F65D1E1CBBDE8700C44B5A /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		03F65D1F1CBBDE8700C44B5A /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		03F65D221CBBDE8700C44B5A /* ConstrainedSubclasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstrainedSubclasses.swift; sourceTree = "<group>"; };
+		03F65D231CBBDE8700C44B5A /* CustomActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomActivityIndicatorView.swift; sourceTree = "<group>"; };
+		03F65D241CBBDE8700C44B5A /* DocPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocPicker.swift; sourceTree = "<group>"; };
+		03F65D251CBBDE8700C44B5A /* DocumentAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentAccess.swift; sourceTree = "<group>"; };
+		03F65D261CBBDE8700C44B5A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = ../ImpClasses/Extensions.swift; sourceTree = "<group>"; };
+		03F65D271CBBDE8700C44B5A /* InteractiveNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveNavigationController.swift; sourceTree = "<group>"; };
+		03F65D281CBBDE8700C44B5A /* JPUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JPUtility.swift; sourceTree = "<group>"; };
+		03F65D291CBBDE8700C44B5A /* LazyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyLoader.swift; sourceTree = "<group>"; };
+		03F65D2A1CBBDE8700C44B5A /* ObjcHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjcHelper.h; sourceTree = "<group>"; };
+		03F65D2B1CBBDE8700C44B5A /* ObjcHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcHelper.m; sourceTree = "<group>"; };
+		03F65D2C1CBBDE8700C44B5A /* Popups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popups.swift; sourceTree = "<group>"; };
+		03F65D2D1CBBDE8700C44B5A /* RawdataConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawdataConverter.swift; sourceTree = "<group>"; };
+		03F65D2E1CBBDE8700C44B5A /* ShareController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareController.swift; sourceTree = "<group>"; };
+		03F65D301CBBDE8700C44B5A /* Structures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
+		03F65D311CBBDE8700C44B5A /* Subclasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subclasses.swift; sourceTree = "<group>"; };
+		03F65D321CBBDE8700C44B5A /* UserLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
+		03FD10661CBB8AA400695AE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		03FD10681CBB9E6E00695AE2 /* Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
+		03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SawACar-Bridging-Header.h"; sourceTree = "<group>"; };
+		064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SawACar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.release.xcconfig"; sourceTree = "<group>"; };
+		F9315AA822493E9719CF490F /* Pods-SawACar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +135,39 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E717E27B9A02098BC5290BD0 /* libPods-SawACar.a in Frameworks */,
+				03E7E69B1CBCEED300DB7723 /* FBSDKCoreKit.framework in Frameworks */,
+				03E7E6A01CBCF22300DB7723 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		034826C21CFC5B2E000B46AE /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				034826C31CFC5B3C000B46AE /* OpenSans-Bold.ttf */,
+				034826C41CFC5B3C000B46AE /* OpenSans-BoldItalic.ttf */,
+				034826C51CFC5B3C000B46AE /* OpenSans-ExtraBold.ttf */,
+				034826C61CFC5B3C000B46AE /* OpenSans-ExtraBoldItalic.ttf */,
+				034826C71CFC5B3C000B46AE /* OpenSans-Italic.ttf */,
+				034826C81CFC5B3C000B46AE /* OpenSans-Light.ttf */,
+				034826C91CFC5B3C000B46AE /* OpenSans-LightItalic.ttf */,
+				034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */,
+				034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */,
+				034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */,
+			);
+			name = Font;
+			sourceTree = "<group>";
+		};
 		036A89431CBB7A9E00DFB631 = {
 			isa = PBXGroup;
 			children = (
 				036A894E1CBB7A9E00DFB631 /* SawACar */,
 				036A894D1CBB7A9E00DFB631 /* Products */,
+				059B39E228D25B0BD883B681 /* Pods */,
+				2941EFA316F48801167669F0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,9 +194,11 @@
 		036A89641CBB7D0100DFB631 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				03E7E6A81CBD13E600DB7723 /* Cells */,
 				036A896C1CBB7E0300DFB631 /* AppDelegate */,
 				036A896B1CBB7DB400DFB631 /* ViewControllers */,
 				036A896A1CBB7D9B00DFB631 /* Models */,
+				036A89731CBB80E200DFB631 /* Other */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -88,6 +216,9 @@
 		036A896A1CBB7D9B00DFB631 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				036F29311CBBD19200931121 /* General.swift */,
+				03E7E6981CBCBFD200DB7723 /* User.swift */,
+				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -95,6 +226,9 @@
 		036A896B1CBB7DB400DFB631 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				03E7E6AF1CBD15EF00DB7723 /* CountryListVC */,
+				03E7E6A41CBD0CE200DB7723 /* ParentVC */,
+				03E7E6A11CBD0BE000DB7723 /* SignUpVC */,
 				036A896F1CBB7E4100DFB631 /* LoginVC */,
 			);
 			path = ViewControllers;
@@ -116,6 +250,114 @@
 			name = LoginVC;
 			sourceTree = "<group>";
 		};
+		036A89731CBB80E200DFB631 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				034826C21CFC5B2E000B46AE /* Font */,
+				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
+				03FD10661CBB8AA400695AE2 /* Constants.swift */,
+				03F65D161CBBDE8700C44B5A /* Extensions */,
+				03F65D201CBBDE8700C44B5A /* ImpClasses */,
+				03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */,
+				034826BE1CFC30ED000B46AE /* main.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		03E7E6A11CBD0BE000DB7723 /* SignUpVC */ = {
+			isa = PBXGroup;
+			children = (
+				03E7E6A21CBD0C5900DB7723 /* SignUpVC.swift */,
+				03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */,
+			);
+			name = SignUpVC;
+			sourceTree = "<group>";
+		};
+		03E7E6A41CBD0CE200DB7723 /* ParentVC */ = {
+			isa = PBXGroup;
+			children = (
+				03E7E6AB1CBD14A500DB7723 /* ParentVC.swift */,
+			);
+			name = ParentVC;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		03E7E6A81CBD13E600DB7723 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				03E7E6A91CBD146B00DB7723 /* TableViewCells.swift */,
+				03E7E6AD1CBD14DF00DB7723 /* CollectionViewCells.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		03E7E6AF1CBD15EF00DB7723 /* CountryListVC */ = {
+			isa = PBXGroup;
+			children = (
+				03E7E6B01CBD161400DB7723 /* CountryListVC.swift */,
+			);
+			name = CountryListVC;
+			sourceTree = "<group>";
+		};
+		03F65D161CBBDE8700C44B5A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				03F65D261CBBDE8700C44B5A /* Extensions.swift */,
+				03F65D171CBBDE8700C44B5A /* CGSizeExtension.swift */,
+				03F65D181CBBDE8700C44B5A /* CollectionExtension.swift */,
+				03F65D191CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift */,
+				03F65D1B1CBBDE8700C44B5A /* StringExtension.swift */,
+				03F65D1C1CBBDE8700C44B5A /* UIColorExtension.swift */,
+				03F65D1D1CBBDE8700C44B5A /* UIFontExtension.swift */,
+				03F65D1E1CBBDE8700C44B5A /* UIImageExtension.swift */,
+				03F65D1F1CBBDE8700C44B5A /* UIViewExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		03F65D201CBBDE8700C44B5A /* ImpClasses */ = {
+			isa = PBXGroup;
+			children = (
+				03F65D221CBBDE8700C44B5A /* ConstrainedSubclasses.swift */,
+				03F65D231CBBDE8700C44B5A /* CustomActivityIndicatorView.swift */,
+				03F65D241CBBDE8700C44B5A /* DocPicker.swift */,
+				03F65D251CBBDE8700C44B5A /* DocumentAccess.swift */,
+				03F65D271CBBDE8700C44B5A /* InteractiveNavigationController.swift */,
+				03F65D281CBBDE8700C44B5A /* JPUtility.swift */,
+				03F65D291CBBDE8700C44B5A /* LazyLoader.swift */,
+				03F65D2A1CBBDE8700C44B5A /* ObjcHelper.h */,
+				03F65D2B1CBBDE8700C44B5A /* ObjcHelper.m */,
+				03F65D2C1CBBDE8700C44B5A /* Popups.swift */,
+				03F65D2D1CBBDE8700C44B5A /* RawdataConverter.swift */,
+				03F65D2E1CBBDE8700C44B5A /* ShareController.swift */,
+				03F65D301CBBDE8700C44B5A /* Structures.swift */,
+				03F65D311CBBDE8700C44B5A /* Subclasses.swift */,
+				03F65D321CBBDE8700C44B5A /* UserLocation.swift */,
+				034826C01CFC3155000B46AE /* LocalizedApplication.swift */,
+				031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */,
+			);
+			path = ImpClasses;
+			sourceTree = "<group>";
+		};
+		059B39E228D25B0BD883B681 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9315AA822493E9719CF490F /* Pods-SawACar.debug.xcconfig */,
+				D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2941EFA316F48801167669F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */,
+				03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */,
+				064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -123,9 +365,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 036A89611CBB7A9E00DFB631 /* Build configuration list for PBXNativeTarget "SawACar" */;
 			buildPhases = (
+				859CA3CF72868BF3456CC4F4 /* Check Pods Manifest.lock */,
 				036A89481CBB7A9E00DFB631 /* Sources */,
 				036A89491CBB7A9E00DFB631 /* Frameworks */,
 				036A894A1CBB7A9E00DFB631 /* Resources */,
+				A7269AE4DAE979939DAB7753 /* Embed Pods Frameworks */,
+				5CFCA968CF0678E9F4EC8114 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -174,22 +419,117 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				034826D11CFC5B46000B46AE /* OpenSans-Italic.ttf in Resources */,
+				034826CE1CFC5B46000B46AE /* OpenSans-BoldItalic.ttf in Resources */,
 				036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */,
+				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
+				034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */,
 				036A895A1CBB7A9E00DFB631 /* Assets.xcassets in Resources */,
+				034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */,
 				036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */,
+				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
+				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
+				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
+				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
+				034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */,
+				034826D01CFC5B46000B46AE /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5CFCA968CF0678E9F4EC8114 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SawACar/Pods-SawACar-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		859CA3CF72868BF3456CC4F4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A7269AE4DAE979939DAB7753 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SawACar/Pods-SawACar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		036A89481CBB7A9E00DFB631 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
+				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
+				03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */,
+				03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */,
 				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
+				03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */,
+				03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */,
+				03F65D421CBBDE8700C44B5A /* InteractiveNavigationController.swift in Sources */,
+				03E7E6991CBCBFD200DB7723 /* User.swift in Sources */,
+				03F65D351CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift in Sources */,
+				034826BF1CFC30ED000B46AE /* main.swift in Sources */,
+				03F65D3F1CBBDE8700C44B5A /* DocPicker.swift in Sources */,
 				036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */,
+				036F29321CBBD19200931121 /* General.swift in Sources */,
+				034826C11CFC3155000B46AE /* LocalizedApplication.swift in Sources */,
+				03F65D451CBBDE8700C44B5A /* ObjcHelper.m in Sources */,
+				03E7E6AC1CBD14A500DB7723 /* ParentVC.swift in Sources */,
+				03F65D341CBBDE8700C44B5A /* CollectionExtension.swift in Sources */,
 				036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */,
+				03F65D3A1CBBDE8700C44B5A /* UIImageExtension.swift in Sources */,
+				03F65D431CBBDE8700C44B5A /* JPUtility.swift in Sources */,
+				03F65D471CBBDE8700C44B5A /* RawdataConverter.swift in Sources */,
+				03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */,
+				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
+				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
+				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,
+				03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */,
+				03E7E6AE1CBD14DF00DB7723 /* CollectionViewCells.swift in Sources */,
+				03F65D371CBBDE8700C44B5A /* StringExtension.swift in Sources */,
+				031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */,
+				03F65D441CBBDE8700C44B5A /* LazyLoader.swift in Sources */,
+				03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */,
+				03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */,
+				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,
+				03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */,
+				03F65D391CBBDE8700C44B5A /* UIFontExtension.swift in Sources */,
+				03F65D3D1CBBDE8700C44B5A /* ConstrainedSubclasses.swift in Sources */,
+				03F65D481CBBDE8700C44B5A /* ShareController.swift in Sources */,
+				03112ECA1CC7A53D00205FDC /* ChangePasswordVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,23 +640,48 @@
 		};
 		036A89621CBB7A9E00DFB631 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9315AA822493E9719CF490F /* Pods-SawACar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
+				);
 				INFOPLIST_FILE = SawACar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		036A89631CBB7A9E00DFB631 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
+				);
 				INFOPLIST_FILE = SawACar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -339,6 +704,7 @@
 				036A89631CBB7A9E00DFB631 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

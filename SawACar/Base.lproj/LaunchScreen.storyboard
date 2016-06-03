@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,14 +16,48 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="ic_bg" translatesAutoresizingMaskIntoConstraints="NO" id="I4z-Wu-d7b">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aa6-dS-QV5">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="ic_head_icon" translatesAutoresizingMaskIntoConstraints="NO" id="yXc-7A-t8j">
+                                <rect key="frame" x="137" y="58" width="100" height="142"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yXc-7A-t8j" secondAttribute="height" multiplier="50:71" id="s2V-XA-gYW"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="I4z-Wu-d7b" secondAttribute="bottom" id="6Gh-MC-cSo"/>
+                            <constraint firstItem="aa6-dS-QV5" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="88n-aX-gFY"/>
+                            <constraint firstItem="yXc-7A-t8j" firstAttribute="top" secondItem="aa6-dS-QV5" secondAttribute="bottom" id="ESA-LC-bW5"/>
+                            <constraint firstItem="aa6-dS-QV5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Ry9-2q-VA3"/>
+                            <constraint firstItem="yXc-7A-t8j" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="hyp-GR-c5Y"/>
+                            <constraint firstItem="I4z-Wu-d7b" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="icb-NR-NZ4"/>
+                            <constraint firstAttribute="trailing" secondItem="aa6-dS-QV5" secondAttribute="trailing" id="jjN-ur-96Q"/>
+                            <constraint firstAttribute="trailing" secondItem="I4z-Wu-d7b" secondAttribute="trailing" id="r7E-S7-zOh"/>
+                            <constraint firstItem="aa6-dS-QV5" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.086" id="sRr-jp-V3R"/>
+                            <constraint firstItem="I4z-Wu-d7b" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="sXQ-Ua-c3Z"/>
+                            <constraint firstItem="yXc-7A-t8j" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.266" id="uCx-67-y92"/>
+                        </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_bg" width="375" height="667"/>
+        <image name="ic_head_icon" width="100" height="142"/>
+    </resources>
 </document>

@@ -1,0 +1,101 @@
+/* 
+  WSReponse.strings
+  SawACar
+
+  Created by Yudiz Solutions Pvt. Ltd. on 12/04/16.
+  Copyright © 2016 Yudiz Solutions Pvt. Ltd. All rights reserved.
+*/
+
+
+//MARK: GetAllCountries, GetActiveCountries
+{
+    IsSuccess = 1;
+    Messages =     (
+    );
+    Object =     (
+    {
+        CountryCode = DZ;
+        CountryDialCode = 213;
+        CountryID = 62;
+        CountryName = Algeria;
+    },
+    {
+        CountryCode = BH;
+        CountryDialCode = 973;
+        CountryID = 23;
+        CountryName = Bahrain;
+    }
+    );
+}
+
+//MARK: GetAllCurrencies
+{
+    IsSuccess = 1;
+    Messages =     (
+    );
+    Object =     (
+    {
+        CurrencyCode = ALL;
+        CurrencyCountry = Andorra;
+        CurrencyID = 1;
+        CurrencyName = Leke;
+        CurrencySymbol = Lek;
+    },
+    {
+        CurrencyCode = AED;
+        CurrencyCountry = Emirate;
+        CurrencyID = 2;
+        CurrencyName = "United Arab Emirates dirham";
+        CurrencySymbol = " \U062f.\U0625";
+    }
+    );
+}
+
+//MARK: User
+{
+    "IsSuccess": true,
+    "Messages": [
+    
+    ],
+    "Object": {
+        "UserID": 131,
+        "FullName": "Amer Khan",
+        "Photo": "/Themes/TravelAgency/images/Man.png",
+        "Rating": 0,
+        "PreferencesShowEmail": null,
+        "PreferencesShowMobile": null,
+        "PreferencesSmoking": null,
+        "PreferencesMusic": null,
+        "PreferencesFood": null,
+        "PreferencesKids": null,
+        "PreferencesPets": null,
+        "PreferencesPrayingStop": null,
+        "PreferencesQuran": null,
+        "AccountTypeID": null,
+        "IsTermsAccepted": null,
+        "IsMonitoringAccepted": null,
+        "IsTravelOrderReceiver": null,
+        "DefaultLanguage": null,
+        "YearOfBirth": 1988,
+        "NationalityID": 105,
+        "CountryID": 105,
+        "Whatsapp": null,
+        "Viber": null,
+        "Line": null,
+        "Tango": null,
+        "Telegram": null,
+        "Facebook": null,
+        "Twitter": null,
+        "Bio": null,
+        "IsMobileVerified": null,
+        "IsEmailVerified": null,
+        "LastLoginDate": -8587411675536672700,
+        "CreateDate": -8587411675538833742,
+        "FirstName": "Amer",
+        "LastName": "Khan",
+        "Gender": true,
+        "Email": "zahir.khan@gmail.com",
+        "MobileNumber": "6634880990",
+        "MobileCountryCode": 91
+    }
+}
