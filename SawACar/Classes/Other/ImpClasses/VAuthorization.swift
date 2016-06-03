@@ -79,6 +79,29 @@ extension VAuthorization {
         }
         
     }
+    
+    class func showCameraAccessDeniedAlert(inVC : UIViewController) {
+        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your camera. To enable access go to: device's Settings > Privacy > Camera.", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let SettingAction = UIAlertAction(title: "Settings", style: .Destructive, handler: { (action) in
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(SettingAction)
+        inVC.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    class func showPhotosAccessDeniedAlert(inVC : UIViewController) {
+        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your photos or videos. To enable access go to: device's Settings > Privacy > Photos.", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let SettingAction = UIAlertAction(title: "Settings", style: .Destructive, handler: { (action) in
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(SettingAction)
+        inVC.presentViewController(alert, animated: true, completion: nil)
+    }
+
 }
 
 //MARK: Authorization Status for Contacts
@@ -110,4 +133,17 @@ extension VAuthorization {
             break
         }
     }
+    
+    class func showContactsAccessDeniedAlert(inVC : UIViewController) {
+        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your contacts. To enable access go to: device's Settings > Privacy > Contacts.", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let SettingAction = UIAlertAction(title: "Settings", style: .Destructive, handler: { (action) in
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(SettingAction)
+        inVC.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+
 }
