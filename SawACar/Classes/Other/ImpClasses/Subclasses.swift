@@ -45,6 +45,14 @@ class RoundedImageView: UIImageView {
     }
 }
 
+class RoundedView: UIView {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.layer.cornerRadius = self.bounds.size.height/2
+        self.layer.masksToBounds = true
+    }
+}
+
 class RoundedButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
