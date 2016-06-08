@@ -128,7 +128,20 @@ extension User {
         return params
     }
     
-    
+    //MARK: updateProfile image of user
+    func updateProfileImage(imgData: NSData)  {
+        wsCall.updateUserProfileImage(imgData, userid: self.Id) { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    let imgPath = json["Object"] as! String
+                    self.photo = kWSDomainURL + imgPath
+                }
+            } else {
+                
+            }
+        }
+    }
+
 }
 
 //MARK: Validation for user Registration, login, Edit user

@@ -17,7 +17,7 @@ class LoginVC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //signUPTest()
+       
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -81,7 +81,7 @@ extension LoginVC {
                 //succes
                 let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : _fbUserInfoRequestParam])
                 request.startWithCompletionHandler({ (con, result, error) in
-                    //print(result)
+                    print(result)
                     self.loginWithFacebookWSCall(result as! [String : AnyObject])
                 })
             }

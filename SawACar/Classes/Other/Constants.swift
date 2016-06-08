@@ -10,8 +10,12 @@ import UIKit
 import Foundation
 
 
+//MARK: Storyboard references
+let _generalStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+let _driverStoryboard  = UIStoryboard(name: "SBDriver", bundle: NSBundle.mainBundle())
+let _passangerStorybord = UIStoryboard(name: "SBPassanger", bundle: NSBundle.mainBundle())
 
-
+//MARK: -   
 let _screenSize             = UIScreen.mainScreen().bounds.size
 let _googleKey              = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww" // Pravin
 let _twitterUrl             = "https://api.twitter.com/1.1/account/verify_credentials.json"
@@ -81,6 +85,8 @@ enum UIUserInterfaceIdiom : Int {
     case Phone
     case Pad
 }
+
+var shutterActioinBlock: (Void)-> Void = {_ in}
 
 // MARK: Global Functions
 // Comment in release mode

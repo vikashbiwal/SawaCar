@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "ic_birthday-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_birthday.png",
+      "filename" : "ic_birthday-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "ic_birthday.png",
       "scale" : "3x"
     }
   ],

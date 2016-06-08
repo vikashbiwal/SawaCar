@@ -16,6 +16,7 @@ class UserTypeSelectVC: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setButtonsUI()
+       
     }
 
     override func didReceiveMemoryWarning() {

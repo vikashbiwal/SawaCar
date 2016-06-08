@@ -14,8 +14,8 @@ class ParentVC: UIViewController  {
     @IBOutlet var tableView :UITableView!
     @IBOutlet var lblTitle  :UILabel!
    
-    @IBOutlet var viewHeader    : UIView?
-    @IBOutlet var viewBottom    : UIView?
+//    @IBOutlet var viewHeader    : UIView?
+//    @IBOutlet var viewBottom    : UIView?
     @IBOutlet var viewContainer : UIView?
     
     @IBOutlet var horizontalConstraints: [NSLayoutConstraint]?
@@ -30,6 +30,10 @@ class ParentVC: UIViewController  {
     // Navigate to Previous View Controller with dismiss view method
     @IBAction func parentDismissAction(sender:UIButton?){
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func shutterAction(sender: UIButton) {
+        shutterActioinBlock()
     }
     
     // Navigate to Root view controller
@@ -51,16 +55,16 @@ class ParentVC: UIViewController  {
     }
     
     func setHeaderShadow(){
-        self.viewHeader?.layer.shadowColor = UIColor.blackColor().CGColor
-        self.viewHeader?.layer.shadowOpacity = 0.4
-        self.viewHeader?.layer.shadowOffset = CGSizeMake(0, 2)
+        //self.viewHeader?.layer.shadowColor = UIColor.blackColor().CGColor
+        //self.viewHeader?.layer.shadowOpacity = 0.4
+        //self.viewHeader?.layer.shadowOffset = CGSizeMake(0, 2)
         //self.lblTitle?.font = UIFont.muAvenirMedium(18.0)
     }
     
     func setBottomShadow(){
-        self.viewBottom?.layer.shadowColor = UIColor.blackColor().CGColor
-        self.viewBottom?.layer.shadowOpacity = 0.4
-        self.viewBottom?.layer.shadowOffset = CGSizeMake(0, 0)
+//        self.viewBottom?.layer.shadowColor = UIColor.blackColor().CGColor
+//        self.viewBottom?.layer.shadowOpacity = 0.4
+//        self.viewBottom?.layer.shadowOffset = CGSizeMake(0, 0)
     }
     
     func setViewContainerSize() {

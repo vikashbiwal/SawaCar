@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum LocationSelectionForType {
+    case Nationality, Country
+    case From, To
+    case None
+}
 
 class CountryListVC: ParentVC {
     //MARK:

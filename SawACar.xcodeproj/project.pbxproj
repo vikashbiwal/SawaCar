@@ -11,6 +11,11 @@
 		03078EA81D05495F009450BB /* DContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03078EA71D05495F009450BB /* DContainerVC.swift */; };
 		03112ECA1CC7A53D00205FDC /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */; };
 		031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */; };
+		032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0323600F1D08341D0004CDA9 /* ProfileViewController.swift */; };
+		032360141D0838F40004CDA9 /* car_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 032360131D0838F40004CDA9 /* car_image.jpg */; };
+		032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */; };
+		032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680E01D06D81700969C16 /* LocationPickerViewController.swift */; };
+		032680E31D06D81700969C16 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680E11D06D81700969C16 /* MapViewController.swift */; };
 		0327CDA31D0577F400D51DE4 /* UserTypeSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */; };
 		0327CDA81D057AD600D51DE4 /* SBPassanger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0327CDA61D057AD600D51DE4 /* SBPassanger.storyboard */; };
 		0327CDAA1D058FDA00D51DE4 /* WMParentTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA91D058FDA00D51DE4 /* WMParentTBC.swift */; };
@@ -76,6 +81,11 @@
 		03078EA71D05495F009450BB /* DContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DContainerVC.swift; sourceTree = "<group>"; };
 		03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
+		0323600F1D08341D0004CDA9 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		032360131D0838F40004CDA9 /* car_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = car_image.jpg; sourceTree = "<group>"; };
+		032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTravelStep1VC.swift; sourceTree = "<group>"; };
+		032680E01D06D81700969C16 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
+		032680E11D06D81700969C16 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTypeSelectVC.swift; sourceTree = "<group>"; };
 		0327CDA71D057AD600D51DE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SawACar/Base.lproj/SBPassanger.storyboard; sourceTree = SOURCE_ROOT; };
 		0327CDA91D058FDA00D51DE4 /* WMParentTBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WMParentTBC.swift; sourceTree = "<group>"; };
@@ -159,10 +169,11 @@
 		03078EA51D0548CD009450BB /* General */ = {
 			isa = PBXGroup;
 			children = (
+				0323600E1D08338C0004CDA9 /* ProfileVC */,
+				0323600D1D0833780004CDA9 /* UserTypeSelectorVC */,
 				03E7E6AF1CBD15EF00DB7723 /* CountryListVC */,
 				03E7E6A11CBD0BE000DB7723 /* SignUpVC */,
 				036A896F1CBB7E4100DFB631 /* LoginVC */,
-				0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -176,10 +187,38 @@
 			name = Driver;
 			sourceTree = "<group>";
 		};
+		0323600D1D0833780004CDA9 /* UserTypeSelectorVC */ = {
+			isa = PBXGroup;
+			children = (
+				0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */,
+			);
+			name = UserTypeSelectorVC;
+			sourceTree = "<group>";
+		};
+		0323600E1D08338C0004CDA9 /* ProfileVC */ = {
+			isa = PBXGroup;
+			children = (
+				032360131D0838F40004CDA9 /* car_image.jpg */,
+				0323600F1D08341D0004CDA9 /* ProfileViewController.swift */,
+			);
+			name = ProfileVC;
+			sourceTree = "<group>";
+		};
+		032680DF1D06D80700969C16 /* LocationPicker */ = {
+			isa = PBXGroup;
+			children = (
+				032680E01D06D81700969C16 /* LocationPickerViewController.swift */,
+				032680E11D06D81700969C16 /* MapViewController.swift */,
+			);
+			name = LocationPicker;
+			path = ../Other;
+			sourceTree = "<group>";
+		};
 		0327CDAD1D05A7FB00D51DE4 /* OfferARide */ = {
 			isa = PBXGroup;
 			children = (
 				0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */,
+				032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */,
 			);
 			name = OfferARide;
 			sourceTree = "<group>";
@@ -271,6 +310,7 @@
 				03078EA61D0548E4009450BB /* Driver */,
 				03078EA51D0548CD009450BB /* General */,
 				03E7E6A41CBD0CE200DB7723 /* ParentVC */,
+				032680DF1D06D80700969C16 /* LocationPicker */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -469,6 +509,7 @@
 				0327CDA81D057AD600D51DE4 /* SBPassanger.storyboard in Resources */,
 				034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */,
 				036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */,
+				032360141D0838F40004CDA9 /* car_image.jpg in Resources */,
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
 				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -537,12 +578,15 @@
 			files = (
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
+				032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */,
 				03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */,
 				03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */,
 				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
 				03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */,
 				03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */,
+				032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */,
 				03F65D421CBBDE8700C44B5A /* InteractiveNavigationController.swift in Sources */,
+				032680E31D06D81700969C16 /* MapViewController.swift in Sources */,
 				03E7E6991CBCBFD200DB7723 /* User.swift in Sources */,
 				03F65D351CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift in Sources */,
 				034826BF1CFC30ED000B46AE /* main.swift in Sources */,
@@ -562,6 +606,7 @@
 				03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */,
 				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
+				032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */,
 				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,
 				03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */,
 				03E7E6AE1CBD14DF00DB7723 /* CollectionViewCells.swift in Sources */,

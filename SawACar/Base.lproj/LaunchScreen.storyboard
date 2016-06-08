@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="ic_bg" translatesAutoresizingMaskIntoConstraints="NO" id="I4z-Wu-d7b">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="img_splash" translatesAutoresizingMaskIntoConstraints="NO" id="I4z-Wu-d7b">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aa6-dS-QV5">
@@ -57,7 +57,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ic_bg" width="375" height="667"/>
         <image name="ic_head_icon" width="100" height="142"/>
+        <image name="img_splash" width="375" height="667"/>
     </resources>
 </document>

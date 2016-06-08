@@ -59,25 +59,30 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                 let cell = tableView.dequeueReusableCellWithIdentifier("nameFieldCell") as! TVSignUpFormCell
                 cell.txtField.placeholder = "First Name"
                 cell.txtField.tag = 101
+                cell.txtField.returnKeyType = .Next
                 return cell
             } else if indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("nameFieldCell") as! TVSignUpFormCell
                 cell.txtField.placeholder = "Last Name"
                 cell.txtField.tag = 102
+                cell.txtField.returnKeyType = .Next
                 return cell
             } else if indexPath.row == 4 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("emailFieldCell") as! TVSignUpFormCell
                 cell.txtField.tag = 103
+                cell.txtField.returnKeyType = .Next
                 return cell
             } else if indexPath.row == 5 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("passwordFieldCell") as! TVSignUpFormCell
                 cell.txtField.placeholder = "Password"
                 cell.txtField.tag = 104
+                cell.txtField.returnKeyType = .Next
                 return cell
             } else  {
                 let cell = tableView.dequeueReusableCellWithIdentifier("passwordFieldCell") as! TVSignUpFormCell
                 cell.txtField.placeholder = "Confirm Password"
                 cell.txtField.tag = 105
+                cell.txtField.returnKeyType = .Default
                 return cell
             }
         } else  { // .GenderInfo, .BirthInfo, .ContactInfo, .LocationInfo
@@ -161,8 +166,28 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
     
     
     //MARK: TextField Delegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return textField.resignFirstResponder()
+    func textFieldShouldReturn(sender: UITextField) -> Bool {
+         var index = 0
+        if sender.tag == SignUpVC.TextFieldType.FirstName.rawValue {
+            index = 3
+        } else if sender.tag == SignUpVC.TextFieldType.LastName.rawValue {
+            index = 4
+        } else if sender.tag == SignUpVC.TextFieldType.Email.rawValue {
+            index = 5
+        } else if sender.tag == SignUpVC.TextFieldType.Password.rawValue {
+            index = 6
+        } else if sender.tag == SignUpVC.TextFieldType.ConfirmPass.rawValue {
+            return sender.resignFirstResponder()
+        } else if sender.tag == SignUpVC.TextFieldType.MobileNo.rawValue {
+            sender.resignFirstResponder()
+        } else {
+            return sender.resignFirstResponder()
+        }
+        
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0)) as! TVSignUpFormCell
+        cell.txtField.becomeFirstResponder()
+        
+        return true
     }
     
     //MARK: IBActions

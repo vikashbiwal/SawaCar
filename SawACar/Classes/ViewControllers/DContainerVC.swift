@@ -8,13 +8,19 @@
 
 import UIKit
 
-class DContainerVC: ParentVC {
+let shutterMaxXValue: CGFloat = 290.0
 
+class DContainerVC: ParentVC {
+    @IBOutlet var containerView: UIView!
+    @IBOutlet var containerViewLeadignSpace: NSLayoutConstraint!
+    
     var menus = [[String : String]]()
+    var isShutterOpened  = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeMenus()
-        // Do any additional setup after loading the view.
+        initializeShutterActionBlock()
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +43,7 @@ class DContainerVC: ParentVC {
         menus = [["title" : "Home",                 "iconName" : "ic_home"],
                  ["title" : "Inbox",                "iconName" : "ic_inbox"],
                  ["title" : "Booking to my travel", "iconName" : "ic_booking_to_my_trip"],
-                 ["title" : "My Offers",            "iconName" : ""],
+                 ["title" : "My Offers",            "iconName" : "ic_myoffer"],
                  ["title" : "My Ride",              "iconName" : "ic_my_rides"],
                  ["title" : "Today Work",           "iconName" : "ic_today_work"],
                  ["title" : "Tracking",             "iconName" : "ic_tracking"],
@@ -46,6 +52,33 @@ class DContainerVC: ParentVC {
                  ["title" : "Rating",               "iconName" : "ic_rating"],
                  ["title" : "More Info",            "iconName" : "ic_more_info"]]
     }
+    
+    
+    //MARK: Shutter Actions and block initialization
+    func initializeShutterActionBlock() {
+        shutterActioinBlock = {[unowned self] in
+            print("block call")
+            self.openCloseShutter()
+        }
+    }
+    
+    func openCloseShutter() {
+        var x: CGFloat = 0
+        if isShutterOpened {
+            isShutterOpened = false
+            x = 0
+            
+        } else {
+            isShutterOpened = true
+            x = shutterMaxXValue * _widthRatio
+        }
+        
+        UIView.animateWithDuration(0.3) {
+            self.containerViewLeadignSpace.constant = x
+            self.view.layoutIfNeeded()
+        }
+    }
+    
 }
 
 //MARK: Tableview Datasource and delegate

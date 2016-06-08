@@ -12,7 +12,9 @@ import UIKit
 
 typealias WSBlock = (response: vResponse, flag: Int) -> ()
 var wsCall = {  return Webservice()}()
-var kWSBaseUrl = "https://sawacar.com/Services/Sawacar.ashx"
+var kWSDomainURL = "https://sawacar.com/"
+var kWSBaseUrl = kWSDomainURL + "Services/Sawacar.ashx"
+let googleKey = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww"   //got from Ravi
 
 //MARK: General WebService
 extension Webservice {
@@ -64,8 +66,14 @@ extension Webservice {
         jprint("=======WS = GetUserInformation=======")
         postRequest(urlWithMethod("GetUserInformation"), param: ["UserID" : userId], block: block)
     }
-}
+    
+    func updateUserProfileImage(imgData: NSData, userid: String,  block : WSBlock)  {
+        //parameters - UserID
+        jprint("=======WS = UpdateUserImage=======")
+        uploadImage(imgData, relativepath: urlWithMethod("UpdateUserImage&UserID=" + userid), param: nil, block: block)
+    }
 
+}
 
 
 //MARK: Webservice Inialization and Afnetworking setup
@@ -146,19 +154,19 @@ class Webservice: NSObject {
     }
     
     
-    private func getRequest(relativePath: String, param: NSDictionary?, block: WSBlock) {
+    private func getRequest(relativePath: String, param: NSDictionary?, block: WSBlock)-> NSURLSessionDataTask {
         print("Parameters %@", param)
-        manager.GET(relativePath, parameters: param, success: { (task, responseObj) -> Void in
+      return  manager.GET(relativePath, parameters: param, success: { (task, responseObj) -> Void in
             self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
             }, failure:  { (task, error) -> Void in
                 self.succBlock(dataTask: task, responseObj: error, relPath: relativePath, block: block)
-        })
+        })!
     }
     
     private func uploadImage(imgData: NSData, relativepath: String, param: NSDictionary?, block: WSBlock) {
         print("Parameters %@", param)
         manager.POST(relativepath, parameters: param, constructingBodyWithBlock: { (formData) -> Void in
-            formData.appendPartWithFileData(imgData, name: "vImage", fileName: "image.jpeg", mimeType: "image/jpeg")
+            formData.appendPartWithFileData(imgData, name: "FileData", fileName: "image.jpeg", mimeType: "image/jpeg")
             }, success: { (task, responseObj) -> Void in
                 self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativepath, block: block)
             }, failure:  { (task, error) -> Void in
@@ -193,9 +201,10 @@ struct vResponse {
     var message: String?
     
     init(rJson : AnyObject?) {
-        if let rJson = rJson {
-            isSuccess = ((rJson as! [String : AnyObject])["IsSuccess"] as! Int)  == 1 ? true : false
-            
+        if let rJson = rJson { // for SawCar api response
+            if let  _  = (rJson as! NSDictionary)["IsSuccess"] {
+                isSuccess = ((rJson as! NSDictionary)["IsSuccess"] as! Int)  == 1 ? true : false
+            }
             //assign message, if any get with response.
             if let messageObj = (rJson as! [String : AnyObject])["Messages"] {
                 message = (messageObj as! [String]).first

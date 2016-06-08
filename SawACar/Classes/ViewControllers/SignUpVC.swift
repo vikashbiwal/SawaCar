@@ -10,6 +10,7 @@ import UIKit
 import FBSDKLoginKit
 
 
+
 class SignUpVC: ParentVC {
     //MARK: Outlets and Variables
     @IBOutlet var CollectionView: UICollectionView!
@@ -20,11 +21,12 @@ class SignUpVC: ParentVC {
     var country: Country?
     var nationality: Country?
     var user: User!
+    var profileImage: UIImage?
     
     //Form type  - Determine which type of form is showing on the screen.
     var currntFormType: SignUpFormType!
     //Used for check why you are going to Country list VC. For select country or nationality.
-    var countryActionFor = CountrySelectionFor.Nationality
+    var countryActionFor = LocationSelectionForType.Nationality
 
     //MARK: Blocks handle signup form actions
     var signUpFormActionBlock : (action: SignUpFormActionType, value: String)-> Void = {_ in}
@@ -43,11 +45,6 @@ class SignUpVC: ParentVC {
         case CountryAction, NationalityAction, ImagePickerAction, GenderAction, DatePickerAction
     }
     
-    enum CountrySelectionFor {
-        case Nationality
-        case Country
-        case None
-    }
     
     //MARK: View Cycle
     override func viewDidLoad() {
@@ -76,9 +73,6 @@ class SignUpVC: ParentVC {
     
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.view.endEditing(true)
-    }
 }
 
 //MARK: IBActions
@@ -338,24 +332,36 @@ extension SignUpVC : UIImagePickerControllerDelegate, UINavigationControllerDele
     }
     
     func openCamera()  {
-        let iPicker = UIImagePickerController()
-        iPicker.delegate = self
-        iPicker.sourceType = .Camera
-        iPicker.allowsEditing = true
-        self.presentViewController(iPicker, animated: true, completion: nil)
+        VAuthorization.checkAuthorizationStatusForCamera { (isAuthorized) in
+            if isAuthorized {
+                let iPicker = UIImagePickerController()
+                iPicker.delegate = self
+                iPicker.sourceType = .Camera
+                iPicker.allowsEditing = true
+                self.presentViewController(iPicker, animated: true, completion: nil)
+            } else {
+                VAuthorization.showCameraAccessDeniedAlert(self)
+            }
+        }
     }
     
     func openGallery()  {
-        let iPicker = UIImagePickerController()
-        iPicker.delegate = self
-        iPicker.sourceType = .PhotoLibrary
-        iPicker.allowsEditing = true
-        self.presentViewController(iPicker, animated: true, completion: nil)
-    
+        VAuthorization.checkAuthorizationStatusForPhotoLibarary { (isAuthorized) in
+            if isAuthorized {
+                let iPicker = UIImagePickerController()
+                iPicker.delegate = self
+                iPicker.sourceType = .PhotoLibrary
+                iPicker.allowsEditing = true
+                self.presentViewController(iPicker, animated: true, completion: nil)
+            } else {
+                VAuthorization.showPhotosAccessDeniedAlert(self)
+            }
+        }
     }
     
     //Image Picker delegate method
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        profileImage = image
         let cells = CollectionView.visibleCells()
         let cell = cells.first as! SignUpCollectionViewCell
         let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! TVSignUpFormCell
@@ -372,11 +378,21 @@ extension SignUpVC {
         user.singUp({ (response, flag) in
             if response.isSuccess {
                 me = User(json: response.json! as! [String : AnyObject])
+                self.uploadProfileImage(me.Id)
             } else {
                 self.showAlert(response.message, title: "SignUp Error")
             }
             self.hideCentralGraySpinner()
         })
     }
+    
+    //call this method after complete signup process
+    func uploadProfileImage(userID: String) {
+        if let image = profileImage {
+            let imgData = image.mediumQualityJPEGNSData
+            me.updateProfileImage(imgData)
+        }
+    }
+    
 }
 
