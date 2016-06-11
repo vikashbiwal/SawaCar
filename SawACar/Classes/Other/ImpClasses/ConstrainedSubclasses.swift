@@ -70,6 +70,16 @@ class JPHeightRoundLabel: UILabel {
     }
 }
 
+class VkUISwitch: UISwitch {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        //
+        let constantValue: CGFloat = 0.9 //Default Scale value which changed as per device base. 
+        let scale = constantValue * _widthRatio
+        self.transform = CGAffineTransformMakeScale(scale, scale)
+    }
+
+}
 /// This View contains collection of Horizontal and Vertical constrains. Who's constant value varies by size of device screen size.
 class ConstrainedView: UIView {
     

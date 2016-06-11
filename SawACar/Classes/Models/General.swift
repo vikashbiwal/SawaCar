@@ -39,3 +39,21 @@ class Currency {
         symbol = RConverter.string(info["CurrencySymbol"])
     }
 }
+
+
+//MARK: This class is used for create any menu item
+class Menu {
+    var title: String!
+    var imgName: String!
+    var selected = false
+    var type: MenuType = .None
+    init(title: String, imgName: String, selected: Bool  = false, type: MenuType = .None) {
+        self.title = title
+        self.imgName = imgName
+        self.selected = selected
+        self.type = type
+    }
+}
+enum MenuType {
+    case  Profile , ChangePass, SocialLink , Details, Settings, None
+}

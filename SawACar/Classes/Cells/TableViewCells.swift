@@ -28,9 +28,13 @@ class TVGenericeCell: ConstrainedTableViewCell {
 }
 
 class TVSignUpFormCell: TVGenericeCell {
-    @IBOutlet var txtField: UITextField!
+    @IBOutlet var txtField: SignupTextField!
     @IBOutlet var button: UIButton?
     override func awakeFromNib() {
     }
-    
+}
+
+//Cell is used in Profile Vc for Setting tab
+class ProfileSettingCell: TVGenericeCell {
+    @IBOutlet var switchBtn: SettingSwitch!
 }

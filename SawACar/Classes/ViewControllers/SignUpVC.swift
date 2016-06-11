@@ -10,6 +10,14 @@ import UIKit
 import FBSDKLoginKit
 
 
+//MARK: Useful Enums
+//Do not change order of items
+enum TextFieldType: Int {
+    case FirstName = 101, LastName, Email, Password, ConfirmPass, MobileNo, OldPassword
+    case Nationality, Country, AccountType, Gender, BirthDate
+    case WhatsApp, Line, Tango, Facebook, Twitter, Telegram
+    case None = -1
+}
 
 class SignUpVC: ParentVC {
     //MARK: Outlets and Variables
@@ -33,10 +41,6 @@ class SignUpVC: ParentVC {
     var formTextFieldTextChangeBlock: (action: TextFieldType, text: String)-> Void = {_ in}
    
     //MARK: Useful Enums
-    enum TextFieldType: Int {
-        case FirstName = 101, LastName, Email, Password, ConfirmPass, MobileNo, None = 0
-    }
-
     enum SignUpFormType: Int {
         case PersonalInfo, GenderInfo, BirthDateInfo, ContactInfo, LocationInfo
     }

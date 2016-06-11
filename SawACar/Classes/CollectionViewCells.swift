@@ -14,10 +14,12 @@ class CVGenericeCell: ConstrainedCollectionViewCell {
 }
 
 
+// This Collection view cell is used in Signup screen.
 class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
    
-    var signUpFormActionBlock : (action: SignUpVC.SignUpFormActionType, value: String)-> Void = {_ in} //Block for handle singUp actions
-    var textFieldChangeBlock : (type: SignUpVC.TextFieldType, text: String) -> Void = {_ in}
+    //Block for handle singUp actions
+    var signUpFormActionBlock : (action: SignUpVC.SignUpFormActionType, value: String)-> Void = {_ in}
+    var textFieldChangeBlock : (type: TextFieldType, text: String) -> Void = {_ in}
     
     @IBOutlet var tableView: UITableView!
     var formType  = SignUpVC.SignUpFormType.PersonalInfo
@@ -168,17 +170,17 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
     //MARK: TextField Delegate
     func textFieldShouldReturn(sender: UITextField) -> Bool {
          var index = 0
-        if sender.tag == SignUpVC.TextFieldType.FirstName.rawValue {
+        if sender.tag == TextFieldType.FirstName.rawValue {
             index = 3
-        } else if sender.tag == SignUpVC.TextFieldType.LastName.rawValue {
+        } else if sender.tag == TextFieldType.LastName.rawValue {
             index = 4
-        } else if sender.tag == SignUpVC.TextFieldType.Email.rawValue {
+        } else if sender.tag == TextFieldType.Email.rawValue {
             index = 5
-        } else if sender.tag == SignUpVC.TextFieldType.Password.rawValue {
+        } else if sender.tag == TextFieldType.Password.rawValue {
             index = 6
-        } else if sender.tag == SignUpVC.TextFieldType.ConfirmPass.rawValue {
+        } else if sender.tag == TextFieldType.ConfirmPass.rawValue {
             return sender.resignFirstResponder()
-        } else if sender.tag == SignUpVC.TextFieldType.MobileNo.rawValue {
+        } else if sender.tag == TextFieldType.MobileNo.rawValue {
             sender.resignFirstResponder()
         } else {
             return sender.resignFirstResponder()
@@ -192,18 +194,18 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
     
     //MARK: IBActions
     @IBAction func textfieldTextChange(sender: UITextField) {
-        var type  =  SignUpVC.TextFieldType.None
-        if sender.tag == SignUpVC.TextFieldType.FirstName.rawValue {
+        var type  =  TextFieldType.None
+        if sender.tag == TextFieldType.FirstName.rawValue {
             type = .FirstName
-        } else if sender.tag == SignUpVC.TextFieldType.LastName.rawValue {
+        } else if sender.tag == TextFieldType.LastName.rawValue {
             type = .LastName
-        } else if sender.tag == SignUpVC.TextFieldType.Email.rawValue {
+        } else if sender.tag == TextFieldType.Email.rawValue {
             type = .Email
-        } else if sender.tag == SignUpVC.TextFieldType.Password.rawValue {
+        } else if sender.tag == TextFieldType.Password.rawValue {
             type = .Password
-        } else if sender.tag == SignUpVC.TextFieldType.ConfirmPass.rawValue {
+        } else if sender.tag == TextFieldType.ConfirmPass.rawValue {
             type = .ConfirmPass
-        } else if sender.tag == SignUpVC.TextFieldType.MobileNo.rawValue {
+        } else if sender.tag == TextFieldType.MobileNo.rawValue {
             type = .MobileNo
         }
         textFieldChangeBlock(type: type, text: sender.text!)

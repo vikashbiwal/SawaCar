@@ -14,7 +14,7 @@ class DContainerVC: ParentVC {
     @IBOutlet var containerView: UIView!
     @IBOutlet var containerViewLeadignSpace: NSLayoutConstraint!
     
-    var menus = [[String : String]]()
+    var Menus = [Menu]()
     var isShutterOpened  = false
     
     override func viewDidLoad() {
@@ -22,37 +22,25 @@ class DContainerVC: ParentVC {
         initializeMenus()
         initializeShutterActionBlock()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     func initializeMenus() {
-        menus = [["title" : "Home",                 "iconName" : "ic_home"],
-                 ["title" : "Inbox",                "iconName" : "ic_inbox"],
-                 ["title" : "Booking to my travel", "iconName" : "ic_booking_to_my_trip"],
-                 ["title" : "My Offers",            "iconName" : "ic_myoffer"],
-                 ["title" : "My Ride",              "iconName" : "ic_my_rides"],
-                 ["title" : "Today Work",           "iconName" : "ic_today_work"],
-                 ["title" : "Tracking",             "iconName" : "ic_tracking"],
-                 ["title" : "Alert",                "iconName" : "ic_alert"],
-                 ["title" : "My Car",               "iconName" : "ic_my_car"],
-                 ["title" : "Rating",               "iconName" : "ic_rating"],
-                 ["title" : "More Info",            "iconName" : "ic_more_info"]]
+        Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true),
+                 Menu(title: "Inbox",                imgName: "ic_inbox"),
+                 Menu(title: "Booking to my travel", imgName: "ic_booking_to_my_trip"),
+                 Menu(title: "My Offers",            imgName: "ic_myoffer"),
+                 Menu(title: "My Ride",              imgName: "ic_my_rides"),
+                 Menu(title: "Today Work",           imgName: "ic_today_work"),
+                 Menu(title: "Tracking",             imgName: "ic_tracking"),
+                 Menu(title: "Alert",                imgName: "ic_alert"),
+                 Menu(title: "Rating",               imgName: "ic_rating"),
+                 Menu(title: "More Info",            imgName: "ic_more_info")]
+        
     }
-    
     
     //MARK: Shutter Actions and block initialization
     func initializeShutterActionBlock() {
@@ -78,14 +66,13 @@ class DContainerVC: ParentVC {
             self.view.layoutIfNeeded()
         }
     }
-    
 }
 
 //MARK: Tableview Datasource and delegate
 extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
-   
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menus.count
+        return Menus.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -94,12 +81,12 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
             identifier = "sectionLastCell"
         }
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier) as! TVGenericeCell
-        let menu = menus[indexPath.row]
-        cell.lblTitle.text = menu["title"]
-        cell.imgView.image = UIImage(named: menu["iconName"]!)
+        let menu = Menus[indexPath.row]
+        cell.lblTitle.text = menu.title
+        cell.imgView.image = UIImage(named: menu.imgName)
         return cell
     }
-
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 50 * _widthRatio
     }

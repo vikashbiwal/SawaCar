@@ -39,7 +39,7 @@ class User  {
     var preference: UserPreference!
     var social : UserSocial!
     
-    var password: String = ""
+    var password: String! = ""
     var confPass: String! = ""
     
     // create a fresh User without initlize data
@@ -60,7 +60,8 @@ class User  {
         accountTypeId = ""
         lastLoginTime = ""
         createDate = ""
-        
+        social = UserSocial()
+        preference = UserPreference()
     }
     
     // inialize user from json got from server
@@ -228,48 +229,74 @@ extension User {
 
 }
 
+
+//enum UserPreferenceType: Int {
+//    case ShowEmail, ShowMobile, VisibleInSearch, SpecialOrder, AcceptMonitring
+//    case CommunicationLanguage, SpeackingLanguage
+//    case Children, Pets, StopForPray, FootAndDrink, Music, Quran, Smoking
+//}
+
 //Preferece object for User
 struct UserPreference {
-    var showEmail: Bool
-    var showMobile: Bool
-    var smoking: Bool
-    var music: Bool
-    var food: Bool
-    var kids: Bool
-    var pets: Bool
-    var prayingStop: Bool
-    var quran: Bool
+    var showEmail       = false
+    var showMobile      = false
+    var visibleInSearch = false
+    var specialOrder    = false
+    var acceptMonitring = false
+    var children        = false
+    var smoking         = false
+    var music           = false
+    var food            = false
+    var kids            = false
+    var pets            = false
+    var prayingStop     = false
+    var quran           = false
+    var communicationLanguage = ""
+    var speackingLanguage     = ""
+
+    init() {
+     //Default initializer
+    }
     
     init(info: [String : AnyObject]) {
-        showEmail = RConverter.boolean(info["PreferencesShowEmail"])
-        showMobile = RConverter.boolean(info["PreferencesShowMobile"])
-        smoking = RConverter.boolean(info["PreferencesSmoking"])
-        music = RConverter.boolean(info["PreferencesMusic"])
-        food = RConverter.boolean(info["PreferencesFood"])
-        kids = RConverter.boolean(info["PreferencesKids"])
-        pets = RConverter.boolean(info["PreferencesPets"])
+        showEmail       = RConverter.boolean(info["PreferencesShowEmail"])
+        showMobile      = RConverter.boolean(info["PreferencesShowMobile"])
+//        visibleInSearch = RConverter.boolean(info[""])
+//        specialOrder    = RConverter.boolean(info[""])
+//        acceptMonitring = RConverter.boolean(info[""])
+        
+//        children    = RConverter.boolean(info[""])
+        smoking     = RConverter.boolean(info["PreferencesSmoking"])
+        music       = RConverter.boolean(info["PreferencesMusic"])
+        food        = RConverter.boolean(info["PreferencesFood"])
+        kids        = RConverter.boolean(info["PreferencesKids"])
+        pets        = RConverter.boolean(info["PreferencesPets"])
         prayingStop = RConverter.boolean(info["PreferencesPrayingStop"])
-        quran = RConverter.boolean(info["PreferencesQuran"])
+        quran       = RConverter.boolean(info["PreferencesQuran"])
     }
 }
 
 //Social connect object for user
 struct UserSocial {
-    var Whatsapp: String
-    var Viber: String
-    var Line: String
-    var Tango: String
-    var Telegram: String
-    var Facebook: String
-    var Twitter: String
+    var Whatsapp    = ""
+    var Viber       = ""
+    var Line        = ""
+    var Tango       = ""
+    var Telegram    = ""
+    var Facebook    = ""
+    var Twitter     = ""
+    
+    init() {
+     //default initialization
+    }
     
     init(info: [String : AnyObject]) {
-        Whatsapp = RConverter.string(info["Whatsapp"])
-        Viber = RConverter.string(info["Viber"])
-        Line = RConverter.string(info["Line"])
-        Tango = RConverter.string(info["Tango"])
-        Telegram = RConverter.string(info["Telegram"])
-        Facebook = RConverter.string(info["Facebook"])
-        Twitter = RConverter.string(info["Twitter"])
+        Whatsapp    = RConverter.string(info["Whatsapp"])
+        Viber       = RConverter.string(info["Viber"])
+        Line        = RConverter.string(info["Line"])
+        Tango       = RConverter.string(info["Tango"])
+        Telegram    = RConverter.string(info["Telegram"])
+        Facebook    = RConverter.string(info["Facebook"])
+        Twitter     = RConverter.string(info["Twitter"])
     }
 }
