@@ -32,6 +32,12 @@ extension Webservice {
         jprint("=======WS = GetAllCurrencies=======")
         getRequest(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
     }
+    
+    func getAccountTypes(block: WSBlock) {
+        jprint("=======WS = GetAccountTypes=======")
+        getRequest(urlWithMethod("GetAccountTypes"), param: nil, block: block)
+    }
+
 }
 
 //MARK: User related WebServices
@@ -55,7 +61,7 @@ extension Webservice {
         postRequest(urlWithMethod("LoginWithFacebook"), param: params, block: block)
     }
     
-    func changePassword(params: [String : String], block : WSBlock)  {
+    func changePassword(params: [String : AnyObject], block : WSBlock)  {
         //parameters - Email, OldPassword, NewPassword
         jprint("=======WS = ChangePassword=======")
         postRequest(urlWithMethod("ChangePassword"), param: params, block: block)

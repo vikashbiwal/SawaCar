@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		03078EA41D05469F009450BB /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03078EA21D05469F009450BB /* SBDriver.storyboard */; };
 		03078EA81D05495F009450BB /* DContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03078EA71D05495F009450BB /* DContainerVC.swift */; };
+		0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0310322A1D0E7D8F0024531A /* ValidationToast.swift */; };
+		0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322B1D0E7D8F0024531A /* ValidationToast.xib */; };
+		0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */; };
+		031032331D0EB0BC0024531A /* GDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031032311D0EB0BC0024531A /* GDatePicker.swift */; };
+		031032341D0EB0BC0024531A /* GDatePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 031032321D0EB0BC0024531A /* GDatePicker.xib */; };
 		03112ECA1CC7A53D00205FDC /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */; };
 		031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */; };
 		032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0323600F1D08341D0004CDA9 /* ProfileViewController.swift */; };
@@ -79,6 +84,11 @@
 /* Begin PBXFileReference section */
 		03078EA31D05469F009450BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SawACar/Base.lproj/SBDriver.storyboard; sourceTree = SOURCE_ROOT; };
 		03078EA71D05495F009450BB /* DContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DContainerVC.swift; sourceTree = "<group>"; };
+		0310322A1D0E7D8F0024531A /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
+		0310322B1D0E7D8F0024531A /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
+		0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
+		031032311D0EB0BC0024531A /* GDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDatePicker.swift; sourceTree = "<group>"; };
+		031032321D0EB0BC0024531A /* GDatePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDatePicker.xib; sourceTree = "<group>"; };
 		03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
 		0323600F1D08341D0004CDA9 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -145,7 +155,7 @@
 		03F65D311CBBDE8700C44B5A /* Subclasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subclasses.swift; sourceTree = "<group>"; };
 		03F65D321CBBDE8700C44B5A /* UserLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 		03FD10661CBB8AA400695AE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		03FD10681CBB9E6E00695AE2 /* Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
+		03FD10681CBB9E6E00695AE2 /* Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Webservice.swift; path = ../Other/Webservice.swift; sourceTree = "<group>"; };
 		03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SawACar-Bridging-Header.h"; sourceTree = "<group>"; };
 		064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SawACar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.release.xcconfig"; sourceTree = "<group>"; };
@@ -193,6 +203,25 @@
 				03078EA71D05495F009450BB /* DContainerVC.swift */,
 			);
 			name = DriverContainerVC;
+			sourceTree = "<group>";
+		};
+		031032291D0E7D8F0024531A /* ValidationToast */ = {
+			isa = PBXGroup;
+			children = (
+				0310322A1D0E7D8F0024531A /* ValidationToast.swift */,
+				0310322B1D0E7D8F0024531A /* ValidationToast.xib */,
+				0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */,
+			);
+			path = ValidationToast;
+			sourceTree = "<group>";
+		};
+		031032301D0EB0AF0024531A /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				031032311D0EB0BC0024531A /* GDatePicker.swift */,
+				031032321D0EB0BC0024531A /* GDatePicker.xib */,
+			);
+			path = DatePicker;
 			sourceTree = "<group>";
 		};
 		0323600D1D0833780004CDA9 /* UserTypeSelectorVC */ = {
@@ -308,6 +337,7 @@
 				036F29311CBBD19200931121 /* General.swift */,
 				03E7E6981CBCBFD200DB7723 /* User.swift */,
 				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
+				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,8 +372,9 @@
 		036A89731CBB80E200DFB631 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				031032301D0EB0AF0024531A /* DatePicker */,
+				031032291D0E7D8F0024531A /* ValidationToast */,
 				034826C21CFC5B2E000B46AE /* Font */,
-				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
 				03FD10661CBB8AA400695AE2 /* Constants.swift */,
 				03F65D161CBBDE8700C44B5A /* Extensions */,
 				03F65D201CBBDE8700C44B5A /* ImpClasses */,
@@ -509,8 +540,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */,
 				034826D11CFC5B46000B46AE /* OpenSans-Italic.ttf in Resources */,
 				034826CE1CFC5B46000B46AE /* OpenSans-BoldItalic.ttf in Resources */,
+				031032341D0EB0BC0024531A /* GDatePicker.xib in Resources */,
 				036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */,
 				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
 				034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */,
@@ -522,6 +555,7 @@
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
 				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
 				03078EA41D05469F009450BB /* SBDriver.storyboard in Resources */,
+				0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */,
 				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
 				034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */,
 				0327CDAC1D059C2A00D51DE4 /* Assets.xcassets in Resources */,
@@ -584,12 +618,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				031032331D0EB0BC0024531A /* GDatePicker.swift in Sources */,
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
 				032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */,
 				03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */,
 				03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */,
 				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
+				0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */,
 				03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */,
 				03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */,
 				032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */,
@@ -761,8 +797,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -773,7 +809,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -785,8 +821,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -797,7 +833,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 			};
 			name = Release;

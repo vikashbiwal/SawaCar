@@ -41,8 +41,9 @@ class User  {
     
     var password: String! = ""
     var confPass: String! = ""
+    var oldPassword: String! = ""
     
-    // create a fresh User without initlize data
+    //Default initialize
     init() {
         Id = ""
         firstname = ""
@@ -130,7 +131,7 @@ extension User {
     }
     
     //MARK: updateProfile image of user
-    func updateProfileImage(imgData: NSData)  {
+    func updateProfileImage(imgData: NSData, block: ((Void)-> Void)?)  {
         wsCall.updateUserProfileImage(imgData, userid: self.Id) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
@@ -140,6 +141,7 @@ extension User {
             } else {
                 
             }
+            block?()
         }
     }
 
@@ -147,7 +149,7 @@ extension User {
 
 //MARK: Validation for user Registration, login, Edit user
 extension User {
-    //Signup validation
+    //MARK: Signup validation
     func validatePersonalInfo() -> (isValid :Bool, message: String) {
         if firstname.isEmpty {
             return (false, kFirstnameIsRequired)
@@ -187,6 +189,7 @@ extension User {
         }
         return (true, "Success")
     }
+    
     func validateContactInfo() -> (isValid :Bool, message: String) {
         if mobile.isEmpty {
             return (false, kMobileNumberIsRequired)
@@ -210,7 +213,7 @@ extension User {
     }
     //End signup validation
     
-    //Login validation
+    //MARK: Login validation
     func validateLoginProcess() -> (isValid: Bool, msg: String) {
         if email.isEmpty {
             return (false, kEmailIsRequired)
@@ -226,17 +229,28 @@ extension User {
         return (true, "Success")
     }
 
+    //MARK: Change Password Validation
+    
+    func validateChangePassProcess() -> (isValid: Bool, msg: String) {
+        if oldPassword.isEmpty {
+            return (false, kOldPassRequired)
+        }
+        if password.isEmpty {
+            return (false, kPasswordIsRequired)
+        }
+        if confPass.isEmpty {
+            return (false, kPasswordConfirmMsg)
+        }
+        if password != confPass {
+            return (false, kPasswordConfirmMsg)
+        }
+        return (true, "Success")
+    }
 
 }
 
 
-//enum UserPreferenceType: Int {
-//    case ShowEmail, ShowMobile, VisibleInSearch, SpecialOrder, AcceptMonitring
-//    case CommunicationLanguage, SpeackingLanguage
-//    case Children, Pets, StopForPray, FootAndDrink, Music, Quran, Smoking
-//}
-
-//Preferece object for User
+//MARK: UserPreference :Preferece object for User
 struct UserPreference {
     var showEmail       = false
     var showMobile      = false
@@ -276,7 +290,7 @@ struct UserPreference {
     }
 }
 
-//Social connect object for user
+//MARK:UserSocial: Social connect object for user
 struct UserSocial {
     var Whatsapp    = ""
     var Viber       = ""

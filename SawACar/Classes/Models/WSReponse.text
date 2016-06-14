@@ -99,3 +99,64 @@
         "MobileCountryCode": 91
     }
 }
+
+
+
+
+Response ((https://sawacar.com/Services/Sawacar.ashx?Method=SignUp): {
+IsSuccess = 1;
+Messages =     (
+"The user was successfully created."
+);
+Object =     {
+AccountTypeID = "<null>";
+ActiveCarID = "<null>";
+Bio = "<null>";
+CountryID = 77;
+CreateDate = "-8587358034583582197";
+DeactivateResaonID = "<null>";
+DefaultLanguage = "<null>";
+Email = "juliyana@gmail.com";
+Facebook = "<null>";
+FirstName = Juliyana;
+FullName = "Juliyana Abbas";
+Gender = 0;
+Instagram = "<null>";
+IsEmailShown = "<null>";
+IsEmailVerified = "<null>";
+IsFacebookVerified = 0;
+IsMobileVerified = "<null>";
+IsMobilelShown = "<null>";
+IsMonitoringAccepted = "<null>";
+IsTermsAccepted = "<null>";
+IsTravelRequestReceiver = "<null>";
+IsVisibleInSearch = "<null>";
+LastLoginDate = "-8587358034583142244";
+LastName = Abbas;
+Line = "<null>";
+MobileCountryCode = 44;
+MobileNumber = 7878787878;
+NationalityID = 77;
+Photo = "/Themes/TravelAgency/images/Woman.png";
+PreferencesFood = "<null>";
+PreferencesKids = "<null>";
+PreferencesMusic = "<null>";
+PreferencesPets = "<null>";
+PreferencesPrayingStop = "<null>";
+PreferencesQuran = "<null>";
+PreferencesSmoking = "<null>";
+Rating = 0;
+Snapchat = "<null>";
+SpokenLanguages =         (
+);
+Tango = "<null>";
+Telegram = "<null>";
+TravelRequestsNumber = 0;
+TravelsNumber = 0;
+Twitter = "<null>";
+UserID = 205;
+Viber = "<null>";
+Whatsapp = "<null>";
+YearOfBirth = 1992;
+};
+}

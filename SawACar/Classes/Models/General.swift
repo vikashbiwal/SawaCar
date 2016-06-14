@@ -32,14 +32,25 @@ class Currency {
     var symbol: String!
     
     init(info : [String : AnyObject]) {
-        Id = RConverter.string(info["CurrencyID"])
-        code = RConverter.string(info["CurrencyCode"])
-        name = RConverter.string(info["CurrencyName"])
+        Id      = RConverter.string(info["CurrencyID"])
+        code    = RConverter.string(info["CurrencyCode"])
+        name    = RConverter.string(info["CurrencyName"])
         country = RConverter.string(info["CurrencyCountry"])
-        symbol = RConverter.string(info["CurrencySymbol"])
+        symbol  = RConverter.string(info["CurrencySymbol"])
     }
 }
 
+
+//MARKL: AccountType
+class AccountType {
+    var Id: String
+    var name: String
+    
+    init(info: [String : AnyObject]) {
+        Id = RConverter.string(info["AccountTypeID"])
+        name = RConverter.string(info["Name"])
+    }
+}
 
 //MARK: This class is used for create any menu item
 class Menu {

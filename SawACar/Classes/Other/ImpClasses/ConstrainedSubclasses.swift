@@ -80,6 +80,23 @@ class VkUISwitch: UISwitch {
     }
 
 }
+
+class KPIconButton: UIButton {
+    override func awakeFromNib() {
+        if let img = self.imageView{
+            let btnsize = self.frame.size
+            let imgsize = img.frame.size
+            let verPad = ((btnsize.height - (imgsize.height * _widthRatio)) / 2)
+            self.imageEdgeInsets = UIEdgeInsetsMake(verPad, 0, verPad, 0)
+            self.imageView?.contentMode = .ScaleAspectFit
+        }
+        if let afont = titleLabel?.font {
+            titleLabel?.font = afont.fontWithSize(afont.pointSize * _widthRatio)
+        }
+    }
+}
+
+
 /// This View contains collection of Horizontal and Vertical constrains. Who's constant value varies by size of device screen size.
 class ConstrainedView: UIView {
     

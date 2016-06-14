@@ -116,7 +116,7 @@ extension SignUpVC {
             setUIForAfterCollViewScroll(index)
             
         } else {
-            showAlert(process.message, title: "SawACar")
+            showToastMessage("", message: process.message)
         }
     }
     
@@ -383,8 +383,9 @@ extension SignUpVC {
             if response.isSuccess {
                 me = User(json: response.json! as! [String : AnyObject])
                 self.uploadProfileImage(me.Id)
+                self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
             } else {
-                self.showAlert(response.message, title: "SignUp Error")
+                showToastMessage("Signup Error", message: response.message!)
             }
             self.hideCentralGraySpinner()
         })
@@ -394,7 +395,7 @@ extension SignUpVC {
     func uploadProfileImage(userID: String) {
         if let image = profileImage {
             let imgData = image.mediumQualityJPEGNSData
-            me.updateProfileImage(imgData)
+            me.updateProfileImage(imgData, block: {})
         }
     }
     

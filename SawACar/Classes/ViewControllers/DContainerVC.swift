@@ -13,6 +13,11 @@ let shutterMaxXValue: CGFloat = 290.0
 class DContainerVC: ParentVC {
     @IBOutlet var containerView: UIView!
     @IBOutlet var containerViewLeadignSpace: NSLayoutConstraint!
+  
+    @IBOutlet var imgVProfile: UIImageView!
+    @IBOutlet var btnProfile : UIButton!
+    @IBOutlet var lblName: UILabel!
+    @IBOutlet var lblEmail : UILabel!
     
     var Menus = [Menu]()
     var isShutterOpened  = false
@@ -21,6 +26,7 @@ class DContainerVC: ParentVC {
         super.viewDidLoad()
         initializeMenus()
         initializeShutterActionBlock()
+        setUserInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,6 +71,14 @@ class DContainerVC: ParentVC {
             self.containerViewLeadignSpace.constant = x
             self.view.layoutIfNeeded()
         }
+    }
+    
+    func setUserInfo()  {
+        let profileUrl = NSURL(string: me.photo)
+        imgVProfile.setImageWithURL(profileUrl!)
+        btnProfile.setImageForState(.Normal, withURL: profileUrl!)
+        lblName.text = me.fullname
+        lblEmail.text = me.email
     }
 }
 

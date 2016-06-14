@@ -37,4 +37,6 @@ class TVSignUpFormCell: TVGenericeCell {
 //Cell is used in Profile Vc for Setting tab
 class ProfileSettingCell: TVGenericeCell {
     @IBOutlet var switchBtn: SettingSwitch!
+    @IBOutlet var lblHeader:UILabel?
+
 }

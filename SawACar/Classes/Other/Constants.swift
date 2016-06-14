@@ -23,7 +23,7 @@ let _twitterFriendsUrl      = "https://api.twitter.com/1.1/friends/list.json"
 let _fbMeUrl                = "https://graph.facebook.com/me"
 let _googleUrl              = "https://maps.googleapis.com/maps/api/place"
 let _fbLoginReadPermissions = ["public_profile","email"]
-let _fbUserInfoRequestParam = "email, first_name,  last_name, name, id, gender"
+let _fbUserInfoRequestParam = "email, first_name,  last_name, name, id, gender, picture.type(large)"
 let _facebookAppId          = "1229887770358821"    // The App developer Account
 // let _facebookAppId       = "148805282158820"  // John Smith Account
 
@@ -61,20 +61,23 @@ let _serverFormatter3: NSDateFormatter = {
 
 // MARK: Validation Message
 // Sign Up validation
+let kEmailIsRequired            = "Email is required."
 let kEmailValidateMsg           = "Please enter a valid email-id."
 let kCountryValidateMsg         = "Please select your country."
 let kNationalityValidateMsg     = "Please select your nationality."
 let kBirthYearValidateMsg       = "Please enter your birth year."
 let kGenderValidateMsg          = "Please select your gender."
 let kPasswordConfirmMsg         = "Password does not match."
-let kInvalidMobileNumber        = "Please enter a valid mobile number."
+let kPasswordIsRequired         = "Password is required."
+let kConfimPassRequired         = "Please Re-Enter new password."
+let kOldPassRequired            = "Please enter your old password."
 let kBirthYearRequired          = "Year of birth is required."
 let kFirstnameIsRequired        = "First name is required."
 let kLastnameIsRequired         = "Last name is required."
-let kEmailIsRequired            = "Email is required."
-let kPasswordIsRequired         = "Password is required."
 let kMobileNumberIsRequired     = "Mobile number is required."
-//MARK: Error Messages 
+let kInvalidMobileNumber        = "Please enter a valid mobile number."
+
+//MARK: Error Messages
 let kServerError                = "Server Error"
 
 // MARK: Notification Key

@@ -14,6 +14,7 @@ class LoginVC: ParentVC {
     @IBOutlet var txtEmail: UITextField!
     @IBOutlet var txtpassword: UITextField!
     let user: User = {return User()}()
+    var profileImage : UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +22,12 @@ class LoginVC: ParentVC {
     }
 
     override func viewDidAppear(animated: Bool) {
-        setViewContainerSize()
-
+        //Add Keybaord observeration
+        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    override func viewWillDisappear(animated: Bool) {
+        _defaultCenter.removeObserver(self)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -33,16 +38,46 @@ class LoginVC: ParentVC {
 
 //MARK: IBActions
 extension LoginVC {
-    @IBAction func signUpBtnClicked(sender: UIButton) {
+    @IBAction func signUpBtnClicked(sender: UIButton?) {
         self.performSegueWithIdentifier("SBSegue_SignUP", sender: nil)
     }
     
-    @IBAction func loginBtnclicked(sender: UIButton) {
+    @IBAction func loginBtnclicked(sender: UIButton?) {
         self.loginWithEmailWS()
     }
     
-    @IBAction func loginWithFacebookBtnClicked(sender: UIButton) {
+    @IBAction func loginWithFacebookBtnClicked(sender: UIButton?) {
         self.loginWithFacebook()
+    }
+}
+
+
+//MARK: Notifications
+extension LoginVC {
+    //Keyboard Notifications
+    func keyboardWillShow(nf: NSNotification)  {
+        let userinfo = nf.userInfo!
+        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:keyboarFrame.size.height , right: 0)
+        }
+    }
+    
+    func keyboardWillHide(nf: NSNotification)  {
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:0 , right: 0)
+    }
+    
+}
+
+//MARK: UITextfield delegate
+extension LoginVC: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField === txtEmail {
+            txtpassword.becomeFirstResponder()
+        } else {
+         self.loginBtnclicked(nil)
+            txtpassword.resignFirstResponder()
+        }
+        return true
     }
 }
 
@@ -55,33 +90,56 @@ extension LoginVC {
         user.password = txtpassword.text!
         let process = user.validateLoginProcess()
         if process.isValid {
+            self.showCentralGraySpinner()
             user.login({ (response, flag) in
                 if response.isSuccess {
                     me = User(json: response.json! as! [String : AnyObject])
                     //navigate to home now.
+                    self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
                 } else {
-                    self.showAlert(response.message, title: "Login Error")
+                    showToastMessage("Login Error", message: response.message!)
                 }
+                self.hideCentralGraySpinner()
             })
         } else {
-            self.showAlert(process.msg, title: "Login Error")
+            showToastMessage("Login Error", message: process.msg)
         }
     }
     
     //MARK: Login With Facebook
     func loginWithFacebook() {
+        self.showCentralGraySpinner()
         let fbManager = FBSDKLoginManager()
         fbManager.logOut()
         fbManager.logInWithReadPermissions(_fbLoginReadPermissions, fromViewController: self) { (result, error) in
             if let  _ =  error {
                 //login error
+                self.hideCentralGraySpinner()
             } else if result.isCancelled {
                 //cancel
+                self.hideCentralGraySpinner()
             } else {
                 //succes
                 let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : _fbUserInfoRequestParam])
                 request.startWithCompletionHandler({ (con, result, error) in
-                    print(result)
+                    if let _ = error {
+                        self.hideCentralGraySpinner()
+                    }
+                    
+                    
+                    //getProfile image url from fb data
+                    let info = result as! [String : AnyObject]
+                    var imgageUrl = ""
+                    if let picture = info["picture"]  {
+                        if let data = picture["data"] as? NSDictionary {
+                            if let url = data["url"] as? String {
+                                imgageUrl = url
+                            }
+                        }
+                    }
+                    self.donwloadFbProfileImage(imgageUrl)
+
+                    //Login APICall
                     self.loginWithFacebookWSCall(result as! [String : AnyObject])
                 })
             }
@@ -92,22 +150,38 @@ extension LoginVC {
         print(fbInfo)
         let gender = fbInfo["gender"] as! String == "male" ? true : false
         let params: [String : AnyObject] = ["FacebookID" : fbInfo["id"] as! String,
-                      "Email" : fbInfo["email"] as! String,
-                      "FirstName" : fbInfo["first_name"] as! String,
-                      "LastName" : fbInfo["last_name"] as! String,
-                      "Gender" : gender]
-        //fbInfo["gender"] as! String
+                                            "Email" : fbInfo["email"] as! String,
+                                            "FirstName" : fbInfo["first_name"] as! String,
+                                            "LastName" : fbInfo["last_name"] as! String,
+                                            "Gender" : gender]
+        
         wsCall.loginWithFacebook(params) { (response, statusCode) in
             if response.isSuccess {
                 me = User(json: response.json as! [String : AnyObject])
                 //Navigate to home
-                
+                if let image  = self.profileImage {
+                    self.showCentralGraySpinner()
+                    me.updateProfileImage(image.mediumQualityJPEGNSData, block: {
+                        self.hideCentralGraySpinner()
+                        self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                    })
+                }
             } else {
-                self.showAlert(response.message, title: "Login Error");
+                showToastMessage("", message: response.message!)
             }
+            self.hideCentralGraySpinner()
         }
     }
     
+    func donwloadFbProfileImage(url: String) {
+        if let url = NSURL(string:  url) {
+            if let imgdata = NSData(contentsOfURL: url) {
+                if let img = UIImage(data: imgdata) {
+                    self.profileImage = img
+                }
+            }
+        }
+    }
 }
 
 //MARK: Other
@@ -116,16 +190,16 @@ extension LoginVC {
     func validateEmailLogin() -> Bool {
         let alertTitle = "Login Error"
         if txtEmail.text!.isEmpty {
-            showAlert("Please enter email.", title: alertTitle)
+            showToastMessage(alertTitle, message: "Please enter email.")
             return false
         } else {
             if !txtEmail.text!.isValidEmailAddress() {
-                showAlert("Please enter a valid email address.", title: alertTitle)
+                showToastMessage(alertTitle, message: "Please enter a valid email address.")
                 return false
             }
         }
         if txtpassword.text!.isEmpty {
-            showAlert("Please enter your password.", title: alertTitle)
+            showToastMessage(alertTitle, message: "Please enter your password.")
             return false
         }
         return  true

@@ -39,7 +39,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Und-SL-paB">
                                         <rect key="frame" x="0.0" y="0.0" width="290" height="70"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="zb8-fI-aLp">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="zb8-fI-aLp" customClass="RoundedImageView" customModule="SawACar" customModuleProvider="target">
                                                 <rect key="frame" x="230" y="25" width="35" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="35" id="NQ9-Rl-fti"/>
@@ -71,11 +71,11 @@
                                             <constraint firstItem="j8O-xh-mRj" firstAttribute="leading" secondItem="Und-SL-paB" secondAttribute="leading" id="uFH-14-Eqj"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jof-Y6-p9G">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jof-Y6-p9G" customClass="RoundedButton" customModule="SawACar" customModuleProvider="target">
                                         <rect key="frame" x="20" y="80" width="50" height="50"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" secondItem="jof-Y6-p9G" secondAttribute="height" multiplier="1:1" id="MKo-fp-CJl"/>
                                             <constraint firstAttribute="width" constant="50" id="Rbi-G2-bOa"/>
-                                            <constraint firstAttribute="height" constant="50" id="jUB-0s-OGV"/>
                                         </constraints>
                                         <state key="normal" image="ic_user_placeholder"/>
                                     </button>
@@ -123,7 +123,7 @@
                                 <rect key="frame" x="0.0" y="200" width="290" height="467"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="50" id="fcf-3d-N4A" customClass="TVGenericeCell" customModule="SawACar" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="50" id="fcf-3d-N4A" customClass="TVGenericeCell" customModule="SawACar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="290" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fcf-3d-N4A" id="GLF-lM-739">
@@ -154,7 +154,7 @@
                                             <outletCollection property="horizontalConstraints" destination="FDh-3e-MMo" collectionClass="NSMutableArray" id="uJ9-7g-dtL"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="sectionLastCell" rowHeight="50" id="mee-j2-U2y" customClass="TVGenericeCell" customModule="SawACar" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="sectionLastCell" rowHeight="50" id="mee-j2-U2y" customClass="TVGenericeCell" customModule="SawACar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="78" width="290" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mee-j2-U2y" id="q9f-m8-c1W">
@@ -232,8 +232,12 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="btnProfile" destination="jof-Y6-p9G" id="7cH-Ni-czq"/>
                         <outlet property="containerView" destination="0rp-gI-mli" id="dQA-3V-V1z"/>
                         <outlet property="containerViewLeadignSpace" destination="Z0E-RN-NiX" id="LjQ-mh-FAD"/>
+                        <outlet property="imgVProfile" destination="zb8-fI-aLp" id="FFM-zS-6lE"/>
+                        <outlet property="lblEmail" destination="jPc-zp-nMx" id="IrK-US-xrH"/>
+                        <outlet property="lblName" destination="zCs-X6-273" id="nNw-h0-R3D"/>
                         <outlet property="tableView" destination="m0h-Z6-GU8" id="Zhx-Mq-wms"/>
                         <outletCollection property="horizontalConstraints" destination="FQU-Kw-QjT" collectionClass="NSMutableArray" id="k2g-1U-frg"/>
                         <outletCollection property="horizontalConstraints" destination="NQ9-Rl-fti" collectionClass="NSMutableArray" id="PiW-KD-aSZ"/>
@@ -242,13 +246,13 @@
                         <outletCollection property="horizontalConstraints" destination="i6E-h8-FGs" collectionClass="NSMutableArray" id="Jw5-It-GXy"/>
                         <outletCollection property="horizontalConstraints" destination="btA-9z-mCs" collectionClass="NSMutableArray" id="ld2-y4-yFE"/>
                         <outletCollection property="horizontalConstraints" destination="Rbi-G2-bOa" collectionClass="NSMutableArray" id="KN7-RG-EFB"/>
-                        <outletCollection property="horizontalConstraints" destination="jUB-0s-OGV" collectionClass="NSMutableArray" id="msT-OK-YlZ"/>
                         <outletCollection property="horizontalConstraints" destination="d5Q-sb-sVP" collectionClass="NSMutableArray" id="brO-kB-64Q"/>
                         <outletCollection property="horizontalConstraints" destination="35u-JC-dKG" collectionClass="NSMutableArray" id="MMF-zD-X52"/>
                         <outletCollection property="horizontalConstraints" destination="qHN-60-60s" collectionClass="NSMutableArray" id="6Qs-FP-SrS"/>
                         <outletCollection property="horizontalConstraints" destination="Bd7-sE-NFV" collectionClass="NSMutableArray" id="hWJ-Rf-0iz"/>
                         <outletCollection property="horizontalConstraints" destination="DSX-ME-oaT" collectionClass="NSMutableArray" id="xqQ-7t-acZ"/>
                         <outletCollection property="horizontalConstraints" destination="DAh-dt-DEJ" collectionClass="NSMutableArray" id="Jqp-gz-Pd8"/>
+                        <outletCollection property="horizontalConstraints" destination="kjC-Jb-QoG" collectionClass="NSMutableArray" id="7T1-Vb-ifE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FRB-5B-IfT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,7 +310,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMX-St-5Q1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1862.5" y="789.5"/>
+            <point key="canvasLocation" x="1850.5" y="1083.5"/>
+        </scene>
+        <!--SBID_ProfileVC-->
+        <scene sceneID="gl4-Bm-ivn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="SBID_ProfileVC" id="78k-kO-NSr" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="ntd-1M-U93"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ggI-3S-vcr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1169.5" y="-94"/>
         </scene>
         <!--OfferA RideVC-->
         <scene sceneID="1gT-VX-cWn">
@@ -549,7 +563,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pEo-FE-D0G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1760.5" y="54.5"/>
+            <point key="canvasLocation" x="1748.5" y="348.5"/>
         </scene>
         <!--Tabbar View Controller-->
         <scene sceneID="GxB-JJ-qkh">
@@ -587,7 +601,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NXL-vK-JOd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1297.5" y="54.5"/>
+            <point key="canvasLocation" x="1285.5" y="348.5"/>
         </scene>
         <!--Item 2-->
         <scene sceneID="SUg-w5-60Q">
@@ -607,7 +621,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HfH-zn-Loj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1297.5" y="789.5"/>
+            <point key="canvasLocation" x="1285.5" y="1083.5"/>
         </scene>
         <!--Add Travel Step1VC-->
         <scene sceneID="iiI-2M-1vs">
@@ -680,7 +694,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6cY-An-90z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2199.5" y="54.5"/>
+            <point key="canvasLocation" x="2187.5" y="348.5"/>
         </scene>
     </scenes>
     <resources>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="System San Francisco Display Regular.ttf">
+            <string>.HelveticaNeueDeskInterface-Regular</string>
+            <string>.HelveticaNeueDeskInterface-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GDatePicker" customModule="SawACar" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rUZ-M4-huk">
+                    <rect key="frame" x="0.0" y="312" width="320" height="256"/>
+                    <subviews>
+                        <datePicker clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="ljo-wI-VAe">
+                            <rect key="frame" x="0.0" y="40" width="320" height="216"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="216" id="e3u-AC-kPW"/>
+                            </constraints>
+                            <date key="date" timeIntervalSinceReferenceDate="483258406.06945503">
+                                <!--2016-04-25 06:26:46 +0000-->
+                            </date>
+                        </datePicker>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0GL-MU-kc2" customClass="JPWidthButton" customModule="SawACar" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="70" height="40"/>
+                            <fontDescription key="fontDescription" name=".HelveticaNeueDeskInterface-Regular" family="SFNS Display" pointSize="17"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="btnCancel:" destination="iN0-l3-epB" eventType="touchUpInside" id="h84-rh-1JJ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hun-Fc-0wl" customClass="JPWidthButton" customModule="SawACar" customModuleProvider="target">
+                            <rect key="frame" x="255" y="0.0" width="65" height="40"/>
+                            <fontDescription key="fontDescription" name=".HelveticaNeueDeskInterface-Regular" family="SFNS Display" pointSize="17"/>
+                            <state key="normal" title="Done">
+                                <color key="titleColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="btnDone:" destination="iN0-l3-epB" eventType="touchUpInside" id="Y8y-5V-KuM"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="hun-Fc-0wl" secondAttribute="trailing" id="5xb-CC-fKB"/>
+                        <constraint firstItem="hun-Fc-0wl" firstAttribute="top" secondItem="rUZ-M4-huk" secondAttribute="top" id="8FH-jj-ZG1"/>
+                        <constraint firstAttribute="height" constant="256" id="DPZ-Fj-V0r"/>
+                        <constraint firstItem="ljo-wI-VAe" firstAttribute="leading" secondItem="rUZ-M4-huk" secondAttribute="leading" id="Fqb-LO-VbM"/>
+                        <constraint firstItem="ljo-wI-VAe" firstAttribute="top" secondItem="hun-Fc-0wl" secondAttribute="bottom" id="HFw-i5-sgc"/>
+                        <constraint firstItem="ljo-wI-VAe" firstAttribute="top" secondItem="0GL-MU-kc2" secondAttribute="bottom" id="HH5-he-5U9"/>
+                        <constraint firstItem="0GL-MU-kc2" firstAttribute="width" secondItem="rUZ-M4-huk" secondAttribute="width" multiplier="0.218" id="L9s-h1-hoV"/>
+                        <constraint firstAttribute="trailing" secondItem="ljo-wI-VAe" secondAttribute="trailing" id="PNX-Zd-QhU"/>
+                        <constraint firstItem="0GL-MU-kc2" firstAttribute="leading" secondItem="rUZ-M4-huk" secondAttribute="leading" id="RUW-Mb-8Dc"/>
+                        <constraint firstItem="hun-Fc-0wl" firstAttribute="width" secondItem="rUZ-M4-huk" secondAttribute="width" multiplier="0.218" constant="-4.7600000000000051" id="V9f-lU-eMb"/>
+                        <constraint firstItem="0GL-MU-kc2" firstAttribute="top" secondItem="rUZ-M4-huk" secondAttribute="top" id="fLa-6f-heA"/>
+                        <constraint firstAttribute="bottom" secondItem="ljo-wI-VAe" secondAttribute="bottom" id="g3y-bK-ul1"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="rUZ-M4-huk" secondAttribute="trailing" id="CER-j1-m5n"/>
+                <constraint firstItem="rUZ-M4-huk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Lxq-3B-Wvp"/>
+                <constraint firstAttribute="bottom" secondItem="rUZ-M4-huk" secondAttribute="bottom" id="XRq-o9-tjt"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <connections>
+                <outlet property="datePicker" destination="ljo-wI-VAe" id="fff-fD-pqD"/>
+                <outletCollection property="gestureRecognizers" destination="IJd-qA-6nH" appends="YES" id="osk-fc-edr"/>
+            </connections>
+            <point key="canvasLocation" x="381" y="360"/>
+        </view>
+        <tapGestureRecognizer id="IJd-qA-6nH">
+            <connections>
+                <action selector="btnCancel:" destination="iN0-l3-epB" id="tX2-y3-hfr"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

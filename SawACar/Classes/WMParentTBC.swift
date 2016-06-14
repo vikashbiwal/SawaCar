@@ -15,6 +15,8 @@ class TabbarViewController: UITabBarController {
         super.viewDidLoad()
         self.tabBar.hidden = true
         // dicUser = _userDefault.valueForKey("UserData") as! NSDictionary
+        let profileVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ProfileVC")
+        self.viewControllers?.insert(profileVC, atIndex: 0)
     }
 
     override func didReceiveMemoryWarning() {

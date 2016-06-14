@@ -99,6 +99,7 @@ extension CountryListVC: UITableViewDelegate, UITableViewDataSource, UISearchBar
 //MARK: WS Calls
 extension CountryListVC {
     func getCountriesWS()  {
+        self.showCentralGraySpinner()
         wsCall.getAllCoutries { (response, statusCode) in
             if statusCode == 200 {
                 if response.isSuccess  {
@@ -110,11 +111,12 @@ extension CountryListVC {
                     self.filteredCountries = self.countries
                     self.tableView.reloadData()
                 } else {
-                    //self.showAlert(response.message, title: "Error")
+                    
                 }
             } else {
                 
             }
+            self.hideCentralGraySpinner()
         }
     }
 }
