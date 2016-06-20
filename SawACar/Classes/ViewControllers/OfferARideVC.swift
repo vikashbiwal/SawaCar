@@ -19,6 +19,7 @@ class OfferARideVC: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setRoundCircleUI()
+        self.view.layoutIfNeeded()
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,6 +63,10 @@ extension OfferARideVC {
     
     @IBAction func toBtnDidClicked(sender: UIButton) {
         goForPickLocation(.To)
+    }
+    
+    @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
     }
 }
 

@@ -22,5 +22,12 @@ extension UIColor {
         return UIColor(red: 24.0 / 255.0, green: 120.0 / 255.0, blue: 166.0 / 255.0, alpha: 1.0)
     }
     
+    class func scSliderSelectedMenuColor()-> UIColor {
+        return UIColor(red: 55.0 / 255.0, green: 55.0 / 255.0, blue: 55.0 / 255.0, alpha: 1.0)
+    }
     
+    class func scSliderMenuColor()-> UIColor {
+        return UIColor(red: 73.0 / 255.0, green: 73.0 / 255.0, blue: 73.0 / 255.0, alpha: 1.0)
+    }
+
 }

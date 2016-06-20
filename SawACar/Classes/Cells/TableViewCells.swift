@@ -30,6 +30,8 @@ class TVGenericeCell: ConstrainedTableViewCell {
 class TVSignUpFormCell: TVGenericeCell {
     @IBOutlet var txtField: SignupTextField!
     @IBOutlet var button: UIButton?
+    @IBOutlet var dtPicker: UIDatePicker!
+    
     override func awakeFromNib() {
     }
 }

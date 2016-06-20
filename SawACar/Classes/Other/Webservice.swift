@@ -19,30 +19,40 @@ let googleKey = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww"   //got from Ravi
 //MARK: General WebService
 extension Webservice {
     func getAllCoutries(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCountries
         jprint("=======WS = GetAllCountries=======")
         getRequest(urlWithMethod("GetAllCountries"), param: nil, block: block)
     }
     
     func getActiveCoutries(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetActiveCountries
         jprint("=======WS = GetActiveCountries=======")
         getRequest(urlWithMethod("GetActiveCountries"), param: nil, block: block)
     }
     
     func GetAllCurrencies(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCurrencies
         jprint("=======WS = GetAllCurrencies=======")
         getRequest(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
     }
     
     func getAccountTypes(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAccountTypes
         jprint("=======WS = GetAccountTypes=======")
         getRequest(urlWithMethod("GetAccountTypes"), param: nil, block: block)
     }
 
+    func getLanguages(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetLanguages
+        jprint("=======WS = GetLanguages=======")
+        getRequest(urlWithMethod("GetLanguages"), param: nil, block: block)
+    }
 }
 
 //MARK: User related WebServices
 extension Webservice {
     func signUp(params: [String : AnyObject], block: WSBlock) {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=SignUp
         //parameters  -  Email, FirstName, LastName, Password, Gender, YearOfBirth,
         //NationalityID, CountryID, MobileCountryCode, MobileNumber
         jprint("=======WS = SignUp=======")
@@ -50,35 +60,64 @@ extension Webservice {
     }
     
     func login(params: [String : String!], block : WSBlock)  {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=Login
         //parameters - Email, Password
         jprint("=======WS = Login=======")
         postRequest(urlWithMethod("Login"), param: params, block: block)
     }
     
     func loginWithFacebook(params: [String : AnyObject], block: WSBlock) {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=LoginWithFacebook
         //parameters - Email, FacebookID, FirstName, LastName, Gender
         jprint("=======WS = LoginWithFacebook=======")
         postRequest(urlWithMethod("LoginWithFacebook"), param: params, block: block)
     }
     
     func changePassword(params: [String : AnyObject], block : WSBlock)  {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=ChangePassword
         //parameters - Email, OldPassword, NewPassword
         jprint("=======WS = ChangePassword=======")
         postRequest(urlWithMethod("ChangePassword"), param: params, block: block)
     }
     
     func GetUserInformation(userId: String, block : WSBlock)  {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=GetUserInformation
         //parameters - UserID
         jprint("=======WS = GetUserInformation=======")
         postRequest(urlWithMethod("GetUserInformation"), param: ["UserID" : userId], block: block)
     }
     
     func updateUserProfileImage(imgData: NSData, userid: String,  block : WSBlock)  {
-        //parameters - UserID
+        //https://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserImage&UserID=128
+        //parameters - UserID, FileData
         jprint("=======WS = UpdateUserImage=======")
         uploadImage(imgData, relativepath: urlWithMethod("UpdateUserImage&UserID=" + userid), param: nil, block: block)
     }
-
+    
+    func updateUserInformation(params: [String : AnyObject], block : WSBlock)  {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserPersonalnfo
+        //parameters - UserID, FirstName, LastName, Gender, YearOfBirth, NationalityID,
+        //CountryID, MobileCountryCode, MobileNumber, Bio, AccountTypeID
+        jprint("=======WS = UpdateUserPersonalnfo=======")
+        postRequest(urlWithMethod("UpdateUserPersonalnfo"), param:params, block: block)
+    }
+    
+    func updateSocialInfo(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserSocialMedia
+        //Parameters:- UserID, Whatsapp, Viber, Line, Tango, Telegram, Facebook, 
+        //Twitter, Snapchat, Instagram
+        jprint("=======WS = UpdateUserSocialMedia=======")
+        postRequest(urlWithMethod("UpdateUserSocialMedia"), param:params, block: block)
+    }
+    
+    func updateUserPreference(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserPreferences
+        //Parameters:- UserID, IsMobilelShown, IsEmailShown, IsMonitoringAccepted, IsTravelRequestReceiver, IsVisibleInSearch, 
+        //PreferencesSmoking, PreferencesMusic, PreferencesFood, PreferencesKids, PreferencesPets, PreferencesPrayingStop, 
+        //PreferencesQuran, DefaultLanguage, SpokenLanguages
+        jprint("=======WS = UpdateUserPreferences=======")
+        postRequest(urlWithMethod("UpdateUserPreferences"), param:params, block: block)
+    }
 }
 
 
@@ -155,7 +194,7 @@ class Webservice: NSObject {
         manager.POST(relativePath, parameters: param, success: { (task, responseObj) -> Void in
             self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
             }, failure: { (task, error) -> Void in
-                self.succBlock(dataTask: task, responseObj: error, relPath: relativePath, block: block)
+                self.errBlock(dataTask: task, error: task?.error, relPath: relativePath, block: block)
         })
     }
     
@@ -165,7 +204,7 @@ class Webservice: NSObject {
       return  manager.GET(relativePath, parameters: param, success: { (task, responseObj) -> Void in
             self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
             }, failure:  { (task, error) -> Void in
-                self.succBlock(dataTask: task, responseObj: error, relPath: relativePath, block: block)
+                self.errBlock(dataTask: task, error: task?.error, relPath: relativePath, block: block)
         })!
     }
     
@@ -176,7 +215,7 @@ class Webservice: NSObject {
             }, success: { (task, responseObj) -> Void in
                 self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativepath, block: block)
             }, failure:  { (task, error) -> Void in
-                self.succBlock(dataTask: task, responseObj: error, relPath: relativepath, block: block)
+                self.errBlock(dataTask: task, error: task?.error, relPath: relativepath, block: block)
         })
     }
     
@@ -188,7 +227,7 @@ class Webservice: NSObject {
             }, success: { (task, responseObj) -> Void in
                 self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativepath, block: block)
             }, failure:  { (task, error) -> Void in
-                self.succBlock(dataTask: task, responseObj: error, relPath: relativepath, block: block)
+                self.errBlock(dataTask: task, error: task?.error, relPath: relativepath, block: block)
         })
     }
 }

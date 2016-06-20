@@ -70,16 +70,6 @@ class JPHeightRoundLabel: UILabel {
     }
 }
 
-class VkUISwitch: UISwitch {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        //
-        let constantValue: CGFloat = 0.9 //Default Scale value which changed as per device base. 
-        let scale = constantValue * _widthRatio
-        self.transform = CGAffineTransformMakeScale(scale, scale)
-    }
-
-}
 
 class KPIconButton: UIButton {
     override func awakeFromNib() {

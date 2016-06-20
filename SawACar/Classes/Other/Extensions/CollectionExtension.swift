@@ -95,11 +95,4 @@ extension Array {
     }
 }
 
-extension Array where Element: Equatable {
-    mutating func removeElement(element: Element) {
-        if let ind = self.indexOf(element) {
-            removeAtIndex(ind)
-        }
-    }
-}
 

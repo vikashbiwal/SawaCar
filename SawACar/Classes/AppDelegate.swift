@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import FBSDKCoreKit
+import Fabric
+import Crashlytics
 
 //@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,10 +18,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        Fabric.with([Crashlytics.self])
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        directLogin()
         return true
     }
 
+    
+    func directLogin()  {
+        if let userInfo = unArchiveObjectForKey(kLoggedInUserKey) {
+            print(userInfo)
+            me = User(info: userInfo as! [String : AnyObject])
+            
+            let rootNav = self.window?.rootViewController as! UINavigationController
+            let loginVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_LoginVC")
+            let lastVC:UIViewController!
+           
+            if let value = _userDefault.valueForKey(UserModeKey) as? Int {
+                me.userMode = UserMode(rawValue: value)!
+                lastVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_DContainerVC") //Container VC
+            } else {
+                lastVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_UserTypVC")  //UserTypeSelectVC
+            }
+            rootNav.viewControllers = [loginVC, lastVC]
+        }
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

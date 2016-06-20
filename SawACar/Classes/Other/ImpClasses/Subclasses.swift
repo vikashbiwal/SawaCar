@@ -69,13 +69,4 @@ class RoundedLabel: UILabel {
     }
 }
 
-//Added by vikash :  This view is used for Maintain TblHeaderview's height
-class TblWidthHeaderView: UIView {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        var frame = self.frame
-        frame.size.height = frame.size.height * _widthRatio
-        self.frame = frame
-    }
-}
 

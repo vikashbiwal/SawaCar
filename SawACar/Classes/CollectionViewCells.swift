@@ -111,6 +111,7 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                     return cell
                 } else if formType == .BirthDateInfo {
                     let cell = tableView.dequeueReusableCellWithIdentifier("dateSelectionCell") as! TVSignUpFormCell
+                    cell.dtPicker.maximumDate = NSDate()
                     return cell
                     
                 } else if formType == .ContactInfo {
@@ -188,7 +189,6 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
         
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0)) as! TVSignUpFormCell
         cell.txtField.becomeFirstResponder()
-        
         return true
     }
     
@@ -208,7 +208,8 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
         } else if sender.tag == TextFieldType.MobileNo.rawValue {
             type = .MobileNo
         }
-        textFieldChangeBlock(type: type, text: sender.text!)
+        let str = sender.text?.trimmedString()
+        textFieldChangeBlock(type: type, text: str!)
     }
     
     @IBAction func genderBtnClicked(sender: UIButton) {

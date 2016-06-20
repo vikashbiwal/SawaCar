@@ -54,15 +54,17 @@ class AccountType {
 
 //MARK: This class is used for create any menu item
 class Menu {
+    var Id: String!
     var title: String!
     var imgName: String!
     var selected = false
     var type: MenuType = .None
-    init(title: String, imgName: String, selected: Bool  = false, type: MenuType = .None) {
+    init(title: String, imgName: String, selected: Bool  = false, type: MenuType = .None, id: String = "") {
         self.title = title
         self.imgName = imgName
         self.selected = selected
         self.type = type
+        self.Id = id
     }
 }
 enum MenuType {

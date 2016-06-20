@@ -65,7 +65,7 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
          operationQueue = NSOperationQueue()
-        
+        UITextField.appearance().tintColor = UIColor.whiteColor()
         loadType = .NoneType
         tblView.rowHeight = UITableViewAutomaticDimension
         tblView.tableFooterView = UIView()
@@ -97,7 +97,10 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
         super.viewDidAppear(animated)
         tfSerach.becomeFirstResponder()
     }
-    
+    override func viewWillDisappear(animated: Bool) {
+        UITextField.appearance().tintColor = UIColor.blueColor()
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

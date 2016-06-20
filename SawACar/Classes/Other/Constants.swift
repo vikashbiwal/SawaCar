@@ -39,18 +39,10 @@ var me: User! = nil
 
 let _serverFormatter: NSDateFormatter = {
     let df = NSDateFormatter()
-    df.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
+    df.dateFormat = "dd-MM-yyyy"
     return df
 }()
 
-let _serverFormatter2: NSDateFormatter = {
-    let df = NSDateFormatter()
-    // 2016-04-06T07:32:17Z
-    // 2016-03-23T08:07:18.0577162Z
-    //df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-    df.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    return df
-}()
 
 let _serverFormatter3: NSDateFormatter = {
     let df = NSDateFormatter()
@@ -59,28 +51,39 @@ let _serverFormatter3: NSDateFormatter = {
     return df
 }()
 
-// MARK: Validation Message
+// MARK: App Messages
 // Sign Up validation
 let kEmailIsRequired            = "Email is required."
-let kEmailValidateMsg           = "Please enter a valid email-id."
+let kEmailValidateMsg           = "Please enter a valid email address."
 let kCountryValidateMsg         = "Please select your country."
 let kNationalityValidateMsg     = "Please select your nationality."
 let kBirthYearValidateMsg       = "Please enter your birth year."
 let kGenderValidateMsg          = "Please select your gender."
 let kPasswordConfirmMsg         = "Password does not match."
 let kPasswordIsRequired         = "Password is required."
-let kConfimPassRequired         = "Please Re-Enter new password."
+let kConfimPassRequired         = "Please Re-Enter your password."
 let kOldPassRequired            = "Please enter your old password."
+let kPasswordWeekMsg            = "Passwords must be at least 8 characters long."
 let kBirthYearRequired          = "Year of birth is required."
 let kFirstnameIsRequired        = "First name is required."
 let kLastnameIsRequired         = "Last name is required."
 let kMobileNumberIsRequired     = "Mobile number is required."
 let kInvalidMobileNumber        = "Please enter a valid mobile number."
 
-//MARK: Error Messages
+let kLogoutConfirmMsg           = "Are you sure you want to logout?"
+let kChagneModeConfirmMsg       = "Are you sure you want to change your user mode?"
 let kServerError                = "Server Error"
+let kOldPassIsInvalid           = "Old password is invalid."
+let kProfileUpdateSuccess       = "Your profile updated successfully."
+let kSocialUpdatedSuccess       = "Your social link updated successfully."
+let kPreferenceSettingSucess    = "Your user preference settings updated successfully."
+// MARK: App Keys
+let kLoggedInUserKey            = "LoggedInUserKey"
+let UserModeKey                 = "UserModeKey"
+let kProfileUpdateNotificationKey = "UserProfileUpdateNotificationKey"
 
-// MARK: Notification Key
+
+
 
 // MARK: Important Enums
 enum UIUserInterfaceIdiom : Int {
@@ -99,6 +102,39 @@ func jprint(items: Any...) {
     }
 }
 
+//Store Any custom object to UserDefault with a key
+func archiveObject(obj: AnyObject, key: String) {
+    let archive = NSKeyedArchiver.archivedDataWithRootObject(obj)
+    _userDefault.setObject(archive, forKey: key)
+}
 
+//Get a object from userDefault with key
+func unArchiveObjectForKey(key: String) -> AnyObject? {
+    if let data = _userDefault.objectForKey(key) as? NSData {
+        let unarchiveObj = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+       return unarchiveObj
+    }
+    return nil
+}
 
+//Convert timestamp string to date string
+func convertTimeStampToLocalDateString(timeStampString: String)-> String {
+    if !timeStampString.isEmpty {
+        let index = timeStampString.startIndex.advancedBy(10)
+        let timeStamp = NSTimeInterval(Double(timeStampString.substringToIndex(index))!)
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        return _serverFormatter.stringFromDate(date)
+    }
+    return ""
+}
+
+func convertTimeStampToLocalDate(timeStampString: String)-> NSDate? {
+    if !timeStampString.isEmpty {
+        let index = timeStampString.startIndex.advancedBy(10)
+        let timeStamp = NSTimeInterval(Double(timeStampString.substringToIndex(index))!)
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        return date
+    }
+    return nil
+}
 

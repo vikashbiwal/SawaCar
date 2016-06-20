@@ -160,3 +160,41 @@ Whatsapp = "<null>";
 YearOfBirth = 1992;
 };
 }
+
+
+///AccountTypes
+{
+"IsSuccess": true,
+"Messages": [],
+"Object": [
+{
+"AccountTypeID": 1,
+"Name": "Personal"
+},
+{
+"AccountTypeID": 2,
+"Name": "Taxi Driver"
+},
+{
+"AccountTypeID": 3,
+"Name": "Bus Driver"
+},
+{
+"AccountTypeID": 4,
+"Name": "Car Rental  Offices"
+},
+{
+"AccountTypeID": 5,
+"Name": "Tour Guide"
+},
+{
+"AccountTypeID": 6,
+"Name": "Driver on his own car"
+},
+{
+"AccountTypeID": 7,
+"Name": "Other"
+}
+]
+}
+

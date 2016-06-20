@@ -106,7 +106,11 @@ extension SignUpVC {
         } else {
             process = user.validateLocationInfo()
             index = 4 // no need to change index. already on last index
-            self.signupWSCall()
+            if process.isValid {
+                self.signupWSCall()
+            } else {
+                showToastMessage("", message: process.message)
+            }
             return
         }
         
@@ -197,8 +201,10 @@ extension SignUpVC {
     //Keyboard Notifications
     func keyboardWillShow(nf: NSNotification)  {
         let cells = CollectionView.visibleCells()
-        let cell = cells.first as! SignUpCollectionViewCell
-        cell.tableView.contentInset = UIEdgeInsetsMake(0, 0, 150, 0)
+        if !cells.isEmpty {
+            let cell = cells.first as? SignUpCollectionViewCell
+            cell?.tableView.contentInset = UIEdgeInsetsMake(0, 0, 150, 0)
+        }
         if currntFormType == .ContactInfo {
             btnHideKbord.hidden = false
         }
@@ -206,8 +212,10 @@ extension SignUpVC {
     
     func keyboardWillHide(nf: NSNotification)  {
         let cells = CollectionView.visibleCells()
-        let cell = cells.first as! SignUpCollectionViewCell
-        cell.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        if !cells.isEmpty {
+            let cell = cells.first as? SignUpCollectionViewCell
+            cell?.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        }
         btnHideKbord.hidden = true
     }
 
@@ -290,8 +298,10 @@ extension SignUpVC {
         let cListVC = self.storyboard?.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
         if forAction == .NationalityAction {
             cListVC.selectedCountryId = user.nationalityId
+            cListVC.titleString = "Nationality"
         } else  {
             cListVC.selectedCountryId = user.countryId
+            cListVC.titleString = "Countries"
         }
         
         cListVC.completionBlock = {(country) in
@@ -381,9 +391,23 @@ extension SignUpVC {
         self.showCentralGraySpinner()
         user.singUp({ (response, flag) in
             if response.isSuccess {
-                me = User(json: response.json! as! [String : AnyObject])
-                self.uploadProfileImage(me.Id)
-                self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                if let json = response.json {
+                    var info = json["Object"] as! [String : AnyObject]
+                    me = User(info: info)
+                    if let image = self.profileImage {
+                        let imgData = image.mediumQualityJPEGNSData
+                        me.updateProfileImage(imgData, block: {(path) in
+                            info["Photo"] = path ?? ""
+                            archiveObject(info, key: kLoggedInUserKey)
+                        })
+                    } else {
+                        archiveObject(info, key: kLoggedInUserKey)
+                    }
+                    
+                    self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                } else {
+                    showToastMessage("Signup Error", message: response.message!)
+                }
             } else {
                 showToastMessage("Signup Error", message: response.message!)
             }
@@ -391,13 +415,6 @@ extension SignUpVC {
         })
     }
     
-    //call this method after complete signup process
-    func uploadProfileImage(userID: String) {
-        if let image = profileImage {
-            let imgData = image.mediumQualityJPEGNSData
-            me.updateProfileImage(imgData, block: {})
-        }
-    }
     
 }
 

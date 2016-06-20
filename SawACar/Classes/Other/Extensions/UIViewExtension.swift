@@ -51,16 +51,6 @@ extension UIView {
         layer.addSublayer(mask)
     }
     
-    //Draw a shadow
-    func drawShadow() {
-        self.layer.masksToBounds = true;
-        self.layer.shadowOffset = CGSizeMake(3.0, 3.0);
-        self.layer.shadowRadius = 3.0;
-        self.layer.shadowOpacity = 1.0;
-        self.layer.shadowColor  = UIColor.blackColor().CGColor
-    }
-
-    
 }
 
 extension UIView {

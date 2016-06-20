@@ -69,7 +69,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="rUZ-M4-huk" secondAttribute="trailing" id="CER-j1-m5n"/>
@@ -80,7 +80,10 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <connections>
                 <outlet property="datePicker" destination="ljo-wI-VAe" id="fff-fD-pqD"/>
+                <outlet property="datePickerBottomSpace" destination="XRq-o9-tjt" id="vLx-74-wWC"/>
                 <outletCollection property="gestureRecognizers" destination="IJd-qA-6nH" appends="YES" id="osk-fc-edr"/>
+                <outletCollection property="horizontalConstraints" destination="DPZ-Fj-V0r" id="ERw-WK-RJC"/>
+                <outletCollection property="horizontalConstraints" destination="e3u-AC-kPW" id="SdH-HM-tph"/>
             </connections>
             <point key="canvasLocation" x="381" y="360"/>
         </view>

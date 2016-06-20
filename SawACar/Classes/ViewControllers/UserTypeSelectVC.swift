@@ -51,10 +51,14 @@ class UserTypeSelectVC: ParentVC {
 extension UserTypeSelectVC {
 
     @IBAction func clickedAtINeedRideBtn(sender: UIButton) {
-        self.performSegueWithIdentifier("SBSegue_NeedARide", sender: nil)
+        me.userMode = UserMode.Passenger // set Current User Mode to Passenger
+        _userDefault.setValue(UserMode.Passenger.rawValue, forKey: UserModeKey)
+        self.performSegueWithIdentifier("SBSegue_ToContainer", sender: nil)
     }
 
     @IBAction func clickedAtIHaveCarBtn(sender: UIButton) {
-        self.performSegueWithIdentifier("SBSegue_haveACar", sender: nil)
+        me.userMode = UserMode.Driver // set Current User Mode to Driver
+        _userDefault.setValue(UserMode.Driver.rawValue, forKey: UserModeKey)
+        self.performSegueWithIdentifier("SBSegue_ToContainer", sender: nil)
     }
 }

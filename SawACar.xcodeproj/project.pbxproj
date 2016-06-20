@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		03078EA41D05469F009450BB /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03078EA21D05469F009450BB /* SBDriver.storyboard */; };
 		03078EA81D05495F009450BB /* DContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03078EA71D05495F009450BB /* DContainerVC.swift */; };
+		0309B4CB1D13E6E900E9B3FA /* VExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */; };
+		030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5401D1404B0000D3948 /* Fabric.framework */; };
+		030BF5431D1404B0000D3948 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5411D1404B0000D3948 /* Crashlytics.framework */; };
 		0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0310322A1D0E7D8F0024531A /* ValidationToast.swift */; };
 		0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322B1D0E7D8F0024531A /* ValidationToast.xib */; };
 		0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */; };
@@ -23,9 +26,10 @@
 		032680E31D06D81700969C16 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680E11D06D81700969C16 /* MapViewController.swift */; };
 		0327CDA31D0577F400D51DE4 /* UserTypeSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */; };
 		0327CDA81D057AD600D51DE4 /* SBPassanger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0327CDA61D057AD600D51DE4 /* SBPassanger.storyboard */; };
-		0327CDAA1D058FDA00D51DE4 /* WMParentTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA91D058FDA00D51DE4 /* WMParentTBC.swift */; };
+		0327CDAA1D058FDA00D51DE4 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */; };
 		0327CDAC1D059C2A00D51DE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */; };
 		0327CDAF1D05A82800D51DE4 /* OfferARideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */; };
+		0336B9AF1D0FE74700AE416E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0336B9AE1D0FE74700AE416E /* ListViewController.swift */; };
 		034826BF1CFC30ED000B46AE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034826BE1CFC30ED000B46AE /* main.swift */; };
 		034826C11CFC3155000B46AE /* LocalizedApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034826C01CFC3155000B46AE /* LocalizedApplication.swift */; };
 		034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826C31CFC5B3C000B46AE /* OpenSans-Bold.ttf */; };
@@ -84,6 +88,9 @@
 /* Begin PBXFileReference section */
 		03078EA31D05469F009450BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SawACar/Base.lproj/SBDriver.storyboard; sourceTree = SOURCE_ROOT; };
 		03078EA71D05495F009450BB /* DContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DContainerVC.swift; sourceTree = "<group>"; };
+		0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VExtensions.swift; sourceTree = "<group>"; };
+		030BF5401D1404B0000D3948 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		030BF5411D1404B0000D3948 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0310322A1D0E7D8F0024531A /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
 		0310322B1D0E7D8F0024531A /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
 		0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
@@ -98,9 +105,10 @@
 		032680E11D06D81700969C16 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTypeSelectVC.swift; sourceTree = "<group>"; };
 		0327CDA71D057AD600D51DE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SawACar/Base.lproj/SBPassanger.storyboard; sourceTree = SOURCE_ROOT; };
-		0327CDA91D058FDA00D51DE4 /* WMParentTBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WMParentTBC.swift; sourceTree = "<group>"; };
+		0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferARideVC.swift; sourceTree = "<group>"; };
+		0336B9AE1D0FE74700AE416E /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		034826BE1CFC30ED000B46AE /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		034826C01CFC3155000B46AE /* LocalizedApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizedApplication.swift; path = ../LocalizedApplication.swift; sourceTree = "<group>"; };
 		034826C31CFC5B3C000B46AE /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -168,8 +176,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E717E27B9A02098BC5290BD0 /* libPods-SawACar.a in Frameworks */,
+				030BF5431D1404B0000D3948 /* Crashlytics.framework in Frameworks */,
 				03E7E69B1CBCEED300DB7723 /* FBSDKCoreKit.framework in Frameworks */,
 				03E7E6A01CBCF22300DB7723 /* FBSDKLoginKit.framework in Frameworks */,
+				030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +247,7 @@
 			children = (
 				032360131D0838F40004CDA9 /* car_image.jpg */,
 				0323600F1D08341D0004CDA9 /* ProfileViewController.swift */,
+				0336B9AE1D0FE74700AE416E /* ListViewController.swift */,
 			);
 			name = ProfileVC;
 			sourceTree = "<group>";
@@ -280,6 +291,8 @@
 		036A89431CBB7A9E00DFB631 = {
 			isa = PBXGroup;
 			children = (
+				030BF5401D1404B0000D3948 /* Fabric.framework */,
+				030BF5411D1404B0000D3948 /* Crashlytics.framework */,
 				036A894E1CBB7A9E00DFB631 /* SawACar */,
 				036A894D1CBB7A9E00DFB631 /* Products */,
 				059B39E228D25B0BD883B681 /* Pods */,
@@ -372,10 +385,10 @@
 		036A89731CBB80E200DFB631 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				03FD10661CBB8AA400695AE2 /* Constants.swift */,
 				031032301D0EB0AF0024531A /* DatePicker */,
 				031032291D0E7D8F0024531A /* ValidationToast */,
 				034826C21CFC5B2E000B46AE /* Font */,
-				03FD10661CBB8AA400695AE2 /* Constants.swift */,
 				03F65D161CBBDE8700C44B5A /* Extensions */,
 				03F65D201CBBDE8700C44B5A /* ImpClasses */,
 				03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */,
@@ -396,7 +409,7 @@
 		03E7E6A41CBD0CE200DB7723 /* ParentVC */ = {
 			isa = PBXGroup;
 			children = (
-				0327CDA91D058FDA00D51DE4 /* WMParentTBC.swift */,
+				0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */,
 				03E7E6AB1CBD14A500DB7723 /* ParentVC.swift */,
 			);
 			name = ParentVC;
@@ -432,6 +445,7 @@
 				03F65D1D1CBBDE8700C44B5A /* UIFontExtension.swift */,
 				03F65D1E1CBBDE8700C44B5A /* UIImageExtension.swift */,
 				03F65D1F1CBBDE8700C44B5A /* UIViewExtension.swift */,
+				0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -492,6 +506,7 @@
 				036A894A1CBB7A9E00DFB631 /* Resources */,
 				A7269AE4DAE979939DAB7753 /* Embed Pods Frameworks */,
 				5CFCA968CF0678E9F4EC8114 /* Copy Pods Resources */,
+				030BF53F1D14046D000D3948 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -566,6 +581,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		030BF53F1D14046D000D3948 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run f10789a3be9fe8cd335c779cbdbc079ef6312d2b 559f0d4fc2ccab08a72b622484a52fbd67b0d5e0ecfc46ef3ff198ce8d2d2014";
+		};
 		5CFCA968CF0678E9F4EC8114 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -624,6 +652,7 @@
 				032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */,
 				03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */,
 				03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */,
+				0309B4CB1D13E6E900E9B3FA /* VExtensions.swift in Sources */,
 				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
 				0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */,
 				03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */,
@@ -646,7 +675,8 @@
 				03F65D431CBBDE8700C44B5A /* JPUtility.swift in Sources */,
 				03078EA81D05495F009450BB /* DContainerVC.swift in Sources */,
 				03F65D471CBBDE8700C44B5A /* RawdataConverter.swift in Sources */,
-				0327CDAA1D058FDA00D51DE4 /* WMParentTBC.swift in Sources */,
+				0336B9AF1D0FE74700AE416E /* ListViewController.swift in Sources */,
+				0327CDAA1D058FDA00D51DE4 /* TabbarViewController.swift in Sources */,
 				03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */,
 				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
@@ -797,19 +827,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SawACar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
+				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -821,19 +852,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: YUDIZ SOLUTIONS PRIVATE LIMITED";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SawACar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
+				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 			};
 			name = Release;

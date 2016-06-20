@@ -93,9 +93,14 @@ extension LoginVC {
             self.showCentralGraySpinner()
             user.login({ (response, flag) in
                 if response.isSuccess {
-                    me = User(json: response.json! as! [String : AnyObject])
-                    //navigate to home now.
-                    self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                    if let json = response.json {
+                        let info = json["Object"] as! [String : AnyObject]
+                        me = User(info: info)
+                        archiveObject(info, key: kLoggedInUserKey)
+                        self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                    } else {
+                        showToastMessage("Login Error", message: response.message!)
+                    }
                 } else {
                     showToastMessage("Login Error", message: response.message!)
                 }
@@ -125,8 +130,6 @@ extension LoginVC {
                     if let _ = error {
                         self.hideCentralGraySpinner()
                     }
-                    
-                    
                     //getProfile image url from fb data
                     let info = result as! [String : AnyObject]
                     var imgageUrl = ""
@@ -157,14 +160,22 @@ extension LoginVC {
         
         wsCall.loginWithFacebook(params) { (response, statusCode) in
             if response.isSuccess {
-                me = User(json: response.json as! [String : AnyObject])
-                //Navigate to home
-                if let image  = self.profileImage {
-                    self.showCentralGraySpinner()
-                    me.updateProfileImage(image.mediumQualityJPEGNSData, block: {
-                        self.hideCentralGraySpinner()
-                        self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
-                    })
+                if let json = response.json {
+                    var info = json["Object"] as! [String : AnyObject]
+                    me = User(info: info)
+                    //Navigate to home
+                    if let image  = self.profileImage {
+                        self.showCentralGraySpinner()
+                        me.updateProfileImage(image.mediumQualityJPEGNSData, block: {(path) in
+                            self.hideCentralGraySpinner()
+                            info["Photo"] = path ?? ""
+                            archiveObject(info, key: kLoggedInUserKey)
+                            self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                        })
+                    }
+                    archiveObject(info, key: kLoggedInUserKey)
+                } else {
+                    showToastMessage("", message: response.message!)
                 }
             } else {
                 showToastMessage("", message: response.message!)
@@ -173,6 +184,7 @@ extension LoginVC {
         }
     }
     
+    //Download Facebook Profile Image to store in SawACar api.
     func donwloadFbProfileImage(url: String) {
         if let url = NSURL(string:  url) {
             if let imgdata = NSData(contentsOfURL: url) {

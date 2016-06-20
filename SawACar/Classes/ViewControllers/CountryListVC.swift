@@ -19,13 +19,14 @@ class CountryListVC: ParentVC {
     var countries = [Country]()
     var filteredCountries = [Country]()
     var selectedCountryId: String?
-    
+    var titleString: String = "Countries"
     var refreshControl : UIRefreshControl!
     var completionBlock : (Country)-> Void = {_ in}
     
     //MARK:
     override func viewDidLoad() {
         super.viewDidLoad()
+        lblTitle.text = titleString
         getCountriesWS()
     }
     
@@ -101,20 +102,16 @@ extension CountryListVC {
     func getCountriesWS()  {
         self.showCentralGraySpinner()
         wsCall.getAllCoutries { (response, statusCode) in
-            if statusCode == 200 {
-                if response.isSuccess  {
-                    let arr = response.json!["Object"] as! [[String : AnyObject]]
-                    self.countries.removeAll()
-                    for item in arr {
-                        self.countries.append(Country(info: item))
-                    }
-                    self.filteredCountries = self.countries
-                    self.tableView.reloadData()
-                } else {
-                    
+            if response.isSuccess  {
+                let arr = response.json!["Object"] as! [[String : AnyObject]]
+                self.countries.removeAll()
+                for item in arr {
+                    self.countries.append(Country(info: item))
                 }
+                self.filteredCountries = self.countries
+                self.tableView.reloadData()
             } else {
-                
+                showToastMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }

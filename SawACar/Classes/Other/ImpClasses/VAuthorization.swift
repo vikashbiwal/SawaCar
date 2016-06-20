@@ -31,10 +31,15 @@ extension VAuthorization {
             PHPhotoLibrary.requestAuthorization({ (status) in
                 if status == .Authorized {
                     // Access has been granted.
-                    block(true)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        block(true)
+                    })
+
                 } else {
                     // Access has been denied.
-                    block(false)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        block(false)
+                    })
                 }
             })
         } else if status == .Restricted {
@@ -70,9 +75,13 @@ extension VAuthorization {
             // Prompting user for the permission to use the camera.
             AVCaptureDevice.requestAccessForMediaType(cameraMediaType) { granted in
                 if granted {
-                    block(true)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        block(true)
+                    })
                 } else {
-                    block(false)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        block(false)
+                    })
                 }
             }
             break
