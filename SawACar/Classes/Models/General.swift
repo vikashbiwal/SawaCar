@@ -38,6 +38,7 @@ class Currency {
         country = RConverter.string(info["CurrencyCountry"])
         symbol  = RConverter.string(info["CurrencySymbol"])
     }
+    
 }
 
 

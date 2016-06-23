@@ -8,6 +8,7 @@
 
 import Foundation
 
+//============================= Extensions ===================================
 
 extension UIView {
     //Draw a shadow
@@ -42,8 +43,22 @@ extension Array where Element: Equatable {
     }
 }
 
+//DateFormator
+extension NSDateFormatter {
+    func stringFromDate(date: NSDate, format: String) -> String {
+        self.dateFormat = format
+        return self.stringFromDate(date)
+    }
+    
+    func stringFromDate(date: NSDate, style:NSDateFormatterStyle) -> String {
+        self.dateStyle = style
+        return self.stringFromDate(date)
+    }
+}
 
-//SubClasses
+
+
+//============================= SubClasses ===================================
 //Swift view resize as per device ratio
 class VkUISwitch: UISwitch {
     override func awakeFromNib() {
@@ -64,3 +79,12 @@ class TblWidthHeaderView: UIView {
         self.frame = frame
     }
 }
+
+class IndexPathButton: JPWidthButton {
+    var indexPath : NSIndexPath!
+}
+
+class IndexPathTextField: JPWidthTextField {
+    var indexpath: NSIndexPath!
+}
+

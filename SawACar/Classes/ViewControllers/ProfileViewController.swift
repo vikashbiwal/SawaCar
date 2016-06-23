@@ -18,7 +18,6 @@ class ProfileViewController: ParentVC {
     @IBOutlet var lblGender:    UILabel!
     @IBOutlet var lblBirthDate: UILabel!
     
-    var datepicker: GDatePicker!
     var user : User!
     var selectedMenu: Menu!
     
@@ -56,7 +55,7 @@ class ProfileViewController: ParentVC {
     }
     
     override func viewDidAppear(animated: Bool) {
-        initializeDatePicker()
+    
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -68,12 +67,6 @@ class ProfileViewController: ParentVC {
         // Dispose of any resources that can be recreated.
     }
     
-    func initializeDatePicker()  {
-        if self.datepicker == nil {
-            let arr = NSBundle.mainBundle().loadNibNamed("GDatePicker", owner: nil, options: nil)
-            self.datepicker = arr.first as! GDatePicker
-        }
-    }
 }
 
 //MARK: IBActions
@@ -324,12 +317,16 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 let item  = menuItems[indexPath.row]
                 if item.textfieldType == .BirthDate {
                     self.openDatePicker(indexPath)
+                    
                 } else if item.textfieldType == .Gender {
                     self.showGenderPicker(indexPath)
+                    
                 } else if item.textfieldType == .Nationality {
                     self.openCountryList(.Nationality, indexPath: indexPath)
+                    
                 } else if item.textfieldType == .Country {
                     self.openCountryList(.Country, indexPath: indexPath)
+                    
                 } else if item.textfieldType == .AccountType {
                     self.openAccountTypeListVC(indexPath)
                 }
@@ -337,7 +334,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         } else if selectedMenu.type == .Settings {
             if isEditMode {
                 let item = menuItems[indexPath.row]
-                self.openLanguagesListVC(indexPath, type: item.settingType)
+                if item.settingType == .CommunicationLanguage || item.settingType == .SpeackingLanguage {
+                    self.openLanguagesListVC(indexPath, type: item.settingType)
+                }
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -418,7 +417,8 @@ extension ProfileViewController {
     func openDatePicker(indexPath: NSIndexPath) {
         if !isLoading {
             isLoading = true
-            datepicker.completionBlock = {(date) in
+            let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
+            datepickerVC.completionBlock = {(date) in
                 if let date = date {
                     self.user.birthYear = self.dateFomator.stringFromDate(date)
                     let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
@@ -426,7 +426,8 @@ extension ProfileViewController {
                 }
                 self.isLoading = false
             }
-            datepicker.showWithAnnimation(self.view)
+            datepickerVC.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            self.presentViewController(datepickerVC, animated: true, completion: nil)
         }
     }
      
@@ -511,7 +512,7 @@ extension ProfileViewController {
     
 }
 
-//MARK: UITextField delegate
+//MARK: UITextField delegate and actions
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         return textField.resignFirstResponder()
@@ -699,19 +700,7 @@ extension ProfileViewController {
 
 //MARK:---------------------------------------------
 //Other Important classes and enum for profile Screen
-enum UserPreferenceType: Int {
-    case ShowEmail, ShowMobile, VisibleInSearch, SpecialOrder, AcceptMonitring
-    case CommunicationLanguage, SpeackingLanguage
-    case Children, Pets, StopForPray, FoodAndDrink, Music, Quran, Smoking
-}
 
-class SignupTextField: JPWidthTextField {
-    var type: TextFieldType!
-}
-
-class SettingSwitch: VkUISwitch {
-    var type: UserPreferenceType!
-}
 
 class CellItem {
     var strHeader: String = ""

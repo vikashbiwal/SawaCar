@@ -10,7 +10,7 @@ import UIKit
 
 
 enum ListType {
-    case AccountType, Language
+    case AccountType, Language, Currency
 }
 
 
@@ -20,7 +20,6 @@ class ListViewController: ParentVC {
     
     var listItems = [ListItem]()
     var filteredItems = [ListItem]()
-    var selectedItes = [ListItem]()
     var preSelectedIDs = [String]()
     var listType: ListType!
     var enableMultipleChoice = false
@@ -54,14 +53,17 @@ class ListViewController: ParentVC {
         } else if listType == .Language {
             lblTitle.text = "Languages"
             getLanguages()
+        } else if listType == .Currency {
+            lblTitle.text = "Currencies"
+            getCurrencies()
         }
     }
-
     
     //MARK: Other
     func filterList(text: String)  {
-        let arr = listItems.filter { (ct) -> Bool in
-            return ct.name.hasPrefix(text)
+        let valuetocompare = text.lowercaseString
+        let arr = listItems.filter { (item) -> Bool in
+            return item.name.lowercaseString.hasPrefix(valuetocompare) || item.code.lowercaseString.hasPrefix(valuetocompare)
         }
         self.filteredItems = arr
         tableView.reloadData()
@@ -70,7 +72,10 @@ class ListViewController: ParentVC {
     //MARK: IBActions
     @IBAction func doneBtnClicked(sender: UIButton) {
         if listType == .Language {
-            completionBlock(selectedItes)
+            let seletedItems = filteredItems.filter({ (item) -> Bool in
+                return item.selected
+            })
+            completionBlock(seletedItems)
         }
         self.parentBackAction(nil)
     }
@@ -86,12 +91,17 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UISear
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! TVGenericeCell
         let item = filteredItems[indexPath.row]
-        cell.lblTitle.text = item.name
-        if preSelectedIDs.contains(item.Id) || selectedItes.contains(item) {
+        if listType == .Currency {
+            cell.lblTitle.text = item.name + " (\(item.code))"
+        } else {
+            cell.lblTitle.text = item.name
+        }
+        if preSelectedIDs.contains(item.Id) || item.selected {
             cell.accessoryType = .Checkmark
         } else {
             cell.accessoryType = .None
         }
+        
         return cell
     }
     
@@ -101,12 +111,8 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UISear
         let item = filteredItems[indexPath.row]
 
         if enableMultipleChoice {
-            if selectedItes.contains(item) {
-                selectedItes.removeElement(item)
-            } else {
-                selectedItes.append(item)
-            }
-            tableView.reloadData()
+            item.selected = !item.selected
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         } else {
             completionBlock([item])
             self.parentBackAction(nil)
@@ -115,7 +121,11 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UISear
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
-        cell?.accessoryType = .None
+        if !enableMultipleChoice {
+            let item  = filteredItems[indexPath.row]
+            item.selected = !item.selected
+            cell?.accessoryType = .None
+        }
     }
     
     //MARK: SearchBar Delegate
@@ -131,7 +141,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UISear
 
 //MARK: WS Calls
 extension ListViewController {
-    
     //Get Account Types
     func getAccountTypes()  {
         self.showCentralGraySpinner()
@@ -150,7 +159,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-            
+                showToastMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
@@ -158,6 +167,7 @@ extension ListViewController {
     
     //Get Languages
     func getLanguages() {
+        self.showCentralGraySpinner()
         wsCall.getLanguages { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
@@ -174,7 +184,34 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                
+                showToastMessage("", message: response.message!)
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+    
+    //Get List of Currencies 
+    func getCurrencies()  {
+        self.showCentralGraySpinner()
+        wsCall.GetAllCurrencies { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    let arr = json["Object"] as! [[String : AnyObject]]
+                    self.listItems.removeAll()
+                    for item in arr {
+                        let Id = RConverter.string(item["CurrencyID"])
+                        let name = RConverter.string(item["CurrencyName"])
+                        let code = RConverter.string(item["CurrencyCode"])
+                        let at = ListItem(id: Id, name: name, code: code)
+                        let currency = Currency(info: item)
+                        at.obj = currency
+                        self.listItems.append(at)
+                    }
+                    self.filteredItems = self.listItems
+                    self.tableView.reloadData()
+                }
+            } else {
+                showToastMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
@@ -182,10 +219,12 @@ extension ListViewController {
 }
 
 //MARK: List Item to handle all type of item
-class ListItem: Equatable {
+class ListItem : Equatable {
     var Id: String!
     var name: String
     var code: String!
+    var selected = false
+    var obj: AnyObject!
     init(id: String, name: String, code: String = "") {
         self.Id = id
         self.name = name

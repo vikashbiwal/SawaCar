@@ -123,7 +123,6 @@ extension Webservice {
 
 //MARK: Webservice Inialization and Afnetworking setup
 class Webservice: NSObject {
-    
     var manager : AFHTTPSessionManager!
     lazy var downloadManager: AFURLSessionManager = AFURLSessionManager()
     

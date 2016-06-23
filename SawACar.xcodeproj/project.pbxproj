@@ -15,9 +15,14 @@
 		0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0310322A1D0E7D8F0024531A /* ValidationToast.swift */; };
 		0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322B1D0E7D8F0024531A /* ValidationToast.xib */; };
 		0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */; };
-		031032331D0EB0BC0024531A /* GDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031032311D0EB0BC0024531A /* GDatePicker.swift */; };
-		031032341D0EB0BC0024531A /* GDatePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 031032321D0EB0BC0024531A /* GDatePicker.xib */; };
-		03112ECA1CC7A53D00205FDC /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */; };
+		031032331D0EB0BC0024531A /* VDatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031032311D0EB0BC0024531A /* VDatePickerVC.swift */; };
+		031316A81D1BB2C40096077A /* CustomViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 031316A61D1BB2C40096077A /* CustomViews.xib */; };
+		031316A91D1BB2C40096077A /* VKeyboardAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */; };
+		031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316AB1D1C0E780096077A /* AddCarVC.swift */; };
+		031316AE1D1C0E8C0096077A /* CarListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316AD1D1C0E8C0096077A /* CarListVC.swift */; };
+		03162F9B1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */; };
+		03162F9D1D1A7DF700869987 /* Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03162F9C1D1A7DF700869987 /* Travel.swift */; };
+		031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */; };
 		031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */; };
 		032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0323600F1D08341D0004CDA9 /* ProfileViewController.swift */; };
 		032360141D0838F40004CDA9 /* car_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 032360131D0838F40004CDA9 /* car_image.jpg */; };
@@ -94,9 +99,14 @@
 		0310322A1D0E7D8F0024531A /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
 		0310322B1D0E7D8F0024531A /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
 		0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
-		031032311D0EB0BC0024531A /* GDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDatePicker.swift; sourceTree = "<group>"; };
-		031032321D0EB0BC0024531A /* GDatePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GDatePicker.xib; sourceTree = "<group>"; };
-		03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
+		031032311D0EB0BC0024531A /* VDatePickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDatePickerVC.swift; sourceTree = "<group>"; };
+		031316A61D1BB2C40096077A /* CustomViews.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomViews.xib; sourceTree = "<group>"; };
+		031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKeyboardAccessoryView.swift; sourceTree = "<group>"; };
+		031316AB1D1C0E780096077A /* AddCarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCarVC.swift; sourceTree = "<group>"; };
+		031316AD1D1C0E8C0096077A /* CarListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarListVC.swift; sourceTree = "<group>"; };
+		03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SawCarExtendedClassesAndEnums.swift; sourceTree = "<group>"; };
+		03162F9C1D1A7DF700869987 /* Travel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Travel.swift; sourceTree = "<group>"; };
+		031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTravelStep2VC.swift; sourceTree = "<group>"; };
 		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
 		0323600F1D08341D0004CDA9 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		032360131D0838F40004CDA9 /* car_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = car_image.jpg; sourceTree = "<group>"; };
@@ -189,6 +199,7 @@
 		03078EA51D0548CD009450BB /* General */ = {
 			isa = PBXGroup;
 			children = (
+				03162F991D1A660E00869987 /* ListViewController */,
 				0323600E1D08338C0004CDA9 /* ProfileVC */,
 				0323600D1D0833780004CDA9 /* UserTypeSelectorVC */,
 				03E7E6AF1CBD15EF00DB7723 /* CountryListVC */,
@@ -201,6 +212,7 @@
 		03078EA61D0548E4009450BB /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				031316AA1D1C0E560096077A /* Cars */,
 				030F8B381D09860800B652EA /* DriverContainerVC */,
 				0327CDAD1D05A7FB00D51DE4 /* OfferARide */,
 			);
@@ -228,10 +240,35 @@
 		031032301D0EB0AF0024531A /* DatePicker */ = {
 			isa = PBXGroup;
 			children = (
-				031032311D0EB0BC0024531A /* GDatePicker.swift */,
-				031032321D0EB0BC0024531A /* GDatePicker.xib */,
+				031032311D0EB0BC0024531A /* VDatePickerVC.swift */,
 			);
 			path = DatePicker;
+			sourceTree = "<group>";
+		};
+		031316A51D1BB2C40096077A /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				031316A61D1BB2C40096077A /* CustomViews.xib */,
+				031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		031316AA1D1C0E560096077A /* Cars */ = {
+			isa = PBXGroup;
+			children = (
+				031316AB1D1C0E780096077A /* AddCarVC.swift */,
+				031316AD1D1C0E8C0096077A /* CarListVC.swift */,
+			);
+			name = Cars;
+			sourceTree = "<group>";
+		};
+		03162F991D1A660E00869987 /* ListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0336B9AE1D0FE74700AE416E /* ListViewController.swift */,
+			);
+			name = ListViewController;
 			sourceTree = "<group>";
 		};
 		0323600D1D0833780004CDA9 /* UserTypeSelectorVC */ = {
@@ -247,7 +284,6 @@
 			children = (
 				032360131D0838F40004CDA9 /* car_image.jpg */,
 				0323600F1D08341D0004CDA9 /* ProfileViewController.swift */,
-				0336B9AE1D0FE74700AE416E /* ListViewController.swift */,
 			);
 			name = ProfileVC;
 			sourceTree = "<group>";
@@ -267,6 +303,7 @@
 			children = (
 				0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */,
 				032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */,
+				031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */,
 			);
 			name = OfferARide;
 			sourceTree = "<group>";
@@ -323,6 +360,7 @@
 		036A89641CBB7D0100DFB631 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				031316A51D1BB2C40096077A /* CustomViews */,
 				03E7E6A81CBD13E600DB7723 /* Cells */,
 				036A896C1CBB7E0300DFB631 /* AppDelegate */,
 				036A896B1CBB7DB400DFB631 /* ViewControllers */,
@@ -351,6 +389,7 @@
 				03E7E6981CBCBFD200DB7723 /* User.swift */,
 				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
 				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
+				03162F9C1D1A7DF700869987 /* Travel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -401,7 +440,6 @@
 			isa = PBXGroup;
 			children = (
 				03E7E6A21CBD0C5900DB7723 /* SignUpVC.swift */,
-				03112EC91CC7A53D00205FDC /* ChangePasswordVC.swift */,
 			);
 			name = SignUpVC;
 			sourceTree = "<group>";
@@ -446,6 +484,7 @@
 				03F65D1E1CBBDE8700C44B5A /* UIImageExtension.swift */,
 				03F65D1F1CBBDE8700C44B5A /* UIViewExtension.swift */,
 				0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */,
+				03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -556,9 +595,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */,
+				031316A81D1BB2C40096077A /* CustomViews.xib in Resources */,
 				034826D11CFC5B46000B46AE /* OpenSans-Italic.ttf in Resources */,
 				034826CE1CFC5B46000B46AE /* OpenSans-BoldItalic.ttf in Resources */,
-				031032341D0EB0BC0024531A /* GDatePicker.xib in Resources */,
 				036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */,
 				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
 				034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */,
@@ -646,7 +685,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				031032331D0EB0BC0024531A /* GDatePicker.swift in Sources */,
+				031032331D0EB0BC0024531A /* VDatePickerVC.swift in Sources */,
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
 				032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */,
@@ -679,24 +718,29 @@
 				0327CDAA1D058FDA00D51DE4 /* TabbarViewController.swift in Sources */,
 				03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */,
 				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
+				03162F9D1D1A7DF700869987 /* Travel.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
 				032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */,
+				031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */,
 				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,
+				031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */,
 				03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */,
 				03E7E6AE1CBD14DF00DB7723 /* CollectionViewCells.swift in Sources */,
 				03F65D371CBBDE8700C44B5A /* StringExtension.swift in Sources */,
 				031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */,
 				03F65D441CBBDE8700C44B5A /* LazyLoader.swift in Sources */,
 				03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */,
+				031316AE1D1C0E8C0096077A /* CarListVC.swift in Sources */,
 				03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */,
 				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,
 				03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */,
 				0327CDAF1D05A82800D51DE4 /* OfferARideVC.swift in Sources */,
 				03F65D391CBBDE8700C44B5A /* UIFontExtension.swift in Sources */,
+				031316A91D1BB2C40096077A /* VKeyboardAccessoryView.swift in Sources */,
 				03F65D3D1CBBDE8700C44B5A /* ConstrainedSubclasses.swift in Sources */,
 				03F65D481CBBDE8700C44B5A /* ShareController.swift in Sources */,
-				03112ECA1CC7A53D00205FDC /* ChangePasswordVC.swift in Sources */,
 				0327CDA31D0577F400D51DE4 /* UserTypeSelectVC.swift in Sources */,
+				03162F9B1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

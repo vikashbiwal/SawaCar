@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct FullAddress{
+class FullAddress: Address {
     var lat: Double = 0.0
     var long: Double = 0.0
     var address: String = ""
@@ -25,7 +25,6 @@ class Address {
 }
 
 class addressCell: UITableViewCell {
-    
     @IBOutlet var lblName: UILabel!
     override func awakeFromNib() {
 
@@ -254,6 +253,11 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
                 if json["status"] as! String == "OK" {
                     if let data = json["result"] as? NSDictionary {
                         self.selectedAddress.address = data.getStringValue("formatted_address")
+                        if let address_components = data["address_components"] as? NSArray {
+                            if address_components.count > 0 {
+                                self.selectedAddress.name = (address_components[0] as! NSDictionary )["short_name"] as! String
+                            }
+                        }
                         if let cordinate = data["geometry"] as? NSDictionary{
                             if let loc = cordinate["location"] as? NSDictionary{
                                 self.selectedAddress.lat =  loc.getDoubleValue("lat")
@@ -268,6 +272,12 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
                         }
                     } else if let data = json["result"] as? NSArray {
                         self.selectedAddress.address = data[0].getStringValue("formatted_address")
+                        if let address_components = data[0]["address_components"] as? NSArray {
+                            if address_components.count > 0 {
+                                self.selectedAddress.name = (address_components[0] as! NSDictionary )["short_name"] as! String
+                            }
+                        }
+
                         if let cordinate = data[0]["geometry"] as? NSDictionary {
                             if let loc = cordinate["location"] as? NSDictionary {
                                 self.selectedAddress.lat =  loc.getDoubleValue("lat")
@@ -314,6 +324,8 @@ extension NSDictionary{
     }
 }
 
+//Operation for call location related API : 
+//Added by vikash
 class LocationOperation: NSOperation {
     var url : NSURL!
     var block: ((NSDictionary) -> Void)?

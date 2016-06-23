@@ -64,7 +64,16 @@ class RoundedButton: UIButton {
 class RoundedLabel: UILabel {
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = self.bounds.size.height/2
+        self.layer.cornerRadius = self.bounds.size.height / 2
+        self.layer.masksToBounds = true
+    }
+}
+
+class RoundedLabelWithWidthRatio: UILabel {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        font = font.fontWithSize(font.pointSize * _widthRatio)
+        self.layer.cornerRadius = (self.bounds.size.height * _widthRatio ) / 2
         self.layer.masksToBounds = true
     }
 }

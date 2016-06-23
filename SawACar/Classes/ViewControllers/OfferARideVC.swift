@@ -16,6 +16,8 @@ class OfferARideVC: ParentVC {
     @IBOutlet var txtFrom: UITextField!
     @IBOutlet var txtTo: UITextField!
     
+    var travel = Travel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setRoundCircleUI()
@@ -26,18 +28,14 @@ class OfferARideVC: ParentVC {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "SBSegue_toAddTravel" {
+            let addTravelVC = segue.destinationViewController as! AddTravelStep1VC
+            addTravelVC.travel  = self.travel
+        }
     }
-    */
-
 
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
@@ -66,7 +64,9 @@ extension OfferARideVC {
     }
     
     @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
+        if self.validateLoction() {
+            self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
+        }
     }
 }
 
@@ -76,12 +76,27 @@ extension OfferARideVC {
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
                 if type == .From {
-                    self.txtFrom.text = place.address
+                    self.txtFrom.text = place.name
+                    self.travel.locationFrom = place
                 } else {
-                    self.txtTo.text = place.address
+                    self.txtTo.text = place.name
+                    self.travel.locationTo = place
                 }
             }
         }
         self.presentViewController(loctionPicker, animated: true, completion: nil)
+    }
+    
+    //Fuction valiation 
+    func validateLoction()-> Bool {
+        guard let _ = travel.locationFrom else {
+            showToastMessage("", message: "From Location not defined.")
+            return false
+        }
+        guard let _ = travel.locationTo else {
+            showToastMessage("", message: "To Location not defined.")
+            return false
+        }
+        return true
     }
 }

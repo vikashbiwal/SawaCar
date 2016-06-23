@@ -51,7 +51,7 @@ class DContainerVC: ParentVC {
         findTabbar()
         setSliderMenus()
         
-        transparentControl = UIControl(frame: containerView.bounds)
+        transparentControl = UIControl(frame: self.view.bounds)
         transparentControl.addTarget(self, action: #selector(DContainerVC.shutterAction(_:)), forControlEvents: .TouchUpInside)
         transparentControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
         transparentControl.alpha = 0
