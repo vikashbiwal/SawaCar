@@ -15,9 +15,16 @@ class Travel {
     var locationStop1:  FullAddress?
     var locationStop2:  FullAddress?
     var locationStop3:  FullAddress?
-    var departureDate:  String!
-    var departureHour:  String!
+   
+    var departureDate : String!
+    var departureHour : String!
     var departureMinute:String!
+    var repeatType    : Int!
+    var repeatEndDate : String!
+    var roundDate     : String!
+    var roundHour     : String!
+    var roundMinute   : String!
+    
     var departureFelexiblity: String!
     var driverId: String!
     var carId:    String!
@@ -29,4 +36,41 @@ class Travel {
     var ladiesOnly = false
     var trackingEnable = false
     var detail: String!
+}
+
+
+class Car {
+    var id:String!
+    var name: String!
+    var userId: String!
+    var model: String!
+    var seatCounter: VCounterRange = (1,1,9)
+    var photo: String!
+    var productionYear: String!
+    var details: String!
+    var insurance: Bool = false
+    var rating: Int = 0
+    var isActive = true
+    var company: Company!
+    var color: Color!
+    
+    init() {
+    //code here
+    }
+    
+    init(_ info: [String : AnyObject]) {
+        id = RConverter.string(info["CarID"])
+        name = RConverter.string(info["CarName"])
+        userId = RConverter.string(info["UserID"])
+        model = RConverter.string(info["Model"])
+        seatCounter.value = RConverter.integer(info["Seats"])
+        photo = RConverter.string(info["Photo"])
+        productionYear = RConverter.string(info["ProductionYear"])
+        insurance = RConverter.boolean(info["Insurance"])
+        rating = RConverter.integer(info["Rating"])
+        isActive = RConverter.boolean(info["Active"])
+        details = RConverter.string(info["Details"])
+        company = Company(info)
+        color = Color(info)
+    }
 }

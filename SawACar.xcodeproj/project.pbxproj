@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03078EA41D05469F009450BB /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03078EA21D05469F009450BB /* SBDriver.storyboard */; };
 		03078EA81D05495F009450BB /* DContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03078EA71D05495F009450BB /* DContainerVC.swift */; };
 		0309B4CB1D13E6E900E9B3FA /* VExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */; };
 		030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5401D1404B0000D3948 /* Fabric.framework */; };
@@ -47,6 +46,9 @@
 		034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */; };
 		034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */; };
 		034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */; };
+		035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 035AE6F91D1D1E2100028EFE /* VPickerView.xib */; };
+		035AE6FC1D1D1E3B00028EFE /* VPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */; };
+		035AE6FD1D1D533100028EFE /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03078EA21D05469F009450BB /* SBDriver.storyboard */; };
 		036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A89531CBB7A9E00DFB631 /* Main.storyboard */; };
 		036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 036A89561CBB7A9E00DFB631 /* SawACar.xcdatamodeld */; };
 		036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */; };
@@ -131,6 +133,8 @@
 		034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		035AE6F91D1D1E2100028EFE /* VPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPickerView.xib; sourceTree = "<group>"; };
+		035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPickerView.swift; sourceTree = "<group>"; };
 		036A894C1CBB7A9E00DFB631 /* SawACar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SawACar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		036A89541CBB7A9E00DFB631 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		036A89571CBB7A9E00DFB631 /* SawACar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SawACar.xcdatamodel; sourceTree = "<group>"; };
@@ -250,6 +254,8 @@
 			children = (
 				031316A61D1BB2C40096077A /* CustomViews.xib */,
 				031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */,
+				035AE6F91D1D1E2100028EFE /* VPickerView.xib */,
+				035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -360,9 +366,9 @@
 		036A89641CBB7D0100DFB631 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				036A896C1CBB7E0300DFB631 /* AppDelegate */,
 				031316A51D1BB2C40096077A /* CustomViews */,
 				03E7E6A81CBD13E600DB7723 /* Cells */,
-				036A896C1CBB7E0300DFB631 /* AppDelegate */,
 				036A896B1CBB7DB400DFB631 /* ViewControllers */,
 				036A896A1CBB7D9B00DFB631 /* Models */,
 				036A89731CBB80E200DFB631 /* Other */,
@@ -387,9 +393,9 @@
 			children = (
 				036F29311CBBD19200931121 /* General.swift */,
 				03E7E6981CBCBFD200DB7723 /* User.swift */,
-				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
-				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
 				03162F9C1D1A7DF700869987 /* Travel.swift */,
+				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
+				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -602,13 +608,14 @@
 				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
 				034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */,
 				0327CDA81D057AD600D51DE4 /* SBPassanger.storyboard in Resources */,
+				035AE6FD1D1D533100028EFE /* SBDriver.storyboard in Resources */,
+				035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */,
 				034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */,
 				036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */,
 				032360141D0838F40004CDA9 /* car_image.jpg in Resources */,
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
 				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
-				03078EA41D05469F009450BB /* SBDriver.storyboard in Resources */,
 				0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */,
 				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
 				034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */,
@@ -709,6 +716,7 @@
 				03F65D451CBBDE8700C44B5A /* ObjcHelper.m in Sources */,
 				03E7E6AC1CBD14A500DB7723 /* ParentVC.swift in Sources */,
 				03F65D341CBBDE8700C44B5A /* CollectionExtension.swift in Sources */,
+				035AE6FC1D1D1E3B00028EFE /* VPickerView.swift in Sources */,
 				036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */,
 				03F65D3A1CBBDE8700C44B5A /* UIImageExtension.swift in Sources */,
 				03F65D431CBBDE8700C44B5A /* JPUtility.swift in Sources */,

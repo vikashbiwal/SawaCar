@@ -25,7 +25,9 @@ class AddTravelStep2VC: ParentVC {
         _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
-
+    override func viewWillDisappear(animated: Bool) {
+        _defaultCenter.removeObserver(self)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

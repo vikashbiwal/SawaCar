@@ -10,7 +10,7 @@ import UIKit
 
 
 enum ListType {
-    case AccountType, Language, Currency
+    case AccountType, Language, Currency, CarCompany, Color
 }
 
 
@@ -56,6 +56,12 @@ class ListViewController: ParentVC {
         } else if listType == .Currency {
             lblTitle.text = "Currencies"
             getCurrencies()
+        } else if listType == .CarCompany {
+            lblTitle.text = "Compnay"
+            getCarCompanies()
+        } else if listType == .Color {
+            lblTitle.text = "Color"
+            getColors()
         }
     }
     
@@ -152,8 +158,10 @@ extension ListViewController {
                     for item in arr {
                         let Id = RConverter.string(item["AccountTypeID"])
                         let name = RConverter.string(item["Name"])
-                        let at = ListItem(id: Id, name: name)
-                        self.listItems.append(at)
+                        let li = ListItem(id: Id, name: name)
+                        let at = AccountType(info: item)
+                        li.obj = at
+                        self.listItems.append(li)
                     }
                     self.filteredItems = self.listItems
                     self.tableView.reloadData()
@@ -177,8 +185,8 @@ extension ListViewController {
                         let Id = RConverter.string(item["LanguageID"])
                         let name = RConverter.string(item["Name"])
                         let code = RConverter.string(item["Code"])
-                        let at = ListItem(id: Id, name: name, code: code)
-                        self.listItems.append(at)
+                        let li = ListItem(id: Id, name: name, code: code)
+                        self.listItems.append(li)
                     }
                     self.filteredItems = self.listItems
                     self.tableView.reloadData()
@@ -216,6 +224,60 @@ extension ListViewController {
             self.hideCentralGraySpinner()
         }
     }
+    
+    //Get List of Currencies
+    func getCarCompanies()  {
+        self.showCentralGraySpinner()
+        wsCall.getCarCompanies { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    let arr = json["Object"] as! [[String : AnyObject]]
+                    self.listItems.removeAll()
+                    for item in arr {
+                        let Id = RConverter.string(item["CompanyID"])
+                        let name = RConverter.string(item["Name"])
+                        let company = Company(item)
+                        let listItem = ListItem(id: Id, name: name)
+                        listItem.obj = company
+                        self.listItems.append(listItem)
+                    }
+                    self.filteredItems = self.listItems
+                    self.tableView.reloadData()
+                }
+            } else {
+                showToastMessage("", message: response.message!)
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+    
+    //Get List of Currencies
+    func getColors()  {
+        self.showCentralGraySpinner()
+        wsCall.getColors { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    let arr = json["Object"] as! [[String : AnyObject]]
+                    self.listItems.removeAll()
+                    for item in arr {
+                        let Id = RConverter.string(item["ColorID"])
+                        let name = RConverter.string(item["Name"])
+                        let color = Color(item)
+                        let listItem = ListItem(id: Id, name: name)
+                        listItem.obj = color
+                        self.listItems.append(listItem)
+                    }
+                    self.filteredItems = self.listItems
+                    self.tableView.reloadData()
+                }
+            } else {
+                showToastMessage("", message: response.message!)
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+
+
 }
 
 //MARK: List Item to handle all type of item

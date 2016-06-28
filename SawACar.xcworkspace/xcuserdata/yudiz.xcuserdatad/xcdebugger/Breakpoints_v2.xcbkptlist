@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SawACar/Classes/ViewControllers/AddTravelStep2VC.swift"
-            timestampString = "488380326.98844"
+            timestampString = "488460340.985752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "counterBtnClicked(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SawACar/Classes/ViewControllers/AddTravelStep2VC.swift"
-            timestampString = "488380326.98844"
+            timestampString = "488460340.985752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "valueFromCounterRange(_:)"
             landmarkType = "5">
          </BreakpointContent>

@@ -435,21 +435,20 @@ extension ProfileViewController {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
        
         if forAction == .Nationality {
-            cListVC.selectedCountryId = user.nationalityId
+            cListVC.selectedCountryId = user.nationality.Id
             cListVC.titleString = "Nationality"
         } else  {
-            cListVC.selectedCountryId = user.countryId
+            cListVC.selectedCountryId = user.country.Id
             cListVC.titleString = "Countries"
         }
         
         cListVC.completionBlock = {(country) in
             if forAction == .Nationality {
-                self.user.nationalityId = country.Id
+                self.user.nationality = country
                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
             } else  if forAction == .Country {
-                self.user.countryId = country.Id
-                self.user.mobileCountryCode = country.dialCode
+                self.user.country = country
                 let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
             }
@@ -459,12 +458,13 @@ extension ProfileViewController {
     
     func openAccountTypeListVC(indexPath: NSIndexPath)  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.preSelectedIDs = [user.accountTypeId]
+        cListVC.preSelectedIDs = [user.accountType.Id]
         cListVC.listType = ListType.AccountType
         cListVC.completionBlock = {(items) in
-            self.user.accountTypeId = items.first!.Id
+            let acType = items.first!.obj as! AccountType
+            self.user.accountType = acType
             let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
-            cell?.txtField.text = items.first!.name
+            cell?.txtField.text = acType.name
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
@@ -533,57 +533,57 @@ extension ProfileViewController {
     //MARK: Set Menu Items and UI as per seleted menu
     func changeMenuItems(menu: Menu)  {
         if menu.type == .Profile {
-            menuItems = [CellItem(title: "First Name",      value: user.firstname,  txtFieldType: .FirstName),
-                         CellItem(title: "Last Name",       value: user.lastname,   txtFieldType: .LastName),
-                         CellItem(title: "Gender",          value: user.gender,     txtFieldType: .Gender, enable: false),
-                         CellItem(title: "Birth Year",      value: user.birthYear,  txtFieldType: .BirthDate, enable: false),
-                         CellItem(title: "Mobile",          value: user.mobile,     txtFieldType: .MobileNo, keyboardType: .NumberPad),
-                         CellItem(title: "Nationality",     value: user.nationalityId, txtFieldType: .Nationality, enable: false),
-                         CellItem(title: "Country",         value: user.countryId,  txtFieldType: .Country, enable: false),
-                         CellItem(title: "Account Type",    value: user.accountTypeId, txtFieldType: .AccountType, enable: false)]
+            menuItems = [CellItem(title: "First Name",      value: user.firstname,      txtFieldType: .FirstName),
+                         CellItem(title: "Last Name",       value: user.lastname,       txtFieldType: .LastName),
+                         CellItem(title: "Gender",          value: user.gender,         txtFieldType: .Gender, enable: false),
+                         CellItem(title: "Birth Year",      value: user.birthYear,      txtFieldType: .BirthDate, enable: false),
+                         CellItem(title: "Mobile",          value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad),
+                         CellItem(title: "Nationality",     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
+                         CellItem(title: "Country",         value: user.country.name,      txtFieldType: .Country, enable: false),
+                         CellItem(title: "Account Type",    value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
             
         } else if menu.type == .ChangePass {
-            menuItems = [CellItem(title: "Old Password",    value: user.oldPassword, txtFieldType: .OldPassword),
-                         CellItem(title: "Password",        value: user.password, txtFieldType: .Password),
-                         CellItem(title: "Confirm Password",value: user.confPass, txtFieldType: .ConfirmPass),
-                         CellItem(title: "Update",          value: "Update", txtFieldType: .None)]
+            menuItems = [CellItem(title: "Old Password",    value: user.oldPassword,    txtFieldType: .OldPassword),
+                         CellItem(title: "Password",        value: user.password,       txtFieldType: .Password),
+                         CellItem(title: "Confirm Password",value: user.confPass,       txtFieldType: .ConfirmPass),
+                         CellItem(title: "Update",          value: "Update",            txtFieldType: .None)]
             
         } else if menu.type == .SocialLink {
-            menuItems = [CellItem(title: "WhatsApp",    value: user.social.Whatsapp, txtFieldType: .WhatsApp),
-                         CellItem(title: "Line",        value: user.social.Line, txtFieldType: .Line),
-                         CellItem(title: "Tango",       value: user.social.Tango, txtFieldType: .Tango),
-                         CellItem(title: "Telegram",    value: user.social.Telegram, txtFieldType: .Telegram),
-                         CellItem(title: "Facebook",    value: user.social.Facebook, txtFieldType: .Facebook),
-                         CellItem(title: "Twitter",     value: user.social.Twitter, txtFieldType: .Twitter)]
+            menuItems = [CellItem(title: "WhatsApp",    value: user.social.Whatsapp,    txtFieldType: .WhatsApp),
+                         CellItem(title: "Line",        value: user.social.Line,        txtFieldType: .Line),
+                         CellItem(title: "Tango",       value: user.social.Tango,       txtFieldType: .Tango),
+                         CellItem(title: "Telegram",    value: user.social.Telegram,    txtFieldType: .Telegram),
+                         CellItem(title: "Facebook",    value: user.social.Facebook,    txtFieldType: .Facebook),
+                         CellItem(title: "Twitter",     value: user.social.Twitter,     txtFieldType: .Twitter)]
             
         } else if menu.type == .Details {
-            menuItems = [CellItem(title: "Member Since:",       value: user.createDate, txtFieldType: .None),
-                         CellItem(title: "Last Login:",         value: "25/04/2016", txtFieldType: .None),
-                         CellItem(title: "Last Activity Date:", value: "25/04/2016", txtFieldType: .None),
-                         CellItem(title: "Number of Travels:",  value: "15",         txtFieldType: .None),
-                         CellItem(title: "Contacts:",           value: "12",         txtFieldType: .None),
-                         CellItem(title: "Email:",              value: user.EmailVerifiedString,   txtFieldType: .None),
-                         CellItem(title: "Phone Number:",       value: user.MobileVerifiedString, txtFieldType: .None),
+            menuItems = [CellItem(title: "Member Since:",       value: user.createDate,             txtFieldType: .None),
+                         CellItem(title: "Last Login:",         value: "25/04/2016",                txtFieldType: .None),
+                         CellItem(title: "Last Activity Date:", value: "25/04/2016",                txtFieldType: .None),
+                         CellItem(title: "Number of Travels:",  value: "15",                        txtFieldType: .None),
+                         CellItem(title: "Contacts:",           value: "12",                        txtFieldType: .None),
+                         CellItem(title: "Email:",              value: user.EmailVerifiedString,    txtFieldType: .None),
+                         CellItem(title: "Phone Number:",       value: user.MobileVerifiedString,   txtFieldType: .None),
                          CellItem(title: "Facebook:",           value: user.FacebookVeriedString,   txtFieldType: .None)]
             
         } else  { //Settings
             
-            menuItems = [CellItem(title: "Show email to others",    value: user.preference.showEmail,       settingType: .ShowEmail,    icon: "ic_show_email", header: "General"),
-                         CellItem(title: "Show mobile to others",   value: user.preference.showMobile,      settingType: .ShowMobile,   icon: "ic_show_mobile"),
+            menuItems = [CellItem(title: "Show email to others",    value: user.preference.showEmail,       settingType: .ShowEmail,        icon: "ic_show_email", header: "General"),
+                         CellItem(title: "Show mobile to others",   value: user.preference.showMobile,      settingType: .ShowMobile,       icon: "ic_show_mobile"),
                          CellItem(title: "Visible in search",       value: user.preference.visibleInSearch, settingType: .VisibleInSearch,  icon: "ic_visible_search"),
                          CellItem(title: "Accept special order",    value: user.preference.specialOrder,    settingType: .SpecialOrder,     icon: "ic_accept_special"),
                          CellItem(title: "Accept Monitoring",       value: user.preference.acceptMonitring, settingType: .AcceptMonitring,  icon: "ic_monitoring"),
                          
-                         CellItem(title: "Communication Language",  value: "English", settingType: .CommunicationLanguage, icon: "ic_communication_lang", header: "Language"),
-                         CellItem(title: "Speaking Language",       value: "English, French", settingType: .SpeackingLanguage, icon: "ic_speaking_lang"),
+                         CellItem(title: "Communication Language",  value: "English",           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language"),
+                         CellItem(title: "Speaking Language",       value: "English, French",   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
                          
-                         CellItem(title: "Children",        value: user.preference.kids,   settingType: .Children, icon: "ic_childreb", header: "My Rules"),
-                         CellItem(title: "Pets",            value: user.preference.pets,   settingType: .Pets, icon: "ic_pets"),
-                         CellItem(title: "Stop for pray",   value: user.preference.prayingStop, settingType: .StopForPray, icon: "ic_pray"),
-                         CellItem(title: "Food and Drinks", value: user.preference.food, settingType: .FoodAndDrink, icon: "ic_food_drink"),
-                         CellItem(title: "Music",   value: user.preference.music,   settingType: .Music, icon: "ic_music"),
-                         CellItem(title: "Quran",   value: user.preference.quran,   settingType: .Quran, icon: "ic_quran"),
-                         CellItem(title: "Smoking", value: user.preference.smoking, settingType: .Smoking, icon: "ic_smoking")]
+                         CellItem(title: "Children",        value: user.preference.kids,        settingType: .Children,     icon: "ic_childreb", header: "My Rules"),
+                         CellItem(title: "Pets",            value: user.preference.pets,        settingType: .Pets,         icon: "ic_pets"),
+                         CellItem(title: "Stop for pray",   value: user.preference.prayingStop, settingType: .StopForPray,  icon: "ic_pray"),
+                         CellItem(title: "Food and Drinks", value: user.preference.food,        settingType: .FoodAndDrink, icon: "ic_food_drink"),
+                         CellItem(title: "Music",           value: user.preference.music,       settingType: .Music,        icon: "ic_music"),
+                         CellItem(title: "Quran",           value: user.preference.quran,       settingType: .Quran,        icon: "ic_quran"),
+                         CellItem(title: "Smoking",         value: user.preference.smoking,     settingType: .Smoking,      icon: "ic_smoking")]
             
         }
         

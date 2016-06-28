@@ -30,7 +30,7 @@
                         <action selector="doneBtnClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="XMe-hU-pyj"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wmG-DP-zfa" customClass="JPWidthButton" customModule="SawACar" customModuleProvider="target">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wmG-DP-zfa" customClass="JPWidthButton" customModule="SawACar" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="60" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="02Y-AA-Bm6"/>

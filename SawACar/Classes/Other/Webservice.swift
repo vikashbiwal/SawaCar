@@ -47,6 +47,13 @@ extension Webservice {
         jprint("=======WS = GetLanguages=======")
         getRequest(urlWithMethod("GetLanguages"), param: nil, block: block)
     }
+    
+    func getColors(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllColors
+        jprint("=======WS = GetAllColors=======")
+        getRequest(urlWithMethod("GetAllColors"), param: nil, block: block)
+    }
+
 }
 
 //MARK: User related WebServices
@@ -120,6 +127,22 @@ extension Webservice {
     }
 }
 
+//MARK: Car: AddCar, DeleteCar, UpdateCar, GetUserCars, GetAllCarCompanies
+extension Webservice {
+    func getCarCompanies(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCarCompanies
+        jprint("=======WS = GetAllCarCompanies=======")
+        getRequest(urlWithMethod("GetAllCarCompanies"), param: nil, block: block)
+    }
+    
+    func addCar(params: [String : AnyObject], block: WSBlock)  {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=AddCar
+        //Parameters: UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
+        jprint("=======WS = AddCar=======")
+        postRequest(urlWithMethod("AddCar"), param:params, block: block)
+    }
+    
+}
 
 //MARK: Webservice Inialization and Afnetworking setup
 class Webservice: NSObject {

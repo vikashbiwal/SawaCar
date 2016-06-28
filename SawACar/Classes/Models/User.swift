@@ -26,19 +26,20 @@ class User : NSCoder {
     var email: String!
     var mobile: String!
     var mobileCountryCode: String!
-    var nationalityId: String!
-    var countryId: String!
     var language: String!
     var isMobileVerified: Bool   = false
     var isEmailVerified: Bool    = false
     var isFacebookVerified: Bool = false
     var lastLoginTime: String!
     var createDate: String!
-    var accountTypeId: String!
     var isTermsAccepted: Bool!
     var rating = 0
+    
     var preference: UserPreference!
     var social : UserSocial!
+    var country: Country!
+    var nationality: Country!
+    var accountType: AccountType!
     
     var password: String! = ""
     var confPass: String! = ""
@@ -61,14 +62,15 @@ class User : NSCoder {
         email = ""
         mobile = ""
         mobileCountryCode = ""
-        nationalityId = ""
-        countryId = ""
         language = ""
-        accountTypeId = ""
         lastLoginTime = ""
         createDate = ""
         social = UserSocial()
         preference = UserPreference()
+        country = Country()
+        nationality = Country()
+        accountType = AccountType()
+        
     }
     
     // inialize user from json got from server
@@ -83,10 +85,7 @@ class User : NSCoder {
         email = RConverter.string(info["Email"])
         mobile = RConverter.string(info["MobileNumber"])
         mobileCountryCode = RConverter.string(info["MobileCountryCode"])
-        nationalityId = RConverter.string(info["NationalityID"])
-        countryId = RConverter.string(info["CountryID"])
         language = RConverter.string(info["DefaultLanguage"])
-        accountTypeId = RConverter.string(info["AccountTypeID"])
         lastLoginTime = RConverter.string(info["LastLoginDate"])
         createDate = convertTimeStampToLocalDateString(RConverter.string(info["CreateDate"]))
         photo      =  kWSDomainURL + RConverter.string(info["Photo"])
@@ -98,6 +97,10 @@ class User : NSCoder {
         
         preference = UserPreference(info: info)
         social = UserSocial(info: info)
+        country = Country(info: info)
+        nationality = Country(info: info)
+        accountType = AccountType(info: info)
+
     }
     
     
@@ -166,9 +169,9 @@ extension User {
                       "Password": password,
                       "Gender": gender == "Male" ? true : false,
                       "YearOfBirth": birthYear,
-                      "NationalityID": nationalityId,
-                      "CountryID": countryId,
-                      "MobileCountryCode": mobileCountryCode,
+                      "NationalityID": nationality.Id,
+                      "CountryID": country.Id,
+                      "MobileCountryCode": country.dialCode,
                       "MobileNumber": mobile]
         return params as! [String : AnyObject]
     }
@@ -187,12 +190,12 @@ extension User {
                       "LastName": lastname,
                       "Gender": gender == "Male" ? true : false,
                       "YearOfBirth": birthYear,
-                      "NationalityID": nationalityId,
-                      "CountryID": countryId,
-                      "MobileCountryCode": mobileCountryCode,
+                      "NationalityID": nationality.Id,
+                      "CountryID": country.Id,
+                      "MobileCountryCode": country.dialCode,
                       "MobileNumber": mobile,
                       "Bio": bio,
-                      "AccountTypeID": accountTypeId]
+                      "AccountTypeID": accountType.Id]
         return params as! [String : AnyObject]
     }
     
@@ -295,10 +298,10 @@ extension User {
     }
     
     func validateLocationInfo() -> (isValid :Bool, message: String) {
-        if nationalityId.isEmpty {
+        if nationality.Id.isEmpty {
             return (false, kNationalityValidateMsg)
         }
-        if countryId.isEmpty {
+        if country.Id.isEmpty {
             return (false, kCountryValidateMsg)
         }
         return (true, "Success")

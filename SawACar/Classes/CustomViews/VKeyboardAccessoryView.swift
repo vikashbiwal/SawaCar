@@ -9,10 +9,7 @@
 import UIKit
 
 class VKeyboardAccessoryView: UIView {
-    enum KBAction {
-        case Cancel, Done
-    }
-    var actionBlock: (KBAction)->Void = {_ in}
+    var actionBlock: (VAction)->Void = {_ in}
     
     override func awakeFromNib() {
         

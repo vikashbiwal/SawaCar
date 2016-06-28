@@ -37,19 +37,9 @@ let _widthRatio             = _screenSize.width/375
 //var _userAuth: UserAuth! = nil
 var me: User! = nil
 
-let _serverFormatter: NSDateFormatter = {
-    let df = NSDateFormatter()
-    df.dateFormat = "dd-MM-yyyy"
-    return df
-}()
+let dateFormator: NSDateFormatter = {let df = NSDateFormatter(); df.dateFormat = "dd/MM/yyyy"; return df;}()
 
 
-let _serverFormatter3: NSDateFormatter = {
-    let df = NSDateFormatter()
-    // 2016-04-06T07:32:17Z
-    df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-    return df
-}()
 
 // MARK: App Messages
 // Sign Up validation
@@ -117,17 +107,6 @@ func unArchiveObjectForKey(key: String) -> AnyObject? {
     return nil
 }
 
-//Convert timestamp string to date string
-func convertTimeStampToLocalDateString(timeStampString: String)-> String {
-    if !timeStampString.isEmpty {
-        let index = timeStampString.startIndex.advancedBy(10)
-        let timeStamp = NSTimeInterval(Double(timeStampString.substringToIndex(index))!)
-        let date = NSDate(timeIntervalSince1970: timeStamp)
-        return _serverFormatter.stringFromDate(date)
-    }
-    return ""
-}
-
 func convertTimeStampToLocalDate(timeStampString: String)-> NSDate? {
     if !timeStampString.isEmpty {
         let index = timeStampString.startIndex.advancedBy(10)
@@ -138,3 +117,13 @@ func convertTimeStampToLocalDate(timeStampString: String)-> NSDate? {
     return nil
 }
 
+//Convert timestamp string to date string
+func convertTimeStampToLocalDateString(timeStampString: String)-> String {
+    if !timeStampString.isEmpty {
+        let index = timeStampString.startIndex.advancedBy(10)
+        let timeStamp = NSTimeInterval(Double(timeStampString.substringToIndex(index))!)
+        let date = NSDate(timeIntervalSince1970: timeStamp)
+        return dateFormator.stringFromDate(date, format: "dd-MM-yyyy")
+    }
+    return ""
+}

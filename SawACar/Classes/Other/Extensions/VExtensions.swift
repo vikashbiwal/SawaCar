@@ -88,3 +88,9 @@ class IndexPathTextField: JPWidthTextField {
     var indexpath: NSIndexPath!
 }
 
+
+//============================= Enums ===================================
+enum VAction {
+    case Cancel, Done
+}
+

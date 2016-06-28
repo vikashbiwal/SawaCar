@@ -12,7 +12,6 @@ class AddTravelStep1VC: ParentVC {
 
     var isLoading = false
     var travel: Travel!
-    lazy var dateFormator: NSDateFormatter = {let df = NSDateFormatter(); df.dateFormat = "dd/MM/yyyy"; return df;}()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,29 +139,36 @@ extension AddTravelStep1VC {
                 if let dt = date {
                     if type == 1 {//Repeat End date
                         let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblTime.text = self.dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-                        
+                        cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                        self.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
                     } else if type == 2 {//Departure Date
                         let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblDate.text = self.dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-                        self.travel.departureDate = self.dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+                        cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                        self.travel.roundDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
                         
                     } else if type == 3 {//Departure Time
                         let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-                        let timeString = self.dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
+                        let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
                         let timeArr = timeString.componentsSeparatedByString(":")
                         
-                        cell?.lblTime.text = self.dateFormator.stringFromDate(dt, format: "hh:mm a")
-                        self.travel.departureHour = timeArr[0]
-                        self.travel.departureMinute = timeArr[1]
+                        cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
+                        self.travel.roundHour = timeArr[0]
+                        self.travel.roundMinute = timeArr[1]
                         
                     } else if type == 4 {//Ride Date
                         let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblDate.text = self.dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-                        
+                        cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                        self.travel.departureDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+
                     } else if type == 5 {//Ride Time
                         let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblTime.text = self.dateFormator.stringFromDate(dt, format: "hh:mm a")
+                        let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
+                        let timeArr = timeString.componentsSeparatedByString(":")
+                        
+                        cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
+                        self.travel.departureHour = timeArr[0]
+                        self.travel.departureMinute = timeArr[1]
+
                     }
                 }
                 self.isLoading = false
@@ -180,10 +186,12 @@ extension AddTravelStep1VC {
         let dayTypeAction = UIAlertAction(title: "Day", style: .Default) { (action) in
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
             cell?.lblDate.text = "Day"
+            self.travel.repeatType = 1
         }
         let monthTypeAction = UIAlertAction(title: "Month", style: .Default) { (action) in
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
             cell?.lblDate.text = "Month"
+            self.travel.repeatType = 2
         }
         
         sheet.addAction(dayTypeAction)

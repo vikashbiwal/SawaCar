@@ -289,25 +289,24 @@ extension SignUpVC {
     func openCountryList(forAction : SignUpFormActionType)  {
         let cListVC = self.storyboard?.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
         if forAction == .NationalityAction {
-            cListVC.selectedCountryId = user.nationalityId
+            cListVC.selectedCountryId = user.nationality.Id
             cListVC.titleString = "Nationality"
         } else  {
-            cListVC.selectedCountryId = user.countryId
+            cListVC.selectedCountryId = user.country.Id
             cListVC.titleString = "Countries"
         }
         
-        cListVC.completionBlock = {(country) in
+        cListVC.completionBlock = {(country) in 
             let cells = self.CollectionView.visibleCells()
             let cell = cells.first as! SignUpCollectionViewCell
 
             if forAction == .NationalityAction {
-                self.user.nationalityId = country.Id
+                self.user.nationality = country
                 let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
                 tblcell.txtField.text = country.name
                 
             } else  {
-                self.user.countryId = country.Id
-                self.user.mobileCountryCode = country.dialCode
+                self.user.country = country
                 let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as! TVSignUpFormCell
                 tblcell.txtField.text = country.name
             }

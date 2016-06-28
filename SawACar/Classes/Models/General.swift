@@ -15,11 +15,18 @@ class Country {
     var dialCode: String!
     var name: String!
     
+    init() {
+        Id       = ""
+        code     = ""
+        dialCode = ""
+        name     = ""
+    }
+    
     init(info: [String : AnyObject]) {
-        Id = RConverter.string(info["CountryID"]);
-        code = RConverter.string(info["CountryCode"])
+        Id       = RConverter.string(info["CountryID"]);
+        code     = RConverter.string(info["CountryCode"])
         dialCode = RConverter.string(info["CountryDialCode"])
-        name = RConverter.string(info["CountryName"])
+        name     = RConverter.string(info["CountryName"])
     }
 }
 
@@ -31,6 +38,14 @@ class Currency {
     var country: String!
     var symbol: String!
     
+    init() {
+        Id      = ""
+        code    = ""
+        name    = ""
+        country = ""
+        symbol  = ""
+    }
+
     init(info : [String : AnyObject]) {
         Id      = RConverter.string(info["CurrencyID"])
         code    = RConverter.string(info["CurrencyCode"])
@@ -42,13 +57,43 @@ class Currency {
 }
 
 
-//MARKL: AccountType
+//MARK: AccountType
 class AccountType {
     var Id: String
     var name: String
-    
+
+    init() {
+        //
+        Id = ""
+        name = ""
+    }
+
     init(info: [String : AnyObject]) {
         Id = RConverter.string(info["AccountTypeID"])
+        if let _ = info["AccountTypeName"] { //field with user info
+            name = RConverter.string(info["AccountTypeName"])
+        } else { //field with acount type List api
+            name = RConverter.string(info["Name"])
+        }
+    }
+}
+
+//MARK: Company
+class Company {
+    var Id: String!
+    var name: String!
+    init(_ info: [String : AnyObject]) {
+        Id = RConverter.string(info["CompanyID"])
+        name = RConverter.string(info["Name"])
+    }
+}
+
+//MARK: Color
+class Color {
+    var Id: String!
+    var name: String!
+    init(_ info: [String : AnyObject]) {
+        Id = RConverter.string(info["ColorID"])
         name = RConverter.string(info["Name"])
     }
 }
