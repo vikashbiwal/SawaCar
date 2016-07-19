@@ -51,11 +51,19 @@ class Car {
     var insurance: Bool = false
     var rating: Int = 0
     var isActive = true
-    var company: Company!
-    var color: Color!
+    var company: Company?
+    var color: Color?
     
     init() {
     //code here
+        id = ""
+        name = ""
+        userId = ""
+        model = ""
+        productionYear = ""
+        photo = kWSDomainURL
+        details = ""
+        
     }
     
     init(_ info: [String : AnyObject]) {
@@ -64,7 +72,23 @@ class Car {
         userId = RConverter.string(info["UserID"])
         model = RConverter.string(info["Model"])
         seatCounter.value = RConverter.integer(info["Seats"])
-        photo = RConverter.string(info["Photo"])
+        photo = kWSDomainURL +  RConverter.string(info["Photo"])
+        productionYear = RConverter.string(info["ProductionYear"])
+        insurance = RConverter.boolean(info["Insurance"])
+        rating = RConverter.integer(info["Rating"])
+        isActive = RConverter.boolean(info["Active"])
+        details = RConverter.string(info["Details"])
+        company = Company(info)
+        color = Color(info)
+    }
+    
+    func setInfo(info: [String : AnyObject]) {
+        id = RConverter.string(info["CarID"])
+        name = RConverter.string(info["CarName"])
+        userId = RConverter.string(info["UserID"])
+        model = RConverter.string(info["Model"])
+        seatCounter.value = RConverter.integer(info["Seats"])
+        photo = kWSDomainURL +  RConverter.string(info["Photo"])
         productionYear = RConverter.string(info["ProductionYear"])
         insurance = RConverter.boolean(info["Insurance"])
         rating = RConverter.integer(info["Rating"])

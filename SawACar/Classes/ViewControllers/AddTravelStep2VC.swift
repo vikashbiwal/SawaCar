@@ -343,4 +343,66 @@ extension AddTravelStep2VC {
 
 }
 
+//MARK: API Calls
+extension AddTravelStep2VC {
+    //MARK: AddTravel API
+    func addTravelAPICall () {
+        var parameters = [String : AnyObject]()
+        let fromLocation = ["Latitude" : travel.locationFrom!.lat.ToString(),
+                            "Longitude" : travel.locationFrom!.long.ToString(),
+                            "Address" : travel.locationFrom!.address]
+        let toLocation = ["Latitude" : travel.locationTo!.lat.ToString(),
+                          "Longitude" : travel.locationTo!.long.ToString(),
+                          "Address" : travel.locationTo!.address]
+        
+        parameters["LocationFrom"] = fromLocation
+        parameters["LocationTo"] = toLocation
+        parameters["DepartureDate"]  = travel.departureDate
+        parameters["DepartureHour"] = travel.departureHour
+        parameters["DepartureMinute"] = travel.departureMinute
+        parameters["RepeatType"]    = travel.repeatType.ToString()
+        parameters["RepeatEndDate"] = travel.repeatEndDate
+        parameters["RoundDate"]     = travel.roundDate
+        parameters["RoundHour"]     = travel.roundHour
+        parameters["RoundMinute"]   = travel.roundMinute
+        parameters["Tracking"]      = travel.trackingEnable
+        parameters["LadiesOnly"]    = travel.ladiesOnly
+        parameters["Seats"]         = travel.travelSeat.value.ToString()
+        parameters["Luggages"]      = travel.travelLuggage.value.ToString()
+        parameters["PassengerPrice"] = travel.passengerPrice.value.ToString()
+        parameters["CarPrice"]       = travel.carPice.value.ToString()
+        parameters["CarID"]         = travel.carId
+        parameters["DriverID"]      = travel.driverId
+        
+        if let stop1 = travel.locationStop1 {
+            let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
+                                 "Longitude": stop1.long.ToString(),
+                                 "Address"  : stop1.address]
+            parameters["LocationStop1"] = LocationStop1
+        }
+
+        if let stop2 = travel.locationStop2 {
+            let LocationStop2 = ["Latitude" : stop2.lat.ToString(),
+                                 "Longitude": stop2.long.ToString(),
+                                 "Address"  : stop2.address]
+            parameters["LocationStop2"] = LocationStop2
+        }
+
+        if let stop3 = travel.locationStop3 {
+            let LocationStop3 = ["Latitude" : stop3.lat.ToString(),
+                                 "Longitude": stop3.long.ToString(),
+                                 "Address"  : stop3.address]
+            parameters["LocationStop3"] = LocationStop3
+        }
+       
+        //Api call
+        wsCall.addTravel(parameters) { (response, flag) in
+            if response.isSuccess {
+            
+            } else {
+            
+            }
+        }
+    }
+}
 

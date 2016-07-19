@@ -11,9 +11,6 @@
 		0309B4CB1D13E6E900E9B3FA /* VExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */; };
 		030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5401D1404B0000D3948 /* Fabric.framework */; };
 		030BF5431D1404B0000D3948 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5411D1404B0000D3948 /* Crashlytics.framework */; };
-		0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0310322A1D0E7D8F0024531A /* ValidationToast.swift */; };
-		0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322B1D0E7D8F0024531A /* ValidationToast.xib */; };
-		0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */; };
 		031032331D0EB0BC0024531A /* VDatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031032311D0EB0BC0024531A /* VDatePickerVC.swift */; };
 		031316A81D1BB2C40096077A /* CustomViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 031316A61D1BB2C40096077A /* CustomViews.xib */; };
 		031316A91D1BB2C40096077A /* VKeyboardAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */; };
@@ -46,6 +43,8 @@
 		034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */; };
 		034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */; };
 		034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */; };
+		0349D8461D3E0C7E00B17976 /* AppMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0349D8451D3E0C7E00B17976 /* AppMessages.swift */; };
+		034BA1521D3CB9EB0050F0AC /* TravelDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */; };
 		035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 035AE6F91D1D1E2100028EFE /* VPickerView.xib */; };
 		035AE6FC1D1D1E3B00028EFE /* VPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */; };
 		035AE6FD1D1D533100028EFE /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03078EA21D05469F009450BB /* SBDriver.storyboard */; };
@@ -55,6 +54,9 @@
 		036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A896D1CBB7E2700DFB631 /* AppDelegate.swift */; };
 		036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A89701CBB7E6500DFB631 /* LoginVC.swift */; };
 		036F29321CBBD19200931121 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036F29311CBBD19200931121 /* General.swift */; };
+		038F50ED1D22859400E28B5D /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038F50EA1D22859400E28B5D /* ValidationToast.swift */; };
+		038F50EE1D22859400E28B5D /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EB1D22859400E28B5D /* ValidationToast.xib */; };
+		038F50EF1D22859400E28B5D /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EC1D22859400E28B5D /* ValidationToastBar.xib */; };
 		03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */ = {isa = PBXBuildFile; fileRef = 03E7E6961CBCBDAE00DB7723 /* WSReponse.text */; };
 		03E7E6991CBCBFD200DB7723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6981CBCBFD200DB7723 /* User.swift */; };
 		03E7E69B1CBCEED300DB7723 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */; };
@@ -98,9 +100,6 @@
 		0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VExtensions.swift; sourceTree = "<group>"; };
 		030BF5401D1404B0000D3948 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		030BF5411D1404B0000D3948 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		0310322A1D0E7D8F0024531A /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
-		0310322B1D0E7D8F0024531A /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
-		0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
 		031032311D0EB0BC0024531A /* VDatePickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDatePickerVC.swift; sourceTree = "<group>"; };
 		031316A61D1BB2C40096077A /* CustomViews.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomViews.xib; sourceTree = "<group>"; };
 		031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKeyboardAccessoryView.swift; sourceTree = "<group>"; };
@@ -133,6 +132,8 @@
 		034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		0349D8451D3E0C7E00B17976 /* AppMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppMessages.swift; sourceTree = "<group>"; };
+		034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelDetailVC.swift; sourceTree = "<group>"; };
 		035AE6F91D1D1E2100028EFE /* VPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPickerView.xib; sourceTree = "<group>"; };
 		035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPickerView.swift; sourceTree = "<group>"; };
 		036A894C1CBB7A9E00DFB631 /* SawACar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SawACar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +144,9 @@
 		036A896D1CBB7E2700DFB631 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		036A89701CBB7E6500DFB631 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		036F29311CBBD19200931121 /* General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
+		038F50EA1D22859400E28B5D /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
+		038F50EB1D22859400E28B5D /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
+		038F50EC1D22859400E28B5D /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
 		03E7E6961CBCBDAE00DB7723 /* WSReponse.text */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = WSReponse.text; sourceTree = "<group>"; };
 		03E7E6981CBCBFD200DB7723 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -218,7 +222,7 @@
 			children = (
 				031316AA1D1C0E560096077A /* Cars */,
 				030F8B381D09860800B652EA /* DriverContainerVC */,
-				0327CDAD1D05A7FB00D51DE4 /* OfferARide */,
+				0327CDAD1D05A7FB00D51DE4 /* Travel */,
 			);
 			name = Driver;
 			sourceTree = "<group>";
@@ -229,16 +233,6 @@
 				03078EA71D05495F009450BB /* DContainerVC.swift */,
 			);
 			name = DriverContainerVC;
-			sourceTree = "<group>";
-		};
-		031032291D0E7D8F0024531A /* ValidationToast */ = {
-			isa = PBXGroup;
-			children = (
-				0310322A1D0E7D8F0024531A /* ValidationToast.swift */,
-				0310322B1D0E7D8F0024531A /* ValidationToast.xib */,
-				0310322C1D0E7D8F0024531A /* ValidationToastBar.xib */,
-			);
-			path = ValidationToast;
 			sourceTree = "<group>";
 		};
 		031032301D0EB0AF0024531A /* DatePicker */ = {
@@ -304,14 +298,15 @@
 			path = ../Other;
 			sourceTree = "<group>";
 		};
-		0327CDAD1D05A7FB00D51DE4 /* OfferARide */ = {
+		0327CDAD1D05A7FB00D51DE4 /* Travel */ = {
 			isa = PBXGroup;
 			children = (
 				0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */,
 				032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */,
 				031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */,
+				034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */,
 			);
-			name = OfferARide;
+			name = Travel;
 			sourceTree = "<group>";
 		};
 		034826C21CFC5B2E000B46AE /* Font */ = {
@@ -431,8 +426,9 @@
 			isa = PBXGroup;
 			children = (
 				03FD10661CBB8AA400695AE2 /* Constants.swift */,
+				0349D8451D3E0C7E00B17976 /* AppMessages.swift */,
+				038F50E91D22859400E28B5D /* ValidationToast */,
 				031032301D0EB0AF0024531A /* DatePicker */,
-				031032291D0E7D8F0024531A /* ValidationToast */,
 				034826C21CFC5B2E000B46AE /* Font */,
 				03F65D161CBBDE8700C44B5A /* Extensions */,
 				03F65D201CBBDE8700C44B5A /* ImpClasses */,
@@ -440,6 +436,16 @@
 				034826BE1CFC30ED000B46AE /* main.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		038F50E91D22859400E28B5D /* ValidationToast */ = {
+			isa = PBXGroup;
+			children = (
+				038F50EA1D22859400E28B5D /* ValidationToast.swift */,
+				038F50EB1D22859400E28B5D /* ValidationToast.xib */,
+				038F50EC1D22859400E28B5D /* ValidationToastBar.xib */,
+			);
+			path = ValidationToast;
 			sourceTree = "<group>";
 		};
 		03E7E6A11CBD0BE000DB7723 /* SignUpVC */ = {
@@ -600,9 +606,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0310322E1D0E7D8F0024531A /* ValidationToast.xib in Resources */,
 				031316A81D1BB2C40096077A /* CustomViews.xib in Resources */,
 				034826D11CFC5B46000B46AE /* OpenSans-Italic.ttf in Resources */,
+				038F50EE1D22859400E28B5D /* ValidationToast.xib in Resources */,
+				038F50EF1D22859400E28B5D /* ValidationToastBar.xib in Resources */,
 				034826CE1CFC5B46000B46AE /* OpenSans-BoldItalic.ttf in Resources */,
 				036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */,
 				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
@@ -616,7 +623,6 @@
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
 				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
-				0310322F1D0E7D8F0024531A /* ValidationToastBar.xib in Resources */,
 				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
 				034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */,
 				0327CDAC1D059C2A00D51DE4 /* Assets.xcassets in Resources */,
@@ -695,12 +701,12 @@
 				031032331D0EB0BC0024531A /* VDatePickerVC.swift in Sources */,
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
+				034BA1521D3CB9EB0050F0AC /* TravelDetailVC.swift in Sources */,
 				032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */,
 				03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */,
 				03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */,
 				0309B4CB1D13E6E900E9B3FA /* VExtensions.swift in Sources */,
 				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
-				0310322D1D0E7D8F0024531A /* ValidationToast.swift in Sources */,
 				03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */,
 				03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */,
 				032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */,
@@ -729,6 +735,7 @@
 				03162F9D1D1A7DF700869987 /* Travel.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
 				032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */,
+				038F50ED1D22859400E28B5D /* ValidationToast.swift in Sources */,
 				031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */,
 				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,
 				031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */,
@@ -739,6 +746,7 @@
 				03F65D441CBBDE8700C44B5A /* LazyLoader.swift in Sources */,
 				03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */,
 				031316AE1D1C0E8C0096077A /* CarListVC.swift in Sources */,
+				0349D8461D3E0C7E00B17976 /* AppMessages.swift in Sources */,
 				03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */,
 				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,
 				03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */,

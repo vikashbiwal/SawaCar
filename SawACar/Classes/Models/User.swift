@@ -14,12 +14,12 @@ enum UserMode: Int {
 }
 
 //MARK: User
-class User : NSCoder {
+class User  {
     var Id: String!
     var firstname: String!
     var lastname: String!
     var fullname: String!
-    var birthYear: String!
+    var birthDate: String!
     var gender: String!
     var bio: String!
     var photo: String!
@@ -34,6 +34,7 @@ class User : NSCoder {
     var createDate: String!
     var isTermsAccepted: Bool!
     var rating = 0
+    var numberOfTravels: Int = 0
     
     var preference: UserPreference!
     var social : UserSocial!
@@ -51,13 +52,13 @@ class User : NSCoder {
     var FacebookVeriedString: String {get {return self.isFacebookVerified ? "Verified" : "Not Verified"}}
     
     //Default initialize
-    override init() {
+     init() {
         Id = ""
         firstname = ""
         lastname = ""
         fullname = ""
         gender = ""
-        birthYear = ""
+        birthDate = ""
         bio = ""
         email = ""
         mobile = ""
@@ -80,21 +81,25 @@ class User : NSCoder {
         lastname = RConverter.string(info["LastName"])
         fullname = RConverter.string(info["FullName"])
         gender = RConverter.boolean(info["Gender"]) ? "Male" : "Female"
-        birthYear = RConverter.string(info["YearOfBirth"])
+        birthDate = RConverter.string(info["YearOfBirth"])
         bio = RConverter.string(info["Bio"])
         email = RConverter.string(info["Email"])
         mobile = RConverter.string(info["MobileNumber"])
         mobileCountryCode = RConverter.string(info["MobileCountryCode"])
         language = RConverter.string(info["DefaultLanguage"])
-        lastLoginTime = RConverter.string(info["LastLoginDate"])
-        createDate = convertTimeStampToLocalDateString(RConverter.string(info["CreateDate"]))
         photo      =  kWSDomainURL + RConverter.string(info["Photo"])
         isMobileVerified = RConverter.boolean(info["IsMobileVerified"])
         isEmailVerified = RConverter.boolean(info["IsEmailVerified"])
         isTermsAccepted = RConverter.boolean(info["IsTermsAccepted"])
         isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
         rating = RConverter.integer(info["Rating"])
-        
+        numberOfTravels = RConverter.integer(info["TravelsNumber"])
+       
+        let crDate = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
+        createDate = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
+        let llT = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
+        lastLoginTime = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy HH:mm:ss")
+
         preference = UserPreference(info: info)
         social = UserSocial(info: info)
         country = Country(info: info)
@@ -168,7 +173,7 @@ extension User {
                       "LastName": lastname,
                       "Password": password,
                       "Gender": gender == "Male" ? true : false,
-                      "YearOfBirth": birthYear,
+                      "YearOfBirth": birthDate,
                       "NationalityID": nationality.Id,
                       "CountryID": country.Id,
                       "MobileCountryCode": country.dialCode,
@@ -189,7 +194,7 @@ extension User {
                       "FirstName": firstname,
                       "LastName": lastname,
                       "Gender": gender == "Male" ? true : false,
-                      "YearOfBirth": birthYear,
+                      "YearOfBirth": birthDate,
                       "NationalityID": nationality.Id,
                       "CountryID": country.Id,
                       "MobileCountryCode": country.dialCode,
@@ -280,7 +285,7 @@ extension User {
     }
     
     func validateBirthInfo() -> (isValid :Bool, message: String) {
-        if birthYear.isEmpty {
+        if birthDate.isEmpty {
             return (false, kBirthYearRequired)
         }
         return (true, "Success")
@@ -309,6 +314,42 @@ extension User {
     }
     //End signup validation
     
+    //MARK: Edit Person Info validation
+    func validateEditPersonalInfo() -> (isValid :Bool, message: String) {
+        if firstname.isEmpty {
+            return (false, kFirstnameIsRequired)
+        }
+        if lastname.isEmpty {
+            return (false, kLastnameIsRequired)
+        }
+        
+        if gender.isEmpty {
+            return (false, kGenderValidateMsg)
+        }
+
+        if birthDate.isEmpty {
+            return (false, kBirthYearRequired)
+        }
+
+        if mobile.isEmpty {
+            return (false, kMobileNumberIsRequired)
+        } else {
+            if !mobile.isValidMobileNumber() {
+                return (false, kInvalidMobileNumber)
+            }
+        }
+
+        if nationality.Id.isEmpty {
+            return (false, kNationalityValidateMsg)
+        }
+        
+        if country.Id.isEmpty {
+            return (false, kCountryValidateMsg)
+        }
+
+        return (true, "Success")
+    }
+
     //MARK: Login validation
     func validateLoginProcess() -> (isValid: Bool, msg: String) {
         if email.isEmpty {
@@ -387,7 +428,7 @@ struct UserPreference {
         quran       = RConverter.boolean(info["PreferencesQuran"])
         
         communicationLanguage = RConverter.string(info["DefaultLanguage"])
-        speackingLanguage    = ["English", "Germen"]// info["SpokenLanguages"] as! [String]
+        speackingLanguage    =  info["SpokenLanguages"] as! [String]
     }
 }
 

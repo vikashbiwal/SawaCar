@@ -8,6 +8,7 @@
 
 import UIKit
 
+private let fontColor = UIColor.colorWithRGB(r: 103, g: 103, b: 103)
 class AddCarVC: ParentVC {
 
     @IBOutlet var lblCompanyName: UILabel!
@@ -20,6 +21,7 @@ class AddCarVC: ParentVC {
     @IBOutlet var lblDetailPlaceHolder: UILabel!
     @IBOutlet var btnSeatCounterMinus: UIButton!
     @IBOutlet var btnSeatCounterPlus: UIButton!
+    @IBOutlet var imgVCar: UIImageView!
     
     var isLoading = false
     var yearPicker: VPickerView!
@@ -51,6 +53,9 @@ class AddCarVC: ParentVC {
         yearPicker = views[0] as! VPickerView
         yearPicker.actionBlock = {[unowned self](action, value, idx) in
             self.lblProYear.text = value
+            self.lblProYear.textColor = fontColor
+            self.car.productionYear = value
+
         }
         var years = [String]()
         for year in (1970...2016).reverse() {
@@ -74,6 +79,16 @@ class AddCarVC: ParentVC {
 
 //MARK: IBActions
 extension AddCarVC {
+    
+    @IBAction func saveBtnClicked(sender: UIButton) {
+        let process = validateAddCarProcess()
+        if process.isValid {
+            self.addCarAPICall()
+        } else {
+            showToastMessage("", message: process.message)
+        }
+    }
+    
     @IBAction func carCompanyBtnClicked(sender: UIButton) {
         openCompanyListVC()
     }
@@ -103,6 +118,7 @@ extension AddCarVC {
         }
         
         lblSeatCount.text = "\(car.seatCounter.value)"
+        lblSeatCount.textColor = fontColor
     }
     
     @IBAction func yearPickerbtnClicked(sender: UIButton) {
@@ -111,7 +127,16 @@ extension AddCarVC {
     }
     
     @IBAction func txtFieldDidChangeText(sender: UITextField) {
-        car.details = sender.text
+       
+        if sender === txtModel {
+            car.model = sender.text
+        } else if sender === txtDetail {
+            car.details = sender.text
+        }
+    }
+    
+    @IBAction func carImageBtnClicked(sender: UIButton) {
+        showActionForImagePick()
     }
     
 }
@@ -145,6 +170,51 @@ extension AddCarVC {
     }
 }
 
+//MARK: ImagePicker action for profile image setup
+extension AddCarVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    //Show ActionSheet to Choose image for profile picture
+    func showActionForImagePick() {
+        self.view.endEditing(true)
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let cancelAction  = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cameraActiton = UIAlertAction(title: "Take a Photo", style: .Default) { (action) in
+            self.openCamera()
+        }
+        let galleryAction = UIAlertAction(title: "Choose from Gallery", style: .Default) { (action) in
+            self.openGallery()
+        }
+        sheet.addAction(cameraActiton)
+        sheet.addAction(galleryAction)
+        sheet.addAction(cancelAction)
+        self.presentViewController(sheet, animated: true, completion: nil)
+    }
+    
+    func openCamera()  {
+        let iPicker = UIImagePickerController()
+        iPicker.delegate = self
+        iPicker.sourceType = .Camera
+        iPicker.allowsEditing = true
+        self.presentViewController(iPicker, animated: true, completion: nil)
+    }
+    
+    
+    func openGallery()  {
+        let iPicker = UIImagePickerController()
+        iPicker.delegate = self
+        iPicker.sourceType = .PhotoLibrary
+        iPicker.allowsEditing = true
+        self.presentViewController(iPicker, animated: true, completion: nil)
+        
+    }
+
+    //Image Picker delegate method
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        imgVCar.image = image
+        picker.dismissViewControllerAnimated(true , completion: nil)
+    }
+}
+
 //MARK: Others
 extension AddCarVC {
     //navigate to select Car Company
@@ -156,6 +226,7 @@ extension AddCarVC {
                 let company = item.obj as! Company
                 self.lblCompanyName.text = company.name
                 self.car.company = company
+                self.lblCompanyName.textColor = fontColor
             }
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
@@ -169,27 +240,97 @@ extension AddCarVC {
                 let color = item.obj as! Color
                 self.lblColor.text = color.name
                 self.car.color = color
+                self.lblColor.textColor = fontColor
             }
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
-
-    //MARK: Show DatePicker
-    func openDatePicker(type: Int) {
-        if !isLoading {
-            isLoading = true
-            let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
-            datepickerVC.datePickerMode = UIDatePickerMode.Date
-            
-            datepickerVC.completionBlock = {(date) in
-                if let dt = date {
-                    self.lblProYear.text =  dateFormator.stringFromDate(dt, format: "yyyy")
-                }
-                self.isLoading = false
-            }
-            datepickerVC.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-            self.presentViewController(datepickerVC, animated: true, completion: nil)
+    
+    func validateAddCarProcess()-> (isValid: Bool, message: String) {
+        guard let _ = car.company else {
+            return (false, kCarCompanyRequired)
         }
+        
+        if car.model.isEmpty {
+            return (false, kCarModelRequired)
+        }
+        
+        if car.productionYear.isEmpty {
+            return (false, kCarProductionYearRequired)
+        }
+        
+        guard let _ = car.color else {
+            return (false, kCarColorRequired)
+        }
+        
+        if car.details.isEmpty {
+            return (false, kCarDetailRequired)
+        }
+        
+        return (true, "Success")
+
     }
 
 }
+
+//MARK: API Calls
+extension AddCarVC {
+
+    //MARK: Add Car API
+    func addCarAPICall() {
+        self.showCentralGraySpinner()
+        let params = ["UserID" : me.Id,
+                      "CompanyID" : car.company!.Id,
+                      "Model" : car.model,
+                      "ColorID" : car.color!.Id,
+                      "Seats" : car.seatCounter.value.ToString(),
+                      "Details" : car.details,
+                      "ProductionYear" : car.productionYear,
+                      "Insurance" : car.insurance,
+                      "Photo" : ""]
+        wsCall.addCar(params as! [String : AnyObject]) { (response, flag) in
+            if response.isSuccess {
+                let carInfo = response.json!["Object"] as! [String : AnyObject]
+                self.car.setInfo(carInfo)
+                 self.addCarImageAPICall(self.car.id)
+            } else {
+                showToastMessage("", message: response.message!)
+                self.hideCentralGraySpinner()
+            }
+        }
+    }
+    
+    func addCarImageAPICall(carid: String) {
+        let carImageData = imgVCar.image!.mediumQualityJPEGNSData
+        wsCall.updateCarImage(carImageData, carId: carid) { (response, flag) in
+            if response.isSuccess {
+              let imageURL = response.json!["Object"] as! String
+                self.car.photo = kWSDomainURL + imageURL
+            } else  {
+            
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+}
+
+
+
+//    //MARK: Show DatePicker
+//    func openDatePicker(type: Int) {
+//        if !isLoading {
+//            isLoading = true
+//            let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
+//            datepickerVC.datePickerMode = UIDatePickerMode.Date
+//
+//            datepickerVC.completionBlock = {(date) in
+//                if let dt = date {
+//                    let year = dateFormator.stringFromDate(dt, format: "yyyy")
+//                    self.lblProYear.text = year
+//                }
+//                self.isLoading = false
+//            }
+//            datepickerVC.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+//            self.presentViewController(datepickerVC, animated: true, completion: nil)
+//        }
+//    }

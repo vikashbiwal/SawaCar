@@ -181,7 +181,7 @@ extension SignUpVC {
                 self.openCountryList(.CountryAction)
                 
             } else if action == .DatePickerAction {
-                self.user.birthYear = value
+                self.user.birthDate = value
             }
         }
     }

@@ -103,8 +103,8 @@ class ValidationToast: UIView {
     
     // MARK: - Toast Functions
     private func setToastMessage(message: String) {
-        let font = UIFont(name: "Avenir-Book", size: 14.0)!
-        let color = UIColor.redColor()
+        let font = UIFont(name: "Avenir-Book", size: (14.0 * _widthRatio))!
+        let color = UIColor.whiteColor()
         let mutableString = NSMutableAttributedString(string: message)
         let range = NSMakeRange(0, message.characters.count)
         mutableString.addAttribute(NSFontAttributeName, value: font, range: range)
@@ -143,6 +143,6 @@ class ValidationToast: UIView {
 }
 
 func showToastMessage(title: String, message: String) {
-    ValidationToast.showBarMessage(message, title: title, inView: nil)
+    ValidationToast.showBarMessage(message, title: title, inView: nil, withColor: UIColor.colorWithRGB(r: 117, g: 189, b: 95))
 }
 

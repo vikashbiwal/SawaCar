@@ -10,6 +10,18 @@ import Foundation
 
 //============================= Extensions ===================================
 
+extension Int {
+    func ToString() -> String {
+        return "\(self)"
+    }
+}
+
+extension Double {
+    func ToString() -> String {
+        return "\(self)"
+    }
+}
+
 extension UIView {
     //Draw a shadow
     func drawShadow() {
@@ -54,8 +66,12 @@ extension NSDateFormatter {
         self.dateStyle = style
         return self.stringFromDate(date)
     }
+    
+    func dateFromString(strDate: String, fomat: String) -> NSDate? {
+        self.dateFormat = fomat
+        return self.dateFromString(strDate)
+    }
 }
-
 
 
 //============================= SubClasses ===================================

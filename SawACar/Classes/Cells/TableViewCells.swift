@@ -33,6 +33,7 @@ class TVSignUpFormCell: TVGenericeCell {
     @IBOutlet var dtPicker: UIDatePicker!
     
     override func awakeFromNib() {
+        super.awakeFromNib()
     }
 }
 

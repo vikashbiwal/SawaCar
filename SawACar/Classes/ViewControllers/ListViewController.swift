@@ -102,12 +102,20 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UISear
         } else {
             cell.lblTitle.text = item.name
         }
-        if preSelectedIDs.contains(item.Id) || item.selected {
-            cell.accessoryType = .Checkmark
-        } else {
-            cell.accessoryType = .None
-        }
         
+        if listType == .Language {
+            if preSelectedIDs.contains(item.code) || item.selected {
+                cell.accessoryType = .Checkmark
+            } else {
+                cell.accessoryType = .None
+            }
+        } else {
+            if preSelectedIDs.contains(item.Id) || item.selected {
+                cell.accessoryType = .Checkmark
+            } else {
+                cell.accessoryType = .None
+            }
+        }
         return cell
     }
     

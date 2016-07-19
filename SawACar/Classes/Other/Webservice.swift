@@ -142,7 +142,27 @@ extension Webservice {
         postRequest(urlWithMethod("AddCar"), param:params, block: block)
     }
     
+    func updateCarImage(imgData: NSData, carId: String, block: WSBlock) {
+       //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateCarImage&CarID=39
+        jprint("=======WS = UpdateCarImage=======")
+        uploadImage(imgData, relativepath: urlWithMethod("UpdateCarImage&CarID=\(carId)"), param: nil, block: block)
+    }
+    
 }
+
+//MARK: Travel - AddTravel, GetTravel, UpdateTravel, DeleteTravel
+extension Webservice {
+    func addTravel(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravel
+        //Parameters: LocationFrom, LocationTo, LocationStop1, LocationStop2, LocationStop3
+        //DepartureDate, DepartureHour, DepartureMinute, DriverID, CarID, CurrencyID, CarPrice,
+        //PassengerPrice, Luggages, Seats, LadiesOnly, Tracking, Details, RepeatType, RepeatEndDate,
+        //RoundDate, RoundHour, RoundMinute, DepartureFlexibility
+        jprint("=======WS = AddTravel=======")
+        postRequest(urlWithMethod("AddTravel"), param:params, block: block)
+    }
+}
+
 
 //MARK: Webservice Inialization and Afnetworking setup
 class Webservice: NSObject {

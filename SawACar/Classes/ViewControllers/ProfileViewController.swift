@@ -34,7 +34,7 @@ class ProfileViewController: ParentVC {
     var menuItems = [CellItem]()
     lazy var dateFomator: NSDateFormatter = { //formator for birthdate
         let df = NSDateFormatter()
-        df.dateFormat = "yyyy"
+        df.dateFormat = "dd/MM/yyyy"
         return df
     }()
     
@@ -74,18 +74,22 @@ extension ProfileViewController {
     
     @IBAction func editBtnCliclicked(sender: UIButton) {
         if isEditMode {
-            editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
-            editBtn.setTitle("", forState: .Normal)
-            
             if selectedMenu.type == .Profile {
-                self.updateProfile()
+                let process = user.validateEditPersonalInfo()
+                if process.isValid {
+                    self.updateProfileAPICall()
+                } else {
+                    showToastMessage("", message: process.message)
+                    return
+                }
             } else if selectedMenu.type == .SocialLink {
-                self.updateSocialLinks()
+                self.updateSocialLinksAPICall()
             } else if selectedMenu.type == .Settings {
-                self.updateUserPreference()
+                self.updateUserPreferenceAPICall()
             }
             icnAddPhoto.hidden = true
-
+            editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
+            editBtn.setTitle("", forState: .Normal)
         } else  {
             editBtn.setImage(nil, forState: .Normal)
             editBtn.setTitle("Save", forState: .Normal)
@@ -95,7 +99,6 @@ extension ProfileViewController {
             }
         }
         isEditMode = !isEditMode
-
     }
     
     @IBAction func profileImgBtnClicked(sender: UIButton) {
@@ -420,9 +423,9 @@ extension ProfileViewController {
             let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
             datepickerVC.completionBlock = {(date) in
                 if let date = date {
-                    self.user.birthYear = self.dateFomator.stringFromDate(date)
+                    self.user.birthDate = self.dateFomator.stringFromDate(date)
                     let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
-                    cell?.txtField.text =  self.user.birthYear
+                    cell?.txtField.text =  self.user.birthDate
                 }
                 self.isLoading = false
             }
@@ -473,8 +476,10 @@ extension ProfileViewController {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Language
         if type == .CommunicationLanguage {
+            cListVC.preSelectedIDs = [user.preference.communicationLanguage]
         } else {
             cListVC.enableMultipleChoice = true
+            cListVC.preSelectedIDs = user.preference.speackingLanguage
         }
         cListVC.completionBlock = {(items) in
             let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? ProfileSettingCell
@@ -525,7 +530,7 @@ extension ProfileViewController {
     func setUserInfo() {
         lblFullName.text = user.fullname
         lblGender.text = user.gender
-        lblBirthDate.text = user.birthYear
+        lblBirthDate.text = user.birthDate
         imgVUserProfile.setImageWithURL(NSURL(string: user.photo)!, placeholderImage: user.placeholderImage)
         imgVCover.setImageWithURL(NSURL(string: user.photo)!,placeholderImage: user.placeholderImage)
     }
@@ -536,7 +541,7 @@ extension ProfileViewController {
             menuItems = [CellItem(title: "First Name",      value: user.firstname,      txtFieldType: .FirstName),
                          CellItem(title: "Last Name",       value: user.lastname,       txtFieldType: .LastName),
                          CellItem(title: "Gender",          value: user.gender,         txtFieldType: .Gender, enable: false),
-                         CellItem(title: "Birth Year",      value: user.birthYear,      txtFieldType: .BirthDate, enable: false),
+                         CellItem(title: "Birth Year",      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
                          CellItem(title: "Mobile",          value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad),
                          CellItem(title: "Nationality",     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
                          CellItem(title: "Country",         value: user.country.name,      txtFieldType: .Country, enable: false),
@@ -558,9 +563,9 @@ extension ProfileViewController {
             
         } else if menu.type == .Details {
             menuItems = [CellItem(title: "Member Since:",       value: user.createDate,             txtFieldType: .None),
-                         CellItem(title: "Last Login:",         value: "25/04/2016",                txtFieldType: .None),
-                         CellItem(title: "Last Activity Date:", value: "25/04/2016",                txtFieldType: .None),
-                         CellItem(title: "Number of Travels:",  value: "15",                        txtFieldType: .None),
+                         CellItem(title: "Last Login:",         value: user.lastLoginTime,          txtFieldType: .None),
+                         CellItem(title: "Last Activity Date:", value: user.lastLoginTime,          txtFieldType: .None),
+                         CellItem(title: "Number of Travels:",  value: user.numberOfTravels.ToString(), txtFieldType: .None),
                          CellItem(title: "Contacts:",           value: "12",                        txtFieldType: .None),
                          CellItem(title: "Email:",              value: user.EmailVerifiedString,    txtFieldType: .None),
                          CellItem(title: "Phone Number:",       value: user.MobileVerifiedString,   txtFieldType: .None),
@@ -574,8 +579,8 @@ extension ProfileViewController {
                          CellItem(title: "Accept special order",    value: user.preference.specialOrder,    settingType: .SpecialOrder,     icon: "ic_accept_special"),
                          CellItem(title: "Accept Monitoring",       value: user.preference.acceptMonitring, settingType: .AcceptMonitring,  icon: "ic_monitoring"),
                          
-                         CellItem(title: "Communication Language",  value: "English",           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language"),
-                         CellItem(title: "Speaking Language",       value: "English, French",   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
+                         CellItem(title: "Communication Language",  value: user.preference.communicationLanguage,           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language"),
+                         CellItem(title: "Speaking Language",       value: user.preference.speackingLanguage.joinWithSeparator(", "),   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
                          
                          CellItem(title: "Children",        value: user.preference.kids,        settingType: .Children,     icon: "ic_childreb", header: "My Rules"),
                          CellItem(title: "Pets",            value: user.preference.pets,        settingType: .Pets,         icon: "ic_pets"),
@@ -623,7 +628,7 @@ extension ProfileViewController {
     }
     
     //Update Profile Info
-    func updateProfile() {
+    func updateProfileAPICall() {
         self.showCentralGraySpinner()
         user.updateProfileInfo { (response, flag) in
             if response.isSuccess {
@@ -657,7 +662,7 @@ extension ProfileViewController {
     }
     
     //Update Social Links
-    func updateSocialLinks() {
+    func updateSocialLinksAPICall() {
         self.showCentralGraySpinner()
         user.updateSocialInfo { (response, flag) in
             if response.isSuccess {
@@ -677,7 +682,7 @@ extension ProfileViewController {
     }
     
     //Update User Preference from Setting tab
-    func updateUserPreference() {
+    func updateUserPreferenceAPICall() {
         self.showCentralGraySpinner()
         user.updateUserPreference { (response, flag) in
             if response.isSuccess {

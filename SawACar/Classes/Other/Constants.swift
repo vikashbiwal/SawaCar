@@ -40,33 +40,6 @@ var me: User! = nil
 let dateFormator: NSDateFormatter = {let df = NSDateFormatter(); df.dateFormat = "dd/MM/yyyy"; return df;}()
 
 
-
-// MARK: App Messages
-// Sign Up validation
-let kEmailIsRequired            = "Email is required."
-let kEmailValidateMsg           = "Please enter a valid email address."
-let kCountryValidateMsg         = "Please select your country."
-let kNationalityValidateMsg     = "Please select your nationality."
-let kBirthYearValidateMsg       = "Please enter your birth year."
-let kGenderValidateMsg          = "Please select your gender."
-let kPasswordConfirmMsg         = "Password does not match."
-let kPasswordIsRequired         = "Password is required."
-let kConfimPassRequired         = "Please Re-Enter your password."
-let kOldPassRequired            = "Please enter your old password."
-let kPasswordWeekMsg            = "Passwords must be at least 8 characters long."
-let kBirthYearRequired          = "Year of birth is required."
-let kFirstnameIsRequired        = "First name is required."
-let kLastnameIsRequired         = "Last name is required."
-let kMobileNumberIsRequired     = "Mobile number is required."
-let kInvalidMobileNumber        = "Please enter a valid mobile number."
-
-let kLogoutConfirmMsg           = "Are you sure you want to logout?"
-let kChagneModeConfirmMsg       = "Are you sure you want to change your user mode?"
-let kServerError                = "Server Error"
-let kOldPassIsInvalid           = "Old password is invalid."
-let kProfileUpdateSuccess       = "Your profile updated successfully."
-let kSocialUpdatedSuccess       = "Your social link updated successfully."
-let kPreferenceSettingSucess    = "Your user preference settings updated successfully."
 // MARK: App Keys
 let kLoggedInUserKey            = "LoggedInUserKey"
 let UserModeKey                 = "UserModeKey"
