@@ -167,3 +167,13 @@ class TravelSwitchCell: TVGenericeCell {
         super.awakeFromNib()
     }
 }
+
+//MARK: Car list cell
+class TVCarCell : TVGenericeCell {
+    @IBOutlet var lblColor: UILabel!
+    @IBOutlet var lblRating: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+}

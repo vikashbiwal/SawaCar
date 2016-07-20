@@ -39,7 +39,7 @@ class Travel {
 }
 
 
-class Car {
+class Car: Equatable {
     var id:String!
     var name: String!
     var userId: String!
@@ -97,4 +97,9 @@ class Car {
         company = Company(info)
         color = Color(info)
     }
+}
+
+//conform Equatable Protocal for Car object
+func ==(lhs: Car, rhs: Car) -> Bool {
+    return lhs.id == rhs.id
 }

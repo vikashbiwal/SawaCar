@@ -318,6 +318,9 @@ extension AddTravelStep2VC {
     func openCurrencyListVC()  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Currency
+        if let currency = travel.currency {
+         cListVC.preSelectedIDs = [currency.Id]
+        }
         cListVC.completionBlock = {(items) in
             if let item = items.first {
                 let currency = item.obj as! Currency

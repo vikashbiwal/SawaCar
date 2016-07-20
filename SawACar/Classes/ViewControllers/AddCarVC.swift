@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let fontColor = UIColor.colorWithRGB(r: 103, g: 103, b: 103)
+private let extraGrayColor = UIColor.colorWithRGB(r: 103, g: 103, b: 103)
 class AddCarVC: ParentVC {
 
     @IBOutlet var lblCompanyName: UILabel!
@@ -21,17 +21,21 @@ class AddCarVC: ParentVC {
     @IBOutlet var lblDetailPlaceHolder: UILabel!
     @IBOutlet var btnSeatCounterMinus: UIButton!
     @IBOutlet var btnSeatCounterPlus: UIButton!
+    @IBOutlet var btnInsurance: UIButton!
     @IBOutlet var imgVCar: UIImageView!
     
+    var completionBlock: (Car)-> Void = {_ in}
     var isLoading = false
     var yearPicker: VPickerView!
     var car = Car()
+    var isEditMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         initializeYearPicker()
         setAccessoryViewForTextField()
+        setCarInfo()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,7 +57,7 @@ class AddCarVC: ParentVC {
         yearPicker = views[0] as! VPickerView
         yearPicker.actionBlock = {[unowned self](action, value, idx) in
             self.lblProYear.text = value
-            self.lblProYear.textColor = fontColor
+            self.lblProYear.textColor = extraGrayColor
             self.car.productionYear = value
 
         }
@@ -73,7 +77,25 @@ class AddCarVC: ParentVC {
             self.txtModel.resignFirstResponder()
             self.txtDetail.resignFirstResponder()
         }
-
+    }
+    
+    func setCarInfo() {
+        if isEditMode {
+            imgVCar.setImageWithURL(NSURL(string: car.photo)!)
+            lblCompanyName.text = car.company?.name
+            txtModel.text = car.model
+            txtDetail.text = car.details
+            btnInsurance.selected = car.insurance
+            lblSeatCount.text = car.seatCounter.value.ToString()
+            lblColor.text = car.color?.name
+            lblProYear.text = car.productionYear
+          
+            lblCompanyName.textColor = extraGrayColor
+            lblColor.textColor = extraGrayColor
+            lblSeatCount.textColor = extraGrayColor
+            lblProYear.textColor = extraGrayColor
+            lblDetailPlaceHolder.hidden = !car.details.isEmpty
+        }
     }
 }
 
@@ -83,7 +105,7 @@ extension AddCarVC {
     @IBAction func saveBtnClicked(sender: UIButton) {
         let process = validateAddCarProcess()
         if process.isValid {
-            self.addCarAPICall()
+            isEditMode ? self.updateCarAPICall() : self.addCarAPICall()
         } else {
             showToastMessage("", message: process.message)
         }
@@ -118,7 +140,7 @@ extension AddCarVC {
         }
         
         lblSeatCount.text = "\(car.seatCounter.value)"
-        lblSeatCount.textColor = fontColor
+        lblSeatCount.textColor = extraGrayColor
     }
     
     @IBAction func yearPickerbtnClicked(sender: UIButton) {
@@ -221,12 +243,15 @@ extension AddCarVC {
     func openCompanyListVC()  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.CarCompany
+        if let company = car.company {
+            cListVC.preSelectedIDs = [company.Id]
+        }
         cListVC.completionBlock = {(items) in
             if let item = items.first {
                 let company = item.obj as! Company
                 self.lblCompanyName.text = company.name
                 self.car.company = company
-                self.lblCompanyName.textColor = fontColor
+                self.lblCompanyName.textColor = extraGrayColor
             }
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
@@ -235,12 +260,16 @@ extension AddCarVC {
     func openColorListVC()  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Color
+        if let color = car.color {
+            cListVC.preSelectedIDs = [color.Id]
+        }
+
         cListVC.completionBlock = {(items) in
             if let item = items.first {
                 let color = item.obj as! Color
                 self.lblColor.text = color.name
                 self.car.color = color
-                self.lblColor.textColor = fontColor
+                self.lblColor.textColor = extraGrayColor
             }
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
@@ -268,7 +297,6 @@ extension AddCarVC {
         }
         
         return (true, "Success")
-
     }
 
 }
@@ -303,13 +331,39 @@ extension AddCarVC {
     func addCarImageAPICall(carid: String) {
         let carImageData = imgVCar.image!.mediumQualityJPEGNSData
         wsCall.updateCarImage(carImageData, carId: carid) { (response, flag) in
+            self.hideCentralGraySpinner()
             if response.isSuccess {
               let imageURL = response.json!["Object"] as! String
                 self.car.photo = kWSDomainURL + imageURL
+                showToastMessage("", message: "Car added succesfully.")
+                self.completionBlock(self.car)
+                self.parentBackAction(nil)
             } else  {
-            
             }
-            self.hideCentralGraySpinner()
+        }
+    }
+    
+    func updateCarAPICall() {
+        self.showCentralGraySpinner()
+        let params = ["CarID": car.id,
+                      "UserID" : me.Id,
+                      "CompanyID" : car.company!.Id,
+                      "Model" : car.model,
+                      "ColorID" : car.color!.Id,
+                      "Seats" : car.seatCounter.value.ToString(),
+                      "Details" : car.details,
+                      "ProductionYear" : car.productionYear,
+                      "Insurance" : car.insurance,
+                      "Photo" : ""]
+        
+        wsCall.updateCar(params as! [String : AnyObject]) { (response, flag) in
+            if response.isSuccess {
+                let carInfo = response.json!["Object"] as! [String : AnyObject]
+                self.car.setInfo(carInfo)
+                self.addCarImageAPICall(self.car.id)
+            } else {
+                self.hideCentralGraySpinner()
+            }
         }
     }
 }

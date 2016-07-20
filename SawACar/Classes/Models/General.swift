@@ -84,7 +84,11 @@ class Company {
     var name: String!
     init(_ info: [String : AnyObject]) {
         Id = RConverter.string(info["CompanyID"])
-        name = RConverter.string(info["Name"])
+        if let _ = info["CompanyName"] {
+            name =  RConverter.string(info["CompanyName"])
+        } else {
+            name = RConverter.string(info["Name"])
+        }
     }
 }
 
@@ -94,7 +98,11 @@ class Color {
     var name: String!
     init(_ info: [String : AnyObject]) {
         Id = RConverter.string(info["ColorID"])
-        name = RConverter.string(info["Name"])
+        if let _ = info["ColorName"] {
+            name =  RConverter.string(info["ColorName"])
+        } else {
+            name =  RConverter.string(info["Name"])
+        }
     }
 }
 

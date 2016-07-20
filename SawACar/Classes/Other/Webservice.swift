@@ -135,6 +135,12 @@ extension Webservice {
         getRequest(urlWithMethod("GetAllCarCompanies"), param: nil, block: block)
     }
     
+    func getCarOfUser(userId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserCars&UserID=128
+        jprint("=======WS = GetUserCars=======")
+        getRequest(urlWithMethod("GetUserCars&UserID=" + userId), param: nil, block: block)
+    }
+
     func addCar(params: [String : AnyObject], block: WSBlock)  {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddCar
         //Parameters: UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
@@ -142,11 +148,25 @@ extension Webservice {
         postRequest(urlWithMethod("AddCar"), param:params, block: block)
     }
     
+    func updateCar(params: [String : AnyObject], block: WSBlock)  {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateCar
+        //Parameters: CarID, UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
+        jprint("=======WS = UpdateCar=======")
+        postRequest(urlWithMethod("UpdateCar"), param:params, block: block)
+    }
+
     func updateCarImage(imgData: NSData, carId: String, block: WSBlock) {
        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateCarImage&CarID=39
         jprint("=======WS = UpdateCarImage=======")
         uploadImage(imgData, relativepath: urlWithMethod("UpdateCarImage&CarID=\(carId)"), param: nil, block: block)
     }
+    
+    func deleteCar(carId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=DeleteCar&CarID=89
+        jprint("=======WS = DeleteCar=======")
+        getRequest(urlWithMethod("DeleteCar&CarID=" + carId), param: nil, block: block)
+    }
+
     
 }
 
