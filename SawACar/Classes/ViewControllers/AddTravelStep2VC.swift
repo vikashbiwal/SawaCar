@@ -25,12 +25,26 @@ class AddTravelStep2VC: ParentVC {
         _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
+    
     override func viewWillDisappear(animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "SBSegue_ToCarList" {
+            let vc = segue.destinationViewController as! CarListVC
+            vc.selectedCar = travel.car
+            vc.completionBlock = {(car) in
+                self.travel.car = car
+                let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? StopoverCell
+                cell?.lblStop2.text = car.name
+            }
+        }
     }
 }
 
@@ -71,6 +85,7 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
             cellIdentifier = "CurrencyCarCell"
             let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StopoverCell
             cell.lblStop1.text = travel.currency == nil ? "Currency" : travel.currency!.name + "(\(travel.currency!.code))"
+            cell.lblStop2.text = travel.car == nil ? "Car" : travel.car!.name
             return cell
             
         } else if indexPath.row == 6 { //Publish BtnCell
@@ -131,6 +146,9 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
 //MARK: IBActions
 extension AddTravelStep2VC {
     
+    @IBAction func travelPublishBtnClicked(sender: UIButton) {
+        addTravelAPICall()
+    }
     @IBAction func currencyBtnClicked(sender: UIButton) {
         openCurrencyListVC()
     }
@@ -202,16 +220,16 @@ extension AddTravelStep2VC {
             let type = cell.steperForType
             switch type {
             case .NumberOfSeat:
-                cell.txtField.text = "\(travel.travelSeat.value)"
+                cell.txtField.text = travel.travelSeat.value.ToString()
                 break
             case .CarPrice:
-                cell.txtField.text = "\(travel.carPice.value)"
+                cell.txtField.text = travel.carPice.value.ToString()
                 break
             case .PassengerPrice:
-                cell.txtField.text =  "\(travel.passengerPrice.value)"
+                cell.txtField.text = travel.passengerPrice.value.ToString()
                 break
             case .NumberOfLuggage:
-                cell.txtField.text = "\(travel.travelLuggage.value)"
+                cell.txtField.text = travel.travelLuggage.value.ToString()
                 break
             default:
                 break
@@ -319,12 +337,13 @@ extension AddTravelStep2VC {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Currency
         if let currency = travel.currency {
-         cListVC.preSelectedIDs = [currency.Id]
+            cListVC.preSelectedIDs = [currency.Id]
         }
         cListVC.completionBlock = {(items) in
             if let item = items.first {
                 let currency = item.obj as! Currency
-                let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? StopoverCell
+                let indexPath = NSIndexPath(forRow: 1, inSection: 0)
+                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? StopoverCell
                 cell?.lblStop1.text = currency.name + " (\(currency.code))"
                 self.travel.currency = currency
                 self.tableView.reloadData()
@@ -374,14 +393,19 @@ extension AddTravelStep2VC {
         parameters["Luggages"]      = travel.travelLuggage.value.ToString()
         parameters["PassengerPrice"] = travel.passengerPrice.value.ToString()
         parameters["CarPrice"]       = travel.carPice.value.ToString()
-        parameters["CarID"]         = travel.carId
+        parameters["CarID"]         = travel.car!.id
         parameters["DriverID"]      = travel.driverId
+        parameters["DepartureFlexibility"] = "15"
+        parameters["CurrencyID"]    = travel.currency!.Id
+        parameters["Details"]       = ""
         
         if let stop1 = travel.locationStop1 {
             let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
                                  "Longitude": stop1.long.ToString(),
                                  "Address"  : stop1.address]
             parameters["LocationStop1"] = LocationStop1
+        } else {
+            parameters["LocationStop1"] = NSNull()
         }
 
         if let stop2 = travel.locationStop2 {
@@ -389,6 +413,8 @@ extension AddTravelStep2VC {
                                  "Longitude": stop2.long.ToString(),
                                  "Address"  : stop2.address]
             parameters["LocationStop2"] = LocationStop2
+        }  else {
+            parameters["LocationStop2"] = NSNull()
         }
 
         if let stop3 = travel.locationStop3 {
@@ -396,6 +422,8 @@ extension AddTravelStep2VC {
                                  "Longitude": stop3.long.ToString(),
                                  "Address"  : stop3.address]
             parameters["LocationStop3"] = LocationStop3
+        }  else {
+            parameters["LocationStop3"] = NSNull()
         }
        
         //Api call

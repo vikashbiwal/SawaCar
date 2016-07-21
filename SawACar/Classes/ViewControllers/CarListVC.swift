@@ -11,13 +11,15 @@ import UIKit
 class CarListVC: ParentVC {
 
     var Cars = [Car]()
+    var selectedCar: Car?
+    var completionBlock: (Car)->Void = {_ in}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getUserCarsAPICall()
         self.tableView.tableFooterView = UIView()
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -26,6 +28,7 @@ class CarListVC: ParentVC {
     @IBAction func addCarBtnClicked(sender: UIButton) {
         self.performSegueWithIdentifier("SBSegue_ToAddCar", sender: nil)
     }
+    
     //MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SBSegue_ToAddCar" {
@@ -60,7 +63,19 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
         cell.lblColor.text = car.color?.name
         cell.lblRating.text = car.rating.ToString()
         cell.imgView.setImageWithURL(NSURL(string: car.photo!)!)
+        cell.btnCheck.hidden = car == selectedCar ? false : true
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let car = Cars[indexPath.row]
+//        guard  car ==  selectedCar else {
+//            selectedCar = car
+//            tableView.reloadData()
+//            
+//        }
+        completionBlock(car)
+        self.parentBackAction(nil)
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

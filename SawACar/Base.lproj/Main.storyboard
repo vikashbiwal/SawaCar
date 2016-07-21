@@ -1945,7 +1945,7 @@
         <image name="img_bg1" width="621" height="884"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CM9-TT-L9c"/>
         <segue reference="zLy-0K-aWL"/>
+        <segue reference="TFb-Vf-jnB"/>
     </inferredMetricsTieBreakers>
 </document>

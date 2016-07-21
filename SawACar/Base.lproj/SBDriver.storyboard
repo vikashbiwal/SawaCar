@@ -3847,6 +3847,9 @@
                                                     <state key="normal" title="PUBLISH">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="travelPublishBtnClicked:" destination="PHh-YU-qMC" eventType="touchUpInside" id="TL1-RO-Sdv"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -4612,7 +4615,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nissan Micra - 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4F-Jc-VH2" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
-                                                    <rect key="frame" x="78" y="10" width="289" height="21"/>
+                                                    <rect key="frame" x="78" y="10" width="144" height="21"/>
                                                     <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -4641,11 +4644,22 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SYb-xO-IgU">
+                                                    <rect key="frame" x="341" y="7" width="24" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="4Jd-xV-dAT"/>
+                                                        <constraint firstAttribute="width" constant="24" id="Sdp-ZM-pZh"/>
+                                                    </constraints>
+                                                    <state key="normal" image="ic_check_box_selected"/>
+                                                    <state key="selected" image="ic_check_box_unselected"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="SYb-xO-IgU" secondAttribute="trailing" constant="10" id="053-vv-ebP"/>
                                                 <constraint firstItem="Y4F-Jc-VH2" firstAttribute="leading" secondItem="2WR-Sw-L9g" secondAttribute="trailing" constant="10" id="0C6-LR-DCy"/>
                                                 <constraint firstItem="erC-vc-iDF" firstAttribute="top" secondItem="Y4F-Jc-VH2" secondAttribute="bottom" constant="8" id="2Va-Nt-fiI"/>
-                                                <constraint firstAttribute="trailing" secondItem="Y4F-Jc-VH2" secondAttribute="trailing" constant="8" id="2aP-tx-48g"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Y4F-Jc-VH2" secondAttribute="trailing" constant="8" id="2aP-tx-48g"/>
+                                                <constraint firstItem="SYb-xO-IgU" firstAttribute="top" secondItem="9aB-Tb-iZi" secondAttribute="top" constant="7" id="3Pv-kj-YHf"/>
                                                 <constraint firstItem="yEX-kV-BCU" firstAttribute="centerY" secondItem="erC-vc-iDF" secondAttribute="centerY" id="6yJ-ie-ReF"/>
                                                 <constraint firstItem="yEX-kV-BCU" firstAttribute="leading" secondItem="erC-vc-iDF" secondAttribute="trailing" constant="5" id="G1D-sZ-ZFb"/>
                                                 <constraint firstItem="Y4F-Jc-VH2" firstAttribute="top" secondItem="9aB-Tb-iZi" secondAttribute="top" constant="10" id="IC6-2W-cWk"/>
@@ -4660,6 +4674,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="btnCheck" destination="SYb-xO-IgU" id="TBw-QN-z2X"/>
                                             <outlet property="imgView" destination="2WR-Sw-L9g" id="wH4-dp-oCW"/>
                                             <outlet property="lblColor" destination="yEX-kV-BCU" id="jmn-PO-4W5"/>
                                             <outlet property="lblRating" destination="0Lk-OL-KaH" id="QnV-Ui-4Ub"/>
@@ -4675,6 +4690,8 @@
                                             <outletCollection property="horizontalConstraints" destination="hCd-WH-SZp" collectionClass="NSMutableArray" id="dx7-Be-cG0"/>
                                             <outletCollection property="horizontalConstraints" destination="l5z-zU-k2O" collectionClass="NSMutableArray" id="ZWx-km-2Lf"/>
                                             <outletCollection property="horizontalConstraints" destination="2aP-tx-48g" collectionClass="NSMutableArray" id="DCW-iZ-csu"/>
+                                            <outletCollection property="horizontalConstraints" destination="053-vv-ebP" collectionClass="NSMutableArray" id="f7y-SS-nie"/>
+                                            <outletCollection property="horizontalConstraints" destination="3Pv-kj-YHf" collectionClass="NSMutableArray" id="R6s-NC-4QQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

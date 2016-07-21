@@ -15,6 +15,7 @@ class AddTravelStep1VC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        travel.driverId = me.Id
         // Do any additional setup after loading the view.
       }
 

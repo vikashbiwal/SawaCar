@@ -36,6 +36,7 @@ class Travel {
     var ladiesOnly = false
     var trackingEnable = false
     var detail: String!
+    var car: Car?
 }
 
 

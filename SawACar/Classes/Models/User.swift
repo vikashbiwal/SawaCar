@@ -81,7 +81,6 @@ class User  {
         lastname = RConverter.string(info["LastName"])
         fullname = RConverter.string(info["FullName"])
         gender = RConverter.boolean(info["Gender"]) ? "Male" : "Female"
-        birthDate = RConverter.string(info["YearOfBirth"])
         bio = RConverter.string(info["Bio"])
         email = RConverter.string(info["Email"])
         mobile = RConverter.string(info["MobileNumber"])
@@ -94,7 +93,12 @@ class User  {
         isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
         rating = RConverter.integer(info["Rating"])
         numberOfTravels = RConverter.integer(info["TravelsNumber"])
-       
+        
+        let birthYear = RConverter.string(info["YearOfBirth"])
+        let birthMonth = RConverter.string(info["MonthOfBirth"])
+        let dayOfBirth = RConverter.string(info["DayOfBirth"])
+        birthDate = dayOfBirth + "/" + birthMonth + "/" + birthYear
+
         let crDate = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
         createDate = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
         let llT = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
@@ -168,12 +172,15 @@ extension User {
     //MARK: WS Prameters
     //SignUp Params
     func singUpParameters() -> [String : AnyObject] {
+        
         let params = ["Email": email,
                       "FirstName": firstname,
                       "LastName": lastname,
                       "Password": password,
                       "Gender": gender == "Male" ? true : false,
-                      "YearOfBirth": birthDate,
+                      "YearOfBirth": birthDate.componentsSeparatedByString("/")[2],
+                      "MonthOfBirth" : birthDate.componentsSeparatedByString("/")[1],
+                      "DayOfBirth" : birthDate.componentsSeparatedByString("/")[0],
                       "NationalityID": nationality.Id,
                       "CountryID": country.Id,
                       "MobileCountryCode": country.dialCode,
@@ -194,10 +201,12 @@ extension User {
                       "FirstName": firstname,
                       "LastName": lastname,
                       "Gender": gender == "Male" ? true : false,
-                      "YearOfBirth": birthDate,
+                      "YearOfBirth": birthDate.componentsSeparatedByString("/")[2],
+                      "MonthOfBirth": birthDate.componentsSeparatedByString("/")[1],
+                      "DayOfBirth" : birthDate.componentsSeparatedByString("/")[0],
                       "NationalityID": nationality.Id,
                       "CountryID": country.Id,
-                      "MobileCountryCode": country.dialCode,
+                      "MobileCountryCode": mobileCountryCode,
                       "MobileNumber": mobile,
                       "Bio": bio,
                       "AccountTypeID": accountType.Id]

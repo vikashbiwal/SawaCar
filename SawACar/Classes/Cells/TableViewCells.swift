@@ -172,6 +172,7 @@ class TravelSwitchCell: TVGenericeCell {
 class TVCarCell : TVGenericeCell {
     @IBOutlet var lblColor: UILabel!
     @IBOutlet var lblRating: UILabel!
+    @IBOutlet var btnCheck: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
