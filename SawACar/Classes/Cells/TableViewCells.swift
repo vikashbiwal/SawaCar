@@ -98,6 +98,9 @@ class WeekDaysTblCell: TVGenericeCell, UICollectionViewDataSource, UICollectionV
     }
 }
 
+
+//MARK: ==============================Add Travel related Cells=======================
+
 //MARK: StopoverCell : Used in Add Travel Screen of Driver mode.
 class StopoverCell: TVGenericeCell {
     @IBOutlet var firstStopView :  UIView?
@@ -130,6 +133,8 @@ class TravelDateTimeCell: TVGenericeCell {
     @IBOutlet var lblTime: UILabel!
     @IBOutlet var lblDateTitile: UILabel!
     @IBOutlet var lblTimeTitle: UILabel!
+    @IBOutlet var checkBoxBtn: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -177,4 +182,38 @@ class TVCarCell : TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+}
+
+
+//MARK: ==============================Travel Detail related Cells=======================
+
+//MARK: TravelInfoCell
+class TVTravelInfoCell : TVGenericeCell {
+   
+    override func awakeFromNib() {
+        
+    }
+}
+
+//MARK: MyRulesCell
+class TVMyRulesCell : TVGenericeCell {
+    var Rules = [String]()
+    override func awakeFromNib() {
+        
+    }
+    
+    //MARK: CollectionView DataSource and Delegate
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Rules.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+        return cell
+    }
+    
 }

@@ -198,3 +198,135 @@ YearOfBirth = 1992;
 ]
 }
 
+
+
+--------------------Add Travel API--------------------
+Request Parameters (https://sawacar.com/Services/Sawacar.ashx?Method=AddTravel):
+{
+CarID = 137;
+CarPrice = 2000;
+CurrencyID = 13;
+DepartureDate = "23/07/2016";
+DepartureFlexibility = 15;
+DepartureHour = 10;
+DepartureMinute = 50;
+Details = "";
+DriverID = 154;
+LadiesOnly = 1;
+LocationFrom =     {
+Address = "Jaipur, Rajasthan, India";
+Latitude = "26.9124336";
+Longitude = "75.7872709";
+};
+LocationStop1 =     {
+Address = "Ajmer, Rajasthan 305001, India";
+Latitude = "26.4498954";
+Longitude = "74.6399163";
+};
+LocationStop2 =     {
+Address = "Udaipur, Rajasthan 313001, India";
+Latitude = "24.585445";
+Longitude = "73.712479";
+};
+LocationStop3 =     {
+Address = "Himmatnagar, Gujarat 383001, India";
+Latitude = "23.6036268";
+Longitude = "72.9639461";
+};
+LocationTo =     {
+Address = "Ahmedabad, Gujarat, India";
+Latitude = "23.022505";
+Longitude = "72.5713621";
+};
+Luggages = 2;
+PassengerPrice = 210;
+RepeatEndDate = "24/07/2016";
+RepeatType = 1;
+RoundDate = "22/08/2016";
+Seats = 4;
+Tracking = 1;
+}
+
+Response ((https://sawacar.com/Services/Sawacar.ashx?Method=AddTravel): {
+IsSuccess = 1;
+Messages =     (
+);
+Object =     {
+Bookings =         (
+);
+CarFullName = "BMW Rastar Die Cast 2016";
+CarID = 137;
+CarPhoto = "/UserFiles/images/UploadeImages/car/137_20160720_024045_437.jpg";
+CarPrice = 2000;
+CarRating = 0;
+CarRatings =         (
+);
+Comments =         (
+);
+CurrencyID = 13;
+CurrencySymbol = "$";
+DepartureDate = "23/07/2016 00:00:00";
+DepartureFlexibility = 0;
+DepartureHour = 10;
+DepartureMinute = 50;
+Details = "<null>";
+DriverFullName = "Vikash Prajapati";
+DriverID = 154;
+DriverPhoto = "/UserFiles/images/UploadeImages/user/154_20160721_221915_685.jpg";
+DriverRating = 0;
+DriverRules =         (
+Smoking,
+Music,
+PrayingStop,
+Quran
+);
+IsArchived = 0;
+IsRoundTravel = 0;
+LadiesOnly = 1;
+LocationEnd = "<null>";
+LocationFrom =         {
+Address = "Jaipur, Rajasthan, India";
+Latitude = "26.9124336";
+LocationID = 266;
+Longitude = "75.7872709";
+};
+LocationStart = "<null>";
+LocationStop1 =         {
+Address = "Ajmer, Rajasthan 305001, India";
+Latitude = "26.4498954";
+LocationID = 272;
+Longitude = "74.6399163";
+};
+LocationStop2 =         {
+Address = "Udaipur, Rajasthan 313001, India";
+Latitude = "24.585445";
+LocationID = 269;
+Longitude = "73.712479";
+};
+LocationStop3 =         {
+Address = "Himmatnagar, Gujarat 383001, India";
+Latitude = "23.6036268";
+LocationID = 270;
+Longitude = "72.9639461";
+};
+LocationTo =         {
+Address = "Ahmedabad, Gujarat, India";
+Latitude = "23.022505";
+LocationID = 267;
+Longitude = "72.5713621";
+};
+Luggages = 2;
+PassengerPrice = 210;
+RepeatEndDate = "24/07/2016 00:00:00";
+RepeatType = 1;
+RoundTravelID = "<null>";
+Seats = 4;
+SeatsLeft = 4;
+Status = 1;
+Tracking = 1;
+TravelID = 545;
+TravelNumber = T545;
+UserRatings =         (
+);
+};
+}

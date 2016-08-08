@@ -12,8 +12,8 @@ import MapKit
 class MapViewController: ParentVC, UISearchBarDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    var completionBlcok: ((add: FullAddress?) -> Void)!
-    var selectedPlace : FullAddress?
+    var completionBlcok: ((add: GLocation?) -> Void)!
+    var selectedPlace : GLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()

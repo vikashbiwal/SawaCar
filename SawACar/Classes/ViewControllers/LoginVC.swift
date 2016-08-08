@@ -156,7 +156,8 @@ extension LoginVC {
                                             "Email" : fbInfo["email"] as! String,
                                             "FirstName" : fbInfo["first_name"] as! String,
                                             "LastName" : fbInfo["last_name"] as! String,
-                                            "Gender" : gender]
+                                            "Gender" : gender,
+                                            "FCMToken": _deviceToken]
         
         wsCall.loginWithFacebook(params) { (response, statusCode) in
             if response.isSuccess {

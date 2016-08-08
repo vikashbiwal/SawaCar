@@ -452,6 +452,7 @@ extension ProfileViewController {
                 cell?.txtField.text = country.name
             } else  if forAction == .Country {
                 self.user.country = country
+                self.user.mobileCountryCode = country.dialCode
                 let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
             }

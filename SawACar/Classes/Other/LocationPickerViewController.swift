@@ -8,10 +8,22 @@
 
 import UIKit
 
-class FullAddress: Address {
+class GLocation: Address {
+    var id: Int = 0
     var lat: Double = 0.0
     var long: Double = 0.0
     var address: String = ""
+    
+    override init() {
+        //
+    }
+    
+    init(_ info : [String : AnyObject]) {
+        id = RConverter.integer(info["LocationID"])
+        lat = RConverter.double(info["Latitude"])
+        long = RConverter.double(info["Longitude"])
+        address = RConverter.string(info["Address"])
+    }
 }
 
 class Address {
@@ -55,8 +67,8 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
     var sessionDataTask: NSURLSessionDataTask!
     var arrData :[Address] = []
     var loadType : LoadingType!
-    var selectedAddress = FullAddress()
-    var selectionBlock: ((add: FullAddress) -> Void)!
+    var selectedAddress = GLocation()
+    var selectionBlock: ((add: GLocation) -> Void)!
     var locationOperation : LocationOperation?
     var operationQueue: NSOperationQueue!
     

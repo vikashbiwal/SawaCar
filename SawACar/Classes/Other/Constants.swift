@@ -33,6 +33,7 @@ let _appDelegator           = UIApplication.sharedApplication().delegate! as! Ap
 let _application            = UIApplication.sharedApplication()
 let _heighRatio             = _screenSize.height/667
 let _widthRatio             = _screenSize.width/375
+var _deviceToken             = "" //Update device token from APNS
 
 //var _userAuth: UserAuth! = nil
 var me: User! = nil

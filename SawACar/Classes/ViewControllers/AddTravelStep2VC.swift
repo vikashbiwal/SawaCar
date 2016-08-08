@@ -302,18 +302,18 @@ extension AddTravelStep2VC {
     func steperTextFieldCompleteEditing(type: TravelPreferenceType, cell: SteperCell) {
         switch type {
         case .NumberOfSeat:
-            cell.txtField.text = "\(travel.travelSeat.value)"
+            cell.txtField.text = travel.travelSeat.value.ToString()
             break
         case .CarPrice:
             let currencySymbol = travel.currency?.symbol ?? ""
-            cell.txtField.text = currencySymbol + "\(travel.carPice.value)"
+            cell.txtField.text = currencySymbol + travel.carPice.value.ToString()
             break
         case .PassengerPrice:
             let currencySymbol = travel.currency?.symbol ?? ""
-            cell.txtField.text =  currencySymbol + "\(travel.passengerPrice.value)"
+            cell.txtField.text =  currencySymbol + travel.passengerPrice.value.ToString()
             break
         case .NumberOfLuggage:
-            cell.txtField.text = "\(travel.travelLuggage.value)"
+            cell.txtField.text = travel.travelLuggage.value.ToString()
             break
         default:
             break
@@ -382,11 +382,6 @@ extension AddTravelStep2VC {
         parameters["DepartureDate"]  = travel.departureDate
         parameters["DepartureHour"] = travel.departureHour
         parameters["DepartureMinute"] = travel.departureMinute
-        parameters["RepeatType"]    = travel.repeatType.ToString()
-        parameters["RepeatEndDate"] = travel.repeatEndDate
-        parameters["RoundDate"]     = travel.roundDate
-        parameters["RoundHour"]     = travel.roundHour
-        parameters["RoundMinute"]   = travel.roundMinute
         parameters["Tracking"]      = travel.trackingEnable
         parameters["LadiesOnly"]    = travel.ladiesOnly
         parameters["Seats"]         = travel.travelSeat.value.ToString()
@@ -398,7 +393,24 @@ extension AddTravelStep2VC {
         parameters["DepartureFlexibility"] = "15"
         parameters["CurrencyID"]    = travel.currency!.Id
         parameters["Details"]       = ""
+        if travel.isRegularTravel {
+            parameters["RepeatType"]    = travel.repeatType.ToString()
+            parameters["RepeatEndDate"] = travel.repeatEndDate
+        } else {
+            parameters["RepeatType"]    = NSNull()
+            parameters["RepeatEndDate"] = NSNull()
+        }
         
+        if travel.isRoundTravel {
+            parameters["RoundDate"]     = travel.roundDate
+            parameters["RoundHour"]     = travel.roundHour
+            parameters["RoundMinute"]   = travel.roundMinute
+        } else {
+            parameters["RoundDate"]     = NSNull()
+            parameters["RoundHour"]     = NSNull()
+            parameters["RoundMinute"]   = NSNull()
+        }
+
         if let stop1 = travel.locationStop1 {
             let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
                                  "Longitude": stop1.long.ToString(),

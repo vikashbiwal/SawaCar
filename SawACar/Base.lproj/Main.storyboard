@@ -550,7 +550,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwl-14-auF">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwl-14-auF" customClass="RoundedButton" customModule="SawACar" customModuleProvider="target">
                                                                         <rect key="frame" x="135" y="45" width="104" height="104"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="cwl-14-auF" secondAttribute="height" multiplier="1:1" id="bhs-k0-eoW"/>
@@ -1945,7 +1945,7 @@
         <image name="img_bg1" width="621" height="884"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="CM9-TT-L9c"/>
         <segue reference="zLy-0K-aWL"/>
-        <segue reference="TFb-Vf-jnB"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -45,12 +45,22 @@ extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
             let cell =  tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
             cell.lblTitle.text = travel.locationFrom!.name + " >> " + travel.locationTo!.name
             return cell
+            
         } else if indexPath.row == 1 {
             cellIdentifier = "stopoverCell"
+            
         } else if indexPath.row == 2 {
             cellIdentifier = "regularTravelCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
+            cell.checkBoxBtn.selected = travel.isRegularTravel
+            return cell
+            
         } else if indexPath.row == 3 {
             cellIdentifier = "roundTravelCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
+            cell.checkBoxBtn.selected = travel.isRoundTravel
+            return cell
+            
         } else if indexPath.row == 4 {
             cellIdentifier = "weekDayCell"
         } else if indexPath.row == 5 {
@@ -68,9 +78,9 @@ extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
         } else if indexPath.row == 1 {
             return 190 * _widthRatio
         } else if indexPath.row == 2 {
-            return 145 * _widthRatio
+            return (travel.isRegularTravel ? 145 : 65) * _widthRatio
         } else if indexPath.row == 3 {
-            return 145 * _widthRatio
+            return (travel.isRoundTravel ? 145 : 65) * _widthRatio
         } else if indexPath.row == 4 {
             return 100 * _widthRatio
         } else if indexPath.row == 5 {
@@ -93,6 +103,18 @@ extension AddTravelStep1VC {
     
     @IBAction func repeatTypeBtnClicked(sender: UIButton) {
         showRepeatTypeList()
+    }
+    
+    @IBAction func regularTravelToggleBtnClicked(sender: UIButton) {
+        travel.isRegularTravel = !travel.isRegularTravel
+        sender.selected = !sender.selected
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
+    @IBAction func roundTravelToggleBtnclicked(sender: UIButton) {
+        travel.isRoundTravel = !travel.isRoundTravel
+        sender.selected = !sender.selected
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 0)], withRowAnimation: .Automatic)
     }
     
     @IBAction func continueBtnClicked(sender: UIButton) {

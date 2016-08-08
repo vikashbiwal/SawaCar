@@ -11,6 +11,12 @@ import Foundation
 // MARK: - Registration Validation
 extension String {
     
+    func isValidUsername() -> Bool {
+        let usernameRegex = "[A-Z0-9a-z_]{3,20}"
+        let temp = NSPredicate(format: "SELF MATCHES %@", usernameRegex).evaluateWithObject(self)
+        return temp
+    }
+
     func isValidEmailAddress() -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
         let temp = NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluateWithObject(self)

@@ -9,34 +9,101 @@
 import UIKit
 
 class Travel {
-    var Id: String!
-    var locationFrom:   FullAddress?
-    var locationTo:     FullAddress?
-    var locationStop1:  FullAddress?
-    var locationStop2:  FullAddress?
-    var locationStop3:  FullAddress?
+    var Id:             String!
+    var travelNumber:   String!
+    
+    var locationFrom:   GLocation?
+    var locationTo:     GLocation?
+    var locationStop1:  GLocation?
+    var locationStop2:  GLocation?
+    var locationStop3:  GLocation?
    
     var departureDate : String!
     var departureHour : String!
     var departureMinute:String!
-    var repeatType    : Int!
+    var repeatType    : Int = 1 // 1 = Day, 2 = Month
     var repeatEndDate : String!
     var roundDate     : String!
     var roundHour     : String!
     var roundMinute   : String!
+    var detail: String!
+    var departureFelexiblity: Int = 0
     
-    var departureFelexiblity: String!
-    var driverId: String!
-    var carId:    String!
-    var currency: Currency?
     var travelLuggage:  VCounterRange = (1, 1, 3)
-    var travelSeat:     VCounterRange = (1, 1, 4)
     var carPice:        VCounterRange = (0, 0, 0)
     var passengerPrice: VCounterRange = (0, 0, 0)
-    var ladiesOnly = false
-    var trackingEnable = false
-    var detail: String!
+    var travelSeat:     VCounterRange = (1, 1, 4)
+    var seatLeft:Int = 0
+    
     var car: Car?
+    var currency: Currency?
+    var driver: Driver!
+    
+    var ladiesOnly      = false
+    var trackingEnable  = false
+    var isArchived      = false
+    var status          = false
+    var isRegularTravel = false
+    var isRoundTravel   = false
+    
+    var bookings    = []
+    var comments    = []
+    var userRatings = []
+    
+    init() {
+    
+    }
+    
+    init (_ info : [String : AnyObject]) {
+    
+        Id = RConverter.string(info["TravelID"])
+        travelNumber = RConverter.string(info["TravelNumber"])
+        
+        locationFrom =  GLocation(info["LocationFrom"] as! [String : AnyObject])
+        locationTo   =  GLocation(info["LocationTo"] as! [String : AnyObject])
+        
+        if let stop1Info = info["LocationStop1"] as? [String : AnyObject] {
+            locationStop1 =  GLocation(stop1Info)
+        }
+        if let stop2Info = info["LocationStop2"] as? [String : AnyObject] {
+            locationStop1 =  GLocation(stop2Info)
+        }
+        if let stop3Info = info["LocationStop3"] as? [String : AnyObject] {
+            locationStop1 =  GLocation(stop3Info)
+        }
+
+        departureDate   = RConverter.string(info["DepartureDate"])
+        departureHour   = RConverter.string(info["DepartureHour"])
+        departureMinute = RConverter.string(info["DepartureMinute"])
+        departureFelexiblity = RConverter.integer(info["DepartureFlexibility"])
+        
+        isRegularTravel = RConverter.boolean(info["IsRegularTravel"])
+        repeatType      = RConverter.integer(info["RepeatType"])
+        repeatEndDate   = RConverter.string(info["RepeatEndDate"])
+
+        isRoundTravel   = RConverter.boolean(info["IsRoundTravel"])
+        roundDate       = RConverter.string(info["RoundDate"])
+        roundHour       = RConverter.string(info["RoundHour"])
+        roundDate       = RConverter.string(info["RoundMinute"])
+        
+        driver      = Driver(info)
+        car         = Car.CreateCarFromTravel(info)
+        currency    = Currency(info: info)
+        
+        carPice.value        = RConverter.integer(info["CarPrice"])
+        passengerPrice.value = RConverter.integer(info["PassengerPrice"])
+        travelLuggage.value  = RConverter.integer(info["Luggages"])
+        travelSeat.value     = RConverter.integer(info["Seats"])
+       
+        seatLeft             = RConverter.integer(info["SeatsLeft"])
+        isArchived           = RConverter.boolean(info["IsArchived"])
+        ladiesOnly           = RConverter.boolean(info["LadiesOnly"])
+        detail               = RConverter.string(info["Details"])
+        status               = RConverter.boolean(info["Status"])
+        trackingEnable       = RConverter.boolean(info["Tracking"])
+        
+    }
+    
 }
 
 
@@ -97,6 +164,14 @@ class Car: Equatable {
         details = RConverter.string(info["Details"])
         company = Company(info)
         color = Color(info)
+    }
+    
+    class func  CreateCarFromTravel(info: [String : AnyObject])-> Car {
+        let car = Car()
+        car.id = RConverter.string(info["CarID"])
+        car.name = RConverter.string(info["CarFullName"])
+        car.rating = RConverter.integer(info["CarRating"])
+        return car
     }
 }
 

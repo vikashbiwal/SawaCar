@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SawACar/Classes/ViewControllers/AddTravelStep2VC.swift"
-            timestampString = "490777463.623405"
+            timestampString = "492346615.835579"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
             landmarkName = "addTravelAPICall()"
             landmarkType = "5">
          </BreakpointContent>
@@ -41,30 +41,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/AppDelegate.swift"
-            timestampString = "490781118.429339"
+            filePath = "SawACar/Classes/ViewControllers/AddTravelStep2VC.swift"
+            timestampString = "492346615.835579"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "directLogin()"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "addTravelAPICall()"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/ViewControllers/ProfileViewController.swift"
-            timestampString = "490781156.44703"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "637"
-            endingLineNumber = "637"
-            landmarkName = "updateProfileAPICall()"
-            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SawACar.AddTravelStep2VC.addTravelAPICall () -&gt; ()"
+                  moduleName = "SawACar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yudiz/Documents/Projects/CurrentProjects/SawACar/SourceCode/SawACar/SawACar/Classes/ViewControllers/AddTravelStep2VC.swift"
+                  timestampString = "492346617.221665"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "442"
+                  endingLineNumber = "442"
+                  offsetFromSymbolStart = "15641">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SawACar.AddTravelStep2VC.(addTravelAPICall () -&gt; ()).(closure #1)"
+                  moduleName = "SawACar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yudiz/Documents/Projects/CurrentProjects/SawACar/SourceCode/SawACar/SawACar/Classes/ViewControllers/AddTravelStep2VC.swift"
+                  timestampString = "492346617.221933"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "443"
+                  endingLineNumber = "443"
+                  offsetFromSymbolStart = "72">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

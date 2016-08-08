@@ -93,11 +93,7 @@ class User  {
         isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
         rating = RConverter.integer(info["Rating"])
         numberOfTravels = RConverter.integer(info["TravelsNumber"])
-        
-        let birthYear = RConverter.string(info["YearOfBirth"])
-        let birthMonth = RConverter.string(info["MonthOfBirth"])
-        let dayOfBirth = RConverter.string(info["DayOfBirth"])
-        birthDate = dayOfBirth + "/" + birthMonth + "/" + birthYear
+        birthDate = RConverter.string(info["BirthDate"])
 
         let crDate = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
         createDate = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
@@ -184,14 +180,16 @@ extension User {
                       "NationalityID": nationality.Id,
                       "CountryID": country.Id,
                       "MobileCountryCode": country.dialCode,
-                      "MobileNumber": mobile]
+                      "MobileNumber": mobile,
+                      "FCMToken" : _deviceToken]
         return params as! [String : AnyObject]
     }
     
     //Login Params
     func loginParameters() -> [String : String!] {
         let params = ["Email": email,
-                      "Password": password]
+                      "Password": password,
+                      "FCMToken": _deviceToken]
         return params
     }
     
