@@ -14,10 +14,9 @@ class AddTravelStep2VC: ParentVC {
 
     var travel: Travel!
     
+    //MARK: view cycle functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -29,6 +28,7 @@ class AddTravelStep2VC: ParentVC {
     override func viewWillDisappear(animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -43,6 +43,7 @@ class AddTravelStep2VC: ParentVC {
                 self.travel.car = car
                 let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? StopoverCell
                 cell?.lblStop2.text = car.name
+                self.travel.travelSeat.max = car.seatCounter.value
             }
         }
     }
@@ -147,7 +148,9 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
 extension AddTravelStep2VC {
     
     @IBAction func travelPublishBtnClicked(sender: UIButton) {
-        addTravelAPICall()
+        if validateTravel() {
+            addTravelAPICall()
+        }
     }
     @IBAction func currencyBtnClicked(sender: UIButton) {
         openCurrencyListVC()
@@ -157,7 +160,7 @@ extension AddTravelStep2VC {
         self.performSegueWithIdentifier("SBSegue_ToCarList", sender: nil)
     }
     
-    //Steper cell's counter btn clicked
+    //Steper cell's counter btn (for seat, price, luggage) clicked
     @IBAction func counterBtnClicked(sender: IndexPathButton) {
         var counter: VCounterRange!
         if let cell = tableView.cellForRowAtIndexPath(sender.indexPath) as? SteperCell {
@@ -363,12 +366,26 @@ extension AddTravelStep2VC {
         }
     }
 
+    func validateTravel()-> Bool {
+        guard let _ = travel.currency else {
+        //select currency message
+            showToastMessage("", message: "Please select currency for ride price.")
+            return false
+        }
+        guard let _ = travel.car else {
+            //select car message
+            showToastMessage("", message: "Please select a car for ride.")
+            return false
+        }
+        return true
+    }
 }
 
 //MARK: API Calls
 extension AddTravelStep2VC {
     //MARK: AddTravel API
     func addTravelAPICall () {
+        self.showCentralGraySpinner()
         var parameters = [String : AnyObject]()
         let fromLocation = ["Latitude" : travel.locationFrom!.lat.ToString(),
                             "Longitude" : travel.locationFrom!.long.ToString(),
@@ -377,22 +394,22 @@ extension AddTravelStep2VC {
                           "Longitude" : travel.locationTo!.long.ToString(),
                           "Address" : travel.locationTo!.address]
         
-        parameters["LocationFrom"] = fromLocation
-        parameters["LocationTo"] = toLocation
-        parameters["DepartureDate"]  = travel.departureDate
-        parameters["DepartureHour"] = travel.departureHour
-        parameters["DepartureMinute"] = travel.departureMinute
-        parameters["Tracking"]      = travel.trackingEnable
-        parameters["LadiesOnly"]    = travel.ladiesOnly
-        parameters["Seats"]         = travel.travelSeat.value.ToString()
-        parameters["Luggages"]      = travel.travelLuggage.value.ToString()
-        parameters["PassengerPrice"] = travel.passengerPrice.value.ToString()
-        parameters["CarPrice"]       = travel.carPice.value.ToString()
-        parameters["CarID"]         = travel.car!.id
-        parameters["DriverID"]      = travel.driverId
+        parameters["LocationFrom"]      = fromLocation
+        parameters["LocationTo"]        = toLocation
+        parameters["DepartureDate"]     = travel.departureDate
+        parameters["DepartureHour"]     = travel.departureHour
+        parameters["DepartureMinute"]   = travel.departureMinute
+        parameters["Tracking"]          = travel.trackingEnable
+        parameters["LadiesOnly"]        = travel.ladiesOnly
+        parameters["Seats"]             = travel.travelSeat.value.ToString()
+        parameters["Luggages"]          = travel.travelLuggage.value.ToString()
+        parameters["PassengerPrice"]    = travel.passengerPrice.value.ToString()
+        parameters["CarPrice"]          = travel.carPice.value.ToString()
+        parameters["CarID"]             = travel.car!.id
+        parameters["DriverID"]          = me.Id
         parameters["DepartureFlexibility"] = "15"
-        parameters["CurrencyID"]    = travel.currency!.Id
-        parameters["Details"]       = ""
+        parameters["CurrencyID"]        = travel.currency!.Id
+        parameters["Details"]           = ""
         if travel.isRegularTravel {
             parameters["RepeatType"]    = travel.repeatType.ToString()
             parameters["RepeatEndDate"] = travel.repeatEndDate
@@ -441,10 +458,14 @@ extension AddTravelStep2VC {
         //Api call
         wsCall.addTravel(parameters) { (response, flag) in
             if response.isSuccess {
-            
+                let travelInfo = response.json!["Object"] as! [String :  AnyObject]
+                self.travel.updateInfo(travelInfo)
+                showToastMessage("", message: "Your travel successfully added.")
+                self.navigationController?.popToRootViewControllerAnimated(true)
             } else {
-            
+                showToastMessage("", message: response.message!)
             }
+            self.hideCentralGraySpinner()
         }
     }
 }

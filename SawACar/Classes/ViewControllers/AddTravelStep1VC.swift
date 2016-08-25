@@ -15,7 +15,7 @@ class AddTravelStep1VC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        travel.driverId = me.Id
+        //travel.driverId = me.Id
         // Do any additional setup after loading the view.
       }
 
@@ -118,7 +118,9 @@ extension AddTravelStep1VC {
     }
     
     @IBAction func continueBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("SBID_AddTravelToPublish", sender: nil)
+        if validateTravel() {
+            self.performSegueWithIdentifier("SBID_AddTravelToPublish", sender: nil)
+        }
     }
 }
 
@@ -223,6 +225,39 @@ extension AddTravelStep1VC {
         self.presentViewController(sheet, animated: true, completion: nil)
         
     }
+    
+    func validateTravel()-> Bool {
+        if travel.isRegularTravel {
+            if travel.repeatEndDate.isEmpty  {
+                //select car message
+                showToastMessage("", message: "Repeate end date is required for regular travel.")
+                return false
+            }
+        }
+        if travel.isRoundTravel {
+            if travel.roundDate.isEmpty  {
+                showToastMessage("", message: "Departure date is required for round travel.")
+                return false
+            }
+            if travel.roundHour.isEmpty  {
+                showToastMessage("", message: "Departure time is required for round travel.")
+                return false
+            }
+        }
+        
+        if travel.departureDate.isEmpty {
+            showToastMessage("", message: "Departure date is required for travel.")
+            return false
+        }
+
+        if travel.departureHour.isEmpty {
+            showToastMessage("", message: "Departure time is required for travel.")
+            return false
+        }
+
+        return true
+    }
+
 }
 
 //MARK: AddTravel Model Class

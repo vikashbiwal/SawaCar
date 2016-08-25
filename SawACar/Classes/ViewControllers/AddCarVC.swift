@@ -315,7 +315,9 @@ extension AddCarVC {
                       "Details" : car.details,
                       "ProductionYear" : car.productionYear,
                       "Insurance" : car.insurance,
-                      "Photo" : ""]
+                      "Photo" : "",
+                      "PaletteNumber" : "GJ 1212"]
+        
         wsCall.addCar(params as! [String : AnyObject]) { (response, flag) in
             if response.isSuccess {
                 let carInfo = response.json!["Object"] as! [String : AnyObject]
@@ -354,7 +356,8 @@ extension AddCarVC {
                       "Details" : car.details,
                       "ProductionYear" : car.productionYear,
                       "Insurance" : car.insurance,
-                      "Photo" : ""]
+                      "Photo" : "",
+                      "PaletteNumber" : "GJ 1212"]
         
         wsCall.updateCar(params as! [String : AnyObject]) { (response, flag) in
             if response.isSuccess {

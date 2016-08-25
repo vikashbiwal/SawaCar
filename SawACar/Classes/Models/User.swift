@@ -35,6 +35,7 @@ class User  {
     var isTermsAccepted: Bool!
     var rating = 0
     var numberOfTravels: Int = 0
+    var numberOfContacts = 0
     
     var preference: UserPreference!
     var social : UserSocial!
@@ -93,6 +94,7 @@ class User  {
         isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
         rating = RConverter.integer(info["Rating"])
         numberOfTravels = RConverter.integer(info["TravelsNumber"])
+        numberOfContacts = RConverter.integer(info["ContactsNumber"])
         birthDate = RConverter.string(info["BirthDate"])
 
         let crDate = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")

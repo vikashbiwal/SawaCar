@@ -19,17 +19,22 @@ class GLocation: Address {
     }
     
     init(_ info : [String : AnyObject]) {
+        super.init()
         id = RConverter.integer(info["LocationID"])
         lat = RConverter.double(info["Latitude"])
         long = RConverter.double(info["Longitude"])
-        address = RConverter.string(info["Address"])
+        self.name = RConverter.string(info["Address"])
     }
 }
 
 class Address {
     var name: String!
     var refCode: String!
-   
+    
+    init () {
+    
+    }
+    
     func initWithData(data: NSDictionary!){
         name = data.getStringValue("description")
         refCode = data.getStringValue("reference")

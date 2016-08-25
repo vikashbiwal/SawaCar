@@ -134,11 +134,12 @@ class ParentVC: UIViewController  {
     }()
     
     func showCentralGraySpinner() {
+        centralGrayActivityIndicator.center = self.view.center
         self.view.addSubview(centralGrayActivityIndicator)
-        let xConstraint = NSLayoutConstraint(item: centralGrayActivityIndicator, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-        let yConstraint = NSLayoutConstraint(item: centralGrayActivityIndicator, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        //let xConstraint = NSLayoutConstraint(item: centralGrayActivityIndicator, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+       // let yConstraint = NSLayoutConstraint(item: centralGrayActivityIndicator, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
         centralGrayActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activateConstraints([xConstraint, yConstraint])
+        //NSLayoutConstraint.activateConstraints([xConstraint, yConstraint])
         centralGrayActivityIndicator.alpha = 0.0
         view.layoutIfNeeded()
         self.view.userInteractionEnabled = false

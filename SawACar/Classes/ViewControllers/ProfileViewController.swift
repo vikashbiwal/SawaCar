@@ -448,7 +448,7 @@ extension ProfileViewController {
         cListVC.completionBlock = {(country) in
             if forAction == .Nationality {
                 self.user.nationality = country
-               let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
             } else  if forAction == .Country {
                 self.user.country = country
@@ -456,6 +456,7 @@ extension ProfileViewController {
                 let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
             }
+            self.changeMenuItems(self.selectedMenu)
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
@@ -469,6 +470,7 @@ extension ProfileViewController {
             self.user.accountType = acType
             let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
             cell?.txtField.text = acType.name
+            self.changeMenuItems(self.selectedMenu)
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
@@ -496,6 +498,7 @@ extension ProfileViewController {
                 cell?.lblSubTitle.text = lngArr.joinWithSeparator(", ")
                 
             }
+            self.changeMenuItems(self.selectedMenu)
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
@@ -563,14 +566,14 @@ extension ProfileViewController {
                          CellItem(title: "Twitter",     value: user.social.Twitter,     txtFieldType: .Twitter)]
             
         } else if menu.type == .Details {
-            menuItems = [CellItem(title: "Member Since:",       value: user.createDate,             txtFieldType: .None),
-                         CellItem(title: "Last Login:",         value: user.lastLoginTime,          txtFieldType: .None),
-                         CellItem(title: "Last Activity Date:", value: user.lastLoginTime,          txtFieldType: .None),
+            menuItems = [CellItem(title: "Member Since:",       value: user.createDate,                 txtFieldType: .None),
+                         CellItem(title: "Last Login:",         value: user.lastLoginTime,              txtFieldType: .None),
+                         CellItem(title: "Last Activity Date:", value: user.lastLoginTime,              txtFieldType: .None),
                          CellItem(title: "Number of Travels:",  value: user.numberOfTravels.ToString(), txtFieldType: .None),
-                         CellItem(title: "Contacts:",           value: "12",                        txtFieldType: .None),
-                         CellItem(title: "Email:",              value: user.EmailVerifiedString,    txtFieldType: .None),
-                         CellItem(title: "Phone Number:",       value: user.MobileVerifiedString,   txtFieldType: .None),
-                         CellItem(title: "Facebook:",           value: user.FacebookVeriedString,   txtFieldType: .None)]
+                         CellItem(title: "Contacts:",           value: user.numberOfContacts.ToString(),txtFieldType: .None),
+                         CellItem(title: "Email:",              value: user.EmailVerifiedString,        txtFieldType: .None),
+                         CellItem(title: "Phone Number:",       value: user.MobileVerifiedString,       txtFieldType: .None),
+                         CellItem(title: "Facebook:",           value: user.FacebookVeriedString,       txtFieldType: .None)]
             
         } else  { //Settings
             

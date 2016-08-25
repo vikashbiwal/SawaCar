@@ -18,14 +18,14 @@ class Travel {
     var locationStop2:  GLocation?
     var locationStop3:  GLocation?
    
-    var departureDate : String!
-    var departureHour : String!
-    var departureMinute:String!
+    var departureDate = ""
+    var departureHour = ""
+    var departureMinute = ""
     var repeatType    : Int = 1 // 1 = Day, 2 = Month
-    var repeatEndDate : String!
-    var roundDate     : String!
-    var roundHour     : String!
-    var roundMinute   : String!
+    var repeatEndDate = ""
+    var roundDate     = ""
+    var roundHour     = ""
+    var roundMinute   = ""
     var detail: String!
     var departureFelexiblity: Int = 0
     
@@ -104,6 +104,54 @@ class Travel {
         
     }
     
+    //update travel info
+    func updateInfo(info : [String : AnyObject]) {
+        Id = RConverter.string(info["TravelID"])
+        travelNumber = RConverter.string(info["TravelNumber"])
+        
+        locationFrom =  GLocation(info["LocationFrom"] as! [String : AnyObject])
+        locationTo   =  GLocation(info["LocationTo"] as! [String : AnyObject])
+        
+        if let stop1Info = info["LocationStop1"] as? [String : AnyObject] {
+            locationStop1 =  GLocation(stop1Info)
+        }
+        if let stop2Info = info["LocationStop2"] as? [String : AnyObject] {
+            locationStop1 =  GLocation(stop2Info)
+        }
+        if let stop3Info = info["LocationStop3"] as? [String : AnyObject] {
+            locationStop1 =  GLocation(stop3Info)
+        }
+        
+        departureDate   = RConverter.string(info["DepartureDate"])
+        departureHour   = RConverter.string(info["DepartureHour"])
+        departureMinute = RConverter.string(info["DepartureMinute"])
+        departureFelexiblity = RConverter.integer(info["DepartureFlexibility"])
+        
+        isRegularTravel = RConverter.boolean(info["IsRegularTravel"])
+        repeatType      = RConverter.integer(info["RepeatType"])
+        repeatEndDate   = RConverter.string(info["RepeatEndDate"])
+        
+        isRoundTravel   = RConverter.boolean(info["IsRoundTravel"])
+        roundDate       = RConverter.string(info["RoundDate"])
+        roundHour       = RConverter.string(info["RoundHour"])
+        roundDate       = RConverter.string(info["RoundMinute"])
+        
+        driver      = Driver(info)
+        car         = Car.CreateCarFromTravel(info)
+        currency    = Currency(info: info)
+        
+        carPice.value        = RConverter.integer(info["CarPrice"])
+        passengerPrice.value = RConverter.integer(info["PassengerPrice"])
+        travelLuggage.value  = RConverter.integer(info["Luggages"])
+        travelSeat.value     = RConverter.integer(info["Seats"])
+        
+        seatLeft             = RConverter.integer(info["SeatsLeft"])
+        isArchived           = RConverter.boolean(info["IsArchived"])
+        ladiesOnly           = RConverter.boolean(info["LadiesOnly"])
+        detail               = RConverter.string(info["Details"])
+        status               = RConverter.boolean(info["Status"])
+        trackingEnable       = RConverter.boolean(info["Tracking"])
+    }
 }
 
 
