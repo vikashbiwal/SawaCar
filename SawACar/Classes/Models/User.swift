@@ -105,7 +105,7 @@ class User  {
         preference = UserPreference(info: info)
         social = UserSocial(info: info)
         country = Country(info: info)
-        nationality = Country(info: info)
+        nationality = Country(info: ["CountryID": info["NationalityID"]!, "CountryName": info["NationalityName"]!])
         accountType = AccountType(info: info)
 
     }
@@ -392,6 +392,10 @@ extension User {
         }
         if password != confPass {
             return (false, kPasswordConfirmMsg)
+        }
+        
+        if oldPassword == password {
+            return (false, kOldPassNewPassSameMsg)
         }
         return (true, "Success")
     }

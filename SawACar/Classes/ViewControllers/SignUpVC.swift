@@ -101,7 +101,7 @@ extension SignUpVC {
             if process.isValid {
                 self.signupWSCall()
             } else {
-                showToastMessage("", message: process.message)
+                showToastErrorMessage("", message: process.message)
             }
             return
         }
@@ -112,7 +112,7 @@ extension SignUpVC {
             setUIForAfterCollViewScroll(index)
             
         } else {
-            showToastMessage("", message: process.message)
+            showToastErrorMessage("", message: process.message)
         }
     }
     
@@ -397,10 +397,10 @@ extension SignUpVC {
                     
                     self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
                 } else {
-                    showToastMessage("Signup Error", message: response.message!)
+                    showToastErrorMessage("Signup Error", message: response.message!)
                 }
             } else {
-                showToastMessage("Signup Error", message: response.message!)
+                showToastErrorMessage("Signup Error", message: response.message!)
             }
             self.hideCentralGraySpinner()
         })

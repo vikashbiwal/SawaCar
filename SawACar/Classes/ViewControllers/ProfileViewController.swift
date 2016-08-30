@@ -17,6 +17,12 @@ class ProfileViewController: ParentVC {
     @IBOutlet var lblFullName:  UILabel!
     @IBOutlet var lblGender:    UILabel!
     @IBOutlet var lblBirthDate: UILabel!
+   
+    //MARK: DatePicker Outlets
+    @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet var datePickerView: UIView!
+    @IBOutlet var datePicker: UIDatePicker!
+    var selectedIndexPath: NSIndexPath?
     
     var user : User!
     var selectedMenu: Menu!
@@ -79,7 +85,7 @@ extension ProfileViewController {
                 if process.isValid {
                     self.updateProfileAPICall()
                 } else {
-                    showToastMessage("", message: process.message)
+                    showToastErrorMessage("", message: process.message)
                     return
                 }
             } else if selectedMenu.type == .SocialLink {
@@ -319,7 +325,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 self.view.endEditing(true)
                 let item  = menuItems[indexPath.row]
                 if item.textfieldType == .BirthDate {
-                    self.openDatePicker(indexPath)
+                    selectedIndexPath = indexPath
+                    self.showDatePickerView()
                     
                 } else if item.textfieldType == .Gender {
                     self.showGenderPicker(indexPath)
@@ -403,11 +410,13 @@ extension ProfileViewController {
         let maleAction = UIAlertAction(title: "Male", style: .Default) { (action) in
            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
             let gender = "Male"
+            self.user.gender = gender
             cell?.txtField.text = gender
         }
         let femaleAction    = UIAlertAction(title: "Female", style: .Default) { (action) in
             let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
            let gender = "Female"
+            self.user.gender = gender
             cell?.txtField.text = gender
 
         }
@@ -417,23 +426,6 @@ extension ProfileViewController {
         self.presentViewController(sheet, animated: true, completion: nil)
     }
     
-    func openDatePicker(indexPath: NSIndexPath) {
-        if !isLoading {
-            isLoading = true
-            let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
-            datepickerVC.completionBlock = {(date) in
-                if let date = date {
-                    self.user.birthDate = self.dateFomator.stringFromDate(date)
-                    let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
-                    cell?.txtField.text =  self.user.birthDate
-                }
-                self.isLoading = false
-            }
-            datepickerVC.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-            self.presentViewController(datepickerVC, animated: true, completion: nil)
-        }
-    }
-     
     func openCountryList(forAction : LocationSelectionForType, indexPath: NSIndexPath)  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
        
@@ -545,7 +537,7 @@ extension ProfileViewController {
             menuItems = [CellItem(title: "First Name",      value: user.firstname,      txtFieldType: .FirstName),
                          CellItem(title: "Last Name",       value: user.lastname,       txtFieldType: .LastName),
                          CellItem(title: "Gender",          value: user.gender,         txtFieldType: .Gender, enable: false),
-                         CellItem(title: "Birth Year",      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
+                         CellItem(title: "Birth Date",      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
                          CellItem(title: "Mobile",          value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad),
                          CellItem(title: "Nationality",     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
                          CellItem(title: "Country",         value: user.country.name,      txtFieldType: .Country, enable: false),
@@ -621,13 +613,13 @@ extension ProfileViewController {
                     self.changeMenuItems(self.selectedMenu)
                 } else {
                     //error message
-                    showToastMessage("", message: kOldPassIsInvalid)
+                    showToastErrorMessage("", message: kOldPassIsInvalid)
                 }
                 self.hideCentralGraySpinner()
             })
             
         } else  {
-            showToastMessage("", message: process.msg)
+            showToastErrorMessage("", message: process.msg)
         }
     }
     
@@ -659,7 +651,7 @@ extension ProfileViewController {
                     
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
@@ -679,7 +671,7 @@ extension ProfileViewController {
                     showToastMessage("", message: kSocialUpdatedSuccess)
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
@@ -699,7 +691,7 @@ extension ProfileViewController {
                     showToastMessage("", message: kPreferenceSettingSucess)
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
@@ -707,9 +699,44 @@ extension ProfileViewController {
 }
 
 
+//MARK: DatePicker Methods
+extension ProfileViewController {
+    func showDatePickerView() {
+        datePicker.maximumDate = NSDate()
+        UIView.animateWithDuration(0.3, animations: {
+            self.datePickerViewTopConstraint.constant = 0
+            self.datePickerView.alpha = 1
+            self.view.layoutIfNeeded()
+        }) { (res) in
+            self.datePickerView.alpha = 1
+            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
+        }
+    }
+    
+    func hideDatePickerView() {
+        self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.0)
+        UIView.animateWithDuration(0.3, animations: {
+            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
+            self.view.layoutIfNeeded()
+        }) { (res) in
+        }
+    }
+    
+    @IBAction func datePickerDoneBtnClicked(sender: UIButton) {
+        let dt = datePicker.date
+        self.user.birthDate = self.dateFomator.stringFromDate(dt)
+        let cell = self.tableView.cellForRowAtIndexPath(selectedIndexPath!) as? TVSignUpFormCell
+        cell?.txtField.text =  self.user.birthDate
+        hideDatePickerView()
+    }
+    
+    @IBAction func datePickerCancelBtnClicked(sender: UIButton) {
+        hideDatePickerView()
+    }
+}
+
 //MARK:---------------------------------------------
 //Other Important classes and enum for profile Screen
-
 
 class CellItem {
     var strHeader: String = ""

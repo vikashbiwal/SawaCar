@@ -17,6 +17,7 @@ class AddCarVC: ParentVC {
     @IBOutlet var lblProYear: UILabel!
     @IBOutlet var lblColor: UILabel!
     @IBOutlet var txtModel: UITextField!
+    @IBOutlet var txtPlateNumber: UITextField!
     @IBOutlet var txtDetail: UITextView!
     @IBOutlet var lblDetailPlaceHolder: UILabel!
     @IBOutlet var btnSeatCounterMinus: UIButton!
@@ -62,7 +63,8 @@ class AddCarVC: ParentVC {
 
         }
         var years = [String]()
-        for year in (1970...2016).reverse() {
+        let str = dateFormator.stringFromDate(NSDate(), format: "yyyy")
+        for year in (1970...str.integerValue!).reverse() {
             years.append("\(year)")
         }
         yearPicker.Items = years
@@ -73,9 +75,11 @@ class AddCarVC: ParentVC {
         let av = customViews[0] as! VKeyboardAccessoryView
         txtDetail.inputAccessoryView = av
         txtModel.inputAccessoryView = av
+        txtPlateNumber.inputAccessoryView = av
         av.actionBlock = {(action) in
             self.txtModel.resignFirstResponder()
             self.txtDetail.resignFirstResponder()
+            self.txtPlateNumber.resignFirstResponder()
         }
     }
     
@@ -107,7 +111,7 @@ extension AddCarVC {
         if process.isValid {
             isEditMode ? self.updateCarAPICall() : self.addCarAPICall()
         } else {
-            showToastMessage("", message: process.message)
+            showToastErrorMessage("", message: process.message)
         }
     }
     
@@ -154,6 +158,8 @@ extension AddCarVC {
             car.model = sender.text
         } else if sender === txtDetail {
             car.details = sender.text
+        } else if sender === txtPlateNumber {
+            car.plateNumber = sender.text
         }
     }
     
@@ -296,6 +302,10 @@ extension AddCarVC {
             return (false, kCarDetailRequired)
         }
         
+        if car.plateNumber.isEmpty {
+            return (false, kCarPlateNumberRequired)
+        }
+
         return (true, "Success")
     }
 
@@ -316,7 +326,7 @@ extension AddCarVC {
                       "ProductionYear" : car.productionYear,
                       "Insurance" : car.insurance,
                       "Photo" : "",
-                      "PaletteNumber" : "GJ 1212"]
+                      "PaletteNumber" : car.plateNumber]
         
         wsCall.addCar(params as! [String : AnyObject]) { (response, flag) in
             if response.isSuccess {
@@ -324,7 +334,7 @@ extension AddCarVC {
                 self.car.setInfo(carInfo)
                  self.addCarImageAPICall(self.car.id)
             } else {
-                showToastMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message!)
                 self.hideCentralGraySpinner()
             }
         }

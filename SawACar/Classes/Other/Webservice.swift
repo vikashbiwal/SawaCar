@@ -125,6 +125,13 @@ extension Webservice {
         jprint("=======WS = UpdateUserPreferences=======")
         postRequest(urlWithMethod("UpdateUserPreferences"), param:params, block: block)
     }
+    
+    func forgotPassword(params: [String : AnyObject], block: WSBlock) {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=ForgetPassword
+        //Parameters : Email
+        jprint("=======WS = Forgot password api call=======")
+        postRequest(urlWithMethod("ForgetPassword"), param:params, block: block)
+    }
 }
 
 //MARK: Car: AddCar, DeleteCar, UpdateCar, GetUserCars, GetAllCarCompanies

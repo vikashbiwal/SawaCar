@@ -90,11 +90,11 @@ extension OfferARideVC {
     //Fuction valiation 
     func validateLoction()-> Bool {
         guard let _ = travel.locationFrom else {
-            showToastMessage("", message: "From Location not defined.")
+            showToastErrorMessage("", message: "From Location not defined.")
             return false
         }
         guard let _ = travel.locationTo else {
-            showToastMessage("", message: "To Location not defined.")
+            showToastErrorMessage("", message: "To Location not defined.")
             return false
         }
         return true

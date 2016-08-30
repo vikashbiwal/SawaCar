@@ -10,13 +10,20 @@ import UIKit
 
 class AddTravelStep1VC: ParentVC {
 
+    //MARK: DatePicker Outlets
+    @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet var datePickerView: UIView!
+    @IBOutlet var datePicker: UIDatePicker!
+ 
     var isLoading = false
     var travel: Travel!
+    var dateSelectedForIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //travel.driverId = me.Id
         // Do any additional setup after loading the view.
+        datePickerViewTopConstraint.constant = 0
       }
 
     override func didReceiveMemoryWarning() {
@@ -98,7 +105,8 @@ extension AddTravelStep1VC {
     }
     
     @IBAction func travelDateTimeBtnClicked(sender: UIButton) {
-        openDatePicker(sender.tag)
+        dateSelectedForIndex = sender.tag
+        showDatePickerView()
     }
     
     @IBAction func repeatTypeBtnClicked(sender: UIButton) {
@@ -147,61 +155,6 @@ extension AddTravelStep1VC {
         self.presentViewController(loctionPicker, animated: true, completion: nil)
     }
     
-    //MARK: Show DatePicker
-    func openDatePicker(type: Int) {
-        if !isLoading {
-            isLoading = true
-            let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
-            if [1, 2, 4].contains(type) {//Repeat End date, Departure, Ride Date
-                datepickerVC.minDate = NSDate()
-            }  else if type == 3 {//Departure Time
-                datepickerVC.datePickerMode = UIDatePickerMode.Time
-            }  else if type == 5 {//Ride Time
-                datepickerVC.datePickerMode = UIDatePickerMode.Time
-            }
-
-            datepickerVC.completionBlock = {(date) in
-                if let dt = date {
-                    if type == 1 {//Repeat End date
-                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-                        self.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
-                    } else if type == 2 {//Departure Date
-                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-                        self.travel.roundDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
-                        
-                    } else if type == 3 {//Departure Time
-                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-                        let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
-                        let timeArr = timeString.componentsSeparatedByString(":")
-                        
-                        cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
-                        self.travel.roundHour = timeArr[0]
-                        self.travel.roundMinute = timeArr[1]
-                        
-                    } else if type == 4 {//Ride Date
-                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as? TravelDateTimeCell
-                        cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-                        self.travel.departureDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
-
-                    } else if type == 5 {//Ride Time
-                        let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as? TravelDateTimeCell
-                        let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
-                        let timeArr = timeString.componentsSeparatedByString(":")
-                        
-                        cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
-                        self.travel.departureHour = timeArr[0]
-                        self.travel.departureMinute = timeArr[1]
-
-                    }
-                }
-                self.isLoading = false
-            }
-            datepickerVC.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-            self.presentViewController(datepickerVC, animated: true, completion: nil)
-        }
-    }
     
     //MARK: Repeat Type selector function
     func showRepeatTypeList() {
@@ -230,28 +183,28 @@ extension AddTravelStep1VC {
         if travel.isRegularTravel {
             if travel.repeatEndDate.isEmpty  {
                 //select car message
-                showToastMessage("", message: "Repeate end date is required for regular travel.")
+                showToastErrorMessage("", message: "Repeate end date is required for regular travel.")
                 return false
             }
         }
         if travel.isRoundTravel {
             if travel.roundDate.isEmpty  {
-                showToastMessage("", message: "Departure date is required for round travel.")
+                showToastErrorMessage("", message: "Departure date is required for round travel.")
                 return false
             }
             if travel.roundHour.isEmpty  {
-                showToastMessage("", message: "Departure time is required for round travel.")
+                showToastErrorMessage("", message: "Departure time is required for round travel.")
                 return false
             }
         }
         
         if travel.departureDate.isEmpty {
-            showToastMessage("", message: "Departure date is required for travel.")
+            showToastErrorMessage("", message: "Departure date is required for travel.")
             return false
         }
 
         if travel.departureHour.isEmpty {
-            showToastMessage("", message: "Departure time is required for travel.")
+            showToastErrorMessage("", message: "Departure time is required for travel.")
             return false
         }
 
@@ -260,5 +213,83 @@ extension AddTravelStep1VC {
 
 }
 
-//MARK: AddTravel Model Class
+//MARK: DatePicker Methods
+extension AddTravelStep1VC {
+    func showDatePickerView() {
+       
+        if [1, 2, 4].contains(dateSelectedForIndex) {//Repeat End date, Departure, Ride Date
+            datePicker.minimumDate = NSDate()
+        }  else if dateSelectedForIndex == 3 {//Departure Time
+            datePicker.datePickerMode = UIDatePickerMode.Time
+        }  else if dateSelectedForIndex == 5 {//Ride Time
+            datePicker.datePickerMode = UIDatePickerMode.Time
+        }
+        
+        UIView.animateWithDuration(0.3, animations: {
+            self.datePickerViewTopConstraint.constant = 0
+            self.datePickerView.alpha = 1
+            self.view.layoutIfNeeded()
+            }) { (res) in
+                self.datePickerView.alpha = 1
+                self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
+        }
+    }
+    
+    func hideDatePickerView() {
+         self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.0)
+        UIView.animateWithDuration(0.3, animations: {
+            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
+            self.view.layoutIfNeeded()
+        }) { (res) in
+        }
+    }
+
+    @IBAction func datePickerDoneBtnClicked(sender: UIButton) {
+        didSelectDate(dateSelectedForIndex)
+        hideDatePickerView()
+    }
+    
+    @IBAction func datePickerCancelBtnClicked(sender: UIButton) {
+        hideDatePickerView()
+    }
+
+    //datePicker did completed selection
+    func didSelectDate(type: Int) {
+        let dt = datePicker.date
+        if type == 1 {//Repeat End date
+            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
+            cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+            self.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+        } else if type == 2 {//Departure Date
+            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
+            cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+            self.travel.roundDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+            
+        } else if type == 3 {//Departure Time
+            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
+            let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
+            let timeArr = timeString.componentsSeparatedByString(":")
+            
+            cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
+            self.travel.roundHour = timeArr[0]
+            self.travel.roundMinute = timeArr[1]
+            
+        } else if type == 4 {//Ride Date
+            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as? TravelDateTimeCell
+            cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+            self.travel.departureDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+            
+        } else if type == 5 {//Ride Time
+            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as? TravelDateTimeCell
+            let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
+            let timeArr = timeString.componentsSeparatedByString(":")
+            
+            cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
+            self.travel.departureHour = timeArr[0]
+            self.travel.departureMinute = timeArr[1]
+            
+        }
+    }
+    
+}
 

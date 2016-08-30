@@ -101,7 +101,7 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                 } else if formType == .ContactInfo {
                     cell.lblTitle.text = "What is your number?"
                 } else {
-                    cell.lblTitle.text = "Where are you leaving?"
+                    cell.lblTitle.text = "Where are you living?"
                 }
                 return cell
             } else {

@@ -33,6 +33,7 @@ class ParentVC: UIViewController  {
     }
     
     @IBAction func shutterAction(sender: UIButton) {
+        self.view.endEditing(true)
         shutterActioinBlock()
     }
     

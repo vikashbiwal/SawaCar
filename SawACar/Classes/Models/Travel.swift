@@ -160,6 +160,7 @@ class Car: Equatable {
     var name: String!
     var userId: String!
     var model: String!
+    var plateNumber: String!
     var seatCounter: VCounterRange = (1,1,9)
     var photo: String!
     var productionYear: String!

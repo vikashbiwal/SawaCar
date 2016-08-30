@@ -146,3 +146,7 @@ func showToastMessage(title: String, message: String) {
     ValidationToast.showBarMessage(message, title: title, inView: nil, withColor: UIColor.colorWithRGB(r: 117, g: 189, b: 95))
 }
 
+func showToastErrorMessage(title: String, message: String) {
+    ValidationToast.showBarMessage(message, title: title, inView: nil, withColor: UIColor.redColor())
+}
+

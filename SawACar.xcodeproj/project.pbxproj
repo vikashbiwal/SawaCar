@@ -31,6 +31,9 @@
 		0327CDAA1D058FDA00D51DE4 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */; };
 		0327CDAC1D059C2A00D51DE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */; };
 		0327CDAF1D05A82800D51DE4 /* OfferARideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */; };
+		032EAEDB1D75599500C511BD /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */; };
+		032EAEDC1D75599900C511BD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */; };
+		032EAEDF1D7564B600C511BD /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032EAEDE1D7564B600C511BD /* ForgotPasswordVC.swift */; };
 		0336B9AF1D0FE74700AE416E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0336B9AE1D0FE74700AE416E /* ListViewController.swift */; };
 		034826BF1CFC30ED000B46AE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034826BE1CFC30ED000B46AE /* main.swift */; };
 		034826C11CFC3155000B46AE /* LocalizedApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034826C01CFC3155000B46AE /* LocalizedApplication.swift */; };
@@ -60,8 +63,6 @@
 		038F50EF1D22859400E28B5D /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EC1D22859400E28B5D /* ValidationToastBar.xib */; };
 		03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */ = {isa = PBXBuildFile; fileRef = 03E7E6961CBCBDAE00DB7723 /* WSReponse.text */; };
 		03E7E6991CBCBFD200DB7723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6981CBCBFD200DB7723 /* User.swift */; };
-		03E7E69B1CBCEED300DB7723 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */; };
-		03E7E6A01CBCF22300DB7723 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */; };
 		03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6A21CBD0C5900DB7723 /* SignUpVC.swift */; };
 		03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6A91CBD146B00DB7723 /* TableViewCells.swift */; };
 		03E7E6AC1CBD14A500DB7723 /* ParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6AB1CBD14A500DB7723 /* ParentVC.swift */; };
@@ -121,6 +122,7 @@
 		0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferARideVC.swift; sourceTree = "<group>"; };
+		032EAEDE1D7564B600C511BD /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		0336B9AE1D0FE74700AE416E /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		034826BE1CFC30ED000B46AE /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		034826C01CFC3155000B46AE /* LocalizedApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalizedApplication.swift; path = ../LocalizedApplication.swift; sourceTree = "<group>"; };
@@ -195,10 +197,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				032EAEDC1D75599900C511BD /* FBSDKCoreKit.framework in Frameworks */,
 				E717E27B9A02098BC5290BD0 /* libPods-SawACar.a in Frameworks */,
 				030BF5431D1404B0000D3948 /* Crashlytics.framework in Frameworks */,
-				03E7E69B1CBCEED300DB7723 /* FBSDKCoreKit.framework in Frameworks */,
-				03E7E6A01CBCF22300DB7723 /* FBSDKLoginKit.framework in Frameworks */,
+				032EAEDB1D75599500C511BD /* FBSDKLoginKit.framework in Frameworks */,
 				030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +217,7 @@
 				03E7E6AF1CBD15EF00DB7723 /* CountryListVC */,
 				03E7E6A11CBD0BE000DB7723 /* SignUpVC */,
 				036A896F1CBB7E4100DFB631 /* LoginVC */,
+				032EAEDD1D75644200C511BD /* ForgotPassword */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -309,6 +312,14 @@
 				034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */,
 			);
 			name = Travel;
+			sourceTree = "<group>";
+		};
+		032EAEDD1D75644200C511BD /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				032EAEDE1D7564B600C511BD /* ForgotPasswordVC.swift */,
+			);
+			name = ForgotPassword;
 			sourceTree = "<group>";
 		};
 		034826C21CFC5B2E000B46AE /* Font */ = {
@@ -717,6 +728,7 @@
 				03F65D421CBBDE8700C44B5A /* InteractiveNavigationController.swift in Sources */,
 				032680E31D06D81700969C16 /* MapViewController.swift in Sources */,
 				03E7E6991CBCBFD200DB7723 /* User.swift in Sources */,
+				032EAEDF1D7564B600C511BD /* ForgotPasswordVC.swift in Sources */,
 				030B769B1D58A47800A9DA8E /* Driver.swift in Sources */,
 				03F65D351CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift in Sources */,
 				034826BF1CFC30ED000B46AE /* main.swift in Sources */,

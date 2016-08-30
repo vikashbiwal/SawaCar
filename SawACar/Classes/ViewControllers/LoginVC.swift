@@ -99,15 +99,15 @@ extension LoginVC {
                         archiveObject(info, key: kLoggedInUserKey)
                         self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
                     } else {
-                        showToastMessage("Login Error", message: response.message!)
+                        showToastErrorMessage("Login Error", message: response.message!)
                     }
                 } else {
-                    showToastMessage("Login Error", message: response.message!)
+                    showToastErrorMessage("Login Error", message: response.message!)
                 }
                 self.hideCentralGraySpinner()
             })
         } else {
-            showToastMessage("Login Error", message: process.msg)
+            showToastErrorMessage("Login Error", message: process.msg)
         }
     }
     
@@ -176,10 +176,10 @@ extension LoginVC {
                     }
                     archiveObject(info, key: kLoggedInUserKey)
                 } else {
-                    showToastMessage("", message: response.message!)
+                    showToastErrorMessage("", message: response.message!)
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
@@ -203,16 +203,16 @@ extension LoginVC {
     func validateEmailLogin() -> Bool {
         let alertTitle = "Login Error"
         if txtEmail.text!.isEmpty {
-            showToastMessage(alertTitle, message: "Please enter email.")
+            showToastMessage(alertTitle, message: kEmailIsRequired)
             return false
         } else {
             if !txtEmail.text!.isValidEmailAddress() {
-                showToastMessage(alertTitle, message: "Please enter a valid email address.")
+                showToastMessage(alertTitle, message: kEmailValidateMsg)
                 return false
             }
         }
         if txtpassword.text!.isEmpty {
-            showToastMessage(alertTitle, message: "Please enter your password.")
+            showToastMessage(alertTitle, message: kPasswordIsRequired)
             return false
         }
         return  true

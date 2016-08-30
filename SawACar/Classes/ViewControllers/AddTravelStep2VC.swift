@@ -369,12 +369,12 @@ extension AddTravelStep2VC {
     func validateTravel()-> Bool {
         guard let _ = travel.currency else {
         //select currency message
-            showToastMessage("", message: "Please select currency for ride price.")
+            showToastErrorMessage("", message: "Please select currency for ride price.")
             return false
         }
         guard let _ = travel.car else {
             //select car message
-            showToastMessage("", message: "Please select a car for ride.")
+            showToastErrorMessage("", message: "Please select a car for ride.")
             return false
         }
         return true
@@ -463,7 +463,7 @@ extension AddTravelStep2VC {
                 showToastMessage("", message: "Your travel successfully added.")
                 self.navigationController?.popToRootViewControllerAnimated(true)
             } else {
-                showToastMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
