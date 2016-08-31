@@ -21,6 +21,7 @@ class OfferARideVC: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setRoundCircleUI()
+        
         self.view.layoutIfNeeded()
     }
 
@@ -29,7 +30,15 @@ class OfferARideVC: ParentVC {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Navigation
+    deinit{
+        _defaultCenter.removeObserver(self)
+    }
+    
+    func notificationSetup() {
+        _defaultCenter.addObserver(self, selector: #selector(OfferARideVC.resetTravelObj), name: kTravelAddedNotificationKey, object: nil)
+    }
+    
+    //MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SBSegue_toAddTravel" {
             let addTravelVC = segue.destinationViewController as! AddTravelStep1VC
@@ -51,6 +60,13 @@ class OfferARideVC: ParentVC {
         roundedView.layer.cornerRadius = (260 * _widthRatio) / 2
         roundedView.clipsToBounds = true
     }
+    
+    //Reset a new travel object when travel created successfully.
+    func resetTravelObj() {
+        travel = Travel()
+        txtTo.text = "To"
+        txtFrom.text = "From"
+    }
 }
 
 //MARK: IBActions
@@ -68,6 +84,8 @@ extension OfferARideVC {
             self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
         }
     }
+    
+
 }
 
 extension OfferARideVC {
@@ -90,11 +108,11 @@ extension OfferARideVC {
     //Fuction valiation 
     func validateLoction()-> Bool {
         guard let _ = travel.locationFrom else {
-            showToastErrorMessage("", message: "From Location not defined.")
+            showToastErrorMessage("", message: kFromLocationRequired)
             return false
         }
         guard let _ = travel.locationTo else {
-            showToastErrorMessage("", message: "To Location not defined.")
+            showToastErrorMessage("", message: kToLocationRequired)
             return false
         }
         return true

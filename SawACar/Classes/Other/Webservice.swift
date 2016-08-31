@@ -188,6 +188,12 @@ extension Webservice {
         jprint("=======WS = AddTravel=======")
         postRequest(urlWithMethod("AddTravel"), param:params, block: block)
     }
+    
+    func getTravels(userId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravels&UserID=39
+        jprint("=======WS = DeleteCar=======")
+        getRequest(urlWithMethod("GetUserTravels&UserID=" + userId), param: nil, block: block)
+    }
 }
 
 

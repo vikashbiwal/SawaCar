@@ -13,11 +13,17 @@ class CarListVC: ParentVC {
     var Cars = [Car]()
     var selectedCar: Car?
     var completionBlock: (Car)->Void = {_ in}
-    
+    var refreshControl : UIRefreshControl!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl = self.tableView.addRefreshControl(self, selector: #selector(CarListVC.getUserCarsAPICall))
+
         self.getUserCarsAPICall()
+        initEmptyDataView()
+        showEmptyDataView(kNoCarAvailable)
         self.tableView.tableFooterView = UIView()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,6 +49,7 @@ class CarListVC: ParentVC {
                 } else {
                     self.Cars.append(car)
                 }
+                self.emptyDataView.hide()
                 self.tableView.reloadData()
             }
         }
@@ -69,11 +76,6 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let car = Cars[indexPath.row]
-//        guard  car ==  selectedCar else {
-//            selectedCar = car
-//            tableView.reloadData()
-//            
-//        }
         completionBlock(car)
         self.parentBackAction(nil)
     }
@@ -96,6 +98,7 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
     }
     
 }
+
 
 
 //MARK: Other
@@ -125,11 +128,14 @@ extension CarListVC {
                     let car = Car(item)
                     self.Cars.append(car)
                 }
+                self.Cars.isEmpty ? self.showEmptyDataView() : self.emptyDataView.hide()
+                
                 self.tableView.reloadData()
             } else {
-                
+                self.showEmptyDataView(kNoCarAvailable)
             }
             self.hideCentralGraySpinner()
+            self.refreshControl.endRefreshing()
         }
     }
     

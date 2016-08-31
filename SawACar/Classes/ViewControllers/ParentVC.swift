@@ -20,7 +20,8 @@ class ParentVC: UIViewController  {
     
     @IBOutlet var horizontalConstraints: [NSLayoutConstraint]?
     @IBOutlet var verticalConstraints: [NSLayoutConstraint]?
-  
+    var emptyDataView: VNoDataView! //Empty data message view for show on screen when no data available.
+
     // MARK: - Actions
     // Navigate to Previous View Controller with navigation popview method
     @IBAction func parentBackAction(sender:UIButton? ){
@@ -158,3 +159,17 @@ class ParentVC: UIViewController  {
         }
     }
 }
+
+//MARK: Setup Empty data view
+extension ParentVC {
+    func initEmptyDataView()  {
+        let customViews = NSBundle.mainBundle().loadNibNamed("VNoDataView", owner: nil, options: nil)
+        emptyDataView = customViews[0] as! VNoDataView
+    }
+    
+    func showEmptyDataView(message: String = "No items available") {
+        self.emptyDataView.showInCenterInView(self.view, title: message)
+    }
+    
+}
+

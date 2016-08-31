@@ -121,6 +121,15 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="System San Francisco Display Regular.ttf">
             <string>.HelveticaNeueDeskInterface-Regular</string>
@@ -410,7 +419,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVE-bi-jRc" customClass="KPIconButton" customModule="SawACar" customModuleProvider="target">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVE-bi-jRc" customClass="KPIconButton" customModule="SawACar" customModuleProvider="target">
                                         <rect key="frame" x="325" y="20" width="50" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="HqH-d9-yu7"/>
@@ -693,7 +702,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89E-zv-dqW">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89E-zv-dqW">
                                         <rect key="frame" x="325" y="20" width="50" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="evH-mJ-gk5"/>
@@ -3137,6 +3146,7 @@
                     <navigationItem key="navigationItem" id="s16-7h-PKS"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="btnShutter" destination="hPh-9e-0M5" id="zEc-J2-CUl"/>
                         <outlet property="datePicker" destination="psa-ge-yDM" id="Saq-Jo-olz"/>
                         <outlet property="datePickerView" destination="Vtv-NY-U8H" id="H1b-rl-MMP"/>
                         <outlet property="datePickerViewTopConstraint" destination="hcO-kT-2ki" id="JtB-Rt-dEo"/>
@@ -3158,7 +3168,7 @@
                         <outletCollection property="horizontalConstraints" destination="RW6-cy-JeY" collectionClass="NSMutableArray" id="2QN-sS-nxv"/>
                         <outletCollection property="horizontalConstraints" destination="Wo3-Vl-JF9" collectionClass="NSMutableArray" id="wd9-bD-AZX"/>
                         <outletCollection property="horizontalConstraints" destination="TY5-rc-m2w" collectionClass="NSMutableArray" id="9U3-vu-QYE"/>
-                        <outletCollection property="verticalConstraints" destination="gD2-ia-B3A" id="C5T-Rm-0Q8"/>
+                        <outletCollection property="verticalConstraints" destination="gD2-ia-B3A" collectionClass="NSMutableArray" id="C5T-Rm-0Q8"/>
                         <segue destination="4hU-nA-pv6" kind="show" identifier="SBSegue_To_AccountTypes" id="W96-A8-Yho">
                             <nil key="action"/>
                         </segue>
@@ -3375,10 +3385,10 @@
             </objects>
             <point key="canvasLocation" x="3050.5" y="-1045.5"/>
         </scene>
-        <!--ParentVC-->
+        <!--My RidesVC-->
         <scene sceneID="lRT-Yx-WY0">
             <objects>
-                <viewController storyboardIdentifier="SBID_MyRidesVC" id="hjE-bZ-n75" customClass="ParentVC" customModule="SawACar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SBID_MyRidesVC" id="hjE-bZ-n75" customClass="MyRidesVC" customModule="SawACar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D7Z-MT-0ct"/>
                         <viewControllerLayoutGuide type="bottom" id="B0S-ix-kGt"/>
@@ -3402,7 +3412,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Rides" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6i-Dt-zYq" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
-                                        <rect key="frame" x="152" y="30" width="72" height="24"/>
+                                        <rect key="frame" x="151" y="30" width="72" height="24"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -3417,11 +3427,119 @@
                                     <constraint firstAttribute="bottom" secondItem="a6i-Dt-zYq" secondAttribute="bottom" constant="10" id="zKN-Oe-fTO"/>
                                 </constraints>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="277" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="15q-Hy-Pdg">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="200" id="Gpp-cC-6K7">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gpp-cC-6K7" id="shf-JK-5cN">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zOf-mQ-O6u">
+                                                    <rect key="frame" x="25" y="9" width="325" height="180"/>
+                                                    <subviews>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="ic_location_red" translatesAutoresizingMaskIntoConstraints="NO" id="x7a-Lv-zB2">
+                                                            <rect key="frame" x="17" y="49" width="13" height="13"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="ic_location_green" translatesAutoresizingMaskIntoConstraints="NO" id="daq-B0-QnI">
+                                                            <rect key="frame" x="17" y="95" width="13" height="13"/>
+                                                        </imageView>
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="ic_location_distance" translatesAutoresizingMaskIntoConstraints="NO" id="2X0-C8-eMv">
+                                                            <rect key="frame" x="22" y="68" width="2" height="21"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Jaddah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVu-IE-nf1" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="47" y="45" width="46" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30 April" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sjW-34-JlA" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="17" y="17" width="50" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" red="0.094117647058823528" green="0.47058823529411764" blue="0.65098039215686276" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="07:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vt2-9M-tZT" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="77" y="17" width="61" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AUDI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jpx-mC-U36" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="148" y="17" width="34" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4 Seats " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XpZ-hB-ZoN" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="148" y="45" width="51" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4 Left " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEE-Mo-Y2w" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="148" y="76" width="41" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cA6-Ye-fOr">
+                                                            <rect key="frame" x="0.0" y="125" width="325" height="55"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3hd-56-3Mk" customClass="RoundedImageView" customModule="SawACar" customModuleProvider="target">
+                                                                    <rect key="frame" x="17" y="10" width="35" height="35"/>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="John Smith" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bhf-Qh-kWa" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                                    <rect key="frame" x="62" y="9" width="76" height="21"/>
+                                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                                                    <color key="textColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$ 200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrZ-EZ-hDF" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                                    <rect key="frame" x="272" y="18" width="36" height="20"/>
+                                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                                    <color key="textColor" white="0.33333333333333331" alpha="0.85567989864864868" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="ic_tag" translatesAutoresizingMaskIntoConstraints="NO" id="8J1-eY-CvH">
+                                                                    <rect key="frame" x="248" y="22" width="12" height="12"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alryald" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9u-WL-hTL" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
+                                                            <rect key="frame" x="47" y="92" width="46" height="20"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="zOf-mQ-O6u" secondAttribute="trailing" constant="25" id="CIe-YC-I2k"/>
+                                                <constraint firstItem="zOf-mQ-O6u" firstAttribute="leading" secondItem="shf-JK-5cN" secondAttribute="leading" constant="25" id="Cfb-Lm-7cT"/>
+                                                <constraint firstAttribute="bottom" secondItem="zOf-mQ-O6u" secondAttribute="bottom" constant="10" id="jBM-Wc-upQ"/>
+                                                <constraint firstItem="zOf-mQ-O6u" firstAttribute="top" secondItem="shf-JK-5cN" secondAttribute="top" constant="9" id="jja-Ww-pmd"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="15q-Hy-Pdg" firstAttribute="leading" secondItem="wW8-Q0-ngM" secondAttribute="leading" id="528-IY-FGY"/>
                             <constraint firstItem="sBq-Uf-TCd" firstAttribute="leading" secondItem="wW8-Q0-ngM" secondAttribute="leading" id="6ty-2j-hVB"/>
                             <constraint firstAttribute="trailing" secondItem="sBq-Uf-TCd" secondAttribute="trailing" id="Edd-cS-NZL"/>
+                            <constraint firstItem="15q-Hy-Pdg" firstAttribute="top" secondItem="sBq-Uf-TCd" secondAttribute="bottom" id="KGR-Nj-uVJ"/>
+                            <constraint firstAttribute="trailing" secondItem="15q-Hy-Pdg" secondAttribute="trailing" id="MIS-cH-OdC"/>
+                            <constraint firstAttribute="bottom" secondItem="15q-Hy-Pdg" secondAttribute="bottom" id="UPJ-Eh-eOZ"/>
                             <constraint firstItem="sBq-Uf-TCd" firstAttribute="top" secondItem="wW8-Q0-ngM" secondAttribute="top" id="Ww4-cM-3aH"/>
                         </constraints>
                     </view>
@@ -3430,7 +3548,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="btS-na-frC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3494.5" y="-1045.5"/>
+            <point key="canvasLocation" x="4830.5" y="-948.5"/>
         </scene>
         <!--ParentVC-->
         <scene sceneID="nNs-MQ-JAb">
@@ -4056,7 +4174,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="as7-Ow-5Ce">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="as7-Ow-5Ce">
                                         <rect key="frame" x="325" y="20" width="50" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="RIu-J5-ugk"/>
@@ -5343,10 +5461,10 @@
             </objects>
             <point key="canvasLocation" x="4830.5" y="-225.5"/>
         </scene>
-        <!--Car ListVC-->
+        <!--View Controller-->
         <scene sceneID="Sh4-8j-xjS">
             <objects>
-                <viewController id="esK-Q9-1dl" customClass="CarListVC" customModule="SawACar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="esK-Q9-1dl" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yLG-98-W3l"/>
                         <viewControllerLayoutGuide type="bottom" id="HjA-TP-0nP"/>
@@ -5434,7 +5552,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3f-zg-eLB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5252.5" y="-225.5"/>
+            <point key="canvasLocation" x="5597.5" y="-225.5"/>
         </scene>
     </scenes>
     <resources>

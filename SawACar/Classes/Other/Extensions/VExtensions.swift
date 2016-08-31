@@ -9,7 +9,7 @@
 import Foundation
 
 //============================= Extensions ===================================
-
+//MARK: Int
 extension Int {
     func ToString() -> String {
         return "\(self)"
@@ -22,6 +22,7 @@ extension Double {
     }
 }
 
+//MARK: UIView
 extension UIView {
     //Draw a shadow
     func drawShadow() {
@@ -37,6 +38,7 @@ extension UIView {
     }
 }
 
+//MARK: UIImage
 extension UIImage {
     //MARK: Compressed image
     var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
@@ -55,7 +57,7 @@ extension Array where Element: Equatable {
     }
 }
 
-//DateFormator
+//MARK: DateFormator
 extension NSDateFormatter {
     func stringFromDate(date: NSDate, format: String) -> String {
         self.dateFormat = format
@@ -70,6 +72,16 @@ extension NSDateFormatter {
     func dateFromString(strDate: String, fomat: String) -> NSDate? {
         self.dateFormat = fomat
         return self.dateFromString(strDate)
+    }
+}
+
+//MARK: TableView
+extension UITableView {
+    func addRefreshControl(target: UIViewController, selector: Selector) -> UIRefreshControl {
+        let refControl = UIRefreshControl()
+        refControl.addTarget(target, action: selector, forControlEvents: UIControlEvents.ValueChanged)
+        self.addSubview(refControl)
+        return refControl
     }
 }
 

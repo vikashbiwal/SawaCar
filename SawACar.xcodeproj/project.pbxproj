@@ -47,6 +47,9 @@
 		034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */; };
 		034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */; };
 		034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */; };
+		034832201D76AEFE004E0F38 /* VNoDataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0348321F1D76AEFE004E0F38 /* VNoDataView.xib */; };
+		034832221D76AF2F004E0F38 /* VNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034832211D76AF2F004E0F38 /* VNoDataView.swift */; };
+		034832251D76C260004E0F38 /* MyRidesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034832241D76C260004E0F38 /* MyRidesVC.swift */; };
 		0349D8461D3E0C7E00B17976 /* AppMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0349D8451D3E0C7E00B17976 /* AppMessages.swift */; };
 		034BA1521D3CB9EB0050F0AC /* TravelDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */; };
 		035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 035AE6F91D1D1E2100028EFE /* VPickerView.xib */; };
@@ -136,6 +139,9 @@
 		034826CA1CFC5B3C000B46AE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		034826CB1CFC5B3C000B46AE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		0348321F1D76AEFE004E0F38 /* VNoDataView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VNoDataView.xib; sourceTree = "<group>"; };
+		034832211D76AF2F004E0F38 /* VNoDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VNoDataView.swift; sourceTree = "<group>"; };
+		034832241D76C260004E0F38 /* MyRidesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyRidesVC.swift; sourceTree = "<group>"; };
 		0349D8451D3E0C7E00B17976 /* AppMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppMessages.swift; sourceTree = "<group>"; };
 		034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelDetailVC.swift; sourceTree = "<group>"; };
 		035AE6F91D1D1E2100028EFE /* VPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VPickerView.xib; sourceTree = "<group>"; };
@@ -225,6 +231,7 @@
 		03078EA61D0548E4009450BB /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				034832231D76C23B004E0F38 /* MyRides */,
 				031316AA1D1C0E560096077A /* Cars */,
 				030F8B381D09860800B652EA /* DriverContainerVC */,
 				0327CDAD1D05A7FB00D51DE4 /* Travel */,
@@ -337,6 +344,14 @@
 				034826CC1CFC5B3C000B46AE /* OpenSans-SemiboldItalic.ttf */,
 			);
 			name = Font;
+			sourceTree = "<group>";
+		};
+		034832231D76C23B004E0F38 /* MyRides */ = {
+			isa = PBXGroup;
+			children = (
+				034832241D76C260004E0F38 /* MyRidesVC.swift */,
+			);
+			name = MyRides;
 			sourceTree = "<group>";
 		};
 		036A89431CBB7A9E00DFB631 = {
@@ -456,8 +471,10 @@
 			isa = PBXGroup;
 			children = (
 				038F50EA1D22859400E28B5D /* ValidationToast.swift */,
+				034832211D76AF2F004E0F38 /* VNoDataView.swift */,
 				038F50EB1D22859400E28B5D /* ValidationToast.xib */,
 				038F50EC1D22859400E28B5D /* ValidationToastBar.xib */,
+				0348321F1D76AEFE004E0F38 /* VNoDataView.xib */,
 			);
 			path = ValidationToast;
 			sourceTree = "<group>";
@@ -633,6 +650,7 @@
 				035AE6FD1D1D533100028EFE /* SBDriver.storyboard in Resources */,
 				035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */,
 				034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */,
+				034832201D76AEFE004E0F38 /* VNoDataView.xib in Resources */,
 				036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */,
 				032360141D0838F40004CDA9 /* car_image.jpg in Resources */,
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
@@ -713,6 +731,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				034832221D76AF2F004E0F38 /* VNoDataView.swift in Sources */,
 				031032331D0EB0BC0024531A /* VDatePickerVC.swift in Sources */,
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
@@ -757,6 +776,7 @@
 				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,
 				031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */,
 				03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */,
+				034832251D76C260004E0F38 /* MyRidesVC.swift in Sources */,
 				03E7E6AE1CBD14DF00DB7723 /* CollectionViewCells.swift in Sources */,
 				03F65D371CBBDE8700C44B5A /* StringExtension.swift in Sources */,
 				031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */,
@@ -917,7 +937,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -942,7 +962,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 			};
 			name = Release;

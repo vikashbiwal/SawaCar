@@ -24,13 +24,13 @@ class AddCarVC: ParentVC {
     @IBOutlet var btnSeatCounterPlus: UIButton!
     @IBOutlet var btnInsurance: UIButton!
     @IBOutlet var imgVCar: UIImageView!
-    
+   
     var completionBlock: (Car)-> Void = {_ in}
     var isLoading = false
     var yearPicker: VPickerView!
     var car = Car()
     var isEditMode = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

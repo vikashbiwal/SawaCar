@@ -461,6 +461,7 @@ extension AddTravelStep2VC {
                 let travelInfo = response.json!["Object"] as! [String :  AnyObject]
                 self.travel.updateInfo(travelInfo)
                 showToastMessage("", message: "Your travel successfully added.")
+                _defaultCenter.postNotificationName(kTravelAddedNotificationKey, object: nil)
                 self.navigationController?.popToRootViewControllerAnimated(true)
             } else {
                 showToastErrorMessage("", message: response.message!)

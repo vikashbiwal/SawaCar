@@ -21,9 +21,7 @@ class AddTravelStep1VC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //travel.driverId = me.Id
         // Do any additional setup after loading the view.
-        datePickerViewTopConstraint.constant = 0
       }
 
     override func didReceiveMemoryWarning() {
@@ -183,28 +181,28 @@ extension AddTravelStep1VC {
         if travel.isRegularTravel {
             if travel.repeatEndDate.isEmpty  {
                 //select car message
-                showToastErrorMessage("", message: "Repeate end date is required for regular travel.")
+                showToastErrorMessage("", message: kRepeateEndDateRequired)
                 return false
             }
         }
         if travel.isRoundTravel {
             if travel.roundDate.isEmpty  {
-                showToastErrorMessage("", message: "Departure date is required for round travel.")
+                showToastErrorMessage("", message: kRoundTravelDepartureDateRequired)
                 return false
             }
             if travel.roundHour.isEmpty  {
-                showToastErrorMessage("", message: "Departure time is required for round travel.")
+                showToastErrorMessage("", message: kRoundTravelDepartureTimeRequired)
                 return false
             }
         }
         
         if travel.departureDate.isEmpty {
-            showToastErrorMessage("", message: "Departure date is required for travel.")
+            showToastErrorMessage("", message: kTravelDepartureDateRequired)
             return false
         }
 
         if travel.departureHour.isEmpty {
-            showToastErrorMessage("", message: "Departure time is required for travel.")
+            showToastErrorMessage("", message: kTravelDepartureTimeRequired)
             return false
         }
 
@@ -219,6 +217,7 @@ extension AddTravelStep1VC {
        
         if [1, 2, 4].contains(dateSelectedForIndex) {//Repeat End date, Departure, Ride Date
             datePicker.minimumDate = NSDate()
+            datePicker.datePickerMode = UIDatePickerMode.Date
         }  else if dateSelectedForIndex == 3 {//Departure Time
             datePicker.datePickerMode = UIDatePickerMode.Time
         }  else if dateSelectedForIndex == 5 {//Ride Time

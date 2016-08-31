@@ -45,7 +45,7 @@ let dateFormator: NSDateFormatter = {let df = NSDateFormatter(); df.dateFormat =
 let kLoggedInUserKey            = "LoggedInUserKey"
 let UserModeKey                 = "UserModeKey"
 let kProfileUpdateNotificationKey = "UserProfileUpdateNotificationKey"
-
+let kTravelAddedNotificationKey = "kTravelAddedNotification"
 
 
 

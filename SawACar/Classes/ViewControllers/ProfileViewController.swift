@@ -17,7 +17,8 @@ class ProfileViewController: ParentVC {
     @IBOutlet var lblFullName:  UILabel!
     @IBOutlet var lblGender:    UILabel!
     @IBOutlet var lblBirthDate: UILabel!
-   
+    @IBOutlet var btnShutter: UIButton!
+    
     //MARK: DatePicker Outlets
     @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
     @IBOutlet var datePickerView: UIView!
@@ -105,6 +106,7 @@ extension ProfileViewController {
             }
         }
         isEditMode = !isEditMode
+        changeShutterBtnSelector()
     }
     
     @IBAction func profileImgBtnClicked(sender: UIButton) {
@@ -186,6 +188,10 @@ extension ProfileViewController {
         }
     }
     
+    @IBAction func backBtnClicked(sender: UIButton) {
+        isEditMode = !isEditMode
+        changeShutterBtnSelector()
+    }
 }
 
 //MARK: ImagePicker action for profile image setup
@@ -529,6 +535,22 @@ extension ProfileViewController {
         lblBirthDate.text = user.birthDate
         imgVUserProfile.setImageWithURL(NSURL(string: user.photo)!, placeholderImage: user.placeholderImage)
         imgVCover.setImageWithURL(NSURL(string: user.photo)!,placeholderImage: user.placeholderImage)
+    }
+    
+    //func for set action of shutter button as per profile form's mode
+    func changeShutterBtnSelector() {
+        if isEditMode {
+            btnShutter.removeTarget(self, action: #selector(ProfileViewController.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.addTarget(self, action: #selector(ProfileViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.setImage(UIImage(named: "ic_back_arrow"), forState: .Normal)
+        } else {
+            btnShutter.removeTarget(self, action: #selector(ProfileViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.addTarget(self, action: #selector(ProfileViewController.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.setImage(UIImage(named: "ic_menu"), forState: .Normal)
+            icnAddPhoto.hidden = true
+            editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
+            editBtn.setTitle("", forState: .Normal)
+        }
     }
     
     //MARK: Set Menu Items and UI as per seleted menu
