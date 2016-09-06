@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "ic_pessenger_detail_car-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_pessenger_detail_car-1.png",
+      "filename" : "carPlacehoder2.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_pessenger_detail_car.png",
       "scale" : "3x"
     }
   ],

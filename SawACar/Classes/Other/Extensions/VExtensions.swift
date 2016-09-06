@@ -73,6 +73,27 @@ extension NSDateFormatter {
         self.dateFormat = fomat
         return self.dateFromString(strDate)
     }
+    
+    func dateString(strDate: String, fromFomat: String, toFromat: String) -> String {
+        self.dateFormat = fromFomat
+        let date = dateFromString(strDate)
+        if let date = date {
+         self.dateFormat = toFromat
+            return stringFromDate(date)
+        }
+        return ""
+    }
+    
+    func dateString(strDate: String, fromFomat: String, style: NSDateFormatterStyle) -> String {
+        self.dateFormat = fromFomat
+        let date = dateFromString(strDate)
+        if let date = date {
+            self.dateStyle = style
+            return stringFromDate(date)
+        }
+        return ""
+    }
+
 }
 
 //MARK: TableView
@@ -119,6 +140,15 @@ class IndexPathTextField: JPWidthTextField {
 
 //============================= Enums ===================================
 enum VAction {
-    case Cancel, Done
+    case Cancel, Done, Share
 }
 
+//============================= Functions ===================================
+
+func getCurrencyForCountry(countryCode: String)-> String? {
+    let components = [NSLocaleCountryCode : countryCode]
+    let localeIdent = NSLocale.localeIdentifierFromComponents(components)
+    let locale = NSLocale(localeIdentifier: localeIdent)
+    let currencyCode = locale.objectForKey(NSLocaleCurrencyCode) as? String
+    return currencyCode
+}

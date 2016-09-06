@@ -177,7 +177,9 @@ class TravelSwitchCell: TVGenericeCell {
 class TVCarCell : TVGenericeCell {
     @IBOutlet var lblColor: UILabel!
     @IBOutlet var lblRating: UILabel!
+    @IBOutlet var lblSeats: UILabel!
     @IBOutlet var btnCheck: UIButton!
+    @IBOutlet var ratingView: HCSStarRatingView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -187,16 +189,8 @@ class TVCarCell : TVGenericeCell {
 
 //MARK: ==============================Travel Detail related Cells=======================
 
-//MARK: TravelInfoCell
-class TVTravelInfoCell : TVGenericeCell {
-   
-    override func awakeFromNib() {
-        
-    }
-}
-
 //MARK: MyRulesCell
-class TVMyRulesCell : TVGenericeCell {
+class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     var Rules = [String]()
     override func awakeFromNib() {
         
@@ -216,4 +210,32 @@ class TVMyRulesCell : TVGenericeCell {
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let width = 50 * _widthRatio
+        return CGSize(width: width, height: width)
+    }
+}
+
+
+//MAR: TravelCell
+class TVTravelCell : TVGenericeCell {
+    @IBOutlet var lblTravelDate     : UILabel!
+    @IBOutlet var lblTravelTime     : UILabel!
+    @IBOutlet var lblLocationFrom   : UILabel!
+    @IBOutlet var lblLocationTo     : UILabel!
+    @IBOutlet var lblCarName        : UILabel!
+    @IBOutlet var lblCarPrice       : UILabel!
+    @IBOutlet var lblSeatNumber     : UILabel!
+    @IBOutlet var lblSeatsLeft      : UILabel!
+    @IBOutlet var lblDriverName     : UILabel!
+    @IBOutlet var imgvDriver        : UIImageView!
+    @IBOutlet var cardView          : UIView?  //View that contain Travel info. See MyRides screen.
+    @IBOutlet var ratingView: HCSStarRatingView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        cardView?.layer.cornerRadius = 5 * _widthRatio
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderWidth = 2.0
+    }
 }

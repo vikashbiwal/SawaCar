@@ -11,6 +11,8 @@ import CoreData
 import FBSDKCoreKit
 import Fabric
 import Crashlytics
+import GoogleMaps
+import GooglePlaces
 
 //@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         Fabric.with([Crashlytics.self])
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        GMSServices.provideAPIKey(_googleMapKey)
+        //GMSPlacesClient.provideAPIKey("AIzaSyD4gEQFmU-8w0fjuNCqiKvRtteP0L-eQzM")
         directLogin()
         return true
     }

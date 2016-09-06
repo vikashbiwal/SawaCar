@@ -68,8 +68,8 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
         let car = Cars[indexPath.row]
         cell.lblTitle.text = car.name
         cell.lblColor.text = car.color?.name
-        cell.lblRating.text = car.rating.ToString()
-        cell.imgView.setImageWithURL(NSURL(string: car.photo!)!)
+        cell.lblSeats.text = car.seatCounter.max.ToString()
+        cell.imgView.setImageWithURL(NSURL(string: car.photo!)!, placeholderImage: UIImage(named: "carPlaceholder"))
         cell.btnCheck.hidden = car == selectedCar ? false : true
         return cell
     }

@@ -50,7 +50,7 @@ class DContainerVC: ParentVC {
         setUserInfo()
         findTabbar()
         setSliderMenus()
-        
+        self.storyboard
         transparentControl = UIControl(frame: self.view.bounds)
         transparentControl.addTarget(self, action: #selector(DContainerVC.shutterAction(_:)), forControlEvents: .TouchUpInside)
         transparentControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
@@ -75,6 +75,7 @@ class DContainerVC: ParentVC {
         }
     }
     
+    //func for set all slider menu items for driver and passenger
     func setSliderMenus() {
         if me.userMode == .Driver {
             Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true,        id: dHomeNavID),

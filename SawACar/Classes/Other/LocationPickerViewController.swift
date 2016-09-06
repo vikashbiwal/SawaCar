@@ -13,7 +13,9 @@ class GLocation: Address {
     var lat: Double = 0.0
     var long: Double = 0.0
     var address: String = ""
-    
+    var countryName: String = ""
+    var countryCode: String = ""
+
     override init() {
         //
     }
@@ -23,14 +25,14 @@ class GLocation: Address {
         id = RConverter.integer(info["LocationID"])
         lat = RConverter.double(info["Latitude"])
         long = RConverter.double(info["Longitude"])
-        self.name = RConverter.string(info["Address"])
+        name = RConverter.string(info["Address"])
     }
 }
 
 class Address {
     var name: String!
     var refCode: String!
-    
+
     init () {
     
     }
@@ -104,11 +106,12 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
         let attrDic : [String : AnyObject] = [NSFontAttributeName : UIFont(name: "Avenir", size: 15)!,
             NSForegroundColorAttributeName : UIColor.whiteColor()]
         let attriStr = NSAttributedString(string: "Search Text",attributes:attrDic)
-        tfSerach.attributedPlaceholder = attriStr
+        //tfSerach.attributedPlaceholder = attriStr
         tfSerach.font = UIFont(name: "Avenir", size: 15)
         tfSerach.frame = CGRectMake(50, 0, 320, 320)
     }
 
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         tfSerach.becomeFirstResponder()
@@ -237,13 +240,15 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
                     if let data = json["predictions"] as? NSDictionary{
                         let add = Address()
                         add.initWithData(data)
+                        print(data)
                         self.arrData.append(add)
-                    }else if let dataArr = json["predictions"] as? NSArray{
+                    } else if let dataArr = json["predictions"] as? NSArray{
                         for data in dataArr{
                             let add = Address()
                             add.initWithData(data as! NSDictionary)
                             self.arrData.append(add)
                         }
+                        print(dataArr)
                     }
                     self.loadType = .NoneType
                 }else if json["status"] as! String == "ZERO_RESULTS"{
@@ -264,15 +269,24 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
     }
     
     func getLatLongWithPlaceRefCode(refCode: String) {
-        let path = "https://maps.googleapis.com/maps/api/place/details/json?reference=\(refCode)&sensor=false&key=\(googleKey)"
+        let path = "https://maps.googleapis.com/maps/api/place/details/json?reference=\(refCode)&sensor=false&key=\(googleKey)" //&language=ar
         locationOperation = LocationOperation(strUrl: path) { (response) in
             if let json = response {
+                print("location Info :: \(response)")
                 if json["status"] as! String == "OK" {
                     if let data = json["result"] as? NSDictionary {
                         self.selectedAddress.address = data.getStringValue("formatted_address")
                         if let address_components = data["address_components"] as? NSArray {
                             if address_components.count > 0 {
                                 self.selectedAddress.name = (address_components[0] as! NSDictionary )["short_name"] as! String
+                            }
+                            for comp in address_components {
+                                if let types = comp["types"] as? [String] {
+                                    if types.contains("country") {
+                                        self.selectedAddress.countryName = comp["long_name"] as! String
+                                        self.selectedAddress.countryCode = comp["short_name"] as! String
+                                    }
+                                }
                             }
                         }
                         if let cordinate = data["geometry"] as? NSDictionary{
@@ -293,6 +307,15 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
                             if address_components.count > 0 {
                                 self.selectedAddress.name = (address_components[0] as! NSDictionary )["short_name"] as! String
                             }
+                            for comp in address_components {
+                                if let types = comp["types"] as? [String] {
+                                    if types.contains("country") {
+                                        self.selectedAddress.countryName = comp["long_name"] as! String
+                                        self.selectedAddress.countryCode = comp["short_name"] as! String
+                                    }
+                                }
+                            }
+
                         }
 
                         if let cordinate = data[0]["geometry"] as? NSDictionary {

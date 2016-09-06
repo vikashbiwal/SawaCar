@@ -27,6 +27,9 @@ let _fbUserInfoRequestParam = "email, first_name,  last_name, name, id, gender, 
 let _facebookAppId          = "1229887770358821"    // The App developer Account
 // let _facebookAppId       = "148805282158820"  // John Smith Account
 
+let _googleMapKey           = "AIzaSyBppzyUG-u4Rm5cyBMJFe3PMPrO-5bybUs"  //Client's account
+//let _googleMapKey           = "AIzaSyCHvrhKWYqJmyrUs3qTMM-KvZmoqYUcVD4"  //Vikash's account
+
 let _defaultCenter          = NSNotificationCenter.defaultCenter()
 let _userDefault            = NSUserDefaults.standardUserDefaults()
 let _appDelegator           = UIApplication.sharedApplication().delegate! as! AppDelegate

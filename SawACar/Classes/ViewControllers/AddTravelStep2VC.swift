@@ -13,10 +13,14 @@ typealias VCounterRange = (min: Int, value: Int, max: Int)
 class AddTravelStep2VC: ParentVC {
 
     var travel: Travel!
-    
+    var shareView: ShareView!
+
     //MARK: view cycle functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        initShareView()
+        getUserCarsAPICall()
+        getCurrency()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -44,9 +48,36 @@ class AddTravelStep2VC: ParentVC {
                 let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? StopoverCell
                 cell?.lblStop2.text = car.name
                 self.travel.travelSeat.max = car.seatCounter.value
+                self.travel.travelSeat.value = car.seatCounter.value
+                self.tableView.reloadData()
             }
         }
     }
+}
+
+//MARK: Share view setup
+extension AddTravelStep2VC {
+    func initShareView() {
+        let views  = NSBundle.mainBundle().loadNibNamed("ShareView", owner: nil, options: nil)
+        shareView  = views[0] as! ShareView
+        shareView.actionBlock = {[weak self] (action) in
+            if action == .Share {
+                if let selfVc = self {
+                    let strShare = "From " + selfVc.travel.locationFrom!.name + " to " + selfVc.travel.locationTo!.name + " a travel has been created by " + me.fullname
+                    let activityVC = UIActivityViewController(activityItems: [strShare], applicationActivities: nil)
+                    activityVC.completionWithItemsHandler = {(str, isSuccess, obj, error) in
+                        selfVc.navigationController?.popToRootViewControllerAnimated(true)
+                        selfVc.shareView.hide()
+                    }
+                    selfVc.presentViewController(activityVC, animated: true, completion: nil)
+                }
+            } else if action  == .Cancel {
+                self?.navigationController?.popToRootViewControllerAnimated(true)
+            }
+        }
+    }
+    
+    
 }
 
 //MARK: Notifications
@@ -460,14 +491,37 @@ extension AddTravelStep2VC {
             if response.isSuccess {
                 let travelInfo = response.json!["Object"] as! [String :  AnyObject]
                 self.travel.updateInfo(travelInfo)
-                showToastMessage("", message: "Your travel successfully added.")
+                //showToastMessage("", message: "Your travel successfully added.")
                 _defaultCenter.postNotificationName(kTravelAddedNotificationKey, object: nil)
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.shareView.showInView(self.view)
+                //self.navigationController?.popToRootViewControllerAnimated(true)
             } else {
                 showToastErrorMessage("", message: response.message!)
             }
             self.hideCentralGraySpinner()
         }
+    }
+    
+    //Get users car
+    func getUserCarsAPICall() {
+        wsCall.getCarOfUser(me.Id) { (response, flag) in
+            if response.isSuccess {
+                let carsObject = response.json!["Object"] as! [[String : AnyObject]]
+                for item in carsObject {
+                    self.travel.car = Car(item)
+                    self.tableView.reloadData()
+                    break;
+                }
+            } else {
+            }
+        }
+    }
+
+    //get currency for location from where travel will be start.
+    func getCurrency() {
+        let str =  getCurrencyForCountry(travel.locationFrom!.countryCode)
+        print(str)
+       // need to call api to get currency by currency code. (API not available rightnow.)
     }
 }
 

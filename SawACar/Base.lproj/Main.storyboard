@@ -1532,7 +1532,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your email address, and we'll send you a link so you can reset your password." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RB6-O0-uQe" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
                                 <rect key="frame" x="20" y="95" width="335" height="41"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -1732,7 +1732,7 @@
                                         <rect key="frame" x="8" y="31" width="305" height="44"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="3h6-sy-Gyp" id="c3V-Ld-UO0"/>
                                         </connections>
@@ -1820,7 +1820,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bYu-wd-jFu" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2070.5" y="95.5"/>
+            <point key="canvasLocation" x="1096.5" y="177.5"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="AKf-Kh-aRM">
@@ -1834,7 +1834,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="EJr-HQ-oyu">
+                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="EJr-HQ-oyu">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <connections>
                                     <outlet property="delegate" destination="wiR-6D-U8o" id="Fft-YZ-4t0"/>
@@ -1899,21 +1899,30 @@
                                     <constraint firstAttribute="bottom" secondItem="Wlp-YC-EV2" secondAttribute="bottom" id="xmj-Cv-bag"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnc-4k-Iwm" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="lnc-4k-Iwm" firstAttribute="leading" secondItem="6H2-zO-2t9" secondAttribute="leading" id="1yT-LR-1z5"/>
                             <constraint firstItem="VSu-VP-27b" firstAttribute="leading" secondItem="6H2-zO-2t9" secondAttribute="leading" id="8E3-KT-ag0"/>
+                            <constraint firstAttribute="bottom" secondItem="lnc-4k-Iwm" secondAttribute="bottom" id="9EA-DZ-MTv"/>
                             <constraint firstAttribute="trailing" secondItem="VSu-VP-27b" secondAttribute="trailing" id="HMH-Ed-4VN"/>
                             <constraint firstItem="EJr-HQ-oyu" firstAttribute="top" secondItem="6H2-zO-2t9" secondAttribute="top" id="OMU-Ac-Asp"/>
                             <constraint firstItem="VSu-VP-27b" firstAttribute="top" secondItem="6H2-zO-2t9" secondAttribute="top" id="U6E-nM-iaA"/>
+                            <constraint firstItem="lnc-4k-Iwm" firstAttribute="top" secondItem="VSu-VP-27b" secondAttribute="bottom" id="lu3-Bv-TWH"/>
                             <constraint firstAttribute="trailing" secondItem="EJr-HQ-oyu" secondAttribute="trailing" id="nOv-Yc-a1m"/>
                             <constraint firstItem="EJr-HQ-oyu" firstAttribute="leading" secondItem="6H2-zO-2t9" secondAttribute="leading" id="oU7-at-9Bw"/>
+                            <constraint firstAttribute="trailing" secondItem="lnc-4k-Iwm" secondAttribute="trailing" id="pci-RO-dIi"/>
                             <constraint firstAttribute="bottom" secondItem="EJr-HQ-oyu" secondAttribute="bottom" id="xzy-YL-CdB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WKa-n1-2fz"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="gMapview" destination="lnc-4k-Iwm" id="EyI-Z6-Xhh"/>
                         <outlet property="mapView" destination="EJr-HQ-oyu" id="BS6-ar-UPs"/>
                         <outletCollection property="horizontalConstraints" destination="YSU-D8-S4H" collectionClass="NSMutableArray" id="nzH-X6-gEe"/>
                         <outletCollection property="horizontalConstraints" destination="ocX-9Y-gfF" collectionClass="NSMutableArray" id="iif-OP-Lty"/>
@@ -1923,7 +1932,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1z-oL-7pg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1654.5" y="95.5"/>
+            <point key="canvasLocation" x="680.5" y="177.5"/>
         </scene>
         <!--Date PickerVC-->
         <scene sceneID="fTR-qR-O5D">

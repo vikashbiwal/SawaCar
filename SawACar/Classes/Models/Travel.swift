@@ -21,6 +21,7 @@ class Travel {
     var departureDate = ""
     var departureHour = ""
     var departureMinute = ""
+    var departureTime : String { return self.departureHour + ":" + self.departureMinute}
     var repeatType    : Int = 1 // 1 = Day, 2 = Month
     var repeatEndDate = ""
     var roundDate     = ""
@@ -34,8 +35,15 @@ class Travel {
     var passengerPrice: VCounterRange = (0, 0, 0)
     var travelSeat:     VCounterRange = (1, 1, 4)
     var seatLeft:Int = 0
+    var rating: Int = 0
     
-    var car: Car?
+    var car: Car? {
+        didSet {
+            self.travelSeat.max = car!.seatCounter.value
+            self.travelSeat.value = car!.seatCounter.value
+        }
+    }
+    
     var currency: Currency?
     var driver: Driver!
     
@@ -48,7 +56,7 @@ class Travel {
     
     var bookings    = []
     var comments    = []
-    var userRatings = []
+    var usersRatings = []
     
     init() {
     
@@ -66,10 +74,10 @@ class Travel {
             locationStop1 =  GLocation(stop1Info)
         }
         if let stop2Info = info["LocationStop2"] as? [String : AnyObject] {
-            locationStop1 =  GLocation(stop2Info)
+            locationStop2 =  GLocation(stop2Info)
         }
         if let stop3Info = info["LocationStop3"] as? [String : AnyObject] {
-            locationStop1 =  GLocation(stop3Info)
+            locationStop3 =  GLocation(stop3Info)
         }
 
         departureDate   = RConverter.string(info["DepartureDate"])
@@ -188,7 +196,6 @@ class Car: Equatable {
         name = RConverter.string(info["CarName"])
         userId = RConverter.string(info["UserID"])
         model = RConverter.string(info["Model"])
-        seatCounter.value = RConverter.integer(info["Seats"])
         photo = kWSDomainURL +  RConverter.string(info["Photo"])
         productionYear = RConverter.string(info["ProductionYear"])
         insurance = RConverter.boolean(info["Insurance"])
@@ -197,6 +204,9 @@ class Car: Equatable {
         details = RConverter.string(info["Details"])
         company = Company(info)
         color = Color(info)
+        seatCounter.value = RConverter.integer(info["Seats"])
+        seatCounter.max = seatCounter.value
+
     }
     
     func setInfo(info: [String : AnyObject]) {
@@ -204,7 +214,6 @@ class Car: Equatable {
         name = RConverter.string(info["CarName"])
         userId = RConverter.string(info["UserID"])
         model = RConverter.string(info["Model"])
-        seatCounter.value = RConverter.integer(info["Seats"])
         photo = kWSDomainURL +  RConverter.string(info["Photo"])
         productionYear = RConverter.string(info["ProductionYear"])
         insurance = RConverter.boolean(info["Insurance"])
@@ -213,6 +222,8 @@ class Car: Equatable {
         details = RConverter.string(info["Details"])
         company = Company(info)
         color = Color(info)
+        seatCounter.value = RConverter.integer(info["Seats"])
+        seatCounter.max = seatCounter.value
     }
     
     class func  CreateCarFromTravel(info: [String : AnyObject])-> Car {

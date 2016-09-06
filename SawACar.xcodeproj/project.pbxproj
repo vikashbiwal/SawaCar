@@ -61,6 +61,8 @@
 		036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A896D1CBB7E2700DFB631 /* AppDelegate.swift */; };
 		036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A89701CBB7E6500DFB631 /* LoginVC.swift */; };
 		036F29321CBBD19200931121 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036F29311CBBD19200931121 /* General.swift */; };
+		036F69D61D797D8400774E79 /* ShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 036F69D51D797D8400774E79 /* ShareView.xib */; };
+		036F69D81D7984A900774E79 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036F69D71D7984A900774E79 /* ShareView.swift */; };
 		038F50ED1D22859400E28B5D /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038F50EA1D22859400E28B5D /* ValidationToast.swift */; };
 		038F50EE1D22859400E28B5D /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EB1D22859400E28B5D /* ValidationToast.xib */; };
 		038F50EF1D22859400E28B5D /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EC1D22859400E28B5D /* ValidationToastBar.xib */; };
@@ -154,6 +156,8 @@
 		036A896D1CBB7E2700DFB631 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		036A89701CBB7E6500DFB631 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		036F29311CBBD19200931121 /* General.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
+		036F69D51D797D8400774E79 /* ShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareView.xib; sourceTree = "<group>"; };
+		036F69D71D7984A900774E79 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		038F50EA1D22859400E28B5D /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
 		038F50EB1D22859400E28B5D /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
 		038F50EC1D22859400E28B5D /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
@@ -475,6 +479,8 @@
 				038F50EB1D22859400E28B5D /* ValidationToast.xib */,
 				038F50EC1D22859400E28B5D /* ValidationToastBar.xib */,
 				0348321F1D76AEFE004E0F38 /* VNoDataView.xib */,
+				036F69D51D797D8400774E79 /* ShareView.xib */,
+				036F69D71D7984A900774E79 /* ShareView.swift */,
 			);
 			path = ValidationToast;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				032360141D0838F40004CDA9 /* car_image.jpg in Resources */,
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
+				036F69D61D797D8400774E79 /* ShareView.xib in Resources */,
 				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
 				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
 				034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */,
@@ -787,6 +794,7 @@
 				03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */,
 				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,
 				03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */,
+				036F69D81D7984A900774E79 /* ShareView.swift in Sources */,
 				0327CDAF1D05A82800D51DE4 /* OfferARideVC.swift in Sources */,
 				03F65D391CBBDE8700C44B5A /* UIFontExtension.swift in Sources */,
 				031316A91D1BB2C40096077A /* VKeyboardAccessoryView.swift in Sources */,
@@ -937,7 +945,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
+				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -962,7 +970,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8e68971b-24f3-4158-97fe-2aa5c638bd9c";
+				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 			};
 			name = Release;

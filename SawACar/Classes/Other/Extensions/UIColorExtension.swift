@@ -29,5 +29,8 @@ extension UIColor {
     class func scSliderMenuColor()-> UIColor {
         return UIColor(red: 73.0 / 255.0, green: 73.0 / 255.0, blue: 73.0 / 255.0, alpha: 1.0)
     }
+    class func scTravelCardColor()-> UIColor {
+        return UIColor(red: 240.0 / 255.0, green: 240.0 / 255.0, blue: 240.0 / 255.0, alpha: 1.0)
+    }
 
 }

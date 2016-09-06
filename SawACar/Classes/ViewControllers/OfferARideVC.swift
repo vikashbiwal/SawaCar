@@ -15,13 +15,12 @@ class OfferARideVC: ParentVC {
     @IBOutlet var roundedView: UIView!
     @IBOutlet var txtFrom: UITextField!
     @IBOutlet var txtTo: UITextField!
-    
     var travel = Travel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setRoundCircleUI()
-        
+        notificationSetup()
         self.view.layoutIfNeeded()
     }
 

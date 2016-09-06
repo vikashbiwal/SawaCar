@@ -8,17 +8,26 @@
 
 import UIKit
 import MapKit
+import GoogleMaps
 
 class MapViewController: ParentVC, UISearchBarDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet var gMapview: GMSMapView!
+    
     var completionBlcok: ((add: GLocation?) -> Void)!
     var selectedPlace : GLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setGoogleMapView()
         // Do any additional setup after loading the view.
+    }
+
+    //SetGoogle mapView
+    func setGoogleMapView() {
+        gMapview.myLocationEnabled = true
+       // self.view = mapView
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,28 +55,20 @@ class MapViewController: ParentVC, UISearchBarDelegate {
         if segue.identifier == "locationPickerSegue" {
         
             let searchCon = segue.destinationViewController as! LocationPickerViewController
-            searchCon.selectionBlock = {[unowned self] (add) -> () in
-                self.selectedPlace = add
+            searchCon.selectionBlock = {[unowned self] (loc) -> () in
+                self.selectedPlace = loc
                 self.mapView.removeAnnotations(self.mapView.annotations)
-                
-                var loc = CLLocationCoordinate2D()
-                loc.latitude = add.lat
-                loc.longitude = add.long
-                
-                var span = MKCoordinateSpan()
-                span.latitudeDelta = 0.05
-                span.longitudeDelta = 0.05
-                
-                var myResion = MKCoordinateRegion()
-                myResion.center = loc
-                myResion.span = span
-                
-                self.mapView.setRegion(myResion, animated: true)
-                
-                let ano = MKPointAnnotation()
-                ano.coordinate = loc
-                ano.title = add.address
-                self.mapView.addAnnotation(ano)
+                var coord = CLLocationCoordinate2D()
+                coord.latitude = loc.lat
+                coord.longitude = loc.long
+               
+                self.gMapview.clear()
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+                marker.title = loc.name
+                marker.map = self.gMapview
+                let camera = GMSCameraPosition.cameraWithLatitude(coord.latitude, longitude: coord.longitude, zoom: 6.0)
+                self.gMapview.animateToCameraPosition(camera)
             }
         }
     }
