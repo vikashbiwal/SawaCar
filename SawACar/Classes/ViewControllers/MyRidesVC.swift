@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MyRidesVC: ParentVC {
 
@@ -55,6 +56,7 @@ extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
         cell.lblDriverName.text = ride.driver.name
         cell.lblCarPrice.text = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
         cell.ratingView.value = CGFloat(ride.driver.rating)
+        cell.imgvDriver.setImageWithURL(NSURL(string: ride.driver.photoURl)!, placeholderImage: _userPlaceholderImage)
         return cell
     }
     

@@ -12,6 +12,7 @@ class AddTravelStep1VC: ParentVC {
 
     //MARK: DatePicker Outlets
     @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet var datePickerBottomConstraint : NSLayoutConstraint!
     @IBOutlet var datePickerView: UIView!
     @IBOutlet var datePicker: UIDatePicker!
  
@@ -214,7 +215,6 @@ extension AddTravelStep1VC {
 //MARK: DatePicker Methods
 extension AddTravelStep1VC {
     func showDatePickerView() {
-       
         if [1, 2, 4].contains(dateSelectedForIndex) {//Repeat End date, Departure, Ride Date
             datePicker.minimumDate = NSDate()
             datePicker.datePickerMode = UIDatePickerMode.Date
@@ -224,22 +224,28 @@ extension AddTravelStep1VC {
             datePicker.datePickerMode = UIDatePickerMode.Time
         }
         
+        self.datePickerViewTopConstraint.constant = 0
+        self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
+        self.datePickerBottomConstraint.constant = -240 * _widthRatio
+
+        self.view.layoutIfNeeded()
         UIView.animateWithDuration(0.3, animations: {
-            self.datePickerViewTopConstraint.constant = 0
             self.datePickerView.alpha = 1
+            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+            self.datePickerBottomConstraint.constant = 10 * _widthRatio
             self.view.layoutIfNeeded()
             }) { (res) in
-                self.datePickerView.alpha = 1
-                self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
         }
     }
     
     func hideDatePickerView() {
-         self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.0)
         UIView.animateWithDuration(0.3, animations: {
-            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
+            self.datePickerBottomConstraint.constant = -240 * _widthRatio
+            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
             self.view.layoutIfNeeded()
         }) { (res) in
+            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
+            self.view.layoutIfNeeded()
         }
     }
 

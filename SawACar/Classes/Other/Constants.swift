@@ -24,11 +24,9 @@ let _fbMeUrl                = "https://graph.facebook.com/me"
 let _googleUrl              = "https://maps.googleapis.com/maps/api/place"
 let _fbLoginReadPermissions = ["public_profile","email"]
 let _fbUserInfoRequestParam = "email, first_name,  last_name, name, id, gender, picture.type(large)"
-let _facebookAppId          = "1229887770358821"    // The App developer Account
-// let _facebookAppId       = "148805282158820"  // John Smith Account
 
+// let _facebookAppId       = "148805282158820"  // John Smith Account
 let _googleMapKey           = "AIzaSyBppzyUG-u4Rm5cyBMJFe3PMPrO-5bybUs"  //Client's account
-//let _googleMapKey           = "AIzaSyCHvrhKWYqJmyrUs3qTMM-KvZmoqYUcVD4"  //Vikash's account
 
 let _defaultCenter          = NSNotificationCenter.defaultCenter()
 let _userDefault            = NSUserDefaults.standardUserDefaults()
@@ -36,7 +34,7 @@ let _appDelegator           = UIApplication.sharedApplication().delegate! as! Ap
 let _application            = UIApplication.sharedApplication()
 let _heighRatio             = _screenSize.height/667
 let _widthRatio             = _screenSize.width/375
-var _deviceToken             = "1s1f4sd2s5df1s5df4" //Update device token from APNS
+var _FCMToken               = "" //Update device token from APNS
 
 //var _userAuth: UserAuth! = nil
 var me: User! = nil
@@ -50,6 +48,9 @@ let UserModeKey                 = "UserModeKey"
 let kProfileUpdateNotificationKey = "UserProfileUpdateNotificationKey"
 let kTravelAddedNotificationKey = "kTravelAddedNotification"
 
+//MARK: Placeholder Images
+let _userPlaceholderImage = UIImage(named: "ic_user_placeholder")
+let _carPlaceholderImage  = UIImage(named: "carPlaceholder")
 
 
 // MARK: Important Enums

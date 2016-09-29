@@ -36,6 +36,12 @@ extension Webservice {
         getRequest(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
     }
     
+    func GetCurrency(code: String, block: WSBlock) {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=GetCurrencyByCode&Code=INR
+        jprint("=======WS = GetCurrencyByCode=======")
+        getRequest(urlWithMethod("GetCurrencyByCode&Code=" + code), param: nil, block: block)
+    }
+
     func getAccountTypes(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetAccountTypes
         jprint("=======WS = GetAccountTypes=======")
@@ -58,6 +64,14 @@ extension Webservice {
 
 //MARK: User related WebServices
 extension Webservice {
+    
+    func checkEmailAvailability(email: String, block: WSBlock) {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=IsEmailAvailableToSignUp
+        //parameters : Email
+        jprint("=======WS = IsEmailAvailableToSignUp=======")
+        postRequest(urlWithMethod("IsEmailAvailableToSignUp"), param: ["Email" : email], block: block)
+    }
+    
     func signUp(params: [String : AnyObject], block: WSBlock) {
         //https://sawacar.com/Services/Sawacar.ashx?Method=SignUp
         //parameters  -  Email, FirstName, LastName, Password, Gender, YearOfBirth,

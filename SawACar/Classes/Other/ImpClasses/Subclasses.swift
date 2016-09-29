@@ -48,10 +48,19 @@ class RoundedImageView: UIImageView {
 class RoundedView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.cornerRadius = self.bounds.size.height/2
+        self.layer.cornerRadius = (self.bounds.size.height * _widthRatio) / 2
         self.layer.masksToBounds = true
     }
 }
+
+class RoundedCollectionView: UICollectionView {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.layer.cornerRadius = (self.bounds.size.height * _widthRatio) / 2
+        self.layer.masksToBounds = true
+    }
+}
+
 
 class RoundedButton: UIButton {
     override func awakeFromNib() {
@@ -78,19 +87,5 @@ class RoundedLabelWithWidthRatio: UILabel {
     }
 }
 
-class VBlurView: ConstrainedView {
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        //always fill the view
-        blurEffectView.frame = self.bounds
-        //blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
-    }
-}
 
 

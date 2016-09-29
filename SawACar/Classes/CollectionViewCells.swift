@@ -23,6 +23,7 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
     
     @IBOutlet var tableView: UITableView!
     var formType  = SignUpVC.SignUpFormType.PersonalInfo
+    weak var user: User!
     
     lazy var dateFomator: NSDateFormatter = {
         let df = NSDateFormatter()
@@ -111,15 +112,11 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                     return cell
                 } else if formType == .BirthDateInfo {
                     let cell = tableView.dequeueReusableCellWithIdentifier("dateSelectionCell") as! TVSignUpFormCell
-                    cell.dtPicker.maximumDate = NSDate()
+                    let dateBefor16Years = NSDate().dateByAddingYearOffset(-16)
+                    cell.dtPicker.maximumDate = dateBefor16Years //Validation for user should be 16 years old.
                     return cell
                     
-                } else if formType == .ContactInfo {
-                    let cell = tableView.dequeueReusableCellWithIdentifier("mobileNoCell") as! TVSignUpFormCell
-                    cell.txtField.tag = 106
-                    return cell
-                    
-                } else { // formType == .LocationInfo
+                } else if formType == .LocationInfo { // formType == .LocationInfo
                     
                     let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVSignUpFormCell
                     if indexPath.row == 2 {
@@ -131,6 +128,13 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                         cell.button?.tag = 101
                         return cell
                     }
+                    
+                }  else  { //formType == .ContactInfo
+                    let cell = tableView.dequeueReusableCellWithIdentifier("mobileNoCell") as! TVSignUpFormCell
+                    cell.txtField.tag = 106
+                    cell.lblTitle.text = "+" + user.mobileCountryCode
+                    return cell
+                    
                 }
             }
         }
@@ -220,8 +224,8 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
         let maleLbl     = cell?.viewWithTag(12) as! UILabel
         
         femaleBtn.tintColor = UIColor.lightGrayColor()
-        maleBtn.tintColor = UIColor.lightGrayColor()
-        maleLbl.textColor = UIColor.lightGrayColor()
+        maleBtn.tintColor   = UIColor.lightGrayColor()
+        maleLbl.textColor   = UIColor.lightGrayColor()
         femaleLbl.textColor = UIColor.lightGrayColor()
         
         sender.tintColor = UIColor.scHeaderColor()
@@ -233,7 +237,11 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
         //value parameter is not important here
         signUpFormActionBlock(action: (sender.tag == 100 ? .NationalityAction : .CountryAction), value: "Location")
     }
-    
+    @IBAction func dialCodeBtnClicked(sender: UIButton) {
+        //value parameter is not important here
+        signUpFormActionBlock(action: .DialCodeAction, value: "DialCode")
+    }
+
     @IBAction func imagePickerBtnClicked(sender: UIButton) {
         //value parameter is not important here
         signUpFormActionBlock(action: .ImagePickerAction, value: "Pick image")
@@ -243,5 +251,7 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
         let strYear = dateFomator.stringFromDate(dPicker.date)
         signUpFormActionBlock(action: .DatePickerAction, value: strYear)
     }
+    
+    
 }
 

@@ -38,7 +38,7 @@ class SignUpVC: ParentVC {
     }
     
     enum SignUpFormActionType {
-        case CountryAction, NationalityAction, ImagePickerAction, GenderAction, DatePickerAction
+        case CountryAction, NationalityAction, ImagePickerAction, GenderAction, DatePickerAction, DialCodeAction
     }
     
     
@@ -82,7 +82,6 @@ extension SignUpVC {
         if currntFormType == .PersonalInfo {
             process = user.validatePersonalInfo()
             index = 1
-            
         } else if currntFormType == .GenderInfo {
             process = user.validateGenderInfo()
             index = 2
@@ -91,12 +90,12 @@ extension SignUpVC {
             process = user.validateBirthInfo()
             index = 3
             
-        } else if  currntFormType == .ContactInfo {
-            process = user.validateContactInfo()
+        } else if  currntFormType == .LocationInfo {
+            process = user.validateLocationInfo()
             index = 4
             
         } else {
-            process = user.validateLocationInfo()
+            process = user.validateContactInfo()
             index = 4 // no need to change index. already on last index
             if process.isValid {
                 self.signupWSCall()
@@ -107,9 +106,11 @@ extension SignUpVC {
         }
         
         if process.isValid {
-            let indexPathToScroll = NSIndexPath(forItem: index, inSection: 0)
-            CollectionView.scrollToItemAtIndexPath(indexPathToScroll, atScrollPosition: .CenteredHorizontally, animated: true)
-            setUIForAfterCollViewScroll(index)
+            if index == 1 {//verify email is available or not. Could not be navigate if email is not available for signup.
+                self.checkEmailAvailability(user.email)
+                return
+            }
+            self.scrollCollectionViewForSignupStep(index)
             
         } else {
             showToastErrorMessage("", message: process.message)
@@ -127,9 +128,9 @@ extension SignUpVC {
     // and when you reach first step of signup then it will navigate back on previous screen (Login screen).
     @IBAction func backBtnClicked(sender: UIButton) {
        var index  = 0
-        if currntFormType == .LocationInfo {
+        if currntFormType == .ContactInfo  {
            index = 3
-        } else if currntFormType == .ContactInfo {
+        } else if currntFormType == .LocationInfo {
           index = 2
         } else if currntFormType == .BirthDateInfo {
           index = 1
@@ -139,9 +140,7 @@ extension SignUpVC {
            self.navigationController?.popViewControllerAnimated(true)
             return
         }
-        let indexPathToScroll = NSIndexPath(forItem: index, inSection: 0)
-        CollectionView.scrollToItemAtIndexPath(indexPathToScroll, atScrollPosition: .CenteredHorizontally, animated: true)
-        setUIForAfterCollViewScroll(index)
+        scrollCollectionViewForSignupStep(index)
     }
     
     //MARK: Sing Up Form Actions
@@ -180,6 +179,8 @@ extension SignUpVC {
             } else if action == .CountryAction {
                 self.openCountryList(.CountryAction)
                 
+            } else if action == .DialCodeAction {
+                self.openCountryList(.DialCodeAction)
             } else if action == .DatePickerAction {
                 self.user.birthDate = value
             }
@@ -225,7 +226,7 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! SignUpCollectionViewCell
-
+         cell.user = user
         if indexPath.row == 0 {
             cell.formType = .PersonalInfo
             cell.textFieldChangeBlock = formTextFieldTextChangeBlock
@@ -237,11 +238,12 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
             cell.formType = .BirthDateInfo
             
         } else if indexPath.row == 3 {
-            cell.formType = .ContactInfo
-            cell.textFieldChangeBlock = formTextFieldTextChangeBlock
+            cell.formType = .LocationInfo
             
         } else  {
-            cell.formType = .LocationInfo
+            cell.formType = .ContactInfo
+            cell.textFieldChangeBlock = formTextFieldTextChangeBlock
+
         }
         
         cell.signUpFormActionBlock = signUpFormActionBlock
@@ -259,6 +261,12 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
         setUIForAfterCollViewScroll(index)
     }
     
+    func scrollCollectionViewForSignupStep(index: Int) {
+        let indexPathToScroll = NSIndexPath(forItem: index, inSection: 0)
+        CollectionView.scrollToItemAtIndexPath(indexPathToScroll, atScrollPosition: .CenteredHorizontally, animated: true)
+        setUIForAfterCollViewScroll(index)
+    }
+
     func setUIForAfterCollViewScroll(index: Int) {
         pagerControl.currentPage = index
         var str = ""
@@ -273,10 +281,10 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
             currntFormType = .BirthDateInfo
         } else if index == 3 {
             str = "Next"
-            currntFormType = .ContactInfo
+            currntFormType = .LocationInfo
         } else  {
             str = "Finish"
-            currntFormType = .LocationInfo
+            currntFormType = .ContactInfo
             
         }
         btnFinish.setTitle(str, forState: .Normal)
@@ -291,9 +299,12 @@ extension SignUpVC {
         if forAction == .NationalityAction {
             cListVC.selectedCountryId = user.nationality.Id
             cListVC.titleString = "Nationality"
-        } else  {
+        } else if forAction == .CountryAction {
             cListVC.selectedCountryId = user.country.Id
             cListVC.titleString = "Countries"
+        } else if forAction == .DialCodeAction {
+            cListVC.selectedCountryId = user.mobileCountryCode
+            cListVC.titleString = "Country Dial Code"
         }
         
         cListVC.completionBlock = {(country) in 
@@ -305,10 +316,16 @@ extension SignUpVC {
                 let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
                 tblcell.txtField.text = country.name
                 
-            } else  {
+            } else if forAction == .CountryAction {
                 self.user.country = country
+                self.user.mobileCountryCode = country.dialCode
                 let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as! TVSignUpFormCell
                 tblcell.txtField.text = country.name
+                
+            } else if forAction == .DialCodeAction {
+                let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
+                tblcell.lblTitle.text = "+" + country.dialCode
+                self.user.mobileCountryCode = country.dialCode
             }
         }
         
@@ -406,6 +423,24 @@ extension SignUpVC {
         })
     }
     
-    
+    //Verify email available or not for signup a new user.
+    func checkEmailAvailability(email: String) {
+        showCentralGraySpinner()
+        wsCall.checkEmailAvailability(email) { (response, flag) in
+            self.hideCentralGraySpinner()
+            if response.isSuccess {
+                if let json = response.json {
+                    let result = RConverter.boolean(json["Object"])
+                    if result {
+                        self.scrollCollectionViewForSignupStep(1)
+                    } else {
+                        showToastErrorMessage("Signup Error", message: response.message!)
+                    }
+                }
+            } else {
+                showToastErrorMessage("Signup Error", message: response.message!)
+            }
+        }
+    }
 }
 

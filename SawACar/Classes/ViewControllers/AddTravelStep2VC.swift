@@ -519,9 +519,19 @@ extension AddTravelStep2VC {
 
     //get currency for location from where travel will be start.
     func getCurrency() {
-        let str =  getCurrencyForCountry(travel.locationFrom!.countryCode)
-        print(str)
-       // need to call api to get currency by currency code. (API not available rightnow.)
+        let currencyCode =  getCurrencyForCountry(travel.locationFrom!.countryCode)
+        if let code = currencyCode {
+            // need to call api to get currency by currency code.
+            wsCall.GetCurrency(code) { (response, flag) in
+                if response.isSuccess {
+                    let obj = response.json as! [String : AnyObject]
+                    let currInfo = obj["Object"] as! [String :  AnyObject]
+                    let currency = Currency(info: currInfo)
+                    self.travel.currency = currency
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
 }
 

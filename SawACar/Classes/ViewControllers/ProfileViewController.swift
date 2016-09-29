@@ -21,6 +21,7 @@ class ProfileViewController: ParentVC {
     
     //MARK: DatePicker Outlets
     @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet var datePickerBottomConstraint : NSLayoutConstraint!
     @IBOutlet var datePickerView: UIView!
     @IBOutlet var datePicker: UIDatePicker!
     var selectedIndexPath: NSIndexPath?
@@ -61,9 +62,6 @@ class ProfileViewController: ParentVC {
         _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
-    override func viewDidAppear(animated: Bool) {
-    
-    }
     
     override func viewWillDisappear(animated: Bool) {
         _defaultCenter.removeObserver(self)
@@ -725,23 +723,30 @@ extension ProfileViewController {
 extension ProfileViewController {
     func showDatePickerView() {
         datePicker.maximumDate = NSDate()
-        UIView.animateWithDuration(0.3, animations: {
-            self.datePickerViewTopConstraint.constant = 0
+        self.datePickerViewTopConstraint.constant = 0
+        self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
+        self.datePickerBottomConstraint.constant = -240 * _widthRatio
+        self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.4  , animations: {
             self.datePickerView.alpha = 1
+            self.tableView.contentOffset = CGPoint(x: 0, y: 240)
+            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+            self.datePickerBottomConstraint.constant = 10 * _widthRatio
             self.view.layoutIfNeeded()
         }) { (res) in
-            self.datePickerView.alpha = 1
-            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
         }
     }
     
     func hideDatePickerView() {
-        self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.0)
         UIView.animateWithDuration(0.3, animations: {
-            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
+            self.datePickerBottomConstraint.constant = -240 * _widthRatio
+            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
             self.view.layoutIfNeeded()
         }) { (res) in
+            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
+            self.view.layoutIfNeeded()
         }
+
     }
     
     @IBAction func datePickerDoneBtnClicked(sender: UIButton) {

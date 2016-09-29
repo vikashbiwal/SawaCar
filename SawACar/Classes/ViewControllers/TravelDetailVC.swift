@@ -106,10 +106,10 @@ extension TravelDetailVC : UITableViewDataSource, UITableViewDelegate {
             return cell
         } else if indexPath.row == 1  {
             let cell = tableView.dequeueReusableCellWithIdentifier("myRulesCell") as! TVDriverRulesCell
-            cell.Rules = travel.driver.rules
+            cell.driverRules = travel.driver.rules
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("passengersCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("passengersCell") as! TVTravelPassengersCell
             return cell
         }
     }

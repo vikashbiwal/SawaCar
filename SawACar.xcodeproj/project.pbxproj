@@ -19,6 +19,7 @@
 		031316AE1D1C0E8C0096077A /* CarListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316AD1D1C0E8C0096077A /* CarListVC.swift */; };
 		03162F9B1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */; };
 		03162F9D1D1A7DF700869987 /* Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03162F9C1D1A7DF700869987 /* Travel.swift */; };
+		0319118D1D86D17000726E3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0319118C1D86D17000726E3D /* GoogleService-Info.plist */; };
 		031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */; };
 		031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */; };
 		032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0323600F1D08341D0004CDA9 /* ProfileViewController.swift */; };
@@ -98,7 +99,7 @@
 		03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D321CBBDE8700C44B5A /* UserLocation.swift */; };
 		03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10661CBB8AA400695AE2 /* Constants.swift */; };
 		03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10681CBB9E6E00695AE2 /* Webservice.swift */; };
-		E717E27B9A02098BC5290BD0 /* libPods-SawACar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */; };
+		BD882E187482D644947906A9 /* Pods_SawACar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,7 @@
 		031316AD1D1C0E8C0096077A /* CarListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarListVC.swift; sourceTree = "<group>"; };
 		03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SawCarExtendedClassesAndEnums.swift; sourceTree = "<group>"; };
 		03162F9C1D1A7DF700869987 /* Travel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Travel.swift; sourceTree = "<group>"; };
+		0319118C1D86D17000726E3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTravelStep2VC.swift; sourceTree = "<group>"; };
 		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
 		0323600F1D08341D0004CDA9 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -197,7 +199,7 @@
 		03FD10661CBB8AA400695AE2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		03FD10681CBB9E6E00695AE2 /* Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Webservice.swift; path = ../Other/Webservice.swift; sourceTree = "<group>"; };
 		03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SawACar-Bridging-Header.h"; sourceTree = "<group>"; };
-		064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SawACar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SawACar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.release.xcconfig"; sourceTree = "<group>"; };
 		F9315AA822493E9719CF490F /* Pods-SawACar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,10 +210,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				032EAEDC1D75599900C511BD /* FBSDKCoreKit.framework in Frameworks */,
-				E717E27B9A02098BC5290BD0 /* libPods-SawACar.a in Frameworks */,
 				030BF5431D1404B0000D3948 /* Crashlytics.framework in Frameworks */,
 				032EAEDB1D75599500C511BD /* FBSDKLoginKit.framework in Frameworks */,
 				030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */,
+				BD882E187482D644947906A9 /* Pods_SawACar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +363,7 @@
 		036A89431CBB7A9E00DFB631 = {
 			isa = PBXGroup;
 			children = (
+				0319118C1D86D17000726E3D /* GoogleService-Info.plist */,
 				030BF5401D1404B0000D3948 /* Fabric.framework */,
 				030BF5411D1404B0000D3948 /* Crashlytics.framework */,
 				036A894E1CBB7A9E00DFB631 /* SawACar */,
@@ -576,7 +579,7 @@
 			children = (
 				03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */,
 				03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */,
-				064A902ADBEAE485E6F5D481 /* libPods-SawACar.a */,
+				1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -617,7 +620,7 @@
 				TargetAttributes = {
 					036A894B1CBB7A9E00DFB631 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 5GL3E4GW7P;
+						DevelopmentTeam = NF4P36UQJ5;
 					};
 				};
 			};
@@ -661,6 +664,7 @@
 				032360141D0838F40004CDA9 /* car_image.jpg in Resources */,
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
+				0319118D1D86D17000726E3D /* GoogleService-Info.plist in Resources */,
 				036F69D61D797D8400774E79 /* ShareView.xib in Resources */,
 				034826D61CFC5B46000B46AE /* OpenSans-SemiboldItalic.ttf in Resources */,
 				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
@@ -940,12 +944,13 @@
 					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
 					"$(PROJECT_DIR)",
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = SawACar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sawacar.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				PROVISIONING_PROFILE = "18780b48-b822-4c13-9833-6849e58591ee";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -968,9 +973,9 @@
 				INFOPLIST_FILE = SawACar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.sawacar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sawacar.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae85c854-e652-4727-9fcf-d849deed3dc0";
+				PROVISIONING_PROFILE = "18780b48-b822-4c13-9833-6849e58591ee";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 			};
 			name = Release;

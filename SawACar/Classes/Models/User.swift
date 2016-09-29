@@ -181,9 +181,9 @@ extension User {
                       "DayOfBirth" : birthDate.componentsSeparatedByString("/")[0],
                       "NationalityID": nationality.Id,
                       "CountryID": country.Id,
-                      "MobileCountryCode": country.dialCode,
+                      "MobileCountryCode": mobileCountryCode,
                       "MobileNumber": mobile,
-                      "FCMToken" : _deviceToken]
+                      "FCMToken" : _FCMToken]
         return params as! [String : AnyObject]
     }
     
@@ -191,7 +191,7 @@ extension User {
     func loginParameters() -> [String : String!] {
         let params = ["Email": email,
                       "Password": password,
-                      "FCMToken": _deviceToken]
+                      "FCMToken": _FCMToken]
         return params
     }
     

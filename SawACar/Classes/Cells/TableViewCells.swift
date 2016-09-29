@@ -191,9 +191,26 @@ class TVCarCell : TVGenericeCell {
 
 //MARK: MyRulesCell
 class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    var Rules = [String]()
+    let Rules = ["Smoking", "Music", "Food", "Kids", "Pets", "PrayingStop", "Quran"]
+    var driverRules = [String]()
+    
+    var RulesImages = ["Smoking"     : UIImage(named: "ic_rules_smoking"),
+                       "Music"       : UIImage(named: "ic_rules_music"),
+                       "Food"        : UIImage(named: "ic_rules_food"),
+                       "Kids"        : UIImage(named: "ic_rules_children"),
+                       "Pets"        : UIImage(named: "ic_rules_pets"),
+                       "PrayingStop" : UIImage(named: "ic_rules_pray"),
+                       "Quran"       : UIImage(named: "ic_rules_quran"),
+                       "NoSmoking"   : UIImage(named: "ic_rules_no_smoking"),
+                       "NoMusic"     : UIImage(named: "ic_rules_no_music"),
+                       "NoFood"      : UIImage(named: "ic_rules_no_food"),
+                       "NoKids"      : UIImage(named: "ic_rules_no_children"),
+                       "NoPets"      : UIImage(named: "ic_rules_no_pets"),
+                       "NoPrayingStop" : UIImage(named: "ic_rules_no_pray"),
+                       "NoQuran"     : UIImage(named: "ic_rules_no_quran")]
+    
     override func awakeFromNib() {
-        
+        super.awakeFromNib()
     }
     
     //MARK: CollectionView DataSource and Delegate
@@ -207,12 +224,51 @@ class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+        let rule = Rules[indexPath.row]
+        if driverRules.contains(rule) {
+            let image = RulesImages[rule]
+            cell.imgView.image = image!
+        } else {
+            let image = RulesImages["No" + rule]
+            cell.imgView.image = image!
+        }
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let width = 50 * _widthRatio
         return CGSize(width: width, height: width)
+    }
+}
+
+
+class TVTravelPassengersCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    var passengers = [User]()
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    //MARK: CollectionView DataSource and Delegate
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5//passengers.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let width = 40 * _widthRatio
+        return CGSize(width: width, height: width)
+    }
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 5 * _widthRatio
     }
 }
 

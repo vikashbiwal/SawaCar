@@ -4,10 +4,15 @@
 # use_frameworks!
 
 target 'SawACar' do
+use_frameworks!
+
 pod 'AFNetworking', '~> 2.5'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'HCSStarRatingView', '~> 1.4.5'
+pod 'Firebase'
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
 
 end
 

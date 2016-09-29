@@ -96,6 +96,18 @@ extension NSDateFormatter {
 
 }
 
+//MARK: NSDate
+extension NSDate {
+ //
+    func dateByAddingYearOffset(offset: Int) -> NSDate? {
+        let calendar  =     NSCalendar(identifier: NSCalendarIdentifierGregorian)
+        let offsetComponent = NSDateComponents()
+        offsetComponent.year = offset
+        let date = calendar?.dateByAddingComponents(offsetComponent, toDate: self, options: NSCalendarOptions.WrapComponents)
+        return date
+    }
+}
+
 //MARK: TableView
 extension UITableView {
     func addRefreshControl(target: UIViewController, selector: Selector) -> UIRefreshControl {
@@ -129,12 +141,90 @@ class TblWidthHeaderView: UIView {
     }
 }
 
+//show a blur view
+class VBlurView: ConstrainedView {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.backgroundColor = UIColor.clearColor()
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        //always fill the view
+        blurEffectView.frame = self.bounds
+        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.addSubview(blurEffectView)
+        self.sendSubviewToBack(blurEffectView)
+    }
+}
+
 class IndexPathButton: JPWidthButton {
     var indexPath : NSIndexPath!
 }
 
 class IndexPathTextField: JPWidthTextField {
     var indexpath: NSIndexPath!
+}
+
+class CornerRadiusView: ConstrainedView {
+    @IBInspectable var cornerRadius : CGFloat = 3.0
+    @IBInspectable var topLeft      : Bool = true
+    @IBInspectable var topRight     : Bool = true
+    @IBInspectable var bottomLeft   : Bool = true
+    @IBInspectable var bottomRight  : Bool = true
+    @IBInspectable var blurEffect   : Bool = false
+    
+    var corners : UIRectCorner!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        corners = UIRectCorner()
+        if topLeft {
+            corners.insert(.TopLeft)
+        }
+        if topRight {
+            corners.insert(.TopRight)
+        }
+        if bottomLeft {
+            corners.insert(.BottomLeft)
+        }
+        
+        if bottomRight {
+            corners.insert(.BottomRight)
+        }
+        
+
+        if corners.isEmpty {
+            
+        } else {
+            
+            if (topLeft && topRight && bottomLeft && bottomRight) {
+                self.layer.cornerRadius = cornerRadius * _widthRatio
+                self.clipsToBounds = true
+                
+            } else {
+                var fr = self.bounds
+                fr.size.width = fr.size.width * _widthRatio
+                fr.size.height = fr.size.height * _widthRatio
+                
+                let path = UIBezierPath(roundedRect:fr, byRoundingCorners:corners, cornerRadii: CGSizeMake(cornerRadius, cornerRadius))
+                let maskLayer = CAShapeLayer()
+                maskLayer.path = path.CGPath
+                self.layer.mask = maskLayer
+            }
+
+        }
+        
+        if blurEffect {
+            self.backgroundColor = UIColor.clearColor()
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            //always fill the view
+            blurEffectView.frame = self.bounds
+            blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            self.addSubview(blurEffectView)
+            self.sendSubviewToBack(blurEffectView)
+
+        }
+    }
 }
 
 
@@ -152,3 +242,5 @@ func getCurrencyForCountry(countryCode: String)-> String? {
     let currencyCode = locale.objectForKey(NSLocaleCurrencyCode) as? String
     return currencyCode
 }
+
+

@@ -62,6 +62,7 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
     //MARK: - IBOutlet
     @IBOutlet var tfSerach: UITextField!
     @IBOutlet var tblView: UITableView!
+    @IBOutlet var lblPlaceHolder: UILabel!
     
     //MARK: - Action Method
     @IBAction func cancelBtnTap(sender: UIButton){
@@ -94,7 +95,7 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
         imgView.image = UIImage(named: "searchIcon.png")
         imgView.contentMode = .Center
         tfSerach.leftView = imgView
-        tfSerach.leftViewMode = .Always
+        //tfSerach.leftViewMode = .Always
         
         let btnClear = UIButton(frame: CGRectMake(0, 0, 30, tfSerach.frame.size.height))
         btnClear.setImage(UIImage(named: "cancelIcon.png"), forState: .Normal)
@@ -105,7 +106,7 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
         
         let attrDic : [String : AnyObject] = [NSFontAttributeName : UIFont(name: "Avenir", size: 15)!,
             NSForegroundColorAttributeName : UIColor.whiteColor()]
-        let attriStr = NSAttributedString(string: "Search Text",attributes:attrDic)
+        //let attriStr = NSAttributedString(string: "Search Address",attributes:attrDic)
         //tfSerach.attributedPlaceholder = attriStr
         tfSerach.font = UIFont(name: "Avenir", size: 15)
         tfSerach.frame = CGRectMake(50, 0, 320, 320)
@@ -118,7 +119,7 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
     }
     override func viewWillDisappear(animated: Bool) {
         UITextField.appearance().tintColor = UIColor.blueColor()
-
+       _defaultCenter.removeObserver(self)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -131,8 +132,6 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
         tfSerach.text = ""
         self.searchTextDidChange(tfSerach)
     }
-    
-    
     
     func searchTextDidChange(textField: UITextField){
         if sessionDataTask != nil{
