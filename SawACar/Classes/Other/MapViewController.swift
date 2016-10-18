@@ -14,6 +14,7 @@ class MapViewController: ParentVC, UISearchBarDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var gMapview: GMSMapView!
+    @IBOutlet var searchField: UISearchBar!
     
     var completionBlcok: ((add: GLocation?) -> Void)!
     var selectedPlace : GLocation?
@@ -56,6 +57,7 @@ class MapViewController: ParentVC, UISearchBarDelegate {
         
             let searchCon = segue.destinationViewController as! LocationPickerViewController
             searchCon.selectionBlock = {[unowned self] (loc) -> () in
+                self.searchField.text = loc.address
                 self.selectedPlace = loc
                 self.mapView.removeAnnotations(self.mapView.annotations)
                 var coord = CLLocationCoordinate2D()
@@ -65,7 +67,7 @@ class MapViewController: ParentVC, UISearchBarDelegate {
                 self.gMapview.clear()
                 let marker = GMSMarker()
                 marker.position = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
-                marker.title = loc.name
+                marker.title = loc.address
                 marker.map = self.gMapview
                 let camera = GMSCameraPosition.cameraWithLatitude(coord.latitude, longitude: coord.longitude, zoom: 6.0)
                 self.gMapview.animateToCameraPosition(camera)

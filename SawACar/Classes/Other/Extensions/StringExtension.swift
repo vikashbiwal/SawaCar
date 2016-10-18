@@ -24,7 +24,7 @@ extension String {
     }
     
     func isValidMobileNumber() -> Bool {
-        if self.characters.count > 14 || self.characters.count < 10 {
+        if self.characters.count > 14 || self.characters.count < 8 {
             return false
         }
         let newCharacters = NSCharacterSet(charactersInString: self)

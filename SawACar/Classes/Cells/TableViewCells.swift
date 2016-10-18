@@ -129,14 +129,68 @@ class StopoverCell: TVGenericeCell {
 
 //MARK: Round/Reguler Travel Cell: Used in Add Travel Screen of Driver Mode.
 class TravelDateTimeCell: TVGenericeCell {
-    @IBOutlet var lblDate: UILabel!
-    @IBOutlet var lblTime: UILabel!
-    @IBOutlet var lblDateTitile: UILabel!
-    @IBOutlet var lblTimeTitle: UILabel!
-    @IBOutlet var checkBoxBtn: UIButton!
+    @IBOutlet var lblDate       : UILabel!
+    @IBOutlet var lblTime       : UILabel!
+    @IBOutlet var lblDateTitile : UILabel!
+    @IBOutlet var lblTimeTitle  : UILabel!
+    @IBOutlet var checkBoxBtn   : UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    //Set info for regular travel
+    func setRegularTravelInfo(travel: Travel) {
+        self.checkBoxBtn.selected = travel.isRegularTravel
+        
+        if let date = travel.repeateEndDate() {
+            let repeatEndTime = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            self.lblTime.text = repeatEndTime
+        } else {
+            self.lblTime.text = "Select"
+        }
+        
+        self.lblDate.text = travel.repeatType == 1 ? "Day" : "Month"
+    }
+    
+    //set info for Round travel.
+    func setRoundTravelInfo(travel: Travel) {
+        self.checkBoxBtn.selected = travel.isRoundTravel
+        
+        //round date
+        if let date = travel.roundTravelDate() {
+            let roundDate = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            self.lblDate.text = roundDate
+        } else {
+            self.lblDate.text = "Select"
+        }
+
+        //round time.
+        let time =  travel.roundHour + ":" + travel.roundMinute + ":00"
+        if let date = dateFormator.dateFromString(time, fomat: "HH:mm:ss") {
+            self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
+        } else {
+          self.lblTime.text = "Select"
+        }
+    }
+    
+    //Set departure time for travel
+    func setDepartureInfoFor(travel: Travel) {
+        //departure date
+        if let date = travel.departurDate() {
+            let roundDate = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            self.lblDate.text = roundDate
+        } else {
+            self.lblDate.text = "Select"
+        }
+        
+        //departure time.
+        let time =  travel.departureHour + ":" + travel.departureMinute + ":00"
+        if let date = dateFormator.dateFromString(time, fomat: "HH:mm:ss") {
+            self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
+        } else {
+            self.lblTime.text = "Select"
+        }
     }
 }
 
@@ -273,7 +327,7 @@ class TVTravelPassengersCell : TVGenericeCell, UICollectionViewDelegateFlowLayou
 }
 
 
-//MAR: TravelCell
+//MARK: TravelCell
 class TVTravelCell : TVGenericeCell {
     @IBOutlet var lblTravelDate     : UILabel!
     @IBOutlet var lblTravelTime     : UILabel!
@@ -286,7 +340,7 @@ class TVTravelCell : TVGenericeCell {
     @IBOutlet var lblDriverName     : UILabel!
     @IBOutlet var imgvDriver        : UIImageView!
     @IBOutlet var cardView          : UIView?  //View that contain Travel info. See MyRides screen.
-    @IBOutlet var ratingView: HCSStarRatingView!
+    @IBOutlet var ratingView        : HCSStarRatingView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

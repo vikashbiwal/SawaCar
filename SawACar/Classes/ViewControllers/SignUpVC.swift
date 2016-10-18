@@ -140,6 +140,7 @@ extension SignUpVC {
            self.navigationController?.popViewControllerAnimated(true)
             return
         }
+        self.view.endEditing(true)
         scrollCollectionViewForSignupStep(index)
     }
     
@@ -181,6 +182,7 @@ extension SignUpVC {
                 
             } else if action == .DialCodeAction {
                 self.openCountryList(.DialCodeAction)
+                
             } else if action == .DatePickerAction {
                 self.user.birthDate = value
             }
@@ -299,9 +301,11 @@ extension SignUpVC {
         if forAction == .NationalityAction {
             cListVC.selectedCountryId = user.nationality.Id
             cListVC.titleString = "Nationality"
+            
         } else if forAction == .CountryAction {
             cListVC.selectedCountryId = user.country.Id
             cListVC.titleString = "Countries"
+            
         } else if forAction == .DialCodeAction {
             cListVC.selectedCountryId = user.mobileCountryCode
             cListVC.titleString = "Country Dial Code"

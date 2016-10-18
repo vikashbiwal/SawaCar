@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Travel {
+class Travel: NSObject, NSCopying {
     var Id:             String!
     var travelNumber:   String!
     
@@ -31,7 +31,7 @@ class Travel {
     var departureFelexiblity: Int = 0
     
     var travelLuggage:  VCounterRange = (1, 1, 3)
-    var carPice:        VCounterRange = (0, 0, 0)
+    var carPrice:        VCounterRange = (0, 0, 0)
     var passengerPrice: VCounterRange = (0, 0, 0)
     var travelSeat:     VCounterRange = (1, 1, 4)
     var seatLeft:Int = 0
@@ -58,10 +58,24 @@ class Travel {
     var comments    = []
     var usersRatings = []
     
-    init() {
-    
+    func repeateEndDate()-> NSDate? {
+        return dateFormator.dateFromString(self.repeatEndDate, fomat: "dd/MM/yyyy hh:mm:ss")
     }
     
+    func roundTravelDate()-> NSDate? {
+        return dateFormator.dateFromString(self.roundDate, fomat: "dd/MM/yyyy hh:mm:ss")
+    }
+    
+    func departurDate()-> NSDate? {
+        return dateFormator.dateFromString(self.departureDate, fomat: "dd/MM/yyyy hh:mm:ss")
+    }
+
+    override init() {
+        super.init()
+    //
+    }
+    
+    //Travel object initialize from json dictionary object getting with API response.
     init (_ info : [String : AnyObject]) {
     
         Id = RConverter.string(info["TravelID"])
@@ -92,13 +106,13 @@ class Travel {
         isRoundTravel   = RConverter.boolean(info["IsRoundTravel"])
         roundDate       = RConverter.string(info["RoundDate"])
         roundHour       = RConverter.string(info["RoundHour"])
-        roundDate       = RConverter.string(info["RoundMinute"])
+        roundMinute     = RConverter.string(info["RoundMinute"])
         
         driver      = Driver(info)
         car         = Car.CreateCarFromTravel(info)
         currency    = Currency(info: info)
         
-        carPice.value        = RConverter.integer(info["CarPrice"])
+        carPrice.value        = RConverter.integer(info["CarPrice"])
         passengerPrice.value = RConverter.integer(info["PassengerPrice"])
         travelLuggage.value  = RConverter.integer(info["Luggages"])
         travelSeat.value     = RConverter.integer(info["Seats"])
@@ -112,7 +126,7 @@ class Travel {
         
     }
     
-    //update travel info
+    //Travel object update or reset info from json dictionary getting by API response.
     func updateInfo(info : [String : AnyObject]) {
         Id = RConverter.string(info["TravelID"])
         travelNumber = RConverter.string(info["TravelNumber"])
@@ -142,13 +156,13 @@ class Travel {
         isRoundTravel   = RConverter.boolean(info["IsRoundTravel"])
         roundDate       = RConverter.string(info["RoundDate"])
         roundHour       = RConverter.string(info["RoundHour"])
-        roundDate       = RConverter.string(info["RoundMinute"])
+        roundMinute     = RConverter.string(info["RoundMinute"])
         
         driver      = Driver(info)
         car         = Car.CreateCarFromTravel(info)
         currency    = Currency(info: info)
         
-        carPice.value        = RConverter.integer(info["CarPrice"])
+        carPrice.value        = RConverter.integer(info["CarPrice"])
         passengerPrice.value = RConverter.integer(info["PassengerPrice"])
         travelLuggage.value  = RConverter.integer(info["Luggages"])
         travelSeat.value     = RConverter.integer(info["Seats"])
@@ -159,6 +173,44 @@ class Travel {
         detail               = RConverter.string(info["Details"])
         status               = RConverter.boolean(info["Status"])
         trackingEnable       = RConverter.boolean(info["Tracking"])
+    }
+    
+    
+    //Conform NSCopying protocol by Travel type
+     func copyWithZone(zone: NSZone) -> AnyObject {
+        let aa = Travel()
+        aa.Id = self.Id
+        aa.travelNumber = self.travelNumber
+        aa.locationFrom = self.locationFrom
+        aa.locationTo = self.locationTo
+        aa.locationStop1 = self.locationStop1
+        aa.locationStop2 = self.locationStop2
+        aa.locationStop3 = self.locationStop3
+        aa.departureDate = self.departureDate
+        aa.departureHour = self.departureHour
+        aa.departureMinute = self.departureMinute
+        aa.departureFelexiblity = self.departureFelexiblity
+        aa.isRegularTravel = self.isRegularTravel
+        aa.isRoundTravel = self.isRoundTravel
+        aa.repeatType = self.repeatType
+        aa.repeatEndDate = self.repeatEndDate
+        aa.roundDate = self.roundDate
+        aa.roundHour = self.roundHour
+        aa.roundMinute = self.roundMinute
+        aa.driver = self.driver
+        aa.car = self.car
+        aa.currency = self.currency
+        aa.carPrice = self.carPrice
+        aa.passengerPrice = self.passengerPrice
+        aa.travelLuggage = self.travelLuggage
+        aa.travelSeat = self.travelSeat
+        aa.seatLeft = self.seatLeft
+        aa.isArchived = self.isArchived
+        aa.ladiesOnly = self.ladiesOnly
+        aa.detail = self.detail
+        aa.status = self.status
+        aa.trackingEnable = self.trackingEnable
+        return aa
     }
 }
 

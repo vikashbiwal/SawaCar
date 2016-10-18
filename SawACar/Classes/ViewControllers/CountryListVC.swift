@@ -9,7 +9,7 @@
 import UIKit
 
 enum LocationSelectionForType {
-    case Nationality, Country
+    case Nationality, Country, DialCodeAction
     case From, To
     case None
 }

@@ -71,7 +71,7 @@ extension AddTravelStep2VC {
                     }
                     selfVc.presentViewController(activityVC, animated: true, completion: nil)
                 }
-            } else if action  == .Cancel {
+            } else if action  == .Cancel {//plz do not call hide func here it automatically hide the view.
                 self?.navigationController?.popToRootViewControllerAnimated(true)
             }
         }
@@ -143,7 +143,7 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
             } else if indexPath.row == 4 {
                 cell.lblTitle.text = "Price per Car"
                 let currencySymbol = travel.currency?.symbol ?? ""
-                cell.txtField.text = currencySymbol + "\(travel.carPice.value)"
+                cell.txtField.text = currencySymbol + "\(travel.carPrice.value)"
                 cell.steperForType = TravelPreferenceType.CarPrice
                 cell.txtField.userInteractionEnabled = true
                 
@@ -204,11 +204,11 @@ extension AddTravelStep2VC {
                 counter = travel.travelSeat
                 break
             case .CarPrice:
-                let value = sender.tag == 1 ? (travel.carPice.value - 1) : (travel.carPice.value + 1)
-                travel.carPice.value = value <= travel.carPice.min ? travel.passengerPrice.min : value
+                let value = sender.tag == 1 ? (travel.carPrice.value - 1) : (travel.carPrice.value + 1)
+                travel.carPrice.value = value <= travel.carPrice.min ? travel.passengerPrice.min : value
                 let currencySymbol = travel.currency?.symbol ?? ""
-                cell.txtField.text = currencySymbol + "\(travel.carPice.value)"
-                counter = travel.carPice
+                cell.txtField.text = currencySymbol + "\(travel.carPrice.value)"
+                counter = travel.carPrice
                 break
             case .PassengerPrice:
                 let value = sender.tag == 1 ? (travel.passengerPrice.value - 1) : (travel.passengerPrice.value + 1)
@@ -257,7 +257,7 @@ extension AddTravelStep2VC {
                 cell.txtField.text = travel.travelSeat.value.ToString()
                 break
             case .CarPrice:
-                cell.txtField.text = travel.carPice.value.ToString()
+                cell.txtField.text = travel.carPrice.value.ToString()
                 break
             case .PassengerPrice:
                 cell.txtField.text = travel.passengerPrice.value.ToString()
@@ -288,9 +288,9 @@ extension AddTravelStep2VC {
                 break
             case .CarPrice:
                 let value = sender.text?.integerValue ?? 0
-                travel.carPice.value = value
-                cell.txtField.text = "\(travel.carPice.value)"
-                counter = travel.carPice
+                travel.carPrice.value = value
+                cell.txtField.text = "\(travel.carPrice.value)"
+                counter = travel.carPrice
                 break
             case .PassengerPrice:
                 let value = sender.text?.integerValue ?? 0
@@ -340,7 +340,7 @@ extension AddTravelStep2VC {
             break
         case .CarPrice:
             let currencySymbol = travel.currency?.symbol ?? ""
-            cell.txtField.text = currencySymbol + travel.carPice.value.ToString()
+            cell.txtField.text = currencySymbol + travel.carPrice.value.ToString()
             break
         case .PassengerPrice:
             let currencySymbol = travel.currency?.symbol ?? ""
@@ -435,7 +435,7 @@ extension AddTravelStep2VC {
         parameters["Seats"]             = travel.travelSeat.value.ToString()
         parameters["Luggages"]          = travel.travelLuggage.value.ToString()
         parameters["PassengerPrice"]    = travel.passengerPrice.value.ToString()
-        parameters["CarPrice"]          = travel.carPice.value.ToString()
+        parameters["CarPrice"]          = travel.carPrice.value.ToString()
         parameters["CarID"]             = travel.car!.id
         parameters["DriverID"]          = me.Id
         parameters["DepartureFlexibility"] = "15"

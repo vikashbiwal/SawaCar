@@ -16,9 +16,10 @@ class VNoDataView: ConstrainedView {
         super.awakeFromNib()
     }
     
-    func showInView(view: UIView, textColor: UIColor = UIColor.blackColor(), backgroundColor: UIColor = UIColor.whiteColor()) {
+    func showInView(view: UIView, message: String? = nil, textColor: UIColor = UIColor.blackColor(), backgroundColor: UIColor = UIColor.whiteColor()) {
         self.frame = CGRect(x: 0, y: 64, width: _screenSize.width, height: 50)
         self.lblTitle.textColor = textColor
+        self.lblTitle.text = message ?? "No data available."
         self.backgroundColor = backgroundColor
         view.addSubview(self)
     }

@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class CustomActivityIndicatorView: UIView {
+class CustomActivityIndicatorView: VBlurView {
     
     // MARK - Variables
     var isAnimating : Bool = false
@@ -20,14 +20,21 @@ class CustomActivityIndicatorView: UIView {
     
     // MARK - Init
     init(image : UIImage) {
-        let frame : CGRect = CGRectMake(0.0, 0.0, image.size.width, image.size.height)
+        let hieght: CGFloat = 50.0
+        
+        let centerX = (hieght/2) - (image.size.width/2)
+        let centrerY = (hieght/2) - (image.size.height/2)
+        let iframe : CGRect = CGRectMake(centerX, centrerY, image.size.width, image.size.height)
+
+        let frame : CGRect = CGRectMake(0.0, 0.0, hieght, hieght)
         super.init(frame: frame)
-        animationLayer.frame = frame
+        animationLayer.frame = iframe
         animationLayer.contents = image.CGImage
         animationLayer.masksToBounds = true
         self.layer.addSublayer(animationLayer)
         addRotation(forLayer: animationLayer)
         pause(layer: animationLayer)
+        self.layer.cornerRadius = 5.0
         self.hidden = true
     }
     

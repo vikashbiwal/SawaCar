@@ -105,7 +105,6 @@ class AddCarVC: ParentVC {
 
 //MARK: IBActions
 extension AddCarVC {
-    
     @IBAction func saveBtnClicked(sender: UIButton) {
         let process = validateAddCarProcess()
         if process.isValid {
@@ -148,12 +147,12 @@ extension AddCarVC {
     }
     
     @IBAction func yearPickerbtnClicked(sender: UIButton) {
+        self.view.endEditing(true)
         self.view.addSubview(yearPicker)
         yearPicker.showWithAnnimation()
     }
     
     @IBAction func txtFieldDidChangeText(sender: UITextField) {
-       
         if sender === txtModel {
             car.model = sender.text
         } else if sender === txtDetail {
@@ -179,6 +178,13 @@ extension AddCarVC: UITextViewDelegate {
             lblDetailPlaceHolder.hidden = true
         }
         car.details = textView.text
+    }
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        UIView.animateWithDuration(0.3) { 
+            self.tableView.contentOffset = CGPoint(x: 0, y: 200)
+        }
+        return true
     }
 
 }

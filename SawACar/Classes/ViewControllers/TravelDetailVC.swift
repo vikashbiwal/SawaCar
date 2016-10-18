@@ -12,13 +12,16 @@ import GoogleMaps
 class TravelDetailVC: ParentVC {
 
     @IBOutlet var gMapView: GMSMapView!
+    @IBOutlet var bookBtnView: UIView!
+    
+    var shareView: ShareView!
     
     var travel: Travel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setMarkerAndPathOnMap()
-        // Do any additional setup after loading the view.
+        self.initShareView()
+        self.prepareUI()
+        self.setMarkerAndPathOnMap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,10 +29,39 @@ class TravelDetailVC: ParentVC {
         // Dispose of any resources that can be recreated.
     }
 
+    //prepare any initial UI
+    func prepareUI() {
+        bookBtnView.hidden = travel.driver.id == me.Id
+    }
+    
+    //MARK: Navigations
+    
+    //Navigate for edit travel
+    func navigateForEditTravel() {
+        let traveVC =  _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_AddTravelStep1") as! AddTravelStep1VC
+        traveVC.travel = travel.copy() as! Travel
+        self.navigationController?.pushViewController(traveVC, animated: true)
+    }
+    
+}
+
+//MARK: IBActions
+extension TravelDetailVC {
+    //Edit btn action
+    @IBAction func editBtnClicked(sender: UIButton) {
+        self.navigateForEditTravel()
+    }
+    
+    //Share button action
+    @IBAction func shareBtnClicked(sender: UIButton) {
+        self.openShareView()
+    }
 }
 
 //MARK: Others
 extension TravelDetailVC {
+    
+    //Set Pin marker on map.
     func setMarkerAndPathOnMap() {
         let cameraPositionCoordinates = CLLocationCoordinate2D(latitude: travel.locationFrom!.lat, longitude: travel.locationFrom!.long)
         let cameraPosition = GMSCameraPosition.cameraWithTarget(cameraPositionCoordinates, zoom: 8)
@@ -83,6 +115,11 @@ extension TravelDetailVC {
         rectangle.strokeColor = UIColor.greenColor()
         rectangle.map = gMapView
     }
+    
+    //open share view for share the travel
+    func openShareView() {
+        self.shareView.showInView(self.view)
+    }
 }
 
 //MARK: TableView DataSource and Delegate
@@ -125,4 +162,28 @@ extension TravelDetailVC : UITableViewDataSource, UITableViewDelegate {
             return 0
         }
     }
+}
+
+//MARK: Share view setup
+extension TravelDetailVC {
+    func initShareView() {
+        let views  = NSBundle.mainBundle().loadNibNamed("ShareView", owner: nil, options: nil)
+        shareView  = views[0] as! ShareView
+        shareView.actionBlock = {[weak self] (action) in
+            if action == .Share {
+                if let selfVc = self {
+                    let strShare = "From " + selfVc.travel.locationFrom!.name + " to " + selfVc.travel.locationTo!.name + " a travel has been created by " + me.fullname
+                    let activityVC = UIActivityViewController(activityItems: [strShare], applicationActivities: nil)
+                    activityVC.completionWithItemsHandler = {(str, isSuccess, obj, error) in
+                        selfVc.shareView.hide()
+                    }
+                    selfVc.presentViewController(activityVC, animated: true, completion: nil)
+                }
+            } else if action  == .Cancel { //plz do not call hide func here it automatically hide the view.
+                //self?.shareView.hide()
+            }
+        }
+    }
+    
+    
 }

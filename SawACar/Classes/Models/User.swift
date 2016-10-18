@@ -14,7 +14,7 @@ enum UserMode: Int {
 }
 
 //MARK: User
-class User  {
+class User :NSObject,  NSCopying {
     var Id: String!
     var firstname: String!
     var lastname: String!
@@ -43,74 +43,140 @@ class User  {
     var nationality: Country!
     var accountType: AccountType!
     
-    var password: String! = ""
-    var confPass: String! = ""
-    var oldPassword: String! = ""
-    var userMode: UserMode = .Passenger //Default mode.
+    var password    : String! = ""
+    var confPass    : String! = ""
+    var oldPassword : String! = ""
+    var userMode    : UserMode = .Passenger //Default mode.
     
-    var EmailVerifiedString: String { get {return self.isEmailVerified ? "Verified" : "Not Verified"}}
+    var EmailVerifiedString : String { get {return self.isEmailVerified ? "Verified" : "Not Verified"}}
     var MobileVerifiedString: String {get {return self.isMobileVerified ? "Verified" : "Not Verified"}}
     var FacebookVeriedString: String {get {return self.isFacebookVerified ? "Verified" : "Not Verified"}}
     
     //Default initialize
-     init() {
-        Id = ""
-        firstname = ""
-        lastname = ""
-        fullname = ""
-        gender = ""
-        birthDate = ""
-        bio = ""
-        email = ""
-        mobile = ""
+     override init() {
+        Id                = ""
+        firstname         = ""
+        lastname          = ""
+        fullname          = ""
+        gender            = ""
+        birthDate         = ""
+        bio               = ""
+        email             = ""
+        mobile            = ""
         mobileCountryCode = ""
-        language = ""
-        lastLoginTime = ""
-        createDate = ""
-        social = UserSocial()
-        preference = UserPreference()
-        country = Country()
-        nationality = Country()
-        accountType = AccountType()
+        language          = ""
+        lastLoginTime     = ""
+        createDate        = ""
+        social            = UserSocial()
+        preference        = UserPreference()
+        country           = Country()
+        nationality       = Country()
+        accountType       = AccountType()
         
     }
     
     // inialize user from json got from server
     init(info: [String : AnyObject]) {
-        Id = RConverter.string(info["UserID"])
-        firstname = RConverter.string(info["FirstName"])
-        lastname = RConverter.string(info["LastName"])
-        fullname = RConverter.string(info["FullName"])
-        gender = RConverter.boolean(info["Gender"]) ? "Male" : "Female"
-        bio = RConverter.string(info["Bio"])
-        email = RConverter.string(info["Email"])
-        mobile = RConverter.string(info["MobileNumber"])
+        Id                = RConverter.string(info["UserID"])
+        firstname         = RConverter.string(info["FirstName"])
+        lastname          = RConverter.string(info["LastName"])
+        fullname          = RConverter.string(info["FullName"])
+        gender            = RConverter.boolean(info["Gender"]) ? "Male" : "Female"
+        bio               = RConverter.string(info["Bio"])
+        email             = RConverter.string(info["Email"])
+        mobile            = RConverter.string(info["MobileNumber"])
         mobileCountryCode = RConverter.string(info["MobileCountryCode"])
-        language = RConverter.string(info["DefaultLanguage"])
-        photo      =  kWSDomainURL + RConverter.string(info["Photo"])
-        isMobileVerified = RConverter.boolean(info["IsMobileVerified"])
-        isEmailVerified = RConverter.boolean(info["IsEmailVerified"])
-        isTermsAccepted = RConverter.boolean(info["IsTermsAccepted"])
+        language          = RConverter.string(info["DefaultLanguage"])
+        photo             =  kWSDomainURL + RConverter.string(info["Photo"])
+        isMobileVerified  = RConverter.boolean(info["IsMobileVerified"])
+        isEmailVerified   = RConverter.boolean(info["IsEmailVerified"])
+        isTermsAccepted   = RConverter.boolean(info["IsTermsAccepted"])
         isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
-        rating = RConverter.integer(info["Rating"])
-        numberOfTravels = RConverter.integer(info["TravelsNumber"])
-        numberOfContacts = RConverter.integer(info["ContactsNumber"])
-        birthDate = RConverter.string(info["BirthDate"])
+        rating            = RConverter.integer(info["Rating"])
+        numberOfTravels   = RConverter.integer(info["TravelsNumber"])
+        numberOfContacts  = RConverter.integer(info["ContactsNumber"])
+        birthDate         = RConverter.string(info["BirthDate"])
 
-        let crDate = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
-        createDate = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
-        let llT = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
-        lastLoginTime = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy HH:mm:ss")
+        let crDate        = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
+        createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
+        let llT           = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
+        lastLoginTime     = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy HH:mm:ss")
 
-        preference = UserPreference(info: info)
-        social = UserSocial(info: info)
-        country = Country(info: info)
-        nationality = Country(info: ["CountryID": info["NationalityID"]!, "CountryName": info["NationalityName"]!])
-        accountType = AccountType(info: info)
+        preference        = UserPreference(info: info)
+        social            = UserSocial(info: info)
+        country           = Country(info: info)
+        nationality       = Country(info: ["CountryID": info["NationalityID"]!, "CountryName": info["NationalityName"]!])
+        accountType       = AccountType(info: info)
 
     }
     
+    // update user info after successfully updated from server.
+    func setUpdatedInfo(info: [String : AnyObject]) {
+        Id                = RConverter.string(info["UserID"])
+        firstname         = RConverter.string(info["FirstName"])
+        lastname          = RConverter.string(info["LastName"])
+        fullname          = RConverter.string(info["FullName"])
+        gender            = RConverter.boolean(info["Gender"]) ? "Male" : "Female"
+        bio               = RConverter.string(info["Bio"])
+        email             = RConverter.string(info["Email"])
+        mobile            = RConverter.string(info["MobileNumber"])
+        mobileCountryCode = RConverter.string(info["MobileCountryCode"])
+        language          = RConverter.string(info["DefaultLanguage"])
+        photo             =  kWSDomainURL + RConverter.string(info["Photo"])
+        isMobileVerified  = RConverter.boolean(info["IsMobileVerified"])
+        isEmailVerified   = RConverter.boolean(info["IsEmailVerified"])
+        isTermsAccepted   = RConverter.boolean(info["IsTermsAccepted"])
+        isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
+        rating            = RConverter.integer(info["Rating"])
+        numberOfTravels   = RConverter.integer(info["TravelsNumber"])
+        numberOfContacts  = RConverter.integer(info["ContactsNumber"])
+        birthDate         = RConverter.string(info["BirthDate"])
+        
+        let crDate        = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
+        createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
+        let llT           = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
+        lastLoginTime     = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy HH:mm:ss")
+        
+        preference        = UserPreference(info: info)
+        social            = UserSocial(info: info)
+        country           = Country(info: info)
+        nationality       = Country(info: ["CountryID": info["NationalityID"]!, "CountryName": info["NationalityName"]!])
+        accountType       = AccountType(info: info)
+        
+    }
     
+    
+    //MARK: Conform NSCoying Protocol
+    func copyWithZone(zone: NSZone) -> AnyObject {
+        let copy = User()
+        copy.Id = self.Id
+        copy.firstname = self.firstname
+        copy.lastname = self.lastname
+        copy.fullname = self.fullname
+        copy.gender = self.gender
+        copy.bio = self.bio
+        copy.email = self.email
+        copy.mobile = self.mobile
+        copy.mobileCountryCode = self.mobileCountryCode
+        copy.language = self.language
+        copy.photo = self.photo
+        copy.isMobileVerified = self.isMobileVerified
+        copy.isEmailVerified = self.isEmailVerified
+        copy.isTermsAccepted = self.isTermsAccepted
+        copy.isFacebookVerified = self.isFacebookVerified
+        copy.rating = self.rating
+        copy.numberOfTravels = self.numberOfTravels
+        copy.numberOfContacts = self.numberOfContacts
+        copy.birthDate = self.birthDate
+        copy.createDate = self.createDate
+        copy.lastLoginTime = self.lastLoginTime
+        copy.preference = self.preference
+        copy.social = self.social
+        copy.country = self.country
+        copy.nationality = self.nationality
+        copy.accountType = self.accountType
+        return copy
+    }
     
     //MARK: User placeholder image
     lazy var placeholderImage: UIImage = {
@@ -120,6 +186,8 @@ class User  {
             return UIImage(named: "ic_female")!
         }
     }()
+    
+
 }
 
 //MARK: User WS Actions like - Login, Sign up, update profile
@@ -170,81 +238,80 @@ extension User {
     //MARK: WS Prameters
     //SignUp Params
     func singUpParameters() -> [String : AnyObject] {
-        
-        let params = ["Email": email,
-                      "FirstName": firstname,
-                      "LastName": lastname,
-                      "Password": password,
-                      "Gender": gender == "Male" ? true : false,
-                      "YearOfBirth": birthDate.componentsSeparatedByString("/")[2],
-                      "MonthOfBirth" : birthDate.componentsSeparatedByString("/")[1],
-                      "DayOfBirth" : birthDate.componentsSeparatedByString("/")[0],
-                      "NationalityID": nationality.Id,
-                      "CountryID": country.Id,
+        let params = ["Email"           : email,
+                      "FirstName"       : firstname,
+                      "LastName"        : lastname,
+                      "Password"        : password,
+                      "Gender"          : gender == "Male" ? true : false,
+                      "YearOfBirth"     : birthDate.componentsSeparatedByString("/")[2],
+                      "MonthOfBirth"    : birthDate.componentsSeparatedByString("/")[1],
+                      "DayOfBirth"      : birthDate.componentsSeparatedByString("/")[0],
+                      "NationalityID"   : nationality.Id,
+                      "CountryID"       : country.Id,
                       "MobileCountryCode": mobileCountryCode,
-                      "MobileNumber": mobile,
-                      "FCMToken" : _FCMToken]
+                      "MobileNumber"    : mobile,
+                      "FCMToken"        : _FCMToken]
         return params as! [String : AnyObject]
     }
     
     //Login Params
     func loginParameters() -> [String : String!] {
-        let params = ["Email": email,
-                      "Password": password,
-                      "FCMToken": _FCMToken]
+        let params = ["Email"       : email,
+                      "Password"    : password,
+                      "FCMToken"    : _FCMToken]
         return params
     }
     
     //UpdateProfile Params
     func updateProfileInfoParams() -> [String : AnyObject] {
-        let params = ["UserID":Id,
-                      "FirstName": firstname,
-                      "LastName": lastname,
-                      "Gender": gender == "Male" ? true : false,
-                      "YearOfBirth": birthDate.componentsSeparatedByString("/")[2],
-                      "MonthOfBirth": birthDate.componentsSeparatedByString("/")[1],
-                      "DayOfBirth" : birthDate.componentsSeparatedByString("/")[0],
-                      "NationalityID": nationality.Id,
-                      "CountryID": country.Id,
+        let params = ["UserID"          : Id,
+                      "FirstName"       : firstname,
+                      "LastName"        : lastname,
+                      "Gender"          : gender == "Male" ? true : false,
+                      "YearOfBirth"     : birthDate.componentsSeparatedByString("/")[2],
+                      "MonthOfBirth"    : birthDate.componentsSeparatedByString("/")[1],
+                      "DayOfBirth"      : birthDate.componentsSeparatedByString("/")[0],
+                      "NationalityID"   : nationality.Id,
+                      "CountryID"       : country.Id,
                       "MobileCountryCode": mobileCountryCode,
-                      "MobileNumber": mobile,
-                      "Bio": bio,
-                      "AccountTypeID": accountType.Id]
+                      "MobileNumber"    : mobile,
+                      "Bio"             : bio,
+                      "AccountTypeID"   : accountType.Id]
         return params as! [String : AnyObject]
     }
     
     //Update Social Links Pramas
     func updateSocialInfoParams()-> [String : AnyObject] {
-         let params = ["UserID":Id,
-                       "Whatsapp":social.Whatsapp,
-                       "Viber": social.Viber,
-                       "Line": social.Line,
-                       "Tango": social.Tango,
-                       "Telegram": social.Telegram,
-                       "Facebook": social.Facebook,
-                       "Twitter": social.Twitter,
-                       "Snapchat": social.Snapchat,
-                       "Instagram": social.Instagram]
+         let params = ["UserID"         : Id,
+                       "Whatsapp"       : social.Whatsapp,
+                       "Viber"          : social.Viber,
+                       "Line"           : social.Line,
+                       "Tango"          : social.Tango,
+                       "Telegram"       : social.Telegram,
+                       "Facebook"       : social.Facebook,
+                       "Twitter"        : social.Twitter,
+                       "Snapchat"       : social.Snapchat,
+                       "Instagram"      : social.Instagram]
         return params
     }
     
     //Update user preference params
     func updateUserPreferenceParams() -> [String : AnyObject] {
         let params = ["UserID":Id,
-                      "IsMobilelShown": preference.showMobile,
-                      "IsEmailShown": preference.showEmail,
-                      "IsMonitoringAccepted": preference.acceptMonitring,
-                      "IsTravelRequestReceiver": preference.IsTravelRequestReceiver,
-                      "IsVisibleInSearch": preference.visibleInSearch,
-                      "PreferencesSmoking": preference.smoking,
-                      "PreferencesMusic": preference.music,
-                      "PreferencesFood": preference.food,
-                      "PreferencesKids": preference.kids,
-                      "PreferencesPets": preference.pets,
-                      "PreferencesPrayingStop": preference.prayingStop,
-                      "PreferencesQuran": preference.quran,
-                      "DefaultLanguage": preference.communicationLanguage,
-                      "SpokenLanguages": preference.speackingLanguage]
+                      "IsMobilelShown"          : preference.showMobile,
+                      "IsEmailShown"            : preference.showEmail,
+                      "IsMonitoringAccepted"    : preference.acceptMonitring,
+                      "IsTravelRequestReceiver" : preference.IsTravelRequestReceiver,
+                      "IsVisibleInSearch"       : preference.visibleInSearch,
+                      "PreferencesSmoking"      : preference.smoking,
+                      "PreferencesMusic"        : preference.music,
+                      "PreferencesFood"         : preference.food,
+                      "PreferencesKids"         : preference.kids,
+                      "PreferencesPets"         : preference.pets,
+                      "PreferencesPrayingStop"  : preference.prayingStop,
+                      "PreferencesQuran"        : preference.quran,
+                      "DefaultLanguage"         : preference.communicationLanguage,
+                      "SpokenLanguages"         : preference.speackingLanguage]
         return params as! [String : AnyObject]
     }
 }

@@ -35,10 +35,12 @@ class ShareView: VBlurView {
     }
     
     func hide() {
-        UIView.animateWithDuration(0.5, animations: {
-            self.transform = CGAffineTransformIdentity
-            }, completion: {(flag) in
-                self.removeFromSuperview()
+        UIView.animateWithDuration(0.3, animations: {
+            self.transform = CGAffineTransformMakeScale(0.1, 0.1)
+            }, completion: {(finished) in
+                if finished {
+                    self.removeFromSuperview()
+                }
         })
     }
     

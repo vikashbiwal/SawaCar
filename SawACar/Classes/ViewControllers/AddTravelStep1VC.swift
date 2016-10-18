@@ -22,7 +22,7 @@ class AddTravelStep1VC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
       }
 
     override func didReceiveMemoryWarning() {
@@ -54,28 +54,38 @@ extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
             
         } else if indexPath.row == 1 {
             cellIdentifier = "stopoverCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
+            return cell
             
         } else if indexPath.row == 2 {
             cellIdentifier = "regularTravelCell"
             let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
-            cell.checkBoxBtn.selected = travel.isRegularTravel
+            cell.setRegularTravelInfo(travel)
             return cell
             
         } else if indexPath.row == 3 {
             cellIdentifier = "roundTravelCell"
             let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
-            cell.checkBoxBtn.selected = travel.isRoundTravel
+            cell.setRoundTravelInfo(travel)
             return cell
             
         } else if indexPath.row == 4 {
             cellIdentifier = "weekDayCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
+            return cell
+            
         } else if indexPath.row == 5 {
             cellIdentifier = "rideDateTimeCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
+            cell.setDepartureInfoFor(travel)
+            return cell
+            
         } else {
             cellIdentifier = "buttonCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
+            return cell
+            
         }
-        let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
-        return cell!
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -142,9 +152,11 @@ extension AddTravelStep1VC {
                 if forStoper == 1 {
                     cell?.lblStop1.text = place.name
                     self.travel.locationStop1 = place
+                    
                 } else if forStoper == 2 {
                     cell?.lblStop2.text = place.name
                     self.travel.locationStop2 = place
+                    
                 } else {
                     cell?.lblStop3.text = place.name
                     self.travel.locationStop3 = place
@@ -265,6 +277,7 @@ extension AddTravelStep1VC {
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
             cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
             self.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+            
         } else if type == 2 {//Departure Date
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
             cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)

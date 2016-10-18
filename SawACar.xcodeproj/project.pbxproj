@@ -620,7 +620,7 @@
 				TargetAttributes = {
 					036A894B1CBB7A9E00DFB631 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = NF4P36UQJ5;
+						DevelopmentTeam = 5GL3E4GW7P;
 					};
 				};
 			};
@@ -970,6 +970,7 @@
 					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
 					"$(PROJECT_DIR)",
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = SawACar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

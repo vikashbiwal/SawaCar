@@ -211,6 +211,12 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
             type = .ConfirmPass
         } else if sender.tag == TextFieldType.MobileNo.rawValue {
             type = .MobileNo
+            let mobileNo = sender.text!
+            if mobileNo.characters.count > 14 { //user could not be add more than 14 digits as mobile number.
+                let substring = mobileNo.substringToIndex(mobileNo.endIndex.advancedBy(-1))
+                sender.text = substring
+                return
+            }
         }
         let str = sender.text?.trimmedString()
         textFieldChangeBlock(type: type, text: str!)

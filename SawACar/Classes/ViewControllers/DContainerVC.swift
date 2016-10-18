@@ -30,22 +30,25 @@ let MoreInfoNavID   = "SBID_MoreInfoVC"
 let profileNavID    = "SBID_ProfileVC"
 
 class DContainerVC: ParentVC {
-    @IBOutlet var containerView: UIView!
-    @IBOutlet var containerViewLeadignSpace: NSLayoutConstraint!
-  
-    @IBOutlet var imgVProfile: UIImageView!
-    @IBOutlet var btnProfile : UIButton!
-    @IBOutlet var lblName: UILabel!
-    @IBOutlet var lblEmail : UILabel!
-    @IBOutlet var lblUserMode: UILabel!
     
-    var tabbarController: TabbarViewController!
-    var transparentControl: UIControl!
-    var Menus = [Menu]()
-    var isShutterOpened  = false
+    @IBOutlet var containerViewLeadignSpace: NSLayoutConstraint!
+    @IBOutlet var menuContainerLeadingSpace: NSLayoutConstraint!
+    @IBOutlet var containerView : UIView!
+    @IBOutlet var imgVProfile   : UIImageView!
+    @IBOutlet var btnProfile    : UIButton!
+    @IBOutlet var lblName       : UILabel!
+    @IBOutlet var lblEmail      : UILabel!
+    @IBOutlet var lblUserMode   : UILabel!
+    
+    var tabbarController    : TabbarViewController!
+    var transparentControl  : UIControl!
+    var Menus               = [Menu]()
+    var isShutterOpened     = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.clipsToBounds = true
+        menuContainerLeadingSpace.constant = -100
         initializeShutterActionBlock()
         setUserInfo()
         findTabbar()
@@ -125,17 +128,22 @@ class DContainerVC: ParentVC {
     func openCloseShutter() {
         self.view.layoutIfNeeded()
         var x: CGFloat = 0
+        var mx: CGFloat = 0 //for menu container x
         if isShutterOpened {
             isShutterOpened = false
             x = 0
+            mx = -100
         } else {
             isShutterOpened = true
             x = shutterMaxXValue * _widthRatio
+            mx = 0
             tabbarController.view.addSubview(transparentControl)
+            
         }
         
         UIView.animateWithDuration(0.3, animations: {
             self.containerViewLeadignSpace.constant = x
+            self.menuContainerLeadingSpace.constant = mx
             self.transparentControl.alpha = self.isShutterOpened ? 1 : 0
             self.view.layoutIfNeeded()
         }) { (res) in
@@ -148,8 +156,10 @@ class DContainerVC: ParentVC {
     //MARK:
     //Set user info to view on slider top view
     func setUserInfo()  {
+        let userModeIconName = me.userMode == .Driver ?  "ic_need_a_ride_small" : "ic_have_car_small" 
+        imgVProfile.image = UIImage(named: userModeIconName)
+        
         let profileUrl = NSURL(string: me.photo)
-        imgVProfile.setImageWithURL(profileUrl!, placeholderImage: me.placeholderImage)
         btnProfile.setImageForState(.Normal, withURL: profileUrl!, placeholderImage: me.placeholderImage)
         lblName.text = me.fullname
         lblEmail.text = me.email
@@ -171,6 +181,7 @@ class DContainerVC: ParentVC {
         let homeVC = _driverStoryboard.instantiateViewControllerWithIdentifier(homeVCID)
         setCurrentVCInTabbar(homeVC)
         setSliderMenus()
+        setUserInfo()
         tableView.reloadData()
         shutterActioinBlock()
     }
@@ -229,7 +240,6 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         if indexPath.row == (Menus.count - 1) {
             self.logoutAction()
         } else {

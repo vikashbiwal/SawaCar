@@ -48,7 +48,7 @@ class ProfileViewController: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        user = me
+        user = me.copy() as! User
         selectedMenu = Menus[0]
         changeMenuItems(selectedMenu)
         setUserInfo()
@@ -77,6 +77,7 @@ class ProfileViewController: ParentVC {
 //MARK: IBActions
 extension ProfileViewController {
     
+    //Edit btn action for change mode (edit or normal mode).
     @IBAction func editBtnCliclicked(sender: UIButton) {
         if isEditMode {
             if selectedMenu.type == .Profile {
@@ -107,12 +108,14 @@ extension ProfileViewController {
         changeShutterBtnSelector()
     }
     
+    //Action for pick profile image.
     @IBAction func profileImgBtnClicked(sender: UIButton) {
         if isEditMode && selectedMenu.type == .Profile {
             showActionForImagePick()
         }
     }
     
+    //UISwitch btn clicked in side tableview cell.
     @IBAction func cellSwitchBtnTapped(sw: SettingSwitch) {
         let isOn = sw.on
         if sw.type == .ShowEmail {
@@ -143,6 +146,7 @@ extension ProfileViewController {
         menuItems[sw.tag].boolValue = isOn
     }
     
+    //TextField text change action.
     @IBAction func cellTextfieldDidChangeText(txtfield: SignupTextField) {
         let value = txtfield.text?.trimmedString()
         let cellItem = menuItems[txtfield.tag]
@@ -176,9 +180,10 @@ extension ProfileViewController {
             user.social.Twitter = value
         }
         cellItem.stringValue = value!
-        
+
     }
     
+    //Save Changes btn clicked.
     @IBAction func updateBtnClicked(sender: UIButton) {
         //Password change button
         if selectedMenu.type == .ChangePass {
@@ -186,9 +191,21 @@ extension ProfileViewController {
         }
     }
     
+    //Back btn clicked. It will turn back to user in normal mode from edit mode.
     @IBAction func backBtnClicked(sender: UIButton) {
+        user = me.copy() as! User //reset user info if any changes made.
         isEditMode = !isEditMode
         changeShutterBtnSelector()
+        changeMenuItems(selectedMenu)
+        setUserInfo()
+    }
+    
+    //Navigate to select country dial code for mobile number.
+    @IBAction func dialCodeBtnClicked(sender: UIButton) {
+        if isEditMode {
+            let indexpath = NSIndexPath(forItem: sender.tag, inSection: 0)
+            self.openCountryList(.DialCodeAction, indexPath: indexpath)
+        }
     }
 }
 
@@ -256,8 +273,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if selectedMenu.type == .Profile || selectedMenu.type == .SocialLink {
-            let cell = tableView.dequeueReusableCellWithIdentifier("nameCell") as! TVSignUpFormCell
             let item = menuItems[indexPath.row]
+            let cell = tableView.dequeueReusableCellWithIdentifier(item.cellName) as! TVSignUpFormCell
             cell.lblTitle.text = item.title
             cell.txtField.text = item.stringValue
             cell.txtField.placeholder = item.title
@@ -265,6 +282,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell.txtField.keyboardType = item.keyboardType
             cell.txtField.enabled = isEditMode ? item.txtFieldEnable : false
             cell.txtField.tag = indexPath.row
+            cell.button?.tag = indexPath.row
             return cell
         } else if selectedMenu.type == .ChangePass {
             if indexPath.row == 3 {
@@ -404,9 +422,10 @@ extension ProfileViewController : UICollectionViewDataSource, UICollectionViewDe
     
 }
 
-//MARK: Cell Item Actions
+//MARK: Actions for Cell item
 extension ProfileViewController {
     
+    //Open actionsheet for Gender
     func showGenderPicker(indexPath: NSIndexPath) {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
@@ -430,12 +449,18 @@ extension ProfileViewController {
         self.presentViewController(sheet, animated: true, completion: nil)
     }
     
+    //This func navigate the user to country list screen. 
+    //Where user can select country for user field Nationlity, country, and for DialCode.
     func openCountryList(forAction : LocationSelectionForType, indexPath: NSIndexPath)  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
        
         if forAction == .Nationality {
             cListVC.selectedCountryId = user.nationality.Id
             cListVC.titleString = "Nationality"
+        } else if forAction == .DialCodeAction {
+            cListVC.selectedCountryId = user.mobileCountryCode
+            cListVC.titleString = "Country Dial Code"
+            
         } else  {
             cListVC.selectedCountryId = user.country.Id
             cListVC.titleString = "Countries"
@@ -446,9 +471,14 @@ extension ProfileViewController {
                 self.user.nationality = country
                 let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
+                
+            } else if forAction == .DialCodeAction {
+                self.user.mobileCountryCode = country.dialCode
+                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                cell?.txtField.text = country.name
+
             } else  if forAction == .Country {
                 self.user.country = country
-                self.user.mobileCountryCode = country.dialCode
                 let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = country.name
             }
@@ -457,6 +487,8 @@ extension ProfileViewController {
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
     
+    
+    //Navigate to pick User account type.
     func openAccountTypeListVC(indexPath: NSIndexPath)  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.preSelectedIDs = [user.accountType.Id]
@@ -471,6 +503,7 @@ extension ProfileViewController {
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
     
+    //Navigate to pick user preference language.
     func openLanguagesListVC(indexPath: NSIndexPath, type: UserPreferenceType)  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Language
@@ -532,18 +565,19 @@ extension ProfileViewController {
         lblGender.text = user.gender
         lblBirthDate.text = user.birthDate
         imgVUserProfile.setImageWithURL(NSURL(string: user.photo)!, placeholderImage: user.placeholderImage)
-        imgVCover.setImageWithURL(NSURL(string: user.photo)!,placeholderImage: user.placeholderImage)
+        //imgVCover.setImageWithURL(NSURL(string: user.photo)!,placeholderImage: user.placeholderImage)
     }
     
     //func for set action of shutter button as per profile form's mode
     func changeShutterBtnSelector() {
         if isEditMode {
-            btnShutter.removeTarget(self, action: #selector(ProfileViewController.shutterAction(_:)), forControlEvents: .TouchUpInside)
-            btnShutter.addTarget(self, action: #selector(ProfileViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.removeTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.addTarget(self, action: #selector(self.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
             btnShutter.setImage(UIImage(named: "ic_back_arrow"), forState: .Normal)
         } else {
-            btnShutter.removeTarget(self, action: #selector(ProfileViewController.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
-            btnShutter.addTarget(self, action: #selector(ProfileViewController.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            self.view.endEditing(true)
+            btnShutter.removeTarget(self, action: #selector(self.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
+            btnShutter.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
             btnShutter.setImage(UIImage(named: "ic_menu"), forState: .Normal)
             icnAddPhoto.hidden = true
             editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
@@ -558,7 +592,7 @@ extension ProfileViewController {
                          CellItem(title: "Last Name",       value: user.lastname,       txtFieldType: .LastName),
                          CellItem(title: "Gender",          value: user.gender,         txtFieldType: .Gender, enable: false),
                          CellItem(title: "Birth Date",      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
-                         CellItem(title: "Mobile",          value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad),
+                         CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad, cellName: "mobileCell"),
                          CellItem(title: "Nationality",     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
                          CellItem(title: "Country",         value: user.country.name,      txtFieldType: .Country, enable: false),
                          CellItem(title: "Account Type",    value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
@@ -650,18 +684,21 @@ extension ProfileViewController {
             if response.isSuccess {
                 if let json = response.json {
                     var info = json["Object"] as! [String : AnyObject]
-                    me = User(info: info)
-                    self.user = me
+                    me.setUpdatedInfo(info)
+                    self.user = me.copy() as! User
                     self.changeMenuItems(self.selectedMenu)
+                    
                     if self.isProfileImgeChanged {
                         me.updateProfileImage(self.imgVUserProfile.image!.mediumQualityJPEGNSData, block: { (path) in
                             info["Photo"] = path ?? ""
+                            self.user.photo = me.photo
                             archiveObject(info, key: kLoggedInUserKey)
                             self.isProfileImgeChanged = false
                             self.setUserInfo()
                             showToastMessage("", message: kProfileUpdateSuccess)
                             _defaultCenter.postNotificationName(kProfileUpdateNotificationKey, object: nil)
                         })
+                        
                     } else {
                         archiveObject(info, key: kLoggedInUserKey)
                         self.setUserInfo()
@@ -722,7 +759,8 @@ extension ProfileViewController {
 //MARK: DatePicker Methods
 extension ProfileViewController {
     func showDatePickerView() {
-        datePicker.maximumDate = NSDate()
+        let dateBefor16Years = NSDate().dateByAddingYearOffset(-16) //Validation for user should be 16 years old.
+        datePicker.maximumDate = dateBefor16Years
         self.datePickerViewTopConstraint.constant = 0
         self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
         self.datePickerBottomConstraint.constant = -240 * _widthRatio
@@ -760,6 +798,7 @@ extension ProfileViewController {
     @IBAction func datePickerCancelBtnClicked(sender: UIButton) {
         hideDatePickerView()
     }
+    
 }
 
 //MARK:---------------------------------------------
@@ -775,14 +814,16 @@ class CellItem {
     var keyboardType : UIKeyboardType!
     var iconName: String = ""
     var txtFieldEnable = true
-   
-    init(title: String, value: String, txtFieldType: TextFieldType, keyboardType: UIKeyboardType = .Default, icon: String = "" , enable: Bool = true) {
+    var cellName = ""
+    
+    init(title: String, value: String, txtFieldType: TextFieldType, keyboardType: UIKeyboardType = .Default, icon: String = "" , enable: Bool = true, cellName: String = "nameCell") {
         self.title = title
         self.stringValue = value
         self.textfieldType = txtFieldType
         self.keyboardType = keyboardType
         self.iconName = icon
         txtFieldEnable = enable
+        self.cellName = cellName
     }
     
     init(title: String, value: Bool, settingType: UserPreferenceType , icon: String, header: String = "") {

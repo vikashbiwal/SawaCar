@@ -16,10 +16,10 @@ class MyRidesVC: ParentVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        refreshControl = self.tableView.addRefreshControl(self, selector: #selector(MyRidesVC.getMyRides))
+        refreshControl = self.tableView.addRefreshControl(self, selector: #selector(MyRidesVC.getMyRidesAPICall))
         initEmptyDataView()
-        showEmptyDataView(kMyRidesNotAvailable)
-        getMyRides()
+        showEmptyDataViewAtTop(kMyRidesNotAvailable)
+        getMyRidesAPICall()
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,7 +72,9 @@ extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
 
 //MARK: API Calls
 extension MyRidesVC {
-    func getMyRides() {
+    
+    //Get Rides API Call
+    func getMyRidesAPICall() {
         if !refreshControl.refreshing {
             showCentralGraySpinner()
         }
