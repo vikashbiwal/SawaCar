@@ -55,11 +55,11 @@ class ShareController: NSObject, MFMessageComposeViewControllerDelegate, MFMailC
     func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
         switch result {
-        case MessageComposeResultSent:
+        case .Sent:
             completionBlock?(.Sent)
-        case MessageComposeResultCancelled:
+        case .Cancelled:
             completionBlock?(.Cancelled)
-        case MessageComposeResultFailed:
+        case .Failed:
             completionBlock?(.Failed)
         default:
             completionBlock?(.NotSupported)
@@ -70,13 +70,13 @@ class ShareController: NSObject, MFMessageComposeViewControllerDelegate, MFMailC
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
         switch result {
-        case MFMailComposeResultSent:
+        case .Sent:
             completionBlock?(.Sent)
-        case MFMailComposeResultCancelled:
+        case .Cancelled:
             completionBlock?(.Cancelled)
-        case MFMailComposeResultFailed:
+        case .Failed:
             completionBlock?(.Failed)
-        case MFMailComposeResultSaved:
+        case .Saved:
             completionBlock?(.Saved)
         default:
             completionBlock?(.NotSupported)

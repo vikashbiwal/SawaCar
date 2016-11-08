@@ -10,15 +10,20 @@ import UIKit
 
 class CarListVC: ParentVC {
 
+    @IBOutlet var btnBack: UIButton!
+    
     var Cars = [Car]()
     var selectedCar: Car?
     var completionBlock: (Car)->Void = {_ in}
     var refreshControl : UIRefreshControl!
 
+    var isComeFromSliderMenu = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = self.tableView.addRefreshControl(self, selector: #selector(CarListVC.getUserCarsAPICall))
 
+        self.setBackButtonAction()
         self.getUserCarsAPICall()
         initEmptyDataView()
         showEmptyDataView(kNoCarAvailable)
@@ -31,9 +36,6 @@ class CarListVC: ParentVC {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func addCarBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("SBSegue_ToAddCar", sender: nil)
-    }
     
     //MARK: Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -54,6 +56,14 @@ class CarListVC: ParentVC {
             }
         }
     }
+}
+
+//MARK: IBActions
+extension CarListVC {
+    @IBAction func addCarBtnClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("SBSegue_ToAddCar", sender: nil)
+    }
+    
 }
 
 //MARK: TableView DataSource and Delegate
@@ -104,6 +114,20 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
 //MARK: Other
 extension CarListVC {
 
+    //Set back button action as per navigation
+    func setBackButtonAction() {
+     
+        if isComeFromSliderMenu {
+            btnBack.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            btnBack.setImage(UIImage(named: "ic_menu"), forState: .Normal)
+        } else {
+            btnBack.addTarget(self, action: #selector(self.parentBackAction(_:)), forControlEvents: .TouchUpInside)
+            btnBack.setImage(UIImage(named: "ic_back_arrow"), forState: .Normal)
+
+        }
+    }
+    
+    //Delete car
     func deleteCar(car: Car) {
         let sheet = UIAlertController(title: nil, message: "Are you sure you want to delete car - \(car.name) ?", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "No", style: .Default, handler: nil)

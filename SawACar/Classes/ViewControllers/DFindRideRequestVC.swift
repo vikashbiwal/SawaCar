@@ -1,50 +1,31 @@
 //
-//  OfferARideVC.swift
+//  DFindRideRequestVC.swift
 //  SawACar
 //
-//  Created by Yudiz Solutions Pvt. Ltd. on 06/06/16.
+//  Created by Yudiz Solutions Pvt. Ltd. on 07/11/16.
 //  Copyright © 2016 Yudiz Solutions Pvt. Ltd. All rights reserved.
 //
 
 import UIKit
 
-class OfferARideVC: ParentVC {
-    
+class DFindRideRequestVC: ParentVC {
+
     @IBOutlet var inputView1: UIView!
     @IBOutlet var inputView2: UIView!
     @IBOutlet var roundedView: UIView!
     @IBOutlet var txtFrom: UITextField!
     @IBOutlet var txtTo: UITextField!
-    var travel = Travel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setRoundCircleUI()
-        notificationSetup()
-        self.view.layoutIfNeeded()
+        self.setRoundCircleUI()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    deinit{
-        _defaultCenter.removeObserver(self)
     }
     
-    func notificationSetup() {
-        _defaultCenter.addObserver(self, selector: #selector(OfferARideVC.resetTravelObj), name: kTravelAddedNotificationKey, object: nil)
-    }
-    
-    //MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "SBSegue_toAddTravel" {
-            let addTravelVC = segue.destinationViewController as! AddTravelStep1VC
-            addTravelVC.travel  = self.travel
-        }
-    }
-
+    //Func for circle view with location input
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
         inputView1.layer.borderColor = UIColor.whiteColor().CGColor
@@ -55,19 +36,14 @@ class OfferARideVC: ParentVC {
         inputView2.layer.borderColor = UIColor.whiteColor().CGColor
         inputView2.layer.cornerRadius = 3.0
         inputView2.clipsToBounds  = true
-       
+        
     }
     
-    //Reset a new travel object when travel created successfully.
-    func resetTravelObj() {
-        travel = Travel()
-        txtTo.text = "To"
-        txtFrom.text = "From"
-    }
+
 }
 
 //MARK: IBActions
-extension OfferARideVC {
+extension DFindRideRequestVC {
     @IBAction func fromBtnDidClicked(sender: UIButton) {
         goForPickLocation(.From)
     }
@@ -78,40 +54,39 @@ extension OfferARideVC {
     
     @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
         if self.validateLoction() {
-            self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
+            self.performSegueWithIdentifier("FindRequestToResultVC", sender: nil)
         }
     }
     
-
+    
 }
 
-extension OfferARideVC {
+
+extension DFindRideRequestVC {
     func goForPickLocation(type: LocationSelectionForType)  {
         let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
                 if type == .From {
                     self.txtFrom.text = place.name
-                    self.travel.locationFrom = place
                 } else {
                     self.txtTo.text = place.name
-                    self.travel.locationTo = place
                 }
             }
         }
         self.presentViewController(loctionPicker, animated: true, completion: nil)
     }
     
-    //Fuction valiation 
+    //Fuction valiation
     func validateLoction()-> Bool {
-        guard let _ = travel.locationFrom else {
-            showToastErrorMessage("", message: kFromLocationRequired)
-            return false
-        }
-        guard let _ = travel.locationTo else {
-            showToastErrorMessage("", message: kToLocationRequired)
-            return false
-        }
+//        guard let _ = travel.locationFrom else {
+//            showToastErrorMessage("", message: kFromLocationRequired)
+//            return false
+//        }
+//        guard let _ = travel.locationTo else {
+//            showToastErrorMessage("", message: kToLocationRequired)
+//            return false
+//        }
         return true
     }
 }

@@ -203,11 +203,22 @@ extension Webservice {
         postRequest(urlWithMethod("AddTravel"), param:params, block: block)
     }
     
+    func updateTravel(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateTravel
+        //Parameters: TravelID, LocationFrom, LocationTo, LocationStop1, LocationStop2, LocationStop3
+        //DepartureDate, DepartureHour, DepartureMinute, DriverID, CarID, CurrencyID, CarPrice,
+        //PassengerPrice, Luggages, Seats, LadiesOnly, Tracking, Details, RepeatType, RepeatEndDate,
+        //RoundDate, RoundHour, RoundMinute, DepartureFlexibility
+        jprint("=======WS = UpdateTravel=======")
+        postRequest(urlWithMethod("UpdateTravel"), param:params, block: block)
+    }
+    
     func getTravels(userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravels&UserID=39
         jprint("=======WS = DeleteCar=======")
         getRequest(urlWithMethod("GetUserTravels&UserID=" + userId), param: nil, block: block)
     }
+    
 }
 
 

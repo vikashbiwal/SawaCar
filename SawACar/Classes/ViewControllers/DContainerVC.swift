@@ -10,24 +10,28 @@ import UIKit
 
 let shutterMaxXValue: CGFloat = 290.0
 
-//Navigation controller's StorybaordId for set in Tabbar's Viewcontrollers.
-let dHomeNavID           = "SBID_DOfferRideVC"
-let dBookToMyTravelNavID = "SBID_BookingToMyTravelVC"
-let dMyOfferNavID        = "SBID_MyOffersVC"
-let dMyRideNavID         = "SBID_MyRidesVC"
+//ViewController's StorybaordId for set in Tabbar's Viewcontrollers.
+//Driver's Screens
+let _DOfferRideVCID   = "SBID_DOfferRideVC"
+let _DBookingsVCID    = "SBID_BookingToMyTravelVC"
+let _DMyOffersVCID    = "SBID_MyOffersVC"
+let _DMyRidesVCID     = "SBID_MyRidesVC"
+let _DMyCarsVCID      = "SBID_CarListVC"
 
-let pHomeNavID      = "SBID_PRequestRideVC"
-let pMyBookingNavID = "SBID_MyBookingVC"
-let pOfferToMeNavID = "SBID_OffersToMeVC"
-let pMyRequestNavID = "SBID_MyRequestsVC"
+//Passenger's Screens
+let _PRequestRideVCID = "SBID_PRequestRideVC"
+let _PBookingsVCID    = "SBID_MyBookingVC"
+let _POffersMeVCID    = "SBID_OffersToMeVC"
+let _PMyRequestsVCID  = "SBID_MyRequestsVC"
 
-let InboxNavId      = "SBID_InboxVC"
-let TodayWorkNavID  = "SBID_TodayWorkVC"
-let TrakingNavID    = "SBID_TrackingVC"
-let AlertNavID      = "SBID_AlertVC"
-let RatingsNavID    = "SBID_RatingVC"
-let MoreInfoNavID   = "SBID_MoreInfoVC"
-let profileNavID    = "SBID_ProfileVC"
+//Common Screens
+let _InboxVCID        = "SBID_InboxVC"
+let _TodayWorkVCID    = "SBID_TodayWorkVC"
+let _TrackingVCID     = "SBID_TrackingVC"
+let _AlertVCID        = "SBID_AlertVC"
+let _RatingsVCID      = "SBID_RatingVC"
+let _MoreInfoVCID     = "SBID_MoreInfoVC"
+let _ProfileVCID      = "SBID_ProfileVC"
 
 class DContainerVC: ParentVC {
     
@@ -41,23 +45,22 @@ class DContainerVC: ParentVC {
     @IBOutlet var lblUserMode   : UILabel!
     
     var tabbarController    : TabbarViewController!
-    var transparentControl  : UIControl!
+    var transparentControl  : VBlurViewLight!
     var Menus               = [Menu]()
     var isShutterOpened     = false
+    var tabbarConstantVCIDs = [String] () //ViewControllers with these ids are fixed in tabbar controller.
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.clipsToBounds = true
         menuContainerLeadingSpace.constant = -100
+        
+        setTabbarConstantVCIDs()
         initializeShutterActionBlock()
         setUserInfo()
         findTabbar()
         setSliderMenus()
-        self.storyboard
-        transparentControl = UIControl(frame: self.view.bounds)
-        transparentControl.addTarget(self, action: #selector(DContainerVC.shutterAction(_:)), forControlEvents: .TouchUpInside)
-        transparentControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
-        transparentControl.alpha = 0
+        setShutterBlurView()
         _defaultCenter.addObserver(self, selector: #selector(DContainerVC.setUserInfo), name: kProfileUpdateNotificationKey, object: nil)
     }
     
@@ -78,33 +81,52 @@ class DContainerVC: ParentVC {
         }
     }
     
+    //set shutter blur view when slider open
+    func setShutterBlurView() {
+        transparentControl = VBlurViewLight(frame: self.view.bounds)
+        let button = UIButton(frame: self.view.bounds)
+        button.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
+        transparentControl.addSubview(button)
+        transparentControl.alpha = 0
+    }
+
+    //set constant vc in tabbar which not changebale
+    func setTabbarConstantVCIDs() {
+        if me.userMode == .Driver {
+            tabbarConstantVCIDs = [_ProfileVCID, _DBookingsVCID, _DMyOffersVCID, _DMyRidesVCID]
+        } else {
+            tabbarConstantVCIDs = [_ProfileVCID, _PBookingsVCID, _POffersMeVCID, _PMyRequestsVCID]
+        }
+    }
     //func for set all slider menu items for driver and passenger
     func setSliderMenus() {
         if me.userMode == .Driver {
-            Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true,        id: dHomeNavID),
-                     Menu(title: "Inbox",                imgName: "ic_inbox",       id: InboxNavId),
-                     Menu(title: "Booking to my travel", imgName: "ic_booking_to_my_trip", id: dBookToMyTravelNavID),
-                     Menu(title: "My Offers",            imgName: "ic_myoffer",     id: dMyOfferNavID),
-                     Menu(title: "My Ride",              imgName: "ic_my_rides",    id: dMyRideNavID),
-                     Menu(title: "Today Work",           imgName: "ic_today_work",  id: TodayWorkNavID),
-                     Menu(title: "Tracking",             imgName: "ic_tracking",    id: TrakingNavID),
-                     Menu(title: "Alert",                imgName: "ic_alert",       id: AlertNavID),
-                     Menu(title: "Rating",               imgName: "ic_rating",      id: RatingsNavID),
-                     Menu(title: "More Info",            imgName: "ic_more_info",   id: MoreInfoNavID),
+            Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true, id: _DOfferRideVCID),
+                     Menu(title: "Booking to my travel", imgName: "ic_booking_to_my_trip", id: _DBookingsVCID),
+                     Menu(title: "My Offers",            imgName: "ic_myoffer",     id: _DMyOffersVCID),
+                     Menu(title: "My Ride",              imgName: "ic_my_rides",    id: _DMyRidesVCID),
+                     Menu(title: "My Cars",              imgName: "ic_my_rides",    id: _DMyCarsVCID),
+
+                     Menu(title: "Inbox",                imgName: "ic_inbox",       id: _InboxVCID),
+                     Menu(title: "Today Work",           imgName: "ic_today_work",  id: _TodayWorkVCID),
+                     Menu(title: "Tracking",             imgName: "ic_tracking",    id: _TrackingVCID),
+                     Menu(title: "Alert",                imgName: "ic_alert",       id: _AlertVCID),
+                     Menu(title: "Rating",               imgName: "ic_rating",      id: _RatingsVCID),
+                     Menu(title: "More Info",            imgName: "ic_more_info",   id: _MoreInfoVCID),
                      Menu(title: "Logout",               imgName: "ic_logout")]
             lblUserMode.text = "Change to passenger mode"
 
         } else { // me.userMode == .Passenger
-            Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true,       id: pHomeNavID),
-                     Menu(title: "Inbox",                imgName: "ic_inbox",       id: InboxNavId),
-                     Menu(title: "My Booking",           imgName: "ic_booking_to_my_trip", id: pMyBookingNavID),
-                     Menu(title: "Offers To Me",         imgName: "ic_myoffer",     id: pOfferToMeNavID),
-                     Menu(title: "My Request",           imgName: "ic_my_rides",    id: pMyRequestNavID),
-                     Menu(title: "Today Work",           imgName: "ic_today_work",  id: TodayWorkNavID),
-                     Menu(title: "Tracking",             imgName: "ic_tracking",    id: TrakingNavID),
-                     Menu(title: "Alert",                imgName: "ic_alert",       id: AlertNavID),
-                     Menu(title: "Rating",               imgName: "ic_rating",      id: RatingsNavID),
-                     Menu(title: "More Info",            imgName: "ic_more_info",   id: MoreInfoNavID),
+            Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true, id: _PRequestRideVCID),
+                     Menu(title: "My Booking",           imgName: "ic_booking_to_my_trip", id: _PBookingsVCID),
+                     Menu(title: "Offers To Me",         imgName: "ic_myoffer",     id: _POffersMeVCID),
+                     Menu(title: "My Request",           imgName: "ic_my_rides",    id: _PMyRequestsVCID),
+                     Menu(title: "Inbox",                imgName: "ic_inbox",       id: _InboxVCID),
+                     Menu(title: "Today Work",           imgName: "ic_today_work",  id: _TodayWorkVCID),
+                     Menu(title: "Tracking",             imgName: "ic_tracking",    id: _TrackingVCID),
+                     Menu(title: "Alert",                imgName: "ic_alert",       id: _AlertVCID),
+                     Menu(title: "Rating",               imgName: "ic_rating",      id: _RatingsVCID),
+                     Menu(title: "More Info",            imgName: "ic_more_info",   id: _MoreInfoVCID),
                      Menu(title: "Logout",               imgName: "ic_logout")]
             lblUserMode.text = "Change to driver mode"
         }
@@ -118,13 +140,54 @@ class DContainerVC: ParentVC {
         }
     }
     
-    //MARK: Shutter Actions and block initialization
+    
+    //MARK:
+    //Set user info to view on slider top view
+    func setUserInfo()  {
+        let userModeIconName = me.userMode == .Driver ?  "ic_need_a_ride_small" : "ic_have_car_small" 
+        imgVProfile.image = UIImage(named: userModeIconName)
+        
+        let profileUrl = NSURL(string: me.photo)
+        btnProfile.setImageForState(.Normal, withURL: profileUrl!, placeholderImage: me.placeholderImage)
+        lblName.text = me.fullname
+        lblEmail.text = me.email
+    }
+    
+    //Change User Mode Driver to Passenger and via versa.
+    func changeUserMode() {
+        if me.userMode == .Driver {
+            me.userMode = .Passenger
+            _userDefault.setValue(UserMode.Passenger.rawValue, forKey: UserModeKey)
+        } else {
+            me.userMode = .Driver
+            _userDefault.setValue(UserMode.Driver.rawValue, forKey: UserModeKey)
+
+        }
+        tabbarController.setViewControllersInTabbar()
+        setTabbarConstantVCIDs()
+        setSliderMenus()
+        setUserInfo()
+        tableView.reloadData()
+        shutterActioinBlock()
+    }
+    
+    func setCurrentVCInTabbar(vc: UIViewController) {
+        let nav = tabbarController.viewControllers![4] as! UINavigationController
+        nav.viewControllers = [vc]
+        tabbarController.selectedIndex = 4
+    }
+}
+
+//MARK: Slider Shutter setup and action
+extension DContainerVC {
+    //Shutter block initialization
     func initializeShutterActionBlock() {
         shutterActioinBlock = {[unowned self] in
             self.openCloseShutter()
         }
     }
     
+    //Shutter Actions
     func openCloseShutter() {
         self.view.layoutIfNeeded()
         var x: CGFloat = 0
@@ -152,44 +215,6 @@ class DContainerVC: ParentVC {
             }
         }
     }
-    
-    //MARK:
-    //Set user info to view on slider top view
-    func setUserInfo()  {
-        let userModeIconName = me.userMode == .Driver ?  "ic_need_a_ride_small" : "ic_have_car_small" 
-        imgVProfile.image = UIImage(named: userModeIconName)
-        
-        let profileUrl = NSURL(string: me.photo)
-        btnProfile.setImageForState(.Normal, withURL: profileUrl!, placeholderImage: me.placeholderImage)
-        lblName.text = me.fullname
-        lblEmail.text = me.email
-    }
-    
-    //Change User Mode Driver to Passenger and via versa.
-    func changeUserMode() {
-        var homeVCID = ""
-        if me.userMode == .Driver {
-            me.userMode = .Passenger
-            homeVCID = pHomeNavID
-            _userDefault.setValue(UserMode.Passenger.rawValue, forKey: UserModeKey)
-        } else {
-            me.userMode = .Driver
-            homeVCID = dHomeNavID
-            _userDefault.setValue(UserMode.Driver.rawValue, forKey: UserModeKey)
-
-        }
-        let homeVC = _driverStoryboard.instantiateViewControllerWithIdentifier(homeVCID)
-        setCurrentVCInTabbar(homeVC)
-        setSliderMenus()
-        setUserInfo()
-        tableView.reloadData()
-        shutterActioinBlock()
-    }
-    
-    func setCurrentVCInTabbar(vc: UIViewController) {
-        let nav = tabbarController.viewControllers![0] as! UINavigationController
-        nav.viewControllers = [vc]
-    }
 }
 
 //MARK: IBActions
@@ -207,8 +232,7 @@ extension DContainerVC {
     
     //Navigate to Profile view screen.
     @IBAction func userProfileBtnClicked(sender: UIButton) {
-        let profileVC = _driverStoryboard.instantiateViewControllerWithIdentifier(profileNavID)
-        setCurrentVCInTabbar(profileVC)
+        tabbarController.selectedIndex = 0
         resetSelectedMenu()
         shutterActioinBlock()
         tableView.reloadData()
@@ -224,7 +248,7 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var identifier = "cell"
-        if [3, 5].contains(indexPath.row) {
+        if [4, 6].contains(indexPath.row) {
             identifier = "sectionLastCell"
         }
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier) as! TVGenericeCell
@@ -240,15 +264,27 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == (Menus.count - 1) {
+        let menu = Menus[indexPath.row]
+        if tabbarConstantVCIDs.contains(menu.Id) { //this section is used for constant viewcontrollers in tabbar
+            if !menu.selected {
+                tabbarController.selectedIndex = indexPath.row
+                resetSelectedMenu()
+                menu.selected = true
+                tableView.reloadData()
+            }
+        } else if indexPath.row == (Menus.count - 1) {
             self.logoutAction()
-        } else {
-            let menu = Menus[indexPath.row]
+            
+        } else { //this section is used to change viewcontroller in last tab of tabbarcontroller.
             if !menu.selected {
                 resetSelectedMenu()
                 menu.selected = true
                 tableView.reloadData()
                 let VC = _driverStoryboard.instantiateViewControllerWithIdentifier(menu.Id)
+                if VC is CarListVC {
+                    let vc = VC as! CarListVC
+                    vc.isComeFromSliderMenu = true //used for change back btn action
+                }
                 setCurrentVCInTabbar(VC)
             }
         }
@@ -258,11 +294,12 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
 
 //MARK: Other
 extension DContainerVC {
+   
     //Logout action
     func logoutAction() {
         let sheet = UIAlertController(title: nil , message: kLogoutConfirmMsg, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let OkAction = UIAlertAction(title: "Ok", style: .Default, handler: {(action) in
+        let OkAction = UIAlertAction(title: "Log out", style: .Destructive, handler: {(action) in
             me = nil
             _userDefault.removeObjectForKey(kLoggedInUserKey)
             self.navigationController?.popToRootViewControllerAnimated(true)

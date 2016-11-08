@@ -9,6 +9,8 @@
 import UIKit
 
 class Travel: NSObject, NSCopying {
+    var inEditMode = false  //for perform update operations
+    
     var Id:             String!
     var travelNumber:   String!
     
@@ -178,43 +180,130 @@ class Travel: NSObject, NSCopying {
     
     //Conform NSCopying protocol by Travel type
      func copyWithZone(zone: NSZone) -> AnyObject {
-        let aa = Travel()
-        aa.Id = self.Id
-        aa.travelNumber = self.travelNumber
-        aa.locationFrom = self.locationFrom
-        aa.locationTo = self.locationTo
-        aa.locationStop1 = self.locationStop1
-        aa.locationStop2 = self.locationStop2
-        aa.locationStop3 = self.locationStop3
-        aa.departureDate = self.departureDate
-        aa.departureHour = self.departureHour
-        aa.departureMinute = self.departureMinute
-        aa.departureFelexiblity = self.departureFelexiblity
-        aa.isRegularTravel = self.isRegularTravel
-        aa.isRoundTravel = self.isRoundTravel
-        aa.repeatType = self.repeatType
-        aa.repeatEndDate = self.repeatEndDate
-        aa.roundDate = self.roundDate
-        aa.roundHour = self.roundHour
-        aa.roundMinute = self.roundMinute
-        aa.driver = self.driver
-        aa.car = self.car
-        aa.currency = self.currency
-        aa.carPrice = self.carPrice
-        aa.passengerPrice = self.passengerPrice
-        aa.travelLuggage = self.travelLuggage
-        aa.travelSeat = self.travelSeat
-        aa.seatLeft = self.seatLeft
-        aa.isArchived = self.isArchived
-        aa.ladiesOnly = self.ladiesOnly
-        aa.detail = self.detail
-        aa.status = self.status
-        aa.trackingEnable = self.trackingEnable
-        return aa
+        let cpTravel = Travel()
+        cpTravel.Id = self.Id
+        cpTravel.travelNumber = self.travelNumber
+        cpTravel.locationFrom = self.locationFrom
+        cpTravel.locationTo = self.locationTo
+        cpTravel.locationStop1 = self.locationStop1
+        cpTravel.locationStop2 = self.locationStop2
+        cpTravel.locationStop3 = self.locationStop3
+        cpTravel.departureDate = self.departureDate
+        cpTravel.departureHour = self.departureHour
+        cpTravel.departureMinute = self.departureMinute
+        cpTravel.departureFelexiblity = self.departureFelexiblity
+        cpTravel.isRegularTravel = self.isRegularTravel
+        cpTravel.isRoundTravel = self.isRoundTravel
+        cpTravel.repeatType = self.repeatType
+        cpTravel.repeatEndDate = self.repeatEndDate
+        cpTravel.roundDate = self.roundDate
+        cpTravel.roundHour = self.roundHour
+        cpTravel.roundMinute = self.roundMinute
+        cpTravel.driver = self.driver
+        cpTravel.car = self.car
+        cpTravel.currency = self.currency
+        cpTravel.carPrice = self.carPrice
+        cpTravel.passengerPrice = self.passengerPrice
+        cpTravel.travelLuggage = self.travelLuggage
+        cpTravel.travelSeat = self.travelSeat
+        cpTravel.seatLeft = self.seatLeft
+        cpTravel.isArchived = self.isArchived
+        cpTravel.ladiesOnly = self.ladiesOnly
+        cpTravel.detail = self.detail
+        cpTravel.status = self.status
+        cpTravel.trackingEnable = self.trackingEnable
+        return cpTravel
     }
+    
+} //Travel End
+
+
+//MARK: Travel API Related paramenters
+extension Travel {
+    
+    //Add new travel api parameters
+    func travelAPIParameters() ->[String : AnyObject] {
+        var parameters = [String : AnyObject]()
+        if inEditMode {
+            parameters["TravelID"] = self.Id
+        }
+        let fromLocation = ["Latitude" : self.locationFrom!.lat.ToString(),
+                            "Longitude" : self.locationFrom!.long.ToString(),
+                            "Address" : self.locationFrom!.address]
+        let toLocation = ["Latitude" : self.locationTo!.lat.ToString(),
+                          "Longitude" : self.locationTo!.long.ToString(),
+                          "Address" : self.locationTo!.address]
+        
+        parameters["LocationFrom"]      = fromLocation
+        parameters["LocationTo"]        = toLocation
+        parameters["DepartureDate"]     = self.departureDate
+        parameters["DepartureHour"]     = self.departureHour
+        parameters["DepartureMinute"]   = self.departureMinute
+        parameters["Tracking"]          = self.trackingEnable
+        parameters["LadiesOnly"]        = self.ladiesOnly
+        parameters["Seats"]             = self.travelSeat.value.ToString()
+        parameters["Luggages"]          = self.travelLuggage.value.ToString()
+        parameters["PassengerPrice"]    = self.passengerPrice.value.ToString()
+        parameters["CarPrice"]          = self.carPrice.value.ToString()
+        parameters["CarID"]             = self.car!.id
+        parameters["DriverID"]          = me.Id
+        parameters["CurrencyID"]        = self.currency!.Id
+        
+        parameters["Details"]           = ""
+        parameters["DepartureFlexibility"] = "15"
+        
+        if self.isRegularTravel {
+            parameters["RepeatType"]    = self.repeatType.ToString()
+            parameters["RepeatEndDate"] = self.repeatEndDate
+        } else {
+            parameters["RepeatType"]    = NSNull()
+            parameters["RepeatEndDate"] = NSNull()
+        }
+        
+        if self.isRoundTravel {
+            parameters["RoundDate"]     = self.roundDate
+            parameters["RoundHour"]     = self.roundHour
+            parameters["RoundMinute"]   = self.roundMinute
+        } else {
+            parameters["RoundDate"]     = NSNull()
+            parameters["RoundHour"]     = NSNull()
+            parameters["RoundMinute"]   = NSNull()
+        }
+        
+        if let stop1 = self.locationStop1 {
+            let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
+                                 "Longitude": stop1.long.ToString(),
+                                 "Address"  : stop1.address]
+            parameters["LocationStop1"] = LocationStop1
+        } else {
+            parameters["LocationStop1"] = NSNull()
+        }
+        
+        if let stop2 = self.locationStop2 {
+            let LocationStop2 = ["Latitude" : stop2.lat.ToString(),
+                                 "Longitude": stop2.long.ToString(),
+                                 "Address"  : stop2.address]
+            parameters["LocationStop2"] = LocationStop2
+        }  else {
+            parameters["LocationStop2"] = NSNull()
+        }
+        
+        if let stop3 = self.locationStop3 {
+            let LocationStop3 = ["Latitude" : stop3.lat.ToString(),
+                                 "Longitude": stop3.long.ToString(),
+                                 "Address"  : stop3.address]
+            parameters["LocationStop3"] = LocationStop3
+        }  else {
+            parameters["LocationStop3"] = NSNull()
+        }
+        
+        return parameters
+    }
+    
 }
 
 
+//MARK: Car Class
 class Car: Equatable {
     var id:String!
     var name: String!

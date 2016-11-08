@@ -64,7 +64,7 @@ extension UIView {
         self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return img
+        return img!
     }
     
     // It is same API as takescreen shot. But it will not lag the main thread.
@@ -73,7 +73,7 @@ extension UIView {
         self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return img
+        return img!
     }
     
     // To give parellex effect on any view.

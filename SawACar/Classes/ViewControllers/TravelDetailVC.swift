@@ -40,6 +40,7 @@ class TravelDetailVC: ParentVC {
     func navigateForEditTravel() {
         let traveVC =  _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_AddTravelStep1") as! AddTravelStep1VC
         traveVC.travel = travel.copy() as! Travel
+        traveVC.travel.inEditMode = true
         self.navigationController?.pushViewController(traveVC, animated: true)
     }
     
@@ -168,7 +169,7 @@ extension TravelDetailVC : UITableViewDataSource, UITableViewDelegate {
 extension TravelDetailVC {
     func initShareView() {
         let views  = NSBundle.mainBundle().loadNibNamed("ShareView", owner: nil, options: nil)
-        shareView  = views[0] as! ShareView
+        shareView  = views![0] as! ShareView
         shareView.actionBlock = {[weak self] (action) in
             if action == .Share {
                 if let selfVc = self {

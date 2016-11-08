@@ -46,16 +46,19 @@ extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("travelCell") as! TVTravelCell
         let ride = myRides[indexPath.row]
+       
         cell.lblTravelDate.text = dateFormator.dateString(ride.departureDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd MMM")//ride.departureDate
         cell.lblTravelTime.text = dateFormator.dateString(ride.departureTime, fromFomat: "HH:mm", toFromat: "hh:mm a")
-        cell.lblCarName.text = ride.car?.name
+       
+        cell.lblCarName.text      = ride.car?.name
         cell.lblLocationFrom.text = ride.locationFrom?.name
-        cell.lblLocationTo.text = ride.locationTo?.name
-        cell.lblSeatNumber.text = ride.travelSeat.value.ToString() + " Seats"
-        cell.lblSeatsLeft.text = ride.seatLeft.ToString() + " Left"
-        cell.lblDriverName.text = ride.driver.name
-        cell.lblCarPrice.text = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
-        cell.ratingView.value = CGFloat(ride.driver.rating)
+        cell.lblLocationTo.text   = ride.locationTo?.name
+        cell.lblSeatNumber.text   = ride.travelSeat.value.ToString() + " Seats"
+        cell.lblSeatsLeft.text    = ride.seatLeft.ToString() + " Left"
+        cell.lblDriverName.text   = ride.driver.name
+        cell.lblCarPrice.text     = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
+        cell.ratingView.value     = CGFloat(ride.driver.rating)
+        
         cell.imgvDriver.setImageWithURL(NSURL(string: ride.driver.photoURl)!, placeholderImage: _userPlaceholderImage)
         return cell
     }
@@ -73,15 +76,16 @@ extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
 //MARK: API Calls
 extension MyRidesVC {
     
-    //Get Rides API Call
+    //Get My Rides API Call
     func getMyRidesAPICall() {
         if !refreshControl.refreshing {
             showCentralGraySpinner()
         }
-     let userid = me.Id
+        let userid = me.Id
+        
         wsCall.getTravels(userid) { (response, flag) in
             if response.isSuccess {
-            
+                
                 let arrRides = response.json!["Object"] as! [[String : AnyObject]]
                 if self.refreshControl.refreshing {
                     self.myRides.removeAll()

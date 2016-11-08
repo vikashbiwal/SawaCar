@@ -309,7 +309,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             if [0, 5, 7].contains(indexPath.row) {
                 cellIdentifier = "switchAndTitleCell"
             }
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ProfileSettingCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TblSwitchBtnCell
             let item = menuItems[indexPath.row]
             cell.lblHeader?.text = item.strHeader
             cell.lblTitle.text = item.title
@@ -514,7 +514,7 @@ extension ProfileViewController {
             cListVC.preSelectedIDs = user.preference.speackingLanguage
         }
         cListVC.completionBlock = {(items) in
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? ProfileSettingCell
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TblSwitchBtnCell
             if type == .CommunicationLanguage {
                 self.user.preference.communicationLanguage = items.first!.name
                 cell?.lblSubTitle.text = items.first!.name

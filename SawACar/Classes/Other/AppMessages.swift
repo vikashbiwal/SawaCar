@@ -28,7 +28,7 @@ let kLastnameIsRequired         = "Last name is required."
 let kMobileNumberIsRequired     = "Mobile number is required."
 let kInvalidMobileNumber        = "Please enter a valid mobile number."
 
-let kLogoutConfirmMsg           = "Are you sure you want to logout?"
+let kLogoutConfirmMsg           = "Are you sure you want to log out?"
 let kChagneModeConfirmMsg       = "Are you sure you want to change your user mode?"
 let kServerError                = "Server Error"
 let kOldPassIsInvalid           = "Old password is invalid."

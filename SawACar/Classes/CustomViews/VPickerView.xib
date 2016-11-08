@@ -1,14 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="OpenSans-Regular.ttf">
+        <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
-            <string>OpenSans</string>
-        </mutableArray>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -19,7 +22,7 @@
             <subviews>
                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y5Z-vC-IU8">
                     <rect key="frame" x="0.0" y="451" width="375" height="216"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="216" id="6zb-db-Wl4"/>
                     </constraints>
@@ -38,7 +41,7 @@
                             </constraints>
                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                             <state key="normal" title="Done">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="doneBtnClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="cCn-rI-d2V"/>
@@ -51,14 +54,14 @@
                             </constraints>
                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                             <state key="normal" title="Cancel">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="cancelBtnClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="C1Q-DH-4au"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="aQf-RP-mNL" firstAttribute="top" secondItem="nff-OP-U8d" secondAttribute="top" id="4EC-Pt-iwg"/>
                         <constraint firstAttribute="bottom" secondItem="sWs-TH-WlP" secondAttribute="bottom" id="5xX-S7-CCX"/>
@@ -70,7 +73,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.33333333333333331" alpha="0.70233319256756754" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.3333333432674408" green="0.3333333432674408" blue="0.3333333432674408" alpha="0.70233319256756754" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="nff-OP-U8d" secondAttribute="trailing" id="6zt-nT-Ysu"/>
                 <constraint firstAttribute="bottom" secondItem="y5Z-vC-IU8" secondAttribute="bottom" id="Ezo-le-ben"/>

@@ -1,19 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="OpenSans-Regular.ttf">
+        <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
-        </mutableArray>
-        <mutableArray key="OpenSans-Semibold.ttf">
+        </array>
+        <array key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
-            <string>OpenSans-Semibold</string>
-            <string>OpenSans-Semibold</string>
-        </mutableArray>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -25,34 +27,34 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dCD-Qk-M8C">
                     <rect key="frame" x="40" y="186" width="295" height="295"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great, Now other people can join you travel!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="smo-VO-Ftd">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Great, Now other people can join you travel!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="smo-VO-Ftd">
                             <rect key="frame" x="39" y="96" width="216" height="47"/>
                             <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please wait for offer from passengers!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRz-QM-z90">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please wait for offer from passengers!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRz-QM-z90">
                             <rect key="frame" x="20" y="163" width="256" height="20"/>
                             <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can share to reach more people" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1oS-8F-sb7">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="You can share to reach more people" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1oS-8F-sb7">
                             <rect key="frame" x="26" y="193" width="243" height="20"/>
                             <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QsH-Gv-jhA">
                             <rect key="frame" x="37" y="235" width="220" height="35"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="oCm-bx-R4K"/>
                                 <constraint firstAttribute="width" constant="220" id="qmd-NW-O6m"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                             <state key="normal" title="Share">
-                                <color key="titleColor" red="0.2784313725" green="0.67843137249999996" blue="0.86666666670000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.2784313725" green="0.67843137249999996" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="shareBtnClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="aCh-rq-mfm"/>
@@ -66,7 +68,7 @@
                             </constraints>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="0.27843137254901962" green="0.67843137254901964" blue="0.8666666666666667" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.27843137254901962" green="0.67843137254901964" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="smo-VO-Ftd" firstAttribute="leading" secondItem="dCD-Qk-M8C" secondAttribute="leading" constant="39" id="01M-Y2-wWb"/>
                         <constraint firstAttribute="width" constant="295" id="7He-62-l1c"/>
@@ -90,13 +92,13 @@
                         <constraint firstAttribute="height" constant="44" id="BgB-jg-cxS"/>
                         <constraint firstAttribute="width" constant="44" id="qWh-sm-hPY"/>
                     </constraints>
-                    <state key="normal" image="ic_close"/>
+                    <state key="normal" image="ic_close_blue"/>
                     <connections>
                         <action selector="closeBtnClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="Q0u-zC-vvz"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="0.7021484375" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.7021484375" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="dCD-Qk-M8C" firstAttribute="top" secondItem="sYB-qd-sE9" secondAttribute="bottom" constant="-22" id="KCu-Ye-Eo7"/>
                 <constraint firstItem="dCD-Qk-M8C" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Pfs-wp-23A"/>
@@ -104,7 +106,6 @@
                 <constraint firstItem="dCD-Qk-M8C" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="sO2-wY-p3Y"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="number" keyPath="radius">
                     <real key="value" value="10"/>
@@ -128,7 +129,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_close" width="27" height="27"/>
+        <image name="ic_close_blue" width="28" height="28"/>
         <image name="partyFirewares" width="100" height="87"/>
     </resources>
 </document>

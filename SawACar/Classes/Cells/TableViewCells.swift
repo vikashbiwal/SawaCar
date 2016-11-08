@@ -10,9 +10,10 @@ import UIKit
 
 class TVGenericeCell: ConstrainedTableViewCell {
 
-    @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var lblTitle   : UILabel!
     @IBOutlet var lblSubTitle: UILabel!
-    @IBOutlet var imgView: UIImageView!
+    @IBOutlet var imgView    : UIImageView!
+    @IBOutlet var button     : UIButton?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,7 +30,6 @@ class TVGenericeCell: ConstrainedTableViewCell {
 
 class TVSignUpFormCell: TVGenericeCell {
     @IBOutlet var txtField: SignupTextField!
-    @IBOutlet var button: UIButton?
     @IBOutlet var dtPicker: UIDatePicker!
     
     override func awakeFromNib() {
@@ -38,7 +38,7 @@ class TVSignUpFormCell: TVGenericeCell {
 }
 
 //Cell is used in Profile Vc for Setting tab
-class ProfileSettingCell: TVGenericeCell {
+class TblSwitchBtnCell : TVGenericeCell {
     @IBOutlet var switchBtn: SettingSwitch!
     @IBOutlet var lblHeader:UILabel?
 
@@ -110,6 +110,14 @@ class StopoverCell: TVGenericeCell {
     @IBOutlet var lblStop2 : UILabel!
     @IBOutlet var lblStop3 : UILabel!
     
+    @IBOutlet var icn_downArrow1 : UIImageView!
+    @IBOutlet var icn_downArrow2 : UIImageView!
+    @IBOutlet var icn_downArrow3 : UIImageView!
+    
+    @IBOutlet var btnClose1 : UIButton!
+    @IBOutlet var btnClose2 : UIButton!
+    @IBOutlet var btnClose3 : UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         firstStopView?.layer.borderWidth  = 1.0
@@ -124,6 +132,43 @@ class StopoverCell: TVGenericeCell {
         firstStopView?.backgroundColor    = UIColor.whiteColor()
         secondStopView?.backgroundColor   = UIColor.whiteColor()
         thirdStopView?.backgroundColor    = UIColor.whiteColor()
+    }
+    
+    //set Stopover location info 
+    func setStoppersInfo(stopers : [GLocation?]) {
+        if let location1 = stopers[0] {
+            lblStop1.text = location1.name
+            btnClose1.hidden = false
+            icn_downArrow1.hidden = true
+        } else {
+            lblStop1.text = "Stop 1"
+            btnClose1.hidden = true
+            icn_downArrow1.hidden = false
+        }
+        
+        if let location2 = stopers[1] {
+            lblStop2.text = location2.name
+            btnClose2.hidden = false
+            icn_downArrow2.hidden = true
+
+        } else {
+            lblStop2.text = "Stop 2"
+            btnClose2.hidden = true
+            icn_downArrow2.hidden = false
+
+        }
+        
+        if let location3 = stopers[2] {
+            lblStop3.text = location3.name
+            btnClose3.hidden = false
+            icn_downArrow3.hidden = true
+
+        } else {
+            lblStop3.text = "Stop 3"
+            btnClose3.hidden = true
+            icn_downArrow3.hidden = false
+
+        }
     }
 }
 
@@ -192,6 +237,7 @@ class TravelDateTimeCell: TVGenericeCell {
             self.lblTime.text = "Select"
         }
     }
+    
 }
 
 //MARK: SteperCell : Used in AddTravel screen to increase/decrease value
@@ -205,7 +251,7 @@ class SteperCell: TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         let customViews = NSBundle.mainBundle().loadNibNamed("CustomViews", owner: nil, options: nil)
-        let av = customViews[0] as! VKeyboardAccessoryView
+        let av = customViews![0] as! VKeyboardAccessoryView
         
         av.actionBlock = {(action) in
             self.txtField.resignFirstResponder()
@@ -349,3 +395,28 @@ class TVTravelCell : TVGenericeCell {
         cardView?.layer.borderWidth = 2.0
     }
 }
+
+
+//MARK: RideRequestCell   used for show ride requests info
+
+class TblRideRequestCell: TVGenericeCell {
+    @IBOutlet var lblLocationFrom   : UILabel!
+    @IBOutlet var lblLocationTo     : UILabel!
+    @IBOutlet var lblTravelDate     : UILabel!
+    @IBOutlet var lblTravelTime     : UILabel!
+    @IBOutlet var lblOfferCount     : UILabel!
+    @IBOutlet var lblAcceptCount    : UILabel!
+    @IBOutlet var lblDriverName     : UILabel!
+    @IBOutlet var imgvDriver        : UIImageView!
+    @IBOutlet var cardView          : UIView?  //View that contain Travel info. See MyRides screen.
+    @IBOutlet var ratingView        : HCSStarRatingView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        cardView?.layer.cornerRadius = 5 * _widthRatio
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderWidth = 2.0 
+    }
+}
+
+

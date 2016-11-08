@@ -2,8 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>&apos;$(PRODUCT_NAME)&apos; will add event in your native calendar, so you cannot miss any event.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>&apos;$(PRODUCT_NAME)&apos; will use your photos as an event photo or user profile picture</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>&apos;$(PRODUCT_NAME)&apos; would like to use your location.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>&apos;$(PRODUCT_NAME)&apos; will use your photos as an event photo or user profile picture</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>SawACar</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>

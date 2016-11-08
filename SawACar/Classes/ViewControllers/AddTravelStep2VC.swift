@@ -59,7 +59,7 @@ class AddTravelStep2VC: ParentVC {
 extension AddTravelStep2VC {
     func initShareView() {
         let views  = NSBundle.mainBundle().loadNibNamed("ShareView", owner: nil, options: nil)
-        shareView  = views[0] as! ShareView
+        shareView  = views![0] as! ShareView
         shareView.actionBlock = {[weak self] (action) in
             if action == .Share {
                 if let selfVc = self {
@@ -122,6 +122,10 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
             
         } else if indexPath.row == 6 { //Publish BtnCell
             cellIdentifier = "buttonCell"
+            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TVGenericeCell
+            let title = travel.inEditMode ? "SAVE" : "PUBLISH"
+            cell.button!.setTitle(title, forState: .Normal)
+            return cell
             
         } else {
             cellIdentifier = "counterCell"
@@ -180,7 +184,7 @@ extension AddTravelStep2VC {
     
     @IBAction func travelPublishBtnClicked(sender: UIButton) {
         if validateTravel() {
-            addTravelAPICall()
+            travel.inEditMode ? updateTravelAPICall() : addTravelAPICall()
         }
     }
     @IBAction func currencyBtnClicked(sender: UIButton) {
@@ -368,7 +372,7 @@ extension AddTravelStep2VC {
 extension AddTravelStep2VC {
     //navigate to select currency
     func openCurrencyListVC()  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Currency
         if let currency = travel.currency {
             cListVC.preSelectedIDs = [currency.Id]
@@ -414,96 +418,50 @@ extension AddTravelStep2VC {
 
 //MARK: API Calls
 extension AddTravelStep2VC {
+    
     //MARK: AddTravel API
     func addTravelAPICall () {
         self.showCentralGraySpinner()
-        var parameters = [String : AnyObject]()
-        let fromLocation = ["Latitude" : travel.locationFrom!.lat.ToString(),
-                            "Longitude" : travel.locationFrom!.long.ToString(),
-                            "Address" : travel.locationFrom!.address]
-        let toLocation = ["Latitude" : travel.locationTo!.lat.ToString(),
-                          "Longitude" : travel.locationTo!.long.ToString(),
-                          "Address" : travel.locationTo!.address]
-        
-        parameters["LocationFrom"]      = fromLocation
-        parameters["LocationTo"]        = toLocation
-        parameters["DepartureDate"]     = travel.departureDate
-        parameters["DepartureHour"]     = travel.departureHour
-        parameters["DepartureMinute"]   = travel.departureMinute
-        parameters["Tracking"]          = travel.trackingEnable
-        parameters["LadiesOnly"]        = travel.ladiesOnly
-        parameters["Seats"]             = travel.travelSeat.value.ToString()
-        parameters["Luggages"]          = travel.travelLuggage.value.ToString()
-        parameters["PassengerPrice"]    = travel.passengerPrice.value.ToString()
-        parameters["CarPrice"]          = travel.carPrice.value.ToString()
-        parameters["CarID"]             = travel.car!.id
-        parameters["DriverID"]          = me.Id
-        parameters["DepartureFlexibility"] = "15"
-        parameters["CurrencyID"]        = travel.currency!.Id
-        parameters["Details"]           = ""
-        if travel.isRegularTravel {
-            parameters["RepeatType"]    = travel.repeatType.ToString()
-            parameters["RepeatEndDate"] = travel.repeatEndDate
-        } else {
-            parameters["RepeatType"]    = NSNull()
-            parameters["RepeatEndDate"] = NSNull()
-        }
-        
-        if travel.isRoundTravel {
-            parameters["RoundDate"]     = travel.roundDate
-            parameters["RoundHour"]     = travel.roundHour
-            parameters["RoundMinute"]   = travel.roundMinute
-        } else {
-            parameters["RoundDate"]     = NSNull()
-            parameters["RoundHour"]     = NSNull()
-            parameters["RoundMinute"]   = NSNull()
-        }
-
-        if let stop1 = travel.locationStop1 {
-            let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
-                                 "Longitude": stop1.long.ToString(),
-                                 "Address"  : stop1.address]
-            parameters["LocationStop1"] = LocationStop1
-        } else {
-            parameters["LocationStop1"] = NSNull()
-        }
-
-        if let stop2 = travel.locationStop2 {
-            let LocationStop2 = ["Latitude" : stop2.lat.ToString(),
-                                 "Longitude": stop2.long.ToString(),
-                                 "Address"  : stop2.address]
-            parameters["LocationStop2"] = LocationStop2
-        }  else {
-            parameters["LocationStop2"] = NSNull()
-        }
-
-        if let stop3 = travel.locationStop3 {
-            let LocationStop3 = ["Latitude" : stop3.lat.ToString(),
-                                 "Longitude": stop3.long.ToString(),
-                                 "Address"  : stop3.address]
-            parameters["LocationStop3"] = LocationStop3
-        }  else {
-            parameters["LocationStop3"] = NSNull()
-        }
-       
+        let parameters = travel.travelAPIParameters()
         //Api call
         wsCall.addTravel(parameters) { (response, flag) in
             if response.isSuccess {
                 let travelInfo = response.json!["Object"] as! [String :  AnyObject]
                 self.travel.updateInfo(travelInfo)
-                //showToastMessage("", message: "Your travel successfully added.")
                 _defaultCenter.postNotificationName(kTravelAddedNotificationKey, object: nil)
                 self.shareView.showInView(self.view)
-                //self.navigationController?.popToRootViewControllerAnimated(true)
+                
             } else {
                 showToastErrorMessage("", message: response.message!)
             }
+            
             self.hideCentralGraySpinner()
         }
     }
     
+    //Update travel api call
+    func updateTravelAPICall() {
+        self.showCentralGraySpinner()
+        let parameters = travel.travelAPIParameters()
+        
+        wsCall.updateTravel(parameters) { (response, flag) in
+            if response.isSuccess {
+                
+            } else {
+                
+            }
+            
+            self.hideCentralGraySpinner()
+        }
+    
+    }
+    
     //Get users car
     func getUserCarsAPICall() {
+        if let _ = travel.car {
+            return
+        }
+        
         wsCall.getCarOfUser(me.Id) { (response, flag) in
             if response.isSuccess {
                 let carsObject = response.json!["Object"] as! [[String : AnyObject]]
@@ -519,6 +477,10 @@ extension AddTravelStep2VC {
 
     //get currency for location from where travel will be start.
     func getCurrency() {
+        if let _ = travel.currency {
+            return
+        }
+        
         let currencyCode =  getCurrencyForCountry(travel.locationFrom!.countryCode)
         if let code = currencyCode {
             // need to call api to get currency by currency code.

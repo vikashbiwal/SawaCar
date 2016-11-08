@@ -20,6 +20,9 @@ class SignupTextField: JPWidthTextField {
 }
 
 class SettingSwitch: VkUISwitch {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
     var type: UserPreferenceType!
 }
 

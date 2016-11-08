@@ -55,7 +55,7 @@ class AddCarVC: ParentVC {
 
     func initializeYearPicker() {
         let views = NSBundle.mainBundle().loadNibNamed("VPickerView", owner: nil, options: nil)
-        yearPicker = views[0] as! VPickerView
+        yearPicker = views![0] as! VPickerView
         yearPicker.actionBlock = {[unowned self](action, value, idx) in
             self.lblProYear.text = value
             self.lblProYear.textColor = extraGrayColor
@@ -72,7 +72,7 @@ class AddCarVC: ParentVC {
     
     func setAccessoryViewForTextField()  {
         let customViews = NSBundle.mainBundle().loadNibNamed("CustomViews", owner: nil, options: nil)
-        let av = customViews[0] as! VKeyboardAccessoryView
+        let av = customViews![0] as! VKeyboardAccessoryView
         txtDetail.inputAccessoryView = av
         txtModel.inputAccessoryView = av
         txtPlateNumber.inputAccessoryView = av

@@ -161,7 +161,7 @@ class ParentVC: UIViewController  {
 extension ParentVC {
     func initEmptyDataView()  {
         let customViews = NSBundle.mainBundle().loadNibNamed("VNoDataView", owner: nil, options: nil)
-        emptyDataView = customViews[0] as! VNoDataView
+        emptyDataView = customViews![0] as! VNoDataView
     }
     
     func showEmptyDataView(message: String = "No items available") {

@@ -21,9 +21,9 @@ public extension UIImage {
             CGImageGetBitsPerComponent(maskRef),
             CGImageGetBitsPerPixel(maskRef),
             CGImageGetBytesPerRow(maskRef),
-            CGImageGetDataProvider(maskRef), nil, false) as CGImageRef!
+            CGImageGetDataProvider(maskRef)!, nil, false) as CGImageRef!
         
-        let maskedImageRef = CGImageCreateWithMask(self.CGImage, mask)
+        let maskedImageRef = CGImageCreateWithMask(self.CGImage!, mask)
         
         maskedImage = UIImage(CGImage: maskedImageRef!)
         
@@ -35,7 +35,7 @@ public extension UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
         UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return image
     }
@@ -48,13 +48,13 @@ public extension UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextSetInterpolationQuality(context, CGInterpolationQuality.High)
+        CGContextSetInterpolationQuality(context!, CGInterpolationQuality.High)
         self.drawInRect(CGRect(origin: CGPointZero, size: newSize))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return scaledImage
+        return scaledImage!
     }
 }
 

@@ -67,6 +67,7 @@
 		038F50ED1D22859400E28B5D /* ValidationToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038F50EA1D22859400E28B5D /* ValidationToast.swift */; };
 		038F50EE1D22859400E28B5D /* ValidationToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EB1D22859400E28B5D /* ValidationToast.xib */; };
 		038F50EF1D22859400E28B5D /* ValidationToastBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038F50EC1D22859400E28B5D /* ValidationToastBar.xib */; };
+		039909F21DB603830012B7F9 /* VBlurViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039909F11DB603830012B7F9 /* VBlurViews.swift */; };
 		03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */ = {isa = PBXBuildFile; fileRef = 03E7E6961CBCBDAE00DB7723 /* WSReponse.text */; };
 		03E7E6991CBCBFD200DB7723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6981CBCBFD200DB7723 /* User.swift */; };
 		03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E7E6A21CBD0C5900DB7723 /* SignUpVC.swift */; };
@@ -99,6 +100,9 @@
 		03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D321CBBDE8700C44B5A /* UserLocation.swift */; };
 		03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10661CBB8AA400695AE2 /* Constants.swift */; };
 		03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10681CBB9E6E00695AE2 /* Webservice.swift */; };
+		695A75341DD0550000B9C871 /* DFindRideRequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */; };
+		695A75361DD062AD00B9C871 /* DRideRequestsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */; };
+		695A75381DD064ED00B9C871 /* RideRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75371DD064ED00B9C871 /* RideRequest.swift */; };
 		BD882E187482D644947906A9 /* Pods_SawACar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */; };
 /* End PBXBuildFile section */
 
@@ -116,7 +120,7 @@
 		031316AD1D1C0E8C0096077A /* CarListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarListVC.swift; sourceTree = "<group>"; };
 		03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SawCarExtendedClassesAndEnums.swift; sourceTree = "<group>"; };
 		03162F9C1D1A7DF700869987 /* Travel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Travel.swift; sourceTree = "<group>"; };
-		0319118C1D86D17000726E3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0319118C1D86D17000726E3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTravelStep2VC.swift; sourceTree = "<group>"; };
 		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
 		0323600F1D08341D0004CDA9 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 		038F50EA1D22859400E28B5D /* ValidationToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationToast.swift; sourceTree = "<group>"; };
 		038F50EB1D22859400E28B5D /* ValidationToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToast.xib; sourceTree = "<group>"; };
 		038F50EC1D22859400E28B5D /* ValidationToastBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ValidationToastBar.xib; sourceTree = "<group>"; };
+		039909F11DB603830012B7F9 /* VBlurViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBlurViews.swift; sourceTree = "<group>"; };
 		03E7E6961CBCBDAE00DB7723 /* WSReponse.text */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = WSReponse.text; sourceTree = "<group>"; };
 		03E7E6981CBCBFD200DB7723 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -200,6 +205,9 @@
 		03FD10681CBB9E6E00695AE2 /* Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Webservice.swift; path = ../Other/Webservice.swift; sourceTree = "<group>"; };
 		03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SawACar-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SawACar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFindRideRequestVC.swift; sourceTree = "<group>"; };
+		695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRideRequestsListVC.swift; sourceTree = "<group>"; };
+		695A75371DD064ED00B9C871 /* RideRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideRequest.swift; sourceTree = "<group>"; };
 		D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.release.xcconfig"; sourceTree = "<group>"; };
 		F9315AA822493E9719CF490F /* Pods-SawACar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -237,6 +245,7 @@
 		03078EA61D0548E4009450BB /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				695A75321DD054C200B9C871 /* RideRequest */,
 				034832231D76C23B004E0F38 /* MyRides */,
 				031316AA1D1C0E560096077A /* Cars */,
 				030F8B381D09860800B652EA /* DriverContainerVC */,
@@ -363,9 +372,6 @@
 		036A89431CBB7A9E00DFB631 = {
 			isa = PBXGroup;
 			children = (
-				0319118C1D86D17000726E3D /* GoogleService-Info.plist */,
-				030BF5401D1404B0000D3948 /* Fabric.framework */,
-				030BF5411D1404B0000D3948 /* Crashlytics.framework */,
 				036A894E1CBB7A9E00DFB631 /* SawACar */,
 				036A894D1CBB7A9E00DFB631 /* Products */,
 				059B39E228D25B0BD883B681 /* Pods */,
@@ -388,6 +394,7 @@
 				036A89641CBB7D0100DFB631 /* Classes */,
 				0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */,
 				036A895E1CBB7A9E00DFB631 /* Info.plist */,
+				0319118C1D86D17000726E3D /* GoogleService-Info.plist */,
 				036A89561CBB7A9E00DFB631 /* SawACar.xcdatamodeld */,
 			);
 			path = SawACar;
@@ -397,9 +404,9 @@
 			isa = PBXGroup;
 			children = (
 				036A896C1CBB7E0300DFB631 /* AppDelegate */,
+				036A896B1CBB7DB400DFB631 /* ViewControllers */,
 				031316A51D1BB2C40096077A /* CustomViews */,
 				03E7E6A81CBD13E600DB7723 /* Cells */,
-				036A896B1CBB7DB400DFB631 /* ViewControllers */,
 				036A896A1CBB7D9B00DFB631 /* Models */,
 				036A89731CBB80E200DFB631 /* Other */,
 			);
@@ -426,6 +433,7 @@
 				03162F9C1D1A7DF700869987 /* Travel.swift */,
 				030B769A1D58A47800A9DA8E /* Driver.swift */,
 				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
+				695A75371DD064ED00B9C871 /* RideRequest.swift */,
 				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
 			);
 			path = Models;
@@ -537,6 +545,7 @@
 				03F65D1F1CBBDE8700C44B5A /* UIViewExtension.swift */,
 				0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */,
 				03162F9A1D1A756E00869987 /* SawCarExtendedClassesAndEnums.swift */,
+				039909F11DB603830012B7F9 /* VBlurViews.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -577,11 +586,22 @@
 		2941EFA316F48801167669F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				030BF5401D1404B0000D3948 /* Fabric.framework */,
+				030BF5411D1404B0000D3948 /* Crashlytics.framework */,
 				03E7E69F1CBCF22300DB7723 /* FBSDKLoginKit.framework */,
 				03E7E69A1CBCEED300DB7723 /* FBSDKCoreKit.framework */,
 				1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		695A75321DD054C200B9C871 /* RideRequest */ = {
+			isa = PBXGroup;
+			children = (
+				695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */,
+				695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */,
+			);
+			name = RideRequest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -621,6 +641,8 @@
 					036A894B1CBB7A9E00DFB631 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 5GL3E4GW7P;
+						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -759,6 +781,7 @@
 				032680E31D06D81700969C16 /* MapViewController.swift in Sources */,
 				03E7E6991CBCBFD200DB7723 /* User.swift in Sources */,
 				032EAEDF1D7564B600C511BD /* ForgotPasswordVC.swift in Sources */,
+				695A75381DD064ED00B9C871 /* RideRequest.swift in Sources */,
 				030B769B1D58A47800A9DA8E /* Driver.swift in Sources */,
 				03F65D351CBBDE8700C44B5A /* Color+HexAndCSSColorNames.swift in Sources */,
 				034826BF1CFC30ED000B46AE /* main.swift in Sources */,
@@ -780,10 +803,12 @@
 				03E7E6A31CBD0C5900DB7723 /* SignUpVC.swift in Sources */,
 				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
 				03162F9D1D1A7DF700869987 /* Travel.swift in Sources */,
+				039909F21DB603830012B7F9 /* VBlurViews.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
 				032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */,
 				038F50ED1D22859400E28B5D /* ValidationToast.swift in Sources */,
 				031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */,
+				695A75361DD062AD00B9C871 /* DRideRequestsListVC.swift in Sources */,
 				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,
 				031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */,
 				03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */,
@@ -797,6 +822,7 @@
 				0349D8461D3E0C7E00B17976 /* AppMessages.swift in Sources */,
 				03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */,
 				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,
+				695A75341DD0550000B9C871 /* DFindRideRequestVC.swift in Sources */,
 				03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */,
 				036F69D81D7984A900774E79 /* ShareView.swift in Sources */,
 				0327CDAF1D05A82800D51DE4 /* OfferARideVC.swift in Sources */,
@@ -937,7 +963,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5GL3E4GW7P;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -946,13 +973,15 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = SawACar/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sawacar.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "18780b48-b822-4c13-9833-6849e58591ee";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -963,7 +992,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5GL3E4GW7P;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -972,12 +1002,14 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = SawACar/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sawacar.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "18780b48-b822-4c13-9833-6849e58591ee";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SawACar/Classes/Other/SawACar-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
