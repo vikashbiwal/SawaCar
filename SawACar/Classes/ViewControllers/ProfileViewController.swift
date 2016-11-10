@@ -33,11 +33,11 @@ class ProfileViewController: ParentVC {
     var isEditMode  = false
     var isProfileImgeChanged = false
     
-    let Menus = [Menu(title: "Profile",         imgName: "ic_profile_selected", selected: true, type: .Profile),
-                 Menu(title: "Change Password", imgName: "ic_change_password", type: .ChangePass),
-                 Menu(title: "Social Link",     imgName: "ic_social_link", type: .SocialLink),
-                 Menu(title: "Details",         imgName: "ic_detail", type: .Details),
-                 Menu(title: "Settings",        imgName: "ic_settings", type: .Settings)]
+    let Menus = [Menu(title: "profile".localizedString(),         imgName: "ic_profile_selected", selected: true, type: .Profile),
+                 Menu(title: "change_password".localizedString(), imgName: "ic_change_password", type: .ChangePass),
+                 Menu(title: "social_link".localizedString(),     imgName: "ic_social_link", type: .SocialLink),
+                 Menu(title: "details".localizedString(),         imgName: "ic_detail", type: .Details),
+                 Menu(title: "settings".localizedString(),        imgName: "ic_settings", type: .Settings)]
     
     var menuItems = [CellItem]()
     lazy var dateFomator: NSDateFormatter = { //formator for birthdate
@@ -98,7 +98,7 @@ extension ProfileViewController {
             editBtn.setTitle("", forState: .Normal)
         } else  {
             editBtn.setImage(nil, forState: .Normal)
-            editBtn.setTitle("Save", forState: .Normal)
+            editBtn.setTitle("save".localizedString(), forState: .Normal)
             tableView.reloadData()
             if selectedMenu.type == .Profile {
                 icnAddPhoto.hidden = false
@@ -215,11 +215,11 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
     //Show ActionSheet to Choose image for profile picture
     func showActionForImagePick() {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction  = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let cameraActiton = UIAlertAction(title: "Take a Photo", style: .Default) { (action) in
+        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .Default) { (action) in
             self.openCamera()
         }
-        let galleryAction = UIAlertAction(title: "Choose from Gallery", style: .Default) { (action) in
+        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .Default) { (action) in
             self.openGallery()
         }
         sheet.addAction(cameraActiton)
@@ -428,17 +428,17 @@ extension ProfileViewController {
     //Open actionsheet for Gender
     func showGenderPicker(indexPath: NSIndexPath) {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
         
-        let maleAction = UIAlertAction(title: "Male", style: .Default) { (action) in
+        let maleAction = UIAlertAction(title: "male".localizedString(), style: .Default) { (action) in
            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
-            let gender = "Male"
+            let gender = "male".localizedString()
             self.user.gender = gender
             cell?.txtField.text = gender
         }
-        let femaleAction    = UIAlertAction(title: "Female", style: .Default) { (action) in
+        let femaleAction    = UIAlertAction(title: "female".localizedString(), style: .Default) { (action) in
             let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
-           let gender = "Female"
+           let gender = "female".localizedString()
             self.user.gender = gender
             cell?.txtField.text = gender
 
@@ -456,14 +456,14 @@ extension ProfileViewController {
        
         if forAction == .Nationality {
             cListVC.selectedCountryId = user.nationality.Id
-            cListVC.titleString = "Nationality"
+            cListVC.titleString = "nationality".localizedString()
         } else if forAction == .DialCodeAction {
             cListVC.selectedCountryId = user.mobileCountryCode
-            cListVC.titleString = "Country Dial Code"
+            cListVC.titleString = "country_dial_code".localizedString()
             
         } else  {
             cListVC.selectedCountryId = user.country.Id
-            cListVC.titleString = "Countries"
+            cListVC.titleString = "countries".localizedString()
         }
         
         cListVC.completionBlock = {(country) in
@@ -490,7 +490,7 @@ extension ProfileViewController {
     
     //Navigate to pick User account type.
     func openAccountTypeListVC(indexPath: NSIndexPath)  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.preSelectedIDs = [user.accountType.Id]
         cListVC.listType = ListType.AccountType
         cListVC.completionBlock = {(items) in
@@ -505,7 +505,7 @@ extension ProfileViewController {
     
     //Navigate to pick user preference language.
     func openLanguagesListVC(indexPath: NSIndexPath, type: UserPreferenceType)  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Language
         if type == .CommunicationLanguage {
             cListVC.preSelectedIDs = [user.preference.communicationLanguage]
@@ -588,57 +588,57 @@ extension ProfileViewController {
     //MARK: Set Menu Items and UI as per seleted menu
     func changeMenuItems(menu: Menu)  {
         if menu.type == .Profile {
-            menuItems = [CellItem(title: "First Name",      value: user.firstname,      txtFieldType: .FirstName),
-                         CellItem(title: "Last Name",       value: user.lastname,       txtFieldType: .LastName),
-                         CellItem(title: "Gender",          value: user.gender,         txtFieldType: .Gender, enable: false),
-                         CellItem(title: "Birth Date",      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
+            menuItems = [CellItem(title: "first_name".localizedString(),      value: user.firstname,      txtFieldType: .FirstName),
+                         CellItem(title: "last_name".localizedString(),       value: user.lastname,       txtFieldType: .LastName),
+                         CellItem(title: "gender".localizedString(),          value: user.gender,         txtFieldType: .Gender, enable: false),
+                         CellItem(title: "birth_date".localizedString(),      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
                          CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad, cellName: "mobileCell"),
-                         CellItem(title: "Nationality",     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
-                         CellItem(title: "Country",         value: user.country.name,      txtFieldType: .Country, enable: false),
-                         CellItem(title: "Account Type",    value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
+                         CellItem(title: "nationality".localizedString(),     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
+                         CellItem(title: "country".localizedString(),         value: user.country.name,      txtFieldType: .Country, enable: false),
+                         CellItem(title: "account_type".localizedString(),    value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
             
         } else if menu.type == .ChangePass {
-            menuItems = [CellItem(title: "Old Password",    value: user.oldPassword,    txtFieldType: .OldPassword),
-                         CellItem(title: "Password",        value: user.password,       txtFieldType: .Password),
-                         CellItem(title: "Confirm Password",value: user.confPass,       txtFieldType: .ConfirmPass),
+            menuItems = [CellItem(title: "old_password".localizedString(),    value: user.oldPassword,    txtFieldType: .OldPassword),
+                         CellItem(title: "password".localizedString(),        value: user.password,       txtFieldType: .Password),
+                         CellItem(title: "confirm_password".localizedString(),value: user.confPass,       txtFieldType: .ConfirmPass),
                          CellItem(title: "Update",          value: "Update",            txtFieldType: .None)]
             
         } else if menu.type == .SocialLink {
-            menuItems = [CellItem(title: "WhatsApp",    value: user.social.Whatsapp,    txtFieldType: .WhatsApp),
-                         CellItem(title: "Line",        value: user.social.Line,        txtFieldType: .Line),
-                         CellItem(title: "Tango",       value: user.social.Tango,       txtFieldType: .Tango),
-                         CellItem(title: "Telegram",    value: user.social.Telegram,    txtFieldType: .Telegram),
-                         CellItem(title: "Facebook",    value: user.social.Facebook,    txtFieldType: .Facebook),
-                         CellItem(title: "Twitter",     value: user.social.Twitter,     txtFieldType: .Twitter)]
+            menuItems = [CellItem(title: "WhatsApp".localizedString(),    value: user.social.Whatsapp,    txtFieldType: .WhatsApp),
+                         CellItem(title: "Line".localizedString(),        value: user.social.Line,        txtFieldType: .Line),
+                         CellItem(title: "Tango".localizedString(),       value: user.social.Tango,       txtFieldType: .Tango),
+                         CellItem(title: "Telegram".localizedString(),    value: user.social.Telegram,    txtFieldType: .Telegram),
+                         CellItem(title: "Facebook".localizedString(),    value: user.social.Facebook,    txtFieldType: .Facebook),
+                         CellItem(title: "Twitter".localizedString(),     value: user.social.Twitter,     txtFieldType: .Twitter)]
             
         } else if menu.type == .Details {
-            menuItems = [CellItem(title: "Member Since:",       value: user.createDate,                 txtFieldType: .None),
-                         CellItem(title: "Last Login:",         value: user.lastLoginTime,              txtFieldType: .None),
-                         CellItem(title: "Last Activity Date:", value: user.lastLoginTime,              txtFieldType: .None),
-                         CellItem(title: "Number of Travels:",  value: user.numberOfTravels.ToString(), txtFieldType: .None),
-                         CellItem(title: "Contacts:",           value: user.numberOfContacts.ToString(),txtFieldType: .None),
-                         CellItem(title: "Email:",              value: user.EmailVerifiedString,        txtFieldType: .None),
-                         CellItem(title: "Phone Number:",       value: user.MobileVerifiedString,       txtFieldType: .None),
-                         CellItem(title: "Facebook:",           value: user.FacebookVeriedString,       txtFieldType: .None)]
+            menuItems = [CellItem(title: "Member_Since".localizedString() + ":",       value: user.createDate,                 txtFieldType: .None),
+                         CellItem(title: "Last_Login".localizedString() + ":",         value: user.lastLoginTime,              txtFieldType: .None),
+                         CellItem(title: "Last_Activity_Date".localizedString() + ":", value: user.lastLoginTime,              txtFieldType: .None),
+                         CellItem(title: "Number_of_Travels".localizedString() + ":",  value: user.numberOfTravels.ToString(), txtFieldType: .None),
+                         CellItem(title: "Contacts".localizedString() + ":",           value: user.numberOfContacts.ToString(),txtFieldType: .None),
+                         CellItem(title: "Email".localizedString() + ":",              value: user.EmailVerifiedString,        txtFieldType: .None),
+                         CellItem(title: "Phone_Number".localizedString() + ":",       value: user.MobileVerifiedString,       txtFieldType: .None),
+                         CellItem(title: "Facebook".localizedString() + ":",           value: user.FacebookVeriedString,       txtFieldType: .None)]
             
         } else  { //Settings
             
-            menuItems = [CellItem(title: "Show email to others",    value: user.preference.showEmail,       settingType: .ShowEmail,        icon: "ic_show_email", header: "General"),
-                         CellItem(title: "Show mobile to others",   value: user.preference.showMobile,      settingType: .ShowMobile,       icon: "ic_show_mobile"),
-                         CellItem(title: "Visible in search",       value: user.preference.visibleInSearch, settingType: .VisibleInSearch,  icon: "ic_visible_search"),
-                         CellItem(title: "Accept special order",    value: user.preference.specialOrder,    settingType: .SpecialOrder,     icon: "ic_accept_special"),
-                         CellItem(title: "Accept Monitoring",       value: user.preference.acceptMonitring, settingType: .AcceptMonitring,  icon: "ic_monitoring"),
+            menuItems = [CellItem(title: "Show_email_to_others".localizedString(),    value: user.preference.showEmail,       settingType: .ShowEmail,        icon: "ic_show_email", header: "General".localizedString()),
+                         CellItem(title: "Show_mobile_to_others".localizedString(),   value: user.preference.showMobile,      settingType: .ShowMobile,       icon: "ic_show_mobile"),
+                         CellItem(title: "Visible_in_search".localizedString(),       value: user.preference.visibleInSearch, settingType: .VisibleInSearch,  icon: "ic_visible_search"),
+                         CellItem(title: "Accept_special_order".localizedString(),    value: user.preference.specialOrder,    settingType: .SpecialOrder,     icon: "ic_accept_special"),
+                         CellItem(title: "Accept_Monitoring".localizedString(),       value: user.preference.acceptMonitring, settingType: .AcceptMonitring,  icon: "ic_monitoring"),
                          
-                         CellItem(title: "Communication Language",  value: user.preference.communicationLanguage,           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language"),
-                         CellItem(title: "Speaking Language",       value: user.preference.speackingLanguage.joinWithSeparator(", "),   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
+                         CellItem(title: "Communication_Language".localizedString(),  value: user.preference.communicationLanguage,           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString()),
+                         CellItem(title: "Speaking_Language".localizedString(),       value: user.preference.speackingLanguage.joinWithSeparator(", "),   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
                          
-                         CellItem(title: "Children",        value: user.preference.kids,        settingType: .Children,     icon: "ic_childreb", header: "My Rules"),
-                         CellItem(title: "Pets",            value: user.preference.pets,        settingType: .Pets,         icon: "ic_pets"),
-                         CellItem(title: "Stop for pray",   value: user.preference.prayingStop, settingType: .StopForPray,  icon: "ic_pray"),
-                         CellItem(title: "Food and Drinks", value: user.preference.food,        settingType: .FoodAndDrink, icon: "ic_food_drink"),
-                         CellItem(title: "Music",           value: user.preference.music,       settingType: .Music,        icon: "ic_music"),
-                         CellItem(title: "Quran",           value: user.preference.quran,       settingType: .Quran,        icon: "ic_quran"),
-                         CellItem(title: "Smoking",         value: user.preference.smoking,     settingType: .Smoking,      icon: "ic_smoking")]
+                         CellItem(title: "Children".localizedString(),        value: user.preference.kids,        settingType: .Children,     icon: "ic_childreb", header: "My_Rules".localizedString()),
+                         CellItem(title: "Pets".localizedString(),            value: user.preference.pets,        settingType: .Pets,         icon: "ic_pets"),
+                         CellItem(title: "Stop_for_pray".localizedString(),   value: user.preference.prayingStop, settingType: .StopForPray,  icon: "ic_pray"),
+                         CellItem(title: "Food_and_Drinks".localizedString(), value: user.preference.food,        settingType: .FoodAndDrink, icon: "ic_food_drink"),
+                         CellItem(title: "Music".localizedString(),           value: user.preference.music,       settingType: .Music,        icon: "ic_music"),
+                         CellItem(title: "Quran".localizedString(),           value: user.preference.quran,       settingType: .Quran,        icon: "ic_quran"),
+                         CellItem(title: "Smoking".localizedString(),         value: user.preference.smoking,     settingType: .Smoking,      icon: "ic_smoking")]
             
         }
         
@@ -667,7 +667,7 @@ extension ProfileViewController {
                     self.changeMenuItems(self.selectedMenu)
                 } else {
                     //error message
-                    showToastErrorMessage("", message: kOldPassIsInvalid)
+                    showToastErrorMessage("", message: "kOldPassIsInvalid".localizedString())
                 }
                 self.hideCentralGraySpinner()
             })
@@ -695,14 +695,14 @@ extension ProfileViewController {
                             archiveObject(info, key: kLoggedInUserKey)
                             self.isProfileImgeChanged = false
                             self.setUserInfo()
-                            showToastMessage("", message: kProfileUpdateSuccess)
+                            showToastMessage("", message: "kProfileUpdateSuccess".localizedString())
                             _defaultCenter.postNotificationName(kProfileUpdateNotificationKey, object: nil)
                         })
                         
                     } else {
                         archiveObject(info, key: kLoggedInUserKey)
                         self.setUserInfo()
-                        showToastMessage("", message: kProfileUpdateSuccess)
+                        showToastMessage("", message: "kProfileUpdateSuccess".localizedString())
                         _defaultCenter.postNotificationName(kProfileUpdateNotificationKey, object: nil)
                     }
                     
@@ -725,7 +725,7 @@ extension ProfileViewController {
                     me.social = social
                     self.changeMenuItems(self.selectedMenu)
                     archiveObject(info, key: kLoggedInUserKey)
-                    showToastMessage("", message: kSocialUpdatedSuccess)
+                    showToastMessage("", message: "kSocialUpdatedSuccess".localizedString())
                 }
             } else {
                 showToastErrorMessage("", message: response.message!)
@@ -745,7 +745,7 @@ extension ProfileViewController {
                     me.preference = preference
                     self.changeMenuItems(self.selectedMenu)
                     archiveObject(info, key: kLoggedInUserKey)
-                    showToastMessage("", message: kPreferenceSettingSucess)
+                    showToastMessage("", message: "kPreferenceSettingSucess".localizedString())
                 }
             } else {
                 showToastErrorMessage("", message: response.message!)

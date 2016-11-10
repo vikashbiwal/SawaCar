@@ -18,7 +18,7 @@ class MyRidesVC: ParentVC {
         super.viewDidLoad()
         refreshControl = self.tableView.addRefreshControl(self, selector: #selector(MyRidesVC.getMyRidesAPICall))
         initEmptyDataView()
-        showEmptyDataViewAtTop(kMyRidesNotAvailable)
+        showEmptyDataViewAtTop("kMyRidesNotAvailable".localizedString())
         getMyRidesAPICall()
     }
 
@@ -53,8 +53,8 @@ extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
         cell.lblCarName.text      = ride.car?.name
         cell.lblLocationFrom.text = ride.locationFrom?.name
         cell.lblLocationTo.text   = ride.locationTo?.name
-        cell.lblSeatNumber.text   = ride.travelSeat.value.ToString() + " Seats"
-        cell.lblSeatsLeft.text    = ride.seatLeft.ToString() + " Left"
+        cell.lblSeatNumber.text   = ride.travelSeat.value.ToString() + " " + "Seats".localizedString()
+        cell.lblSeatsLeft.text    = ride.seatLeft.ToString() + " " + "Left".localizedString()
         cell.lblDriverName.text   = ride.driver.name
         cell.lblCarPrice.text     = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
         cell.ratingView.value     = CGFloat(ride.driver.rating)
@@ -86,16 +86,17 @@ extension MyRidesVC {
         wsCall.getTravels(userid) { (response, flag) in
             if response.isSuccess {
                 
-                let arrRides = response.json!["Object"] as! [[String : AnyObject]]
-                if self.refreshControl.refreshing {
-                    self.myRides.removeAll()
-                }
-                for json in arrRides {
-                    let ride = Travel(json)
-                    self.myRides.append(ride)
+                if let arrRides = response.json!["Object"] as? [[String : AnyObject]] {
+                    if self.refreshControl.refreshing {
+                        self.myRides.removeAll()
+                    }
+                    for json in arrRides {
+                        let ride = Travel(json)
+                        self.myRides.append(ride)
+                    }
                 }
                 
-                self.myRides.isEmpty ? self.showEmptyDataView(kMyRidesNotAvailable) : self.emptyDataView.hide()
+                self.myRides.isEmpty ? self.showEmptyDataView("kMyRidesNotAvailable".localizedString()) : self.emptyDataView.hide()
                 self.tableView.reloadData()
             } else {
                 showToastErrorMessage("", message: response.message!)

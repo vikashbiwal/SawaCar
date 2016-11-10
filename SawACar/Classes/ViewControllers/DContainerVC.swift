@@ -101,34 +101,34 @@ class DContainerVC: ParentVC {
     //func for set all slider menu items for driver and passenger
     func setSliderMenus() {
         if me.userMode == .Driver {
-            Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true, id: _DOfferRideVCID),
-                     Menu(title: "Booking to my travel", imgName: "ic_booking_to_my_trip", id: _DBookingsVCID),
-                     Menu(title: "My Offers",            imgName: "ic_myoffer",     id: _DMyOffersVCID),
-                     Menu(title: "My Ride",              imgName: "ic_my_rides",    id: _DMyRidesVCID),
-                     Menu(title: "My Cars",              imgName: "ic_my_rides",    id: _DMyCarsVCID),
+            Menus = [Menu(title: "home".localizedString(),                 imgName: "ic_home", selected: true, id: _DOfferRideVCID),
+                     Menu(title: "booking_to_my_travel".localizedString(), imgName: "ic_booking_to_my_trip", id: _DBookingsVCID),
+                     Menu(title: "my_offers".localizedString(),            imgName: "ic_myoffer",     id: _DMyOffersVCID),
+                     Menu(title: "my_ride".localizedString(),              imgName: "ic_my_rides",    id: _DMyRidesVCID),
+                     Menu(title: "my_cars".localizedString(),              imgName: "ic_my_rides",    id: _DMyCarsVCID),
 
-                     Menu(title: "Inbox",                imgName: "ic_inbox",       id: _InboxVCID),
-                     Menu(title: "Today Work",           imgName: "ic_today_work",  id: _TodayWorkVCID),
-                     Menu(title: "Tracking",             imgName: "ic_tracking",    id: _TrackingVCID),
-                     Menu(title: "Alert",                imgName: "ic_alert",       id: _AlertVCID),
-                     Menu(title: "Rating",               imgName: "ic_rating",      id: _RatingsVCID),
-                     Menu(title: "More Info",            imgName: "ic_more_info",   id: _MoreInfoVCID),
-                     Menu(title: "Logout",               imgName: "ic_logout")]
-            lblUserMode.text = "Change to passenger mode"
+                     Menu(title: "inbox".localizedString(),                imgName: "ic_inbox",       id: _InboxVCID),
+                     Menu(title: "today_work".localizedString(),           imgName: "ic_today_work",  id: _TodayWorkVCID),
+                     Menu(title: "tracking".localizedString(),             imgName: "ic_tracking",    id: _TrackingVCID),
+                     Menu(title: "alert".localizedString(),                imgName: "ic_alert",       id: _AlertVCID),
+                     Menu(title: "rating".localizedString(),               imgName: "ic_rating",      id: _RatingsVCID),
+                     Menu(title: "more_info".localizedString(),            imgName: "ic_more_info",   id: _MoreInfoVCID),
+                     Menu(title: "logout".localizedString(),               imgName: "ic_logout")]
+            lblUserMode.text = "Change to passenger mode".localizedString()
 
         } else { // me.userMode == .Passenger
-            Menus = [Menu(title: "Home",                 imgName: "ic_home", selected: true, id: _PRequestRideVCID),
-                     Menu(title: "My Booking",           imgName: "ic_booking_to_my_trip", id: _PBookingsVCID),
-                     Menu(title: "Offers To Me",         imgName: "ic_myoffer",     id: _POffersMeVCID),
-                     Menu(title: "My Request",           imgName: "ic_my_rides",    id: _PMyRequestsVCID),
-                     Menu(title: "Inbox",                imgName: "ic_inbox",       id: _InboxVCID),
-                     Menu(title: "Today Work",           imgName: "ic_today_work",  id: _TodayWorkVCID),
-                     Menu(title: "Tracking",             imgName: "ic_tracking",    id: _TrackingVCID),
-                     Menu(title: "Alert",                imgName: "ic_alert",       id: _AlertVCID),
-                     Menu(title: "Rating",               imgName: "ic_rating",      id: _RatingsVCID),
-                     Menu(title: "More Info",            imgName: "ic_more_info",   id: _MoreInfoVCID),
-                     Menu(title: "Logout",               imgName: "ic_logout")]
-            lblUserMode.text = "Change to driver mode"
+            Menus = [Menu(title: "home".localizedString(),                 imgName: "ic_home", selected: true, id: _PRequestRideVCID),
+                     Menu(title: "my_booking".localizedString(),           imgName: "ic_booking_to_my_trip", id: _PBookingsVCID),
+                     Menu(title: "offers_to_me".localizedString(),         imgName: "ic_myoffer",     id: _POffersMeVCID),
+                     Menu(title: "my_request".localizedString(),           imgName: "ic_my_rides",    id: _PMyRequestsVCID),
+                     Menu(title: "inbox".localizedString(),                imgName: "ic_inbox",       id: _InboxVCID),
+                     Menu(title: "today_work".localizedString(),           imgName: "ic_today_work",  id: _TodayWorkVCID),
+                     Menu(title: "tracking".localizedString(),             imgName: "ic_tracking",    id: _TrackingVCID),
+                     Menu(title: "alert".localizedString(),                imgName: "ic_alert",       id: _AlertVCID),
+                     Menu(title: "rating".localizedString(),               imgName: "ic_rating",      id: _RatingsVCID),
+                     Menu(title: "more_info".localizedString(),            imgName: "ic_more_info",   id: _MoreInfoVCID),
+                     Menu(title: "logout".localizedString(),               imgName: "ic_logout")]
+            lblUserMode.text = "change_to_driver_mode".localizedString()
         }
         
     }
@@ -220,9 +220,9 @@ extension DContainerVC {
 //MARK: IBActions
 extension DContainerVC {
     @IBAction func userModeChangeBtnClicked(sender: UIButton) {
-        let sheet = UIAlertController(title: nil , message: kChagneModeConfirmMsg, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let OkAction = UIAlertAction(title: "Yes", style: .Default, handler: {(action) in
+        let sheet = UIAlertController(title: nil , message: "kChagneModeConfirmMsg".localizedString(), preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+        let OkAction = UIAlertAction(title: "yes".localizedString(), style: .Default, handler: {(action) in
             self.changeUserMode()
         })
         sheet.addAction(cancelAction)
@@ -297,9 +297,9 @@ extension DContainerVC {
    
     //Logout action
     func logoutAction() {
-        let sheet = UIAlertController(title: nil , message: kLogoutConfirmMsg, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let OkAction = UIAlertAction(title: "Log out", style: .Destructive, handler: {(action) in
+        let sheet = UIAlertController(title: nil , message: "kLogoutConfirmMsg".localizedString(), preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+        let OkAction = UIAlertAction(title: "log_out".localizedString(), style: .Destructive, handler: {(action) in
             me = nil
             _userDefault.removeObjectForKey(kLoggedInUserKey)
             self.navigationController?.popToRootViewControllerAnimated(true)

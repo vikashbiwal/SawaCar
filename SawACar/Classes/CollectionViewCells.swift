@@ -60,13 +60,13 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                 return cell
             } else if indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("nameFieldCell") as! TVSignUpFormCell
-                cell.txtField.placeholder = "First Name"
+                cell.txtField.placeholder = "first_name".localizedString()
                 cell.txtField.tag = 101
                 cell.txtField.returnKeyType = .Next
                 return cell
             } else if indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("nameFieldCell") as! TVSignUpFormCell
-                cell.txtField.placeholder = "Last Name"
+                cell.txtField.placeholder = "last_name".localizedString()
                 cell.txtField.tag = 102
                 cell.txtField.returnKeyType = .Next
                 return cell
@@ -77,13 +77,13 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                 return cell
             } else if indexPath.row == 5 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("passwordFieldCell") as! TVSignUpFormCell
-                cell.txtField.placeholder = "Password"
+                cell.txtField.placeholder = "password".localizedString()
                 cell.txtField.tag = 104
                 cell.txtField.returnKeyType = .Next
                 return cell
             } else  {
                 let cell = tableView.dequeueReusableCellWithIdentifier("passwordFieldCell") as! TVSignUpFormCell
-                cell.txtField.placeholder = "Confirm Password"
+                cell.txtField.placeholder = "confirm_password".localizedString()
                 cell.txtField.tag = 105
                 cell.txtField.returnKeyType = .Default
                 return cell
@@ -96,13 +96,13 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
             } else if indexPath.row == 1 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("formDescriptionCell2") as! TVSignUpFormCell
                 if formType == .GenderInfo {
-                    cell.lblTitle.text = "What is your gender?"
+                    cell.lblTitle.text = "what_is_your_gender".localizedString()
                 } else if formType == .BirthDateInfo {
-                    cell.lblTitle.text = "When is your birthday?"
+                    cell.lblTitle.text = "when_is_your_birthday".localizedString()
                 } else if formType == .ContactInfo {
-                    cell.lblTitle.text = "What is your number?"
+                    cell.lblTitle.text = "what_is_your_number".localizedString()
                 } else {
-                    cell.lblTitle.text = "Where are you living?"
+                    cell.lblTitle.text = "where_are_you_living".localizedString()
                 }
                 return cell
             } else {
@@ -120,11 +120,11 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
                     
                     let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVSignUpFormCell
                     if indexPath.row == 2 {
-                        cell.txtField.placeholder = "Nationality"
+                        cell.txtField.placeholder = "nationality".localizedString()
                         cell.button?.tag = 100
                         return cell
                     } else  {
-                        cell.txtField.placeholder = "Country"
+                        cell.txtField.placeholder = "country".localizedString()
                         cell.button?.tag = 101
                         return cell
                     }
@@ -236,7 +236,7 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
         
         sender.tintColor = UIColor.scHeaderColor()
         (sender.tag == 1 ? femaleLbl : maleLbl).textColor = UIColor.scHeaderColor()
-        signUpFormActionBlock(action: .GenderAction, value: sender.tag == 1 ? "Female" : "Male")
+        signUpFormActionBlock(action: .GenderAction, value: sender.tag == 1 ? "female".localizedString() : "male".localizedString())
     }
     
     @IBAction func locationBtnClicked(sender: UIButton) {

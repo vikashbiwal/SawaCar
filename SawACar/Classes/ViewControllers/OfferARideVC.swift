@@ -61,8 +61,8 @@ class OfferARideVC: ParentVC {
     //Reset a new travel object when travel created successfully.
     func resetTravelObj() {
         travel = Travel()
-        txtTo.text = "To"
-        txtFrom.text = "From"
+        txtTo.text = "To".localizedString()
+        txtFrom.text = "From".localizedString()
     }
 }
 
@@ -105,11 +105,11 @@ extension OfferARideVC {
     //Fuction valiation 
     func validateLoction()-> Bool {
         guard let _ = travel.locationFrom else {
-            showToastErrorMessage("", message: kFromLocationRequired)
+            showToastErrorMessage("", message: "kFromLocationRequired".localizedString())
             return false
         }
         guard let _ = travel.locationTo else {
-            showToastErrorMessage("", message: kToLocationRequired)
+            showToastErrorMessage("", message: "kToLocationRequired".localizedString())
             return false
         }
         return true

@@ -13,7 +13,6 @@
 		030BF5421D1404B0000D3948 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5401D1404B0000D3948 /* Fabric.framework */; };
 		030BF5431D1404B0000D3948 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 030BF5411D1404B0000D3948 /* Crashlytics.framework */; };
 		031032331D0EB0BC0024531A /* VDatePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031032311D0EB0BC0024531A /* VDatePickerVC.swift */; };
-		031316A81D1BB2C40096077A /* CustomViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 031316A61D1BB2C40096077A /* CustomViews.xib */; };
 		031316A91D1BB2C40096077A /* VKeyboardAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */; };
 		031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316AB1D1C0E780096077A /* AddCarVC.swift */; };
 		031316AE1D1C0E8C0096077A /* CarListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031316AD1D1C0E8C0096077A /* CarListVC.swift */; };
@@ -23,12 +22,10 @@
 		031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */; };
 		031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */; };
 		032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0323600F1D08341D0004CDA9 /* ProfileViewController.swift */; };
-		032360141D0838F40004CDA9 /* car_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 032360131D0838F40004CDA9 /* car_image.jpg */; };
 		032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */; };
 		032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680E01D06D81700969C16 /* LocationPickerViewController.swift */; };
 		032680E31D06D81700969C16 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032680E11D06D81700969C16 /* MapViewController.swift */; };
 		0327CDA31D0577F400D51DE4 /* UserTypeSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */; };
-		0327CDA81D057AD600D51DE4 /* SBPassanger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0327CDA61D057AD600D51DE4 /* SBPassanger.storyboard */; };
 		0327CDAA1D058FDA00D51DE4 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */; };
 		0327CDAC1D059C2A00D51DE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */; };
 		0327CDAF1D05A82800D51DE4 /* OfferARideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */; };
@@ -55,7 +52,6 @@
 		034BA1521D3CB9EB0050F0AC /* TravelDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034BA1511D3CB9EB0050F0AC /* TravelDetailVC.swift */; };
 		035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 035AE6F91D1D1E2100028EFE /* VPickerView.xib */; };
 		035AE6FC1D1D1E3B00028EFE /* VPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */; };
-		035AE6FD1D1D533100028EFE /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03078EA21D05469F009450BB /* SBDriver.storyboard */; };
 		036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A89531CBB7A9E00DFB631 /* Main.storyboard */; };
 		036A89581CBB7A9E00DFB631 /* SawACar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 036A89561CBB7A9E00DFB631 /* SawACar.xcdatamodeld */; };
 		036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */; };
@@ -103,18 +99,21 @@
 		695A75341DD0550000B9C871 /* DFindRideRequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */; };
 		695A75361DD062AD00B9C871 /* DRideRequestsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */; };
 		695A75381DD064ED00B9C871 /* RideRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75371DD064ED00B9C871 /* RideRequest.swift */; };
+		6962921E1DD4458800352DDF /* car_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 696292201DD4458800352DDF /* car_image.jpg */; };
+		697EE9F01DD326B100060F40 /* CustomViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697EE9F21DD326B100060F40 /* CustomViews.xib */; };
+		697EE9FE1DD327A300060F40 /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA001DD327A300060F40 /* SBDriver.storyboard */; };
+		697EEA091DD327FD00060F40 /* SBPassanger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA0B1DD327FD00060F40 /* SBPassanger.storyboard */; };
+		697EEA121DD32CB400060F40 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA141DD32CB400060F40 /* Localizable.strings */; };
 		BD882E187482D644947906A9 /* Pods_SawACar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		03078EA31D05469F009450BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SawACar/Base.lproj/SBDriver.storyboard; sourceTree = SOURCE_ROOT; };
 		03078EA71D05495F009450BB /* DContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DContainerVC.swift; sourceTree = "<group>"; };
 		0309B4CA1D13E6E900E9B3FA /* VExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VExtensions.swift; sourceTree = "<group>"; };
 		030B769A1D58A47800A9DA8E /* Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
 		030BF5401D1404B0000D3948 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		030BF5411D1404B0000D3948 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		031032311D0EB0BC0024531A /* VDatePickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDatePickerVC.swift; sourceTree = "<group>"; };
-		031316A61D1BB2C40096077A /* CustomViews.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomViews.xib; sourceTree = "<group>"; };
 		031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKeyboardAccessoryView.swift; sourceTree = "<group>"; };
 		031316AB1D1C0E780096077A /* AddCarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCarVC.swift; sourceTree = "<group>"; };
 		031316AD1D1C0E8C0096077A /* CarListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarListVC.swift; sourceTree = "<group>"; };
@@ -124,12 +123,10 @@
 		031D03BB1D196DB100BA0D5E /* AddTravelStep2VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTravelStep2VC.swift; sourceTree = "<group>"; };
 		031E4CFA1D014EFA0055C6E6 /* VAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAuthorization.swift; sourceTree = "<group>"; };
 		0323600F1D08341D0004CDA9 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		032360131D0838F40004CDA9 /* car_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = car_image.jpg; sourceTree = "<group>"; };
 		032680DD1D06CDA500969C16 /* AddTravelStep1VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTravelStep1VC.swift; sourceTree = "<group>"; };
 		032680E01D06D81700969C16 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		032680E11D06D81700969C16 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0327CDA21D0577F400D51DE4 /* UserTypeSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTypeSelectVC.swift; sourceTree = "<group>"; };
-		0327CDA71D057AD600D51DE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SawACar/Base.lproj/SBPassanger.storyboard; sourceTree = SOURCE_ROOT; };
 		0327CDA91D058FDA00D51DE4 /* TabbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0327CDAE1D05A82800D51DE4 /* OfferARideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferARideVC.swift; sourceTree = "<group>"; };
@@ -208,6 +205,19 @@
 		695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFindRideRequestVC.swift; sourceTree = "<group>"; };
 		695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRideRequestsListVC.swift; sourceTree = "<group>"; };
 		695A75371DD064ED00B9C871 /* RideRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RideRequest.swift; sourceTree = "<group>"; };
+		696292231DD445E600352DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Base; path = Base.lproj/car_image.jpg; sourceTree = "<group>"; };
+		697EE9961DD2F10900060F40 /* SawACar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SawACar.entitlements; sourceTree = "<group>"; };
+		697EE9F11DD326B100060F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CustomViews.xib; sourceTree = "<group>"; };
+		697EE9F41DD326B400060F40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CustomViews.strings; sourceTree = "<group>"; };
+		697EE9F61DD326B500060F40 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/CustomViews.strings; sourceTree = "<group>"; };
+		697EE9FF1DD327A300060F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SBDriver.storyboard; sourceTree = "<group>"; };
+		697EEA021DD327AE00060F40 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/SBDriver.strings; sourceTree = "<group>"; };
+		697EEA081DD327D200060F40 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		697EEA0A1DD327FD00060F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SBPassanger.storyboard; sourceTree = "<group>"; };
+		697EEA0D1DD327FF00060F40 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/SBPassanger.strings; sourceTree = "<group>"; };
+		697EEA0F1DD32AF100060F40 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		697EEA131DD32CB400060F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		697EEA161DD32CB800060F40 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.release.xcconfig"; sourceTree = "<group>"; };
 		F9315AA822493E9719CF490F /* Pods-SawACar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -231,13 +241,13 @@
 		03078EA51D0548CD009450BB /* General */ = {
 			isa = PBXGroup;
 			children = (
-				03162F991D1A660E00869987 /* ListViewController */,
+				036A896F1CBB7E4100DFB631 /* LoginVC */,
+				03E7E6A11CBD0BE000DB7723 /* SignUpVC */,
+				032EAEDD1D75644200C511BD /* ForgotPassword */,
 				0323600E1D08338C0004CDA9 /* ProfileVC */,
+				03162F991D1A660E00869987 /* ListViewController */,
 				0323600D1D0833780004CDA9 /* UserTypeSelectorVC */,
 				03E7E6AF1CBD15EF00DB7723 /* CountryListVC */,
-				03E7E6A11CBD0BE000DB7723 /* SignUpVC */,
-				036A896F1CBB7E4100DFB631 /* LoginVC */,
-				032EAEDD1D75644200C511BD /* ForgotPassword */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -273,7 +283,7 @@
 		031316A51D1BB2C40096077A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				031316A61D1BB2C40096077A /* CustomViews.xib */,
+				697EE9F21DD326B100060F40 /* CustomViews.xib */,
 				031316A71D1BB2C40096077A /* VKeyboardAccessoryView.swift */,
 				035AE6F91D1D1E2100028EFE /* VPickerView.xib */,
 				035AE6FB1D1D1E3B00028EFE /* VPickerView.swift */,
@@ -309,7 +319,7 @@
 		0323600E1D08338C0004CDA9 /* ProfileVC */ = {
 			isa = PBXGroup;
 			children = (
-				032360131D0838F40004CDA9 /* car_image.jpg */,
+				696292201DD4458800352DDF /* car_image.jpg */,
 				0323600F1D08341D0004CDA9 /* ProfileViewController.swift */,
 			);
 			name = ProfileVC;
@@ -390,7 +400,9 @@
 		036A894E1CBB7A9E00DFB631 /* SawACar */ = {
 			isa = PBXGroup;
 			children = (
-				036A89661CBB7D2A00DFB631 /* Storyboards */,
+				697EE9F91DD3271F00060F40 /* Storyboard */,
+				697EE9961DD2F10900060F40 /* SawACar.entitlements */,
+				697EE9991DD2FA6F00060F40 /* Localized */,
 				036A89641CBB7D0100DFB631 /* Classes */,
 				0327CDAB1D059C2A00D51DE4 /* Assets.xcassets */,
 				036A895E1CBB7A9E00DFB631 /* Info.plist */,
@@ -413,18 +425,6 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		036A89661CBB7D2A00DFB631 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */,
-				036A89531CBB7A9E00DFB631 /* Main.storyboard */,
-				03078EA21D05469F009450BB /* SBDriver.storyboard */,
-				0327CDA61D057AD600D51DE4 /* SBPassanger.storyboard */,
-			);
-			name = Storyboards;
-			path = Classes;
-			sourceTree = "<group>";
-		};
 		036A896A1CBB7D9B00DFB631 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,8 +442,8 @@
 		036A896B1CBB7DB400DFB631 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				03078EA61D0548E4009450BB /* Driver */,
 				03078EA51D0548CD009450BB /* General */,
+				03078EA61D0548E4009450BB /* Driver */,
 				03E7E6A41CBD0CE200DB7723 /* ParentVC */,
 				032680DF1D06D80700969C16 /* LocationPicker */,
 			);
@@ -604,6 +604,25 @@
 			name = RideRequest;
 			sourceTree = "<group>";
 		};
+		697EE9991DD2FA6F00060F40 /* Localized */ = {
+			isa = PBXGroup;
+			children = (
+				697EEA141DD32CB400060F40 /* Localizable.strings */,
+			);
+			path = Localized;
+			sourceTree = "<group>";
+		};
+		697EE9F91DD3271F00060F40 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				697EEA001DD327A300060F40 /* SBDriver.storyboard */,
+				697EEA0B1DD327FD00060F40 /* SBPassanger.storyboard */,
+				036A895B1CBB7A9E00DFB631 /* LaunchScreen.storyboard */,
+				036A89531CBB7A9E00DFB631 /* Main.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -643,6 +662,11 @@
 						DevelopmentTeam = 5GL3E4GW7P;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -653,6 +677,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 036A89431CBB7A9E00DFB631;
 			productRefGroup = 036A894D1CBB7A9E00DFB631 /* Products */;
@@ -669,7 +694,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				031316A81D1BB2C40096077A /* CustomViews.xib in Resources */,
+				697EE9F01DD326B100060F40 /* CustomViews.xib in Resources */,
 				034826D11CFC5B46000B46AE /* OpenSans-Italic.ttf in Resources */,
 				038F50EE1D22859400E28B5D /* ValidationToast.xib in Resources */,
 				038F50EF1D22859400E28B5D /* ValidationToastBar.xib in Resources */,
@@ -677,13 +702,13 @@
 				036A895D1CBB7A9E00DFB631 /* LaunchScreen.storyboard in Resources */,
 				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
 				034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */,
-				0327CDA81D057AD600D51DE4 /* SBPassanger.storyboard in Resources */,
-				035AE6FD1D1D533100028EFE /* SBDriver.storyboard in Resources */,
 				035AE6FA1D1D1E2100028EFE /* VPickerView.xib in Resources */,
 				034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */,
+				697EEA121DD32CB400060F40 /* Localizable.strings in Resources */,
 				034832201D76AEFE004E0F38 /* VNoDataView.xib in Resources */,
 				036A89551CBB7A9E00DFB631 /* Main.storyboard in Resources */,
-				032360141D0838F40004CDA9 /* car_image.jpg in Resources */,
+				697EE9FE1DD327A300060F40 /* SBDriver.storyboard in Resources */,
+				6962921E1DD4458800352DDF /* car_image.jpg in Resources */,
 				034826CD1CFC5B46000B46AE /* OpenSans-Bold.ttf in Resources */,
 				03E7E6971CBCBDAE00DB7723 /* WSReponse.text in Resources */,
 				0319118D1D86D17000726E3D /* GoogleService-Info.plist in Resources */,
@@ -692,6 +717,7 @@
 				034826D21CFC5B46000B46AE /* OpenSans-Light.ttf in Resources */,
 				034826D41CFC5B46000B46AE /* OpenSans-Regular.ttf in Resources */,
 				0327CDAC1D059C2A00D51DE4 /* Assets.xcassets in Resources */,
+				697EEA091DD327FD00060F40 /* SBPassanger.storyboard in Resources */,
 				034826D01CFC5B46000B46AE /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,26 +864,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		03078EA21D05469F009450BB /* SBDriver.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				03078EA31D05469F009450BB /* Base */,
-			);
-			name = SBDriver.storyboard;
-			sourceTree = "<group>";
-		};
-		0327CDA61D057AD600D51DE4 /* SBPassanger.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0327CDA71D057AD600D51DE4 /* Base */,
-			);
-			name = SBPassanger.storyboard;
-			sourceTree = "<group>";
-		};
 		036A89531CBB7A9E00DFB631 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				036A89541CBB7A9E00DFB631 /* Base */,
+				697EEA0F1DD32AF100060F40 /* ar */,
 			);
 			name = Main.storyboard;
 			path = ..;
@@ -867,9 +878,55 @@
 			isa = PBXVariantGroup;
 			children = (
 				036A895C1CBB7A9E00DFB631 /* Base */,
+				697EEA081DD327D200060F40 /* ar */,
 			);
 			name = LaunchScreen.storyboard;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		696292201DD4458800352DDF /* car_image.jpg */ = {
+			isa = PBXVariantGroup;
+			children = (
+				696292231DD445E600352DDF /* Base */,
+			);
+			name = car_image.jpg;
+			sourceTree = "<group>";
+		};
+		697EE9F21DD326B100060F40 /* CustomViews.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				697EE9F11DD326B100060F40 /* Base */,
+				697EE9F41DD326B400060F40 /* en */,
+				697EE9F61DD326B500060F40 /* ar */,
+			);
+			name = CustomViews.xib;
+			sourceTree = "<group>";
+		};
+		697EEA001DD327A300060F40 /* SBDriver.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				697EE9FF1DD327A300060F40 /* Base */,
+				697EEA021DD327AE00060F40 /* ar */,
+			);
+			name = SBDriver.storyboard;
+			sourceTree = "<group>";
+		};
+		697EEA0B1DD327FD00060F40 /* SBPassanger.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				697EEA0A1DD327FD00060F40 /* Base */,
+				697EEA0D1DD327FF00060F40 /* ar */,
+			);
+			name = SBPassanger.storyboard;
+			sourceTree = "<group>";
+		};
+		697EEA141DD32CB400060F40 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				697EEA131DD32CB400060F40 /* Base */,
+				697EEA161DD32CB800060F40 /* ar */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -879,6 +936,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -923,6 +981,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -962,6 +1021,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SawACar/SawACar.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5GL3E4GW7P;
@@ -991,6 +1051,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SawACar/SawACar.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5GL3E4GW7P;

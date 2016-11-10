@@ -116,14 +116,14 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
         } else if indexPath.row == 1 {
             cellIdentifier = "CurrencyCarCell"
             let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StopoverCell
-            cell.lblStop1.text = travel.currency == nil ? "Currency" : travel.currency!.name + "(\(travel.currency!.code))"
-            cell.lblStop2.text = travel.car == nil ? "Car" : travel.car!.name
+            cell.lblStop1.text = travel.currency == nil ? "Currency".localizedString() : travel.currency!.name + "(\(travel.currency!.code))"
+            cell.lblStop2.text = travel.car == nil ? "Car".localizedString() : travel.car!.name
             return cell
             
         } else if indexPath.row == 6 { //Publish BtnCell
             cellIdentifier = "buttonCell"
             let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TVGenericeCell
-            let title = travel.inEditMode ? "SAVE" : "PUBLISH"
+            let title = travel.inEditMode ? "SAVE".localizedString() : "PUBLISH".localizedString()
             cell.button!.setTitle(title, forState: .Normal)
             return cell
             
@@ -132,28 +132,28 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
             let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SteperCell
             cell.delegate = self
             if indexPath.row == 2 {
-                cell.lblTitle.text = "Number of Seat"
-                cell.txtField.text = "\(travel.travelSeat.value)"
+                cell.lblTitle.text = "Number_of_Seat".localizedString()
+                cell.txtField.text = travel.travelSeat.value.ToString()
                 cell.steperForType = TravelPreferenceType.NumberOfSeat
                 cell.txtField.userInteractionEnabled = false
                 
             } else if indexPath.row == 3 {
-                cell.lblTitle.text = "Price per Passenger"
+                cell.lblTitle.text = "Price_Passenger".localizedString()
                 let currencySymbol = travel.currency?.symbol ?? ""
                 cell.txtField.text =  currencySymbol + "\(travel.passengerPrice.value)"
                 cell.steperForType = TravelPreferenceType.PassengerPrice
                 cell.txtField.userInteractionEnabled = true
                 
             } else if indexPath.row == 4 {
-                cell.lblTitle.text = "Price per Car"
+                cell.lblTitle.text = "Price_Car".localizedString()
                 let currencySymbol = travel.currency?.symbol ?? ""
-                cell.txtField.text = currencySymbol + "\(travel.carPrice.value)"
+                cell.txtField.text = currencySymbol + travel.carPrice.value.ToString()
                 cell.steperForType = TravelPreferenceType.CarPrice
                 cell.txtField.userInteractionEnabled = true
                 
             } else  {
-                cell.lblTitle.text = "Number of luggage"
-                cell.txtField.text = "\(travel.travelLuggage.value)"
+                cell.lblTitle.text = "Number_of_luggage".localizedString()
+                cell.txtField.text = travel.travelLuggage.value.ToString()
                 cell.steperForType = TravelPreferenceType.NumberOfLuggage
                 cell.txtField.userInteractionEnabled = false
             }
@@ -162,8 +162,6 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
             cell.txtField.indexpath = indexPath
             return cell
         }
-        let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
-        return cell!
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -204,27 +202,27 @@ extension AddTravelStep2VC {
             case .NumberOfSeat:
                 travel.travelSeat.value = sender.tag == 1 ? (travel.travelSeat.value - 1) : (travel.travelSeat.value + 1)
                 travel.travelSeat.value = valueFromCounterRange(travel.travelSeat)
-                cell.txtField.text = "\(travel.travelSeat.value)"
+                cell.txtField.text = travel.travelSeat.value.ToString()
                 counter = travel.travelSeat
                 break
             case .CarPrice:
                 let value = sender.tag == 1 ? (travel.carPrice.value - 1) : (travel.carPrice.value + 1)
                 travel.carPrice.value = value <= travel.carPrice.min ? travel.passengerPrice.min : value
                 let currencySymbol = travel.currency?.symbol ?? ""
-                cell.txtField.text = currencySymbol + "\(travel.carPrice.value)"
+                cell.txtField.text = currencySymbol + travel.carPrice.value.ToString()
                 counter = travel.carPrice
                 break
             case .PassengerPrice:
                 let value = sender.tag == 1 ? (travel.passengerPrice.value - 1) : (travel.passengerPrice.value + 1)
                 travel.passengerPrice.value = value <= travel.passengerPrice.min ? travel.passengerPrice.min : value
                 let currencySymbol = travel.currency?.symbol ?? ""
-                cell.txtField.text = currencySymbol + "\(travel.passengerPrice.value)"
+                cell.txtField.text = currencySymbol + travel.passengerPrice.value.ToString()
                 counter = travel.passengerPrice
                 break
             case .NumberOfLuggage:
                 travel.travelLuggage.value = sender.tag == 1 ? (travel.travelLuggage.value - 1) : (travel.travelLuggage.value + 1)
                 travel.travelLuggage.value = valueFromCounterRange(travel.travelLuggage)
-                cell.txtField.text = "\(travel.travelLuggage.value)"
+                cell.txtField.text = travel.travelLuggage.value.ToString()
                 counter = travel.travelLuggage
                 break
             default:
@@ -287,26 +285,26 @@ extension AddTravelStep2VC {
                 let value = sender.text?.integerValue ?? travel.travelSeat.min
                 travel.travelSeat.value = value
                 travel.travelSeat.value = valueFromCounterRange(travel.travelSeat)
-                cell.txtField.text = "\(travel.travelSeat.value)"
+                cell.txtField.text = travel.travelSeat.value.ToString()
                 counter = travel.travelSeat
                 break
             case .CarPrice:
                 let value = sender.text?.integerValue ?? 0
                 travel.carPrice.value = value
-                cell.txtField.text = "\(travel.carPrice.value)"
+                cell.txtField.text = travel.carPrice.value.ToString()
                 counter = travel.carPrice
                 break
             case .PassengerPrice:
                 let value = sender.text?.integerValue ?? 0
                 travel.passengerPrice.value = value
-                cell.txtField.text =  "\(travel.passengerPrice.value)"
+                cell.txtField.text =  travel.passengerPrice.value.ToString()
                 counter = travel.passengerPrice
                 break
             case .NumberOfLuggage:
                 let value = sender.text?.integerValue ?? travel.travelLuggage.min
                 travel.travelLuggage.value = value
                 travel.travelLuggage.value = valueFromCounterRange(travel.travelLuggage)
-                cell.txtField.text = "\(travel.travelLuggage.value)"
+                cell.txtField.text = travel.travelLuggage.value.ToString()
                 counter = travel.travelLuggage
                 break
             default:
@@ -404,12 +402,12 @@ extension AddTravelStep2VC {
     func validateTravel()-> Bool {
         guard let _ = travel.currency else {
         //select currency message
-            showToastErrorMessage("", message: "Please select currency for ride price.")
+            showToastErrorMessage("", message: "select_Currency_for_Ride".localizedString())
             return false
         }
         guard let _ = travel.car else {
             //select car message
-            showToastErrorMessage("", message: "Please select a car for ride.")
+            showToastErrorMessage("", message: "Select_Car_for_Ride".localizedString())
             return false
         }
         return true
@@ -471,6 +469,7 @@ extension AddTravelStep2VC {
                     break;
                 }
             } else {
+                
             }
         }
     }

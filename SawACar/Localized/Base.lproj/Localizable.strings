@@ -1,0 +1,216 @@
+/* 
+  Localizable.strings
+  SawACar
+
+  Created by Yudiz Solutions Pvt. Ltd. on 09/11/16.
+  Copyright © 2016 Yudiz Solutions Pvt. Ltd. All rights reserved.
+*/
+
+
+ "kEmailIsRequired"            = "Email is required.";
+ "kEmailValidateMsg"           = "Please enter a valid email address.";
+ "kCountryValidateMsg"         = "Please select your country.";
+ "kNationalityValidateMsg"     = "Please select your nationality.";
+ "kBirthYearValidateMsg"       = "Please enter your birth year.";
+ "kGenderValidateMsg"          = "Please select your gender.";
+ "kPasswordConfirmMsg"         = "Password does not match.";
+ "kOldPassNewPassSameMsg"      = "Old Password and New Password could not be same!";
+ "kPasswordIsRequired"         = "Password is required.";
+ "kConfimPassRequired"         = "Please Re-Enter your password.";
+ "kOldPassRequired"            = "Please enter your old password.";
+ "kPasswordWeekMsg"            = "Passwords must be at least 8 characters long.";
+ "kBirthYearRequired"          = "Year of birth is required.";
+ "kFirstnameIsRequired"        = "First name is required.";
+ "kLastnameIsRequired"         = "Last name is required.";
+ "kMobileNumberIsRequired"     = "Mobile number is required.";
+ "kInvalidMobileNumber"        = "Please enter a valid mobile number.";
+
+"kLogoutConfirmMsg"           = "Are you sure you want to log out?";
+"kChagneModeConfirmMsg"       = "Are you sure you want to change your user mode?";
+"kServerError"                = "Server Error";
+"kOldPassIsInvalid"           = "Old password is invalid.";
+"kProfileUpdateSuccess"       = "Your profile updated successfully.";
+"kSocialUpdatedSuccess"       = "Your social link updated successfully.";
+"kPreferenceSettingSucess"    = "Your user preference settings updated successfully.";
+"Success"                      = "Success";
+
+// Car model related message
+"kCarCompanyRequired"         = "Please select car company.";
+"kCarModelRequired"           = "Please enter car model.";
+"kCarPlateNumberRequired"     = "Please enter car's plate number.";
+
+"kCarProductionYearRequired"  = "Please select your car production year.";
+"kCarColorRequired"           = "Please select your car color.";
+"kCarDetailRequired"          = "Please enter some details about your car.";
+"kNoCarAvailable"             = "No car available";
+
+// Travel and Ride related messages
+"kFromLocationRequired"                   = "From location required.";
+"kToLocationRequired"                     = "To location required.";
+"kRepeateEndDateRequired"                 = "Repeate end date is required for regular travel.";
+"kRoundTravelDepartureDateRequired"       = "Departure date is required for round travel.";
+"kRoundTravelDepartureTimeRequired"       = "Departure time is required for round travel.";
+"kTravelDepartureDateRequired"            = "Departure date is required for travel.";
+"kTravelDepartureTimeRequired"            = "Departure time is required for travel.";
+"kMyRidesNotAvailable"                    = "No rides available";
+
+
+// Sign Up Screen
+"create_your_account"   = "Create your account";
+"next"                  = "Next";
+"finish"                = "Finish";
+"nationality"           = "Nationality";
+"country"               = "Country";
+"countries"             = "Countries";
+"country_dial_code"     = "Country Dial Code";
+"cancel"                = "Cancel";
+"take_a_photo"          = "Take a Photo";
+"choose_from_gallery"   = "Choose from Gallery";
+"first_name"            = "First Name";
+"last_name"             = "Last Name";
+"password"              = "Password";
+"confirm_password"      = "Confirm Password";
+"what_is_your_gender"   = "What is your gender?";
+"when_is_your_birthday" = "When is your birthday?";
+"what_is_your_number"   = "What is your number?";
+"where_are_you_living"  = "Where are you living?";
+"female"                = "Female";
+"male"                  = "Male";
+
+
+// Slider Container ViewController
+"home"                  = "Home";
+"booking_to_my_travel"  = "Booking to my travel";
+"my_offers"             = "My Offers";
+"my_ride"               = "My Ride";
+"my_cars"               = "My Cars";
+"inbox"                 = "Inbox";
+"today_work"            = "Today Work";
+"tracking"              = "Tracking";
+"alert"                 = "Alert";
+"rating"                = "Rating";
+"more_info"             = "More Info";
+"logout"                = "Logout";
+"log_out"               = "Log out";
+"my_booking"            = "My Booking";
+"offers_to_me"          = "Offers To Me";
+"my_request"            = "My Request";
+
+"change_to_driver_mode"    = "Change to driver mode";
+"change_to_passenger_mode" = "Change to passenger mode";
+"yes"                   = "Yes";
+
+// Profile ViewController
+"profile"               = "Profile";
+"change_password"       = "Change Password";
+"social_link"           = "Social Link";
+"details"               = "Details";
+"settings"              = "Settings";
+"save"                  = "Save";
+"gender"                = "Gender";
+"birth_date"            = "Birth Date";
+"account_type"          = "Account Type";
+"old_password"          = "Old Password";
+"update"                = "Update";
+
+"WhatsApp"              = "WhatsApp";
+"Line"                  = "Line";
+"Tango"                 = "Tango";
+"Telegram"              = "Telegram";
+"Facebook"              = "Facebook";
+"Twitter"               = "Twitter";
+
+"Member_Since"          = "Member Since";
+"Last_Login"            = "Last Login";
+"Last_Activity_Date"    = "Last Activity Date";
+"Number_of_Travels"     = "Number of Travels";
+"Contacts"              = "Contacts";
+"Email"                 = "Email";
+"Phone_Number"          = "Phone Number";
+
+"Show_email_to_others"  = "Show email to others";
+"General"               = "General";
+"Show_mobile_to_others" = "Show mobile to others";
+"Visible_in_search"     = "Visible in search";
+"Accept_special_order"  = "Accept special order";
+"Accept_Monitoring"     = "Accept Monitoring";
+"Communication_Language" = "Communication Language";
+"Language"              = "Language";
+"Speaking_Language"     = "Speaking Language";
+"Children"              = "Children";
+"Pets"                  = "Pets";
+"Stop_for_pray"         = "Stop for pray";
+"Food_and_Drinks"       = "Food and Drinks";
+"Music"                 = "Music";
+"Quran"                 = "Quran";
+"Smoking"               = "Smoking";
+"My_Rules"              = "My Rules";
+
+
+// Forgot Password Screen
+"reset_pass_msg_sent"  = "Reset password link sent to your email address.";
+
+// ListViewController
+"Currencies" = "Currencies";
+"Compnay"    = "Compnay";
+"Color"      = "Color";
+
+// My Rides screen
+"Seats" = "Seats";
+"Left"  = "Left";
+
+// Add Car Screen
+"Car_Add_Success" = "Car added succesfully.";
+
+// My Cars Screen
+"Edit"      = "Edit";
+"Delete"    = "Delete";
+"are_you_sure_delete" = "Are you sure you want to delete car";
+"No"        = "No";
+"Yes"       = "Yes";
+
+
+//Parent ViewController
+"No_items_available" = "No items available";
+"Ok" = "Ok";
+"OK" = "OK";
+
+
+// OfferARideVC ViewControler
+"To"    = "To";
+"From"  = "From" ;
+
+// OfferARideStep1VC
+"Stop"  = "Stop";
+"Select" = "Select";
+"Day" = "Day";
+"Month" = "Month";
+"Repeat_Type" = "Repeat Type";
+
+
+// OfferARideStep2VC
+"Currency"   = "Currency";
+"Car"  = "Car";
+"SAVE" = "SAVE";
+"PUBLISH" = "PUBLISH";
+"Number_of_Seat" = "Number of Seat";
+"Price_Passenger" = "Price per Passenger";
+"Price_Car" = "Price per Car";
+"Number_of_luggage" = "Number of luggage";
+"select_Currency_for_Ride" = "Please select currency for ride price.";
+"Select_Car_for_Ride" = "Please select a car for ride.";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -17,8 +17,13 @@ class LocalizedApplication: UIApplication {
     
     override internal var userInterfaceLayoutDirection: UIUserInterfaceLayoutDirection {
         get {
-            //let currentLang = NSLocale.preferredLanguages()[0]
-            return UIUserInterfaceLayoutDirection.LeftToRight;
+            let currentLang = NSLocale.preferredLanguages()[0]
+            //print(currentLang)
+            if currentLang.hasPrefix("ar") {
+                return UIUserInterfaceLayoutDirection.RightToLeft;
+            } else {
+                return UIUserInterfaceLayoutDirection.LeftToRight;
+            }
         }
     }
 }

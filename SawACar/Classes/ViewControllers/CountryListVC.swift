@@ -19,7 +19,7 @@ class CountryListVC: ParentVC {
     var countries = [Country]()
     var filteredCountries = [Country]()
     var selectedCountryId: String?
-    var titleString: String = "Countries"
+    var titleString: String = "countries".localizedString()
     var refreshControl : UIRefreshControl!
     var completionBlock : (Country)-> Void = {_ in}
     

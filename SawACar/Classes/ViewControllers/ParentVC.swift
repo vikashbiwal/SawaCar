@@ -97,7 +97,7 @@ class ParentVC: UIViewController  {
     //Show an alert message
     func showAlert(message: String?, title: String?)  {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let action = UIAlertAction(title: "OK".localizedString(), style: .Default, handler: nil)
         alert.addAction(action)
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -164,11 +164,11 @@ extension ParentVC {
         emptyDataView = customViews![0] as! VNoDataView
     }
     
-    func showEmptyDataView(message: String = "No items available") {
+    func showEmptyDataView(message: String = "No_items_available".localizedString()) {
         self.emptyDataView.showInCenterInView(self.view, title: message)
     }
     
-    func showEmptyDataViewAtTop(message: String = "No items available") {
+    func showEmptyDataViewAtTop(message: String = "No_items_available".localizedString()) {
         self.emptyDataView.showInView(self.view, message: message)
     }
 

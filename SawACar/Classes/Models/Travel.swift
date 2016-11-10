@@ -118,6 +118,7 @@ class Travel: NSObject, NSCopying {
         passengerPrice.value = RConverter.integer(info["PassengerPrice"])
         travelLuggage.value  = RConverter.integer(info["Luggages"])
         travelSeat.value     = RConverter.integer(info["Seats"])
+        travelSeat.max = car?.seatCounter.max ?? 0
        
         seatLeft             = RConverter.integer(info["SeatsLeft"])
         isArchived           = RConverter.boolean(info["IsArchived"])
@@ -233,10 +234,13 @@ extension Travel {
         let toLocation = ["Latitude" : self.locationTo!.lat.ToString(),
                           "Longitude" : self.locationTo!.long.ToString(),
                           "Address" : self.locationTo!.address]
+        if !inEditMode {
+            parameters["LocationFrom"]      = fromLocation
+            parameters["LocationTo"]        = toLocation
+        }
         
-        parameters["LocationFrom"]      = fromLocation
-        parameters["LocationTo"]        = toLocation
-        parameters["DepartureDate"]     = self.departureDate
+        let DepartureDate  = inEditMode ? dateFormator.dateString(self.departureDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd/MM/yyyy") :  self.departureDate
+        parameters["DepartureDate"]     = DepartureDate
         parameters["DepartureHour"]     = self.departureHour
         parameters["DepartureMinute"]   = self.departureMinute
         parameters["Tracking"]          = self.trackingEnable
@@ -254,14 +258,16 @@ extension Travel {
         
         if self.isRegularTravel {
             parameters["RepeatType"]    = self.repeatType.ToString()
-            parameters["RepeatEndDate"] = self.repeatEndDate
+            let RepeatEndDate  = inEditMode ? dateFormator.dateString(self.repeatEndDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd/MM/yyyy") :  self.repeatEndDate
+            parameters["RepeatEndDate"] = RepeatEndDate
         } else {
             parameters["RepeatType"]    = NSNull()
             parameters["RepeatEndDate"] = NSNull()
         }
         
         if self.isRoundTravel {
-            parameters["RoundDate"]     = self.roundDate
+            let RoundDate  = inEditMode ? dateFormator.dateString(self.roundDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd/MM/yyyy") :  self.roundDate
+            parameters["RoundDate"]     = RoundDate
             parameters["RoundHour"]     = self.roundHour
             parameters["RoundMinute"]   = self.roundMinute
         } else {
@@ -372,8 +378,43 @@ class Car: Equatable {
         car.id = RConverter.string(info["CarID"])
         car.name = RConverter.string(info["CarFullName"])
         car.rating = RConverter.integer(info["CarRating"])
+        car.seatCounter.value = RConverter.integer(info["Seats"])
+        car.seatCounter.max = car.seatCounter.value
+
         return car
     }
+    
+    
+    
+    // func for validate add or edit car process
+    func validateAddCarProcess()-> (isValid: Bool, message: String) {
+        guard let _ = company else {
+            return (false, "kCarCompanyRequired".localizedString())
+        }
+        
+        if model.isEmpty {
+            return (false, "kCarModelRequired".localizedString())
+        }
+        
+        if productionYear.isEmpty {
+            return (false, "kCarProductionYearRequired".localizedString())
+        }
+        
+        guard let _ = color else {
+            return (false, "kCarColorRequired".localizedString())
+        }
+        
+        if details.isEmpty {
+            return (false, "kCarDetailRequired".localizedString())
+        }
+        
+        if plateNumber.isEmpty {
+            return (false, "kCarPlateNumberRequired".localizedString())
+        }
+        
+        return (true, "Success".localizedString())
+    }
+
 }
 
 //conform Equatable Protocal for Car object

@@ -203,16 +203,16 @@ extension LoginVC {
     func validateEmailLogin() -> Bool {
         let alertTitle = "Login Error"
         if txtEmail.text!.isEmpty {
-            showToastMessage(alertTitle, message: kEmailIsRequired)
+            showToastMessage(alertTitle, message: "kEmailIsRequired".localizedString())
             return false
         } else {
             if !txtEmail.text!.isValidEmailAddress() {
-                showToastMessage(alertTitle, message: kEmailValidateMsg)
+                showToastMessage(alertTitle, message: "kEmailValidateMsg".localizedString())
                 return false
             }
         }
         if txtpassword.text!.isEmpty {
-            showToastMessage(alertTitle, message: kPasswordIsRequired)
+            showToastMessage(alertTitle, message: "kPasswordIsRequired".localizedString())
             return false
         }
         return  true

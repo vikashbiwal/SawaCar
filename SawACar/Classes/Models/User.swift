@@ -321,71 +321,71 @@ extension User {
     //MARK: Signup validation
     func validatePersonalInfo() -> (isValid :Bool, message: String) {
         if firstname.isEmpty {
-            return (false, kFirstnameIsRequired)
+            return (false, "kFirstnameIsRequired".localizedString())
         }
         if lastname.isEmpty {
-            return (false, kLastnameIsRequired)
+            return (false, "kLastnameIsRequired".localizedString())
         }
         
         if email.isEmpty {
-            return (false, kEmailIsRequired)
+            return (false, "kEmailIsRequired".localizedString())
         } else {
             if !email.isValidEmailAddress() {
-                return (false, kEmailValidateMsg)
+                return (false, "kEmailValidateMsg".localizedString())
             }
         }
         
         if password.isEmpty {
-            return (false, kPasswordIsRequired)
+            return (false, "kPasswordIsRequired".localizedString())
         } else {
             if password.characters.count < 8 {
-                return (false, kPasswordWeekMsg)
+                return (false, "kPasswordWeekMsg".localizedString())
             }
         }
         if confPass.isEmpty {
-            return (false, kConfimPassRequired)
+            return (false, "kConfimPassRequired".localizedString())
         } else {
             if password != confPass {
-                return (false, kPasswordConfirmMsg)
+                return (false, "kPasswordConfirmMsg".localizedString())
             }
         }
         
-        return (true, "Success")
+        return (true, "Success".localizedString())
     }
     
     func validateGenderInfo() -> (isValid :Bool, message: String) {
         if gender.isEmpty {
-            return (false, kGenderValidateMsg)
+            return (false, "kGenderValidateMsg".localizedString())
         }
-        return (true, "Success")
+        return (true, "Success".localizedString())
     }
     
     func validateBirthInfo() -> (isValid :Bool, message: String) {
         if birthDate.isEmpty {
-            return (false, kBirthYearRequired)
+            return (false, "kBirthYearRequired".localizedString())
         }
-        return (true, "Success")
+        return (true, "Success".localizedString())
     }
     
     func validateContactInfo() -> (isValid :Bool, message: String) {
         if mobile.isEmpty {
-            return (false, kMobileNumberIsRequired)
+            return (false, "kMobileNumberIsRequired".localizedString())
         } else {
             if !mobile.isValidMobileNumber() {
-            return (false, kInvalidMobileNumber)
+            return (false, "kInvalidMobileNumber".localizedString())
             }
         }
-        return (true, "Success")
+        return (true, "Success".localizedString())
     }
     
     func validateLocationInfo() -> (isValid :Bool, message: String) {
         if nationality.Id.isEmpty {
-            return (false, kNationalityValidateMsg)
+            return (false, "kNationalityValidateMsg".localizedString())
         }
         if country.Id.isEmpty {
-            return (false, kCountryValidateMsg)
+            return (false, "kCountryValidateMsg".localizedString())
         }
-        return (true, "Success")
+        return (true, "Success".localizedString())
         
     }
     //End signup validation
@@ -393,34 +393,34 @@ extension User {
     //MARK: Edit Person Info validation
     func validateEditPersonalInfo() -> (isValid :Bool, message: String) {
         if firstname.isEmpty {
-            return (false, kFirstnameIsRequired)
+            return (false, "kFirstnameIsRequired".localizedString())
         }
         if lastname.isEmpty {
-            return (false, kLastnameIsRequired)
+            return (false, "kLastnameIsRequired".localizedString())
         }
         
         if gender.isEmpty {
-            return (false, kGenderValidateMsg)
+            return (false, "kGenderValidateMsg".localizedString())
         }
 
         if birthDate.isEmpty {
-            return (false, kBirthYearRequired)
+            return (false, "kBirthYearRequired".localizedString())
         }
 
         if mobile.isEmpty {
-            return (false, kMobileNumberIsRequired)
+            return (false, "kMobileNumberIsRequired".localizedString())
         } else {
             if !mobile.isValidMobileNumber() {
-                return (false, kInvalidMobileNumber)
+                return (false, "kInvalidMobileNumber".localizedString())
             }
         }
 
         if nationality.Id.isEmpty {
-            return (false, kNationalityValidateMsg)
+            return (false, "kNationalityValidateMsg".localizedString())
         }
         
         if country.Id.isEmpty {
-            return (false, kCountryValidateMsg)
+            return (false, "kCountryValidateMsg".localizedString())
         }
 
         return (true, "Success")
@@ -429,42 +429,42 @@ extension User {
     //MARK: Login validation
     func validateLoginProcess() -> (isValid: Bool, msg: String) {
         if email.isEmpty {
-            return (false, kEmailIsRequired)
+            return (false, "kEmailIsRequired".localizedString())
         } else {
             if !email.isValidEmailAddress() {
-                return (false, kEmailValidateMsg)
+                return (false, "kEmailValidateMsg".localizedString())
             }
         }
         
         if password.isEmpty {
-            return (false, kPasswordIsRequired)
+            return (false, "kPasswordIsRequired".localizedString())
         }
-        return (true, "Success")
+        return (true, "Success".localizedString())
     }
 
     //MARK: Change Password Validation
     func validateChangePassProcess() -> (isValid: Bool, msg: String) {
         if oldPassword.isEmpty {
-            return (false, kOldPassRequired)
+            return (false, "kOldPassRequired".localizedString())
         }
         if password.isEmpty {
-            return (false, kPasswordIsRequired)
+            return (false, "kPasswordIsRequired".localizedString())
         } else {
             if password.characters.count < 8 {
-                return (false, kPasswordWeekMsg)
+                return (false, "kPasswordWeekMsg".localizedString())
             }
         }
         if confPass.isEmpty {
-            return (false, kConfimPassRequired)
+            return (false, "kConfimPassRequired".localizedString())
         }
         if password != confPass {
-            return (false, kPasswordConfirmMsg)
+            return (false, "kPasswordConfirmMsg".localizedString())
         }
         
         if oldPassword == password {
-            return (false, kOldPassNewPassSameMsg)
+            return (false, "kOldPassNewPassSameMsg".localizedString())
         }
-        return (true, "Success")
+        return (true, "Success".localizedString())
     }
 
 }

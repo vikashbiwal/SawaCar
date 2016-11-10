@@ -106,7 +106,7 @@ class AddCarVC: ParentVC {
 //MARK: IBActions
 extension AddCarVC {
     @IBAction func saveBtnClicked(sender: UIButton) {
-        let process = validateAddCarProcess()
+        let process = car.validateAddCarProcess()
         if process.isValid {
             isEditMode ? self.updateCarAPICall() : self.addCarAPICall()
         } else {
@@ -142,7 +142,7 @@ extension AddCarVC {
             car.seatCounter.value = counter.value
         }
         
-        lblSeatCount.text = "\(car.seatCounter.value)"
+        lblSeatCount.text = car.seatCounter.value.ToString()
         lblSeatCount.textColor = extraGrayColor
     }
     
@@ -211,11 +211,11 @@ extension AddCarVC : UIImagePickerControllerDelegate, UINavigationControllerDele
     func showActionForImagePick() {
         self.view.endEditing(true)
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction  = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let cameraActiton = UIAlertAction(title: "Take a Photo", style: .Default) { (action) in
+        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .Default) { (action) in
             self.openCamera()
         }
-        let galleryAction = UIAlertAction(title: "Choose from Gallery", style: .Default) { (action) in
+        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .Default) { (action) in
             self.openGallery()
         }
         sheet.addAction(cameraActiton)
@@ -253,7 +253,7 @@ extension AddCarVC : UIImagePickerControllerDelegate, UINavigationControllerDele
 extension AddCarVC {
     //navigate to select Car Company
     func openCompanyListVC()  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.CarCompany
         if let company = car.company {
             cListVC.preSelectedIDs = [company.Id]
@@ -270,7 +270,7 @@ extension AddCarVC {
     }
     
     func openColorListVC()  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Color
         if let color = car.color {
             cListVC.preSelectedIDs = [color.Id]
@@ -287,34 +287,6 @@ extension AddCarVC {
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
     
-    func validateAddCarProcess()-> (isValid: Bool, message: String) {
-        guard let _ = car.company else {
-            return (false, kCarCompanyRequired)
-        }
-        
-        if car.model.isEmpty {
-            return (false, kCarModelRequired)
-        }
-        
-        if car.productionYear.isEmpty {
-            return (false, kCarProductionYearRequired)
-        }
-        
-        guard let _ = car.color else {
-            return (false, kCarColorRequired)
-        }
-        
-        if car.details.isEmpty {
-            return (false, kCarDetailRequired)
-        }
-        
-        if car.plateNumber.isEmpty {
-            return (false, kCarPlateNumberRequired)
-        }
-
-        return (true, "Success")
-    }
-
 }
 
 //MARK: API Calls
@@ -353,7 +325,7 @@ extension AddCarVC {
             if response.isSuccess {
               let imageURL = response.json!["Object"] as! String
                 self.car.photo = kWSDomainURL + imageURL
-                showToastMessage("", message: "Car added succesfully.")
+                showToastMessage("", message: "Car_Add_Success".localizedString())
                 self.completionBlock(self.car)
                 self.parentBackAction(nil)
             } else  {
@@ -388,22 +360,3 @@ extension AddCarVC {
 }
 
 
-
-//    //MARK: Show DatePicker
-//    func openDatePicker(type: Int) {
-//        if !isLoading {
-//            isLoading = true
-//            let datepickerVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_DatePickerVC") as! VDatePickerVC
-//            datepickerVC.datePickerMode = UIDatePickerMode.Date
-//
-//            datepickerVC.completionBlock = {(date) in
-//                if let dt = date {
-//                    let year = dateFormator.stringFromDate(dt, format: "yyyy")
-//                    self.lblProYear.text = year
-//                }
-//                self.isLoading = false
-//            }
-//            datepickerVC.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-//            self.presentViewController(datepickerVC, animated: true, completion: nil)
-//        }
-//    }

@@ -84,13 +84,6 @@ extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
             return cell
             
         }
-        
-        //else if indexPath.row == 5 {
-        //            cellIdentifier = "weekDayCell"
-        //            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
-        //            return cell
-        //
-        //        } 
 
     }
     
@@ -183,17 +176,17 @@ extension AddTravelStep1VC {
     
     //MARK: Repeat Type selector function
     func showRepeatTypeList() {
-        let sheet = UIAlertController(title: "Repeat Type", message: nil, preferredStyle: .ActionSheet)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let sheet = UIAlertController(title: "Repeat_Type".localizedString(), message: nil, preferredStyle: .ActionSheet)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
         
-        let dayTypeAction = UIAlertAction(title: "Day", style: .Default) { (action) in
+        let dayTypeAction = UIAlertAction(title: "Day".localizedString(), style: .Default) { (action) in
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-            cell?.lblDate.text = "Day"
+            cell?.lblDate.text = "Day".localizedString()
             self.travel.repeatType = 1
         }
-        let monthTypeAction = UIAlertAction(title: "Month", style: .Default) { (action) in
+        let monthTypeAction = UIAlertAction(title: "Month".localizedString(), style: .Default) { (action) in
             let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-            cell?.lblDate.text = "Month"
+            cell?.lblDate.text = "Month".localizedString()
             self.travel.repeatType = 2
         }
         
@@ -208,28 +201,28 @@ extension AddTravelStep1VC {
         if travel.isRegularTravel {
             if travel.repeatEndDate.isEmpty  {
                 //select car message
-                showToastErrorMessage("", message: kRepeateEndDateRequired)
+                showToastErrorMessage("", message: "kRepeateEndDateRequired".localizedString())
                 return false
             }
         }
         if travel.isRoundTravel {
             if travel.roundDate.isEmpty  {
-                showToastErrorMessage("", message: kRoundTravelDepartureDateRequired)
+                showToastErrorMessage("", message: "kRoundTravelDepartureDateRequired".localizedString())
                 return false
             }
             if travel.roundHour.isEmpty  {
-                showToastErrorMessage("", message: kRoundTravelDepartureTimeRequired)
+                showToastErrorMessage("", message: "kRoundTravelDepartureTimeRequired".localizedString())
                 return false
             }
         }
         
         if travel.departureDate.isEmpty {
-            showToastErrorMessage("", message: kTravelDepartureDateRequired)
+            showToastErrorMessage("", message: "kTravelDepartureDateRequired".localizedString())
             return false
         }
 
         if travel.departureHour.isEmpty {
-            showToastErrorMessage("", message: kTravelDepartureTimeRequired)
+            showToastErrorMessage("", message: "kTravelDepartureTimeRequired".localizedString())
             return false
         }
 

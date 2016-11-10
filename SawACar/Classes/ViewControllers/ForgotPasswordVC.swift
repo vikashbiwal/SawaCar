@@ -31,12 +31,12 @@ class ForgotPasswordVC: ParentVC {
     func validate()-> Bool {
         let email = txtEmail.text!.trimmedString()
         if email.isEmpty {
-            showToastErrorMessage("", message: kEmailIsRequired)
+            showToastErrorMessage("", message: "kEmailIsRequired".localizedString())
             txtEmail.text = ""
             return false
         } else {
             if !email.isValidEmailAddress() {
-                showToastErrorMessage("", message: kEmailValidateMsg)
+                showToastErrorMessage("", message: "kEmailValidateMsg".localizedString())
                 return false
             }
         }
@@ -59,7 +59,7 @@ extension ForgotPasswordVC {
         let params = ["Email" : email]
         wsCall.forgotPassword(params) { (response, flag) in
             if response.isSuccess {
-                showToastMessage("", message: "Reset password link sent to your email address.")
+                showToastMessage("", message: "reset_pass_msg_sent".localizedString())
                 self.txtEmail.text = ""
             } else {
                 showToastErrorMessage("", message: response.message!)

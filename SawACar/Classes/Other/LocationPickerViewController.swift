@@ -26,6 +26,7 @@ class GLocation: Address {
         lat = RConverter.double(info["Latitude"])
         long = RConverter.double(info["Longitude"])
         name = RConverter.string(info["Address"])
+        address = name
     }
 }
 

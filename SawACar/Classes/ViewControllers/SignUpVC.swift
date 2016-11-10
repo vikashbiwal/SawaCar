@@ -273,19 +273,19 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
         pagerControl.currentPage = index
         var str = ""
         if index == 0 {
-            str = "Create your account"
+            str = "create_your_account".localizedString()
             currntFormType = .PersonalInfo
         } else if index == 1 {
-            str = "Next"
+            str = "next".localizedString()
             currntFormType = .GenderInfo
         } else if index == 2 {
-            str = "Next"
+            str = "next".localizedString()
             currntFormType = .BirthDateInfo
         } else if index == 3 {
-            str = "Next"
+            str = "next".localizedString()
             currntFormType = .LocationInfo
         } else  {
-            str = "Finish"
+            str = "finish".localizedString()
             currntFormType = .ContactInfo
             
         }
@@ -300,15 +300,15 @@ extension SignUpVC {
         let cListVC = self.storyboard?.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
         if forAction == .NationalityAction {
             cListVC.selectedCountryId = user.nationality.Id
-            cListVC.titleString = "Nationality"
+            cListVC.titleString = "nationality".localizedString()
             
         } else if forAction == .CountryAction {
             cListVC.selectedCountryId = user.country.Id
-            cListVC.titleString = "Countries"
+            cListVC.titleString = "countries".localizedString()
             
         } else if forAction == .DialCodeAction {
             cListVC.selectedCountryId = user.mobileCountryCode
-            cListVC.titleString = "Country Dial Code"
+            cListVC.titleString = "country_dial_code".localizedString()
         }
         
         cListVC.completionBlock = {(country) in 
@@ -344,11 +344,11 @@ extension SignUpVC : UIImagePickerControllerDelegate, UINavigationControllerDele
     //Show ActionSheet to Choose image for profile picture
     func showActionForImagePick() {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction  = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let cameraActiton = UIAlertAction(title: "Take a Photo", style: .Default) { (action) in
+        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .Default) { (action) in
             self.openCamera()
         }
-        let galleryAction = UIAlertAction(title: "Choose from Gallery", style: .Default) { (action) in
+        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .Default) { (action) in
             self.openGallery()
         }
         sheet.addAction(cameraActiton)

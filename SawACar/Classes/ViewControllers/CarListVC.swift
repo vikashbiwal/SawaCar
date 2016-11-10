@@ -26,7 +26,7 @@ class CarListVC: ParentVC {
         self.setBackButtonAction()
         self.getUserCarsAPICall()
         initEmptyDataView()
-        showEmptyDataView(kNoCarAvailable)
+        showEmptyDataView("kNoCarAvailable".localizedString())
         self.tableView.tableFooterView = UIView()
         
     }
@@ -95,12 +95,12 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let editAction = UITableViewRowAction(style: .Default, title: "Edit") { (action, idxPath) in
+        let editAction = UITableViewRowAction(style: .Default, title: "Edit".localizedString()) { (action, idxPath) in
             let car  = self.Cars[idxPath.row]
             self.performSegueWithIdentifier("SBSegue_ToAddCar", sender: car)
         }
         editAction.backgroundColor = UIColor.scHeaderColor()
-        let deleteAction = UITableViewRowAction(style: .Destructive, title: "Delete") { (action, idxPath) in
+        let deleteAction = UITableViewRowAction(style: .Destructive, title: "Delete".localizedString()) { (action, idxPath) in
             let car = self.Cars[idxPath.row]
             self.deleteCar(car)
         }
@@ -129,10 +129,10 @@ extension CarListVC {
     
     //Delete car
     func deleteCar(car: Car) {
-        let sheet = UIAlertController(title: nil, message: "Are you sure you want to delete car - \(car.name) ?", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+        let sheet = UIAlertController(title: nil, message: "are_you_sure_delete".localizedString() +  "- '\(car.name)' ?", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "No".localizedString(), style: .Default, handler: nil)
         
-        let deleteAction = UIAlertAction(title: "Yes", style: .Destructive, handler: {(action) in
+        let deleteAction = UIAlertAction(title: "Yes".localizedString(), style: .Destructive, handler: {(action) in
             self.deleteCarAPICall(car)
         })
         sheet.addAction(cancelAction)
@@ -156,7 +156,7 @@ extension CarListVC {
                 
                 self.tableView.reloadData()
             } else {
-                self.showEmptyDataView(kNoCarAvailable)
+                self.showEmptyDataView("kNoCarAvailable".localizedString())
             }
             self.hideCentralGraySpinner()
             self.refreshControl.endRefreshing()

@@ -15,12 +15,11 @@ class DRideRequestsListVC: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 }
@@ -50,6 +49,13 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell") as! TblSwitchBtnCell
             cell.lblTitle.text = "Keep searching for me"
             cell.imgView.image = UIImage(named: "ic_notification_green")
+            if let v = cell.viewWithTag(111) {//background view
+                v.layer.borderColor = UIColor.scTravelCardColor().CGColor
+                v.layer.borderWidth = 2
+                v.layer.cornerRadius = 3
+                v.clipsToBounds = true
+                v.backgroundColor = UIColor.whiteColor()
+            }
             return cell
             
         } else {
@@ -60,18 +66,18 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if [0, 1].contains(indexPath.row) {
-            return 66 * _widthRatio
+            return 45 * _widthRatio
             
         } else if indexPath.row == 2 {
             return 70 * _widthRatio
             
         }  else {
-            return 200 * _widthRatio
+            return 190 * _widthRatio
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let ride = rideRequests[indexPath.row]
-        self.performSegueWithIdentifier("toRideDetailsSegue", sender: ride)
+//        let ride = rideRequests[indexPath.row]
+//        self.performSegueWithIdentifier("toRideDetailsSegue", sender: ride)
     }
 }

@@ -141,7 +141,7 @@ class StopoverCell: TVGenericeCell {
             btnClose1.hidden = false
             icn_downArrow1.hidden = true
         } else {
-            lblStop1.text = "Stop 1"
+            lblStop1.text = "Stop".localizedString() +  "1"
             btnClose1.hidden = true
             icn_downArrow1.hidden = false
         }
@@ -152,7 +152,7 @@ class StopoverCell: TVGenericeCell {
             icn_downArrow2.hidden = true
 
         } else {
-            lblStop2.text = "Stop 2"
+            lblStop2.text = "Stop".localizedString() + "2"
             btnClose2.hidden = true
             icn_downArrow2.hidden = false
 
@@ -164,7 +164,7 @@ class StopoverCell: TVGenericeCell {
             icn_downArrow3.hidden = true
 
         } else {
-            lblStop3.text = "Stop 3"
+            lblStop3.text = "Stop".localizedString() + "3"
             btnClose3.hidden = true
             icn_downArrow3.hidden = false
 
@@ -192,10 +192,10 @@ class TravelDateTimeCell: TVGenericeCell {
             let repeatEndTime = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
             self.lblTime.text = repeatEndTime
         } else {
-            self.lblTime.text = "Select"
+            self.lblTime.text = "Select".localizedString()
         }
         
-        self.lblDate.text = travel.repeatType == 1 ? "Day" : "Month"
+        self.lblDate.text = travel.repeatType == 1 ? "Day".localizedString() : "Month".localizedString()
     }
     
     //set info for Round travel.
@@ -207,7 +207,7 @@ class TravelDateTimeCell: TVGenericeCell {
             let roundDate = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
             self.lblDate.text = roundDate
         } else {
-            self.lblDate.text = "Select"
+            self.lblDate.text = "Select".localizedString()
         }
 
         //round time.
@@ -215,7 +215,7 @@ class TravelDateTimeCell: TVGenericeCell {
         if let date = dateFormator.dateFromString(time, fomat: "HH:mm:ss") {
             self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
         } else {
-          self.lblTime.text = "Select"
+          self.lblTime.text = "Select".localizedString()
         }
     }
     
@@ -226,15 +226,16 @@ class TravelDateTimeCell: TVGenericeCell {
             let roundDate = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
             self.lblDate.text = roundDate
         } else {
-            self.lblDate.text = "Select"
+            self.lblDate.text = "Select".localizedString()
         }
         
         //departure time.
         let time =  travel.departureHour + ":" + travel.departureMinute + ":00"
         if let date = dateFormator.dateFromString(time, fomat: "HH:mm:ss") {
             self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
+            
         } else {
-            self.lblTime.text = "Select"
+            self.lblTime.text = "Select".localizedString()
         }
     }
     

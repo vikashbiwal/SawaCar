@@ -48,19 +48,19 @@ class ListViewController: ParentVC {
     func callAPIAndSetUI()  {
         btnDone.hidden = !enableMultipleChoice
         if listType == .AccountType {
-            lblTitle.text = "Account Type"
+            lblTitle.text = "account_type".localizedString()
             getAccountTypes()
         } else if listType == .Language {
-            lblTitle.text = "Languages"
+            lblTitle.text = "Languages".localizedString()
             getLanguages()
         } else if listType == .Currency {
-            lblTitle.text = "Currencies"
+            lblTitle.text = "Currencies".localizedString()
             getCurrencies()
         } else if listType == .CarCompany {
-            lblTitle.text = "Compnay"
+            lblTitle.text = "Compnay".localizedString()
             getCarCompanies()
         } else if listType == .Color {
-            lblTitle.text = "Color"
+            lblTitle.text = "Color".localizedString()
             getColors()
         }
     }

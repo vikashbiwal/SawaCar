@@ -9,6 +9,16 @@
 import Foundation
 
 //============================= Extensions ===================================
+
+//MARK: String
+extension String {
+  
+    //func for get localized string from localizable file. 
+    func localizedString()-> String {
+        return NSLocalizedString(self, comment: "")//
+    }
+}
+
 //MARK: Int
 extension Int {
     func ToString() -> String {
