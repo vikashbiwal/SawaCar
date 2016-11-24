@@ -8,14 +8,22 @@
 
 import UIKit
 
+//Ride request object for creating parameters for find ride request api call
+struct RideRequestSearchObject {
+    var countryId: String = ""
+    var travelTypeId: String = ""
+}
+
 class DFindRideRequestVC: ParentVC {
 
     @IBOutlet var inputView1: UIView!
     @IBOutlet var inputView2: UIView!
     @IBOutlet var roundedView: UIView!
-    @IBOutlet var txtFrom: UITextField!
-    @IBOutlet var txtTo: UITextField!
+    @IBOutlet var txtCountry: UITextField!
+    @IBOutlet var txtTravelType: UITextField!
 
+    var rideRequestObj = RideRequestSearchObject()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setRoundCircleUI()
@@ -44,12 +52,12 @@ class DFindRideRequestVC: ParentVC {
 
 //MARK: IBActions
 extension DFindRideRequestVC {
-    @IBAction func fromBtnDidClicked(sender: UIButton) {
-        goForPickLocation(.From)
+    @IBAction func countryBtnDidClicked(sender: UIButton) {
+        openCountryList()
     }
     
-    @IBAction func toBtnDidClicked(sender: UIButton) {
-        goForPickLocation(.To)
+    @IBAction func travelTypeBtnDidClicked(sender: UIButton) {
+        
     }
     
     @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
@@ -63,20 +71,18 @@ extension DFindRideRequestVC {
 
 
 extension DFindRideRequestVC {
-    func goForPickLocation(type: LocationSelectionForType)  {
-        let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
-        loctionPicker.completionBlcok = {(place) in
-            if let place = place {
-                if type == .From {
-                    self.txtFrom.text = place.name
-                } else {
-                    self.txtTo.text = place.name
-                }
-            }
-        }
-        self.presentViewController(loctionPicker, animated: true, completion: nil)
+
+func openCountryList()  {
+    let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
+    cListVC.selectedCountryId = rideRequestObj.countryId
+    cListVC.titleString = "nationality".localizedString()
+    cListVC.completionBlock = {(country) in
+        self.txtCountry.text = country.name
+        self.rideRequestObj.countryId = country.Id
     }
-    
+    self.navigationController?.pushViewController(cListVC, animated: true)
+}
+
     //Fuction valiation
     func validateLoction()-> Bool {
 //        guard let _ = travel.locationFrom else {

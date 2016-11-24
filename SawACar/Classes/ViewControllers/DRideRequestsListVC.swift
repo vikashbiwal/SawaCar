@@ -10,7 +10,7 @@ import UIKit
 
 class DRideRequestsListVC: ParentVC {
 
-    var rideRequests = [RideRequest]()
+    var rideRequests = [TravelRequest]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,14 +41,15 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
             
         } else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
-            cell.lblTitle.text = "Lift Between cities"
+            cell.lblTitle.text = "Lift_Between_cities".localizedString()
             cell.imgView.image = UIImage(named: "ic_lift_btwn_cities")
             return cell
             
         } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell") as! TblSwitchBtnCell
-            cell.lblTitle.text = "Keep searching for me"
+            cell.lblTitle.text = "Keep_searching_for_me".localizedString()
             cell.imgView.image = UIImage(named: "ic_notification_green")
+           
             if let v = cell.viewWithTag(111) {//background view
                 v.layer.borderColor = UIColor.scTravelCardColor().CGColor
                 v.layer.borderWidth = 2
@@ -78,6 +79,6 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        let ride = rideRequests[indexPath.row]
-//        self.performSegueWithIdentifier("toRideDetailsSegue", sender: ride)
+        self.performSegueWithIdentifier("RideRequestDetailSegue", sender: nil)
     }
 }

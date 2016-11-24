@@ -215,10 +215,16 @@ extension Webservice {
     
     func getTravels(userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravels&UserID=39
-        jprint("=======WS = DeleteCar=======")
+        jprint("=======WS = GetUserTravels=======")
         getRequest(urlWithMethod("GetUserTravels&UserID=" + userId), param: nil, block: block)
     }
     
+    func getArchivedTravels(userId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserArchivedTravels&UserID=15
+        jprint("=======WS = GetUserArchivedTravels=======")
+        getRequest(urlWithMethod("GetUserArchivedTravels&UserID=" + userId), param: nil, block: block)
+    }
+
 }
 
 

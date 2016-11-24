@@ -55,7 +55,7 @@
 "kTravelDepartureDateRequired"            = "Departure date is required for travel.";
 "kTravelDepartureTimeRequired"            = "Departure time is required for travel.";
 "kMyRidesNotAvailable"                    = "No rides available";
-
+"ArchivedRidesNotAvailable"               = "No archived rides available.";
 
 //MARK: Sign Up Screen
 "create_your_account"   = "Create your account";
@@ -176,5 +176,11 @@
 "No_items_available" = "No items available";
 "Ok" = "Ok";
 "OK" = "OK";
+
+
+
+//Request a Ride view controller
+"Start and End point" = "Start and End point";
+"Details" = "Details";
 
 

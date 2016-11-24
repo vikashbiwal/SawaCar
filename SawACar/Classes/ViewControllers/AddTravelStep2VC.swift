@@ -185,6 +185,7 @@ extension AddTravelStep2VC {
             travel.inEditMode ? updateTravelAPICall() : addTravelAPICall()
         }
     }
+    
     @IBAction func currencyBtnClicked(sender: UIButton) {
         openCurrencyListVC()
     }
@@ -487,7 +488,7 @@ extension AddTravelStep2VC {
                 if response.isSuccess {
                     let obj = response.json as! [String : AnyObject]
                     let currInfo = obj["Object"] as! [String :  AnyObject]
-                    let currency = Currency(info: currInfo)
+                    let currency = Currency(currInfo)
                     self.travel.currency = currency
                     self.tableView.reloadData()
                 }

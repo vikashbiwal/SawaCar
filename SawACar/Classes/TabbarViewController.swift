@@ -55,7 +55,7 @@ class TabbarViewController: UITabBarController {
             nav2.viewControllers = [offerMeVc]
             nav3.viewControllers = [myRequestsVc]
             nav4.viewControllers = [requestRideVC] //the last view controller will be changed as per slider menu selected item
-            self.selectedIndex = 4 //Offer a ride screen is opened by default.
+            self.selectedIndex = 4 //Request a ride screen is opened by default.
         }
         
 

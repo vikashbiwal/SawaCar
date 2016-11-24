@@ -164,8 +164,12 @@ extension ParentVC {
         emptyDataView = customViews![0] as! VNoDataView
     }
     
-    func showEmptyDataView(message: String = "No_items_available".localizedString()) {
-        self.emptyDataView.showInCenterInView(self.view, title: message)
+    func showEmptyDataView(message: String = "No_items_available".localizedString(), frame frm : CGRect = CGRectZero) {
+        if frm == CGRectZero {
+            self.emptyDataView.showInCenterInView(self.view, title: message)
+        } else {
+            self.emptyDataView.showInView(self.view, message: message, frame : frm)
+        }
     }
     
     func showEmptyDataViewAtTop(message: String = "No_items_available".localizedString()) {

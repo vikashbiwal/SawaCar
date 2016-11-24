@@ -38,7 +38,7 @@ class CountryListVC: ParentVC {
     //MARK: SetupUI
     func setupRefreshControl()  {
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(CountryListVC.getCountriesWS), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(self.getCountriesWS), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
     }
     

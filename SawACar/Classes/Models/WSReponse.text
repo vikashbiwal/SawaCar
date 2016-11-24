@@ -330,3 +330,81 @@ UserRatings =         (
 );
 };
 }
+
+
+//---------------------------------------Add Travel Request API (for passanger)--------------------------------
+API URL :  http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelRequest
+API Request Parameters :
+
+{
+"LocationFrom": {
+"Latitude": "15.3694451",
+"Longitude": "44.191006600000037",
+"Address": "Sana'a, Yemen"
+},
+"LocationTo": {
+"Latitude": "13.5746978",
+"Longitude": "44.010392200000069",
+"Address": "Taiz, Yemen"
+},
+"DepartureDate":"04/06/2016",
+"DepartureHour":19,
+"DepartureMinute":00,
+"CurrencyID":5,
+"Price":14,
+"TravelTypeID":4,
+"RequesterID":39,
+"Privacy":1
+}
+
+API Response :
+
+{
+"IsSuccess": true,
+"Messages": [],
+"Object": {
+"TravelRequestID": 998,
+"TravelRequestNumber": "O998",
+"LocationFrom": {
+"LocationID": 152,
+"Latitude": "15.3694451",
+"Longitude": "44.1910066",
+"Address": "Sana'a, Yemen",
+"CountryID": 246,
+"City": null
+},
+"LocationTo": {
+"LocationID": 153,
+"Latitude": "13.5746978",
+"Longitude": "44.0103922000001",
+"Address": "Taiz, Yemen",
+"CountryID": 246,
+"City": null
+},
+"DepartureDate": "04/06/2016 00:00:00",
+"DepartureHour": 19,
+"DepartureMinute": 0,
+"RequesterID": 39,
+"RequesterFullName": "Sana Ramadan",
+"RequesterPhoto": "/UserFiles/images/UploadeImages/user/39_20160210_164045_570.jpg",
+"RequesterRating": 4.25,
+"RequesterRules": [
+"Smoking",
+"Music",
+"Food",
+"Kids",
+"Pets",
+"PrayingStop",
+"Quran"
+],
+"CurrencyID": 5,
+"CurrencySymbol": "$",
+"CurrencyName": "East Caribbean dollar",
+"CurrencyCode": "ECD",
+"Price": 14,
+"TravelTypeID": 1,
+"TravelStatus": 1,
+"Offers": [],
+"Comments": []
+}
+}

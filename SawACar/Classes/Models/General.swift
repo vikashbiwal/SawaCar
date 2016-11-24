@@ -46,7 +46,7 @@ class Currency {
         symbol  = ""
     }
 
-    init(info : [String : AnyObject]) {
+    init(_ info : [String : AnyObject]) {
         Id      = RConverter.string(info["CurrencyID"])
         code    = RConverter.string(info["CurrencyCode"])
         name    = RConverter.string(info["CurrencyName"])

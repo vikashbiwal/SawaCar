@@ -27,3 +27,27 @@ class Driver  {
         rules = info["DriverRules"] as! [String]
     }
 }
+
+class Passanger  {
+    var id: String!
+    var name: String!
+    var photoURl : String!
+    var rating: Float = 0.0
+    var rules  = [String]()
+    
+    init() {
+        //
+    }
+    
+    init(travelRequester info: [String : AnyObject]) {
+        id = RConverter.string(info["RequesterID"])
+        name = RConverter.string(info["RequesterFullName"])
+        photoURl = kWSDomainURL + RConverter.string(info["RequesterPhoto"])
+        rating = RConverter.float(info["RequesterRating"])
+        rules = info["RequesterRules"] as! [String]
+    }
+    
+    init(passanger info: [String : AnyObject]) {
+        
+    }
+}

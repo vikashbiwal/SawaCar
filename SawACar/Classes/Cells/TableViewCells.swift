@@ -44,7 +44,6 @@ class TblSwitchBtnCell : TVGenericeCell {
 
 }
 
-
 //MARK: Cells for Add travel screen
 //MARK: WeekDayCell : Used to get user's choice of week day.
 class WeekDaysTblCell: TVGenericeCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

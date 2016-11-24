@@ -223,7 +223,7 @@ extension ListViewController {
                         let name = RConverter.string(item["CurrencyName"])
                         let code = RConverter.string(item["CurrencyCode"])
                         let at = ListItem(id: Id, name: name, code: code)
-                        let currency = Currency(info: item)
+                        let currency = Currency(item)
                         at.obj = currency
                         self.listItems.append(at)
                     }

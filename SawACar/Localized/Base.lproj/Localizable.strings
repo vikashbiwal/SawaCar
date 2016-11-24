@@ -53,7 +53,7 @@
 "kTravelDepartureDateRequired"            = "Departure date is required for travel.";
 "kTravelDepartureTimeRequired"            = "Departure time is required for travel.";
 "kMyRidesNotAvailable"                    = "No rides available";
-
+"ArchivedRidesNotAvailable"               = "No archived rides available.";
 
 // Sign Up Screen
 "create_your_account"   = "Create your account";
@@ -200,9 +200,14 @@
 "select_Currency_for_Ride" = "Please select currency for ride price.";
 "Select_Car_for_Ride" = "Please select a car for ride.";
 
+// Driver Ride Requests list view controller
+"Lift_Between_cities" = "Lift Between cities";
+"Keep_searching_for_me" = "Keep searching for me";
 
 
-
+//Request a Ride view controller
+"Start and End point" = "Start and End point";
+"Details" = "Details";
 
 
 

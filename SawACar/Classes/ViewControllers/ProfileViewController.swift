@@ -684,7 +684,7 @@ extension ProfileViewController {
             if response.isSuccess {
                 if let json = response.json {
                     var info = json["Object"] as! [String : AnyObject]
-                    me.setUpdatedInfo(info)
+                    me.resetUserInfo(info)
                     self.user = me.copy() as! User
                     self.changeMenuItems(self.selectedMenu)
                     

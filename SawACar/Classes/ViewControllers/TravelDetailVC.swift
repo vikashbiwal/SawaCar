@@ -62,7 +62,7 @@ extension TravelDetailVC {
 //MARK: Others
 extension TravelDetailVC {
     
-    //Set Pin marker on map.
+    //Set Pin marker on map view.
     func setMarkerAndPathOnMap() {
         let cameraPositionCoordinates = CLLocationCoordinate2D(latitude: travel.locationFrom!.lat, longitude: travel.locationFrom!.long)
         let cameraPosition = GMSCameraPosition.cameraWithTarget(cameraPositionCoordinates, zoom: 8)

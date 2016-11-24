@@ -15,31 +15,31 @@ enum UserMode: Int {
 
 //MARK: User
 class User :NSObject,  NSCopying {
-    var Id: String!
-    var firstname: String!
-    var lastname: String!
-    var fullname: String!
-    var birthDate: String!
-    var gender: String!
-    var bio: String!
-    var photo: String!
-    var email: String!
-    var mobile: String!
+    var Id:         String!
+    var firstname:  String!
+    var lastname:   String!
+    var fullname:   String!
+    var birthDate:  String!
+    var gender:     String!
+    var bio:        String!
+    var photo:      String!
+    var email:      String!
+    var mobile:     String!
     var mobileCountryCode: String!
-    var language: String!
-    var isMobileVerified: Bool   = false
-    var isEmailVerified: Bool    = false
+    var language:   String!
+    var isMobileVerified:   Bool = false
+    var isEmailVerified:    Bool = false
     var isFacebookVerified: Bool = false
-    var lastLoginTime: String!
-    var createDate: String!
-    var isTermsAccepted: Bool!
+    var lastLoginTime:      String!
+    var createDate:         String!
+    var isTermsAccepted:    Bool!
     var rating = 0
     var numberOfTravels: Int = 0
-    var numberOfContacts = 0
+    var numberOfContacts     = 0
     
-    var preference: UserPreference!
-    var social : UserSocial!
-    var country: Country!
+    var preference:  UserPreference!
+    var social :     UserSocial!
+    var country:     Country!
     var nationality: Country!
     var accountType: AccountType!
     
@@ -111,7 +111,7 @@ class User :NSObject,  NSCopying {
     }
     
     // update user info after successfully updated from server.
-    func setUpdatedInfo(info: [String : AnyObject]) {
+    func resetUserInfo(info: [String : AnyObject]) {
         Id                = RConverter.string(info["UserID"])
         firstname         = RConverter.string(info["FirstName"])
         lastname          = RConverter.string(info["LastName"])
@@ -319,6 +319,7 @@ extension User {
 //MARK: Validation for user Registration, login, Edit user
 extension User {
     //MARK: Signup validation
+    //Validate Personal Info
     func validatePersonalInfo() -> (isValid :Bool, message: String) {
         if firstname.isEmpty {
             return (false, "kFirstnameIsRequired".localizedString())
@@ -353,6 +354,7 @@ extension User {
         return (true, "Success".localizedString())
     }
     
+    //Validate Gender info
     func validateGenderInfo() -> (isValid :Bool, message: String) {
         if gender.isEmpty {
             return (false, "kGenderValidateMsg".localizedString())
@@ -360,6 +362,7 @@ extension User {
         return (true, "Success".localizedString())
     }
     
+    //Validate Birth Info
     func validateBirthInfo() -> (isValid :Bool, message: String) {
         if birthDate.isEmpty {
             return (false, "kBirthYearRequired".localizedString())
@@ -367,6 +370,7 @@ extension User {
         return (true, "Success".localizedString())
     }
     
+    //Validate Contact info
     func validateContactInfo() -> (isValid :Bool, message: String) {
         if mobile.isEmpty {
             return (false, "kMobileNumberIsRequired".localizedString())
@@ -378,6 +382,7 @@ extension User {
         return (true, "Success".localizedString())
     }
     
+    //Validate location info
     func validateLocationInfo() -> (isValid :Bool, message: String) {
         if nationality.Id.isEmpty {
             return (false, "kNationalityValidateMsg".localizedString())
@@ -391,6 +396,7 @@ extension User {
     //End signup validation
     
     //MARK: Edit Person Info validation
+    //Validate Personal info for Edit profile process
     func validateEditPersonalInfo() -> (isValid :Bool, message: String) {
         if firstname.isEmpty {
             return (false, "kFirstnameIsRequired".localizedString())
@@ -498,7 +504,7 @@ struct UserPreference {
         showMobile      = RConverter.boolean(info["IsMobilelShown"])
         visibleInSearch = RConverter.boolean(info["IsVisibleInSearch"])
         acceptMonitring = RConverter.boolean(info["IsMonitoringAccepted"])
-        //        specialOrder    = RConverter.boolean(info[""]) //not found key in usr info
+        //specialOrder    = RConverter.boolean(info[""]) //key not found in api response
         smoking     = RConverter.boolean(info["PreferencesSmoking"])
         music       = RConverter.boolean(info["PreferencesMusic"])
         food        = RConverter.boolean(info["PreferencesFood"])
