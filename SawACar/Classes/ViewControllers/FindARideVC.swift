@@ -1,39 +1,42 @@
 //
-//  RequestARideVC.swift
+//  FindARideVC.swift
 //  SawACar
 //
-//  Created by Yudiz Solutions Pvt. Ltd. on 24/11/16.
+//  Created by Yudiz Solutions Pvt. Ltd. on 01/12/16.
 //  Copyright © 2016 Yudiz Solutions Pvt. Ltd. All rights reserved.
 //
 
 import UIKit
 
-class RequestARideVC: ParentVC {
+class FindARideVC: ParentVC {
 
     @IBOutlet var inputView1: UIView!
     @IBOutlet var inputView2: UIView!
     @IBOutlet var roundedView: UIView!
     @IBOutlet var txtFrom: UITextField!
     @IBOutlet var txtTo: UITextField!
-    var tRequest = TravelRequest()
-
+    var travel = Travel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setRoundCircleUI()
+        notificationSetup()
+        self.view.layoutIfNeeded()
     }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    deinit{
+        _defaultCenter.removeObserver(self)
+    }
+    
+    func notificationSetup() {
+        _defaultCenter.addObserver(self, selector: #selector(OfferARideVC.resetTravelObj), name: kTravelAddedNotificationKey, object: nil)
+    }
+    
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
         inputView1.layer.borderColor = UIColor.whiteColor().CGColor
@@ -46,18 +49,18 @@ class RequestARideVC: ParentVC {
         inputView2.clipsToBounds  = true
         
     }
-
-    //MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "requestRideStep1Tostep2Segue" {
-            let nextVc = segue.destinationViewController as! RequestARideStep2VC
-            nextVc.tRequest = self.tRequest
-        }
+    
+    //Reset a new travel object when travel created successfully.
+    func resetTravelObj() {
+        travel = Travel()
+        txtTo.text = "To".localizedString()
+        txtFrom.text = "From".localizedString()
     }
+
 }
 
 //MARK: IBActions
-extension RequestARideVC {
+extension FindARideVC {
     @IBAction func fromBtnDidClicked(sender: UIButton) {
         goForPickLocation(.From)
     }
@@ -66,28 +69,26 @@ extension RequestARideVC {
         goForPickLocation(.To)
     }
     
-    @IBAction func goNextBtnClicked(sender: UIButton) {
-
+    @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
         if self.validateLoction() {
-            self.performSegueWithIdentifier("requestRideStep1Tostep2Segue", sender: nil)
+            self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
         }
-    } 
+    }
     
     
 }
 
-//MARK: Others
-extension RequestARideVC {
+extension FindARideVC {
     func goForPickLocation(type: LocationSelectionForType)  {
         let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
                 if type == .From {
                     self.txtFrom.text = place.name
-                    self.tRequest.fromLocation = place
+                    self.travel.locationFrom = place
                 } else {
                     self.txtTo.text = place.name
-                    self.tRequest.toLocation = place
+                    self.travel.locationTo = place
                 }
             }
         }
@@ -96,11 +97,11 @@ extension RequestARideVC {
     
     //Fuction valiation
     func validateLoction()-> Bool {
-        guard let _ = tRequest.fromLocation else {
+        guard let _ = travel.locationFrom else {
             showToastErrorMessage("", message: "kFromLocationRequired".localizedString())
             return false
         }
-        guard let _ = tRequest.toLocation else {
+        guard let _ = travel.locationTo else {
             showToastErrorMessage("", message: "kToLocationRequired".localizedString())
             return false
         }

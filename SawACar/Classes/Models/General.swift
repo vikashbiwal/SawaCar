@@ -106,6 +106,22 @@ class Color {
     }
 }
 
+//MARK: TravelType
+class TravelType {
+    var Id: String!
+    var name: String!
+    init(_ info: [String : AnyObject]) {
+        Id = RConverter.string(info["TravelTypeID"])
+        name =  RConverter.string(info["Name"])
+
+//        if let _ = info["TravelTypeName"] {
+//            name =  RConverter.string(info["TravelTypeName"])
+//        } else {
+//            name =  RConverter.string(info["Name"])
+//        }
+    }
+}
+
 //MARK: This class is used for create any menu item
 class Menu {
     var Id: String!

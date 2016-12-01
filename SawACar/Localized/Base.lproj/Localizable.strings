@@ -6,7 +6,11 @@
   Copyright © 2016 Yudiz Solutions Pvt. Ltd. All rights reserved.
 */
 
+//Webservice
+"No_internet" = "No internet";
+"Your_internet_connection_down" = "Your internet connection seems to be down.";
 
+//App messages
  "kEmailIsRequired"            = "Email is required.";
  "kEmailValidateMsg"           = "Please enter a valid email address.";
  "kCountryValidateMsg"         = "Please select your country.";
@@ -206,16 +210,31 @@
 
 
 //Request a Ride view controller
-"Start and End point" = "Start and End point";
-"Details" = "Details";
+"Start and End point"   = "Start and End point";
+"Details"               = "Details";
+"Suggested Price"       = "Suggested Price";
+"Travel Type"           = "Travel Type";
+"RideDateRequired"      = "Ride date is required.";
+"RideTimeRequired"      = "Ride time is required.";
+"AddYourSuggestedPrice" = "Please add a suggested price for your ride request.";
+"TravelTypeRequired"    = "Please select travel type.";
+"Your Suggested Price"  = "Your Suggested Price";
+"Price"                 = "Price";
+"Done"                  = "Done";
+"Select Currency" = "Select Currency";
+"Add_suggested_price_ride_request" = "Add your suggested price";
+"Select_travel_type" = "Select travel type";
 
-
-
-
-
-
-
-
+//Ride request detail ViewController
+"Offer" = "Offer";
+"Offers" = "Offers";
+"Comment" = "Comment";
+"Comments" = "Comments";
+"WriteComment" = "Write your comment";
+"Add" = "Add";
+"AddYourOffer" = "Add Your Offer";
+"CancelYourOffer" = "Cancel Your Offer";
+"Date" = "Date";
 
 
 

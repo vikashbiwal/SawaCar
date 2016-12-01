@@ -62,7 +62,7 @@ extension Webservice {
 
 }
 
-//MARK: User related WebServices
+//MARK: User Management -  Login, Registratin, UpdateProfile, UpdatePhoto, GetUserInfo, etc.
 extension Webservice {
     
     func checkEmailAvailability(email: String, block: WSBlock) {
@@ -187,7 +187,6 @@ extension Webservice {
         jprint("=======WS = DeleteCar=======")
         getRequest(urlWithMethod("DeleteCar&CarID=" + carId), param: nil, block: block)
     }
-
     
 }
 
@@ -225,10 +224,81 @@ extension Webservice {
         getRequest(urlWithMethod("GetUserArchivedTravels&UserID=" + userId), param: nil, block: block)
     }
 
+    func findTravels(fromAddress: String, toAddress: String, block: WSBlock) {
+        //https://sawacar.com/Services/Sawacar.ashx?Method=FindTravel&FromAddress=Syria&ToAddress=abc
+        jprint("=======WS = FindTravel=======")
+        getRequest(urlWithMethod("FindTravel&FromAddress=\(fromAddress)&ToAddress=\(toAddress)"), param: nil, block: block)
+    }
 }
 
+//MARK: TravelRequest - AddTravelRequest, UpdateTravelRequest, DeleteTravelRequest, GetTravelRequest, GetTravelTypes
+extension Webservice {
+    func addTravelRequest(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelRequest
+        //Parameters: LocationFrom, LocationTo, RequesterID, TravelTypeID, CurrencyID, Price
+        //DepartureDate, DepartureHour, DepartureMinute, Privacy
+        jprint("=======WS = AddTravelRequest=======")
+        postRequest(urlWithMethod("AddTravelRequest"), param:params, block: block)
+    }
+    
+    func getTravelRequest(id: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetTravelRequest&TravelRequestID=196
+        jprint("=======WS = GetTravelRequest=======")
+        getRequest(urlWithMethod("GetTravelRequest&TravelRequestID=\(id)"), param: nil, block: block)
+    }
+    
+    func getUserTravelRequests(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequests&UserID=153
+        jprint("=======WS = GetUserTravelRequests=======")
+        getRequest(urlWithMethod("GetUserTravelRequests&UserID=\(153)"), param: nil, block: block)
+    }
+    
+    func searchTravelRequests(searchObj: RideRequestSearchObject, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=FindTravelRequest&CountryID=193&TravelTypeID=1
+        jprint("=======WS = FindTravelRequest=======")
+        let methodUrl = "FindTravelRequest&CountryID=\(searchObj.countryId)&TravelTypeID=\(searchObj.travelTypeId)"
+        getRequest(urlWithMethod(methodUrl), param: nil, block: block)
+    }
+    
+    func getTravelTypes(block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetTravelTypes
+        jprint("=======WS = GetTravelTypes=======")
+        getRequest(urlWithMethod("GetTravelTypes"), param: nil, block: block)
+        
+    }
+}
 
-//MARK: Webservice Inialization and Afnetworking setup
+//MARK: Offer on TravelRequest - AddOffer, ApproveOffer, DeclineOffer, CancelOffer, GetUserOffers, GetUserTravelRequestOffers
+extension Webservice {
+    
+    func addOfferOnTravelRequest(params: [String :  String], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=OfferTravelRequest&TravelRequestID=195&UserID=128&Price=12&OfferDate=07/04/2016
+        jprint("=======WS = OfferTravelRequest=======")
+        let tRequestId = params["TravelRequestID"]!; let price = params["Price"]!; let date = params["OfferDate"]!
+        getRequest(urlWithMethod("OfferTravelRequest&TravelRequestID=\(tRequestId)&UserID=\(me.Id)&Price=\(price)&OfferDate=\(date)"), param: nil, block: block)
+    }
+    
+    func cancelOffer(travelRequestID: String, userID: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=CancelOffer&TravelRequestID=195&UserID=128
+        jprint("=======WS = CancelOffer=======")
+        getRequest(urlWithMethod("CancelOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
+    }
+    
+    func acceptOffer(travelRequestID: String, userID: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=ApproveOffer&TravelRequestID=195&UserID=128
+        jprint("=======WS = ApproveOffer=======")
+        getRequest(urlWithMethod("ApproveOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
+    }
+    
+    func rejectOffer(travelRequestID: String, userID: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=DeclineOffer&TravelRequestID=195&UserID=128
+        jprint("=======WS = DeclineOffer=======")
+        getRequest(urlWithMethod("DeclineOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
+    }
+    
+}
+
+//MARK: Webservice Inialization and AFNetworking setup
 class Webservice: NSObject {
     var manager : AFHTTPSessionManager!
     lazy var downloadManager: AFURLSessionManager = AFURLSessionManager()
@@ -247,6 +317,7 @@ class Webservice: NSObject {
             print("Response ((\(relPath)): \(responseObj)")
             block(response: vResponse(rJson: responseObj), flag: response.statusCode)
         }
+        
         errBlock = { (dataTask, error, relPath, block) in
             let dat = error.userInfo["com.alamofire.serialization.response.error.data"] as? NSData
             if let errData = dat {
@@ -261,12 +332,13 @@ class Webservice: NSObject {
         super.init()
         manager.reachabilityManager.setReachabilityStatusChangeBlock { (status: AFNetworkReachabilityStatus) -> Void in
             if status == AFNetworkReachabilityStatus.NotReachable {
-                self.showAlert("No internet", message: "Your internet connection seems to be down")
+                self.showAlert("No internet".localizedString(), message: "Your_internet_connection_down".localizedString())
             } else if status == AFNetworkReachabilityStatus.ReachableViaWiFi ||
                 status == AFNetworkReachabilityStatus.ReachableViaWWAN {
                 // do nothing for now
             }
         }
+        
         manager.reachabilityManager.startMonitoring()
     }
     
@@ -284,7 +356,7 @@ class Webservice: NSObject {
     func isInternetAvailable() -> Bool {
         let bl = manager.reachabilityManager.networkReachabilityStatus != AFNetworkReachabilityStatus.NotReachable
         if bl == false {
-            self.showAlert("No internet", message: "Your internet connection seems to be down")
+            self.showAlert("No_internet".localizedString(), message: "Your_internet_connection_down".localizedString())
         }
         return bl
     }

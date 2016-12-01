@@ -39,8 +39,18 @@ var _FCMToken               = "" //Update device token from APNS
 //var _userAuth: UserAuth! = nil
 var me: User! = nil
 
-let dateFormator: NSDateFormatter = {let df = NSDateFormatter(); df.dateFormat = "dd/MM/yyyy"; return df;}()
+let dateFormator: NSDateFormatter = {
+    let df = NSDateFormatter()
+    df.dateFormat = "dd/MM/yyyy"
+    return df
+}()
 
+//let serverDateFormator: NSDateFormatter = {
+//    let df = NSDateFormatter()
+//    df.dateFormat = "dd/MM/yyyy HH:mm:ss"
+//    
+//    return df
+//}()
 
 // MARK: App Keys
 let kLoggedInUserKey            = "LoggedInUserKey"

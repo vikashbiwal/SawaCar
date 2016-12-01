@@ -10,7 +10,7 @@ import UIKit
 
 
 enum ListType {
-    case AccountType, Language, Currency, CarCompany, Color
+    case AccountType, Language, Currency, CarCompany, Color, TravelType
 }
 
 
@@ -30,6 +30,9 @@ class ListViewController: ParentVC {
     //MARK:
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
+        
         self.callAPIAndSetUI()
     }
     
@@ -62,6 +65,9 @@ class ListViewController: ParentVC {
         } else if listType == .Color {
             lblTitle.text = "Color".localizedString()
             getColors()
+        } else if listType == .TravelType {
+            lblTitle.text = "Travel Type".localizedString()
+            getTravelTypes()
         }
     }
     
@@ -289,6 +295,32 @@ extension ListViewController {
         }
     }
 
+    //Get Travel Types
+    func getTravelTypes() {
+        self.showCentralGraySpinner()
+        wsCall.getTravelTypes { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    let arr = json["Object"] as! [[String : AnyObject]]
+                    self.listItems.removeAll()
+                    for item in arr {
+                        let Id = RConverter.string(item["TravelTypeID"])
+                        let name = RConverter.string(item["Name"])
+                        let travelType = TravelType(item)
+                        let listItem = ListItem(id: Id, name: name)
+                        listItem.obj = travelType
+                        self.listItems.append(listItem)
+                    }
+                    self.filteredItems = self.listItems
+                    self.tableView.reloadData()
+                }
+            } else {
+                showToastMessage("", message: response.message!)
+            }
+            self.hideCentralGraySpinner()
+
+        }
+    }
 
 }
 

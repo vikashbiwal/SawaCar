@@ -481,7 +481,7 @@ extension AddTravelStep2VC {
             return
         }
         
-        let currencyCode =  getCurrencyForCountry(travel.locationFrom!.countryCode)
+        let currencyCode =  getCurrencyCode(forCountryCode: travel.locationFrom!.countryCode)
         if let code = currencyCode {
             // need to call api to get currency by currency code.
             wsCall.GetCurrency(code) { (response, flag) in

@@ -238,6 +238,26 @@ class TravelDateTimeCell: TVGenericeCell {
         }
     }
     
+    //Set ride date and time for ride request for passanger
+    func setDateAndTime(ForRideRequest request: TravelRequest) {
+        //Ride date
+        if let date = request.departurDate() {
+            let dateString = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            self.lblDate.text = dateString
+        } else {
+            self.lblDate.text = "Select".localizedString()
+        }
+        
+        //Ride time.
+        if let date = dateFormator.dateFromString(request.departureTime, fomat: "HH:mm:ss") {
+            self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
+            
+        } else {
+            self.lblTime.text = "Select".localizedString()
+        }
+
+    }
+    
 }
 
 //MARK: SteperCell : Used in AddTravel screen to increase/decrease value
@@ -406,8 +426,9 @@ class TblRideRequestCell: TVGenericeCell {
     @IBOutlet var lblTravelTime     : UILabel!
     @IBOutlet var lblOfferCount     : UILabel!
     @IBOutlet var lblAcceptCount    : UILabel!
-    @IBOutlet var lblDriverName     : UILabel!
-    @IBOutlet var imgvDriver        : UIImageView!
+    @IBOutlet var lblPrice          : UILabel!
+    @IBOutlet var lblRequesterName  : UILabel!
+    @IBOutlet var imgvRequester     : UIImageView!
     @IBOutlet var cardView          : UIView?  //View that contain Travel info. See MyRides screen.
     @IBOutlet var ratingView        : HCSStarRatingView!
 
@@ -416,6 +437,17 @@ class TblRideRequestCell: TVGenericeCell {
         cardView?.layer.cornerRadius = 5 * _widthRatio
         cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
         cardView?.layer.borderWidth = 2.0 
+    }
+    
+    func setInfoFor(request: TravelRequest) {
+        lblLocationFrom.text = request.fromLocation.name
+        lblLocationTo.text = request.toLocation.name
+        lblTravelDate.text = dateFormator.stringFromDate(request.departurDate()!, format: "dd MMM")
+        lblTravelTime.text = dateFormator.dateString(request.departureTime, fromFomat: "HH:mm:ss", toFromat: "hh:mm a")
+        lblOfferCount.text = request.offers.count.ToString() + " " + (request.offers.count > 1 ? "Offers" : "Offer").localizedString()
+        
+        lblRequesterName.text = request.passanger.name
+        imgvRequester.setImageWithURL(NSURL(string: request.passanger.photoURl)!, placeholderImage: _userPlaceholderImage)
     }
 }
 

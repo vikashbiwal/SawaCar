@@ -20,9 +20,6 @@
         <array key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
         </array>
-        <array key="System San Francisco Display Regular.ttf">
-            <string>.HelveticaNeueDeskInterface-Regular</string>
-        </array>
     </customFonts>
     <scenes>
         <!--LoginVC-->
@@ -457,7 +454,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="6wb-x2-h7n" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wCm-HW-PWT">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wCm-HW-PWT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -884,7 +881,7 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CcZ-bP-Q1X" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
-                                                                                <rect key="frame" x="235" y="95.5" width="33" height="17.5"/>
+                                                                                <rect key="frame" x="235.5" y="95.5" width="33" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                                                                 <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
@@ -1443,7 +1440,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7IY-gd-1MC" customClass="JPWidthLabel" customModule="SawACar" customModuleProvider="target">
-                                        <rect key="frame" x="122.5" y="32" width="130" height="20"/>
+                                        <rect key="frame" x="123.5" y="32" width="130" height="20"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1941,113 +1938,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1z-oL-7pg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="383" y="296"/>
-        </scene>
-        <!--Date PickerVC-->
-        <scene sceneID="fTR-qR-O5D">
-            <objects>
-                <viewController storyboardIdentifier="SBID_DatePickerVC" id="Rb0-qy-IBg" customClass="VDatePickerVC" customModule="SawACar" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CJ6-zq-iOu"/>
-                        <viewControllerLayoutGuide type="bottom" id="jQh-P1-lrt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="TIA-u0-28e">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="img_bg1" translatesAutoresizingMaskIntoConstraints="NO" id="tCr-iJ-bwa">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OlB-tH-1ph">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UU1-ij-TPW">
-                                        <rect key="frame" x="0.0" y="411" width="375" height="256"/>
-                                        <subviews>
-                                            <datePicker clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZWt-dR-l61">
-                                                <rect key="frame" x="0.0" y="40" width="375" height="216"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="216" id="zv9-hw-jme"/>
-                                                </constraints>
-                                                <date key="date" timeIntervalSinceReferenceDate="483258406.06945503">
-                                                    <!--2016-04-25 06:26:46 +0000-->
-                                                </date>
-                                            </datePicker>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhe-A5-CGa" customClass="JPWidthButton" customModule="SawACar" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="82" height="40"/>
-                                                <fontDescription key="fontDescription" name=".HelveticaNeueDeskInterface-Regular" family="SFNS Display" pointSize="17"/>
-                                                <state key="normal" title="Cancel">
-                                                    <color key="titleColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnCancel:" destination="Rb0-qy-IBg" eventType="touchUpInside" id="fFy-yo-Adk"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QaZ-a5-78V" customClass="JPWidthButton" customModule="SawACar" customModuleProvider="target">
-                                                <rect key="frame" x="298" y="0.0" width="77" height="40"/>
-                                                <fontDescription key="fontDescription" name=".HelveticaNeueDeskInterface-Regular" family="SFNS Display" pointSize="17"/>
-                                                <state key="normal" title="Done">
-                                                    <color key="titleColor" red="0.094117647060000004" green="0.47058823529999999" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnDone:" destination="Rb0-qy-IBg" eventType="touchUpInside" id="CZc-Ez-4s8"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="ZWt-dR-l61" secondAttribute="trailing" id="7ah-Ld-um3"/>
-                                            <constraint firstItem="ZWt-dR-l61" firstAttribute="leading" secondItem="UU1-ij-TPW" secondAttribute="leading" id="7j0-N1-L86"/>
-                                            <constraint firstAttribute="height" constant="256" id="9m0-2I-Bkg"/>
-                                            <constraint firstItem="QaZ-a5-78V" firstAttribute="width" secondItem="UU1-ij-TPW" secondAttribute="width" multiplier="0.218" constant="-4.7600000000000051" id="9pR-Pv-6Ib"/>
-                                            <constraint firstItem="ZWt-dR-l61" firstAttribute="top" secondItem="mhe-A5-CGa" secondAttribute="bottom" id="GQa-Fw-4on"/>
-                                            <constraint firstItem="QaZ-a5-78V" firstAttribute="top" secondItem="UU1-ij-TPW" secondAttribute="top" id="IAf-hr-GMg"/>
-                                            <constraint firstItem="mhe-A5-CGa" firstAttribute="width" secondItem="UU1-ij-TPW" secondAttribute="width" multiplier="0.218" id="KTf-q4-WQL"/>
-                                            <constraint firstItem="ZWt-dR-l61" firstAttribute="top" secondItem="QaZ-a5-78V" secondAttribute="bottom" id="ZdP-a4-nN2"/>
-                                            <constraint firstItem="mhe-A5-CGa" firstAttribute="leading" secondItem="UU1-ij-TPW" secondAttribute="leading" id="j2a-1m-1CC"/>
-                                            <constraint firstAttribute="bottom" secondItem="ZWt-dR-l61" secondAttribute="bottom" id="kNb-L2-b33"/>
-                                            <constraint firstItem="mhe-A5-CGa" firstAttribute="top" secondItem="UU1-ij-TPW" secondAttribute="top" id="ksf-Zk-pYq"/>
-                                            <constraint firstAttribute="trailing" secondItem="QaZ-a5-78V" secondAttribute="trailing" id="zBI-eD-yNc"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="UU1-ij-TPW" secondAttribute="bottom" id="YxH-I7-xC3"/>
-                                    <constraint firstAttribute="trailing" secondItem="UU1-ij-TPW" secondAttribute="trailing" id="aFU-r1-NAm"/>
-                                    <constraint firstItem="UU1-ij-TPW" firstAttribute="leading" secondItem="OlB-tH-1ph" secondAttribute="leading" id="yRH-gw-89C"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="MKi-fr-vip" appends="YES" id="aZe-cF-Vn6"/>
-                                </connections>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.34999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="OlB-tH-1ph" secondAttribute="trailing" id="2UD-bC-oGo"/>
-                            <constraint firstAttribute="bottom" secondItem="OlB-tH-1ph" secondAttribute="bottom" id="72q-Kh-mWa"/>
-                            <constraint firstItem="OlB-tH-1ph" firstAttribute="leading" secondItem="TIA-u0-28e" secondAttribute="leading" id="gao-ox-2Xm"/>
-                            <constraint firstItem="OlB-tH-1ph" firstAttribute="top" secondItem="TIA-u0-28e" secondAttribute="top" id="uSf-1H-9Ci"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="0K1-g5-k5N"/>
-                    <connections>
-                        <outlet property="datePicker" destination="ZWt-dR-l61" id="LVn-yp-VCi"/>
-                        <outlet property="datePickerBottomSpace" destination="YxH-I7-xC3" id="dln-2q-fAx"/>
-                        <outletCollection property="horizontalConstraints" destination="9m0-2I-Bkg" collectionClass="NSMutableArray" id="XxU-n8-cYa"/>
-                        <outletCollection property="horizontalConstraints" destination="zv9-hw-jme" collectionClass="NSMutableArray" id="l7y-qu-BWA"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AqE-Tc-nTW" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="MKi-fr-vip">
-                    <connections>
-                        <action selector="btnCancel:" destination="Rb0-qy-IBg" id="6Uf-jH-LrC"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="457" y="1835"/>
         </scene>
     </scenes>
     <resources>

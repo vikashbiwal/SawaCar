@@ -16,6 +16,7 @@ class VPickerView: ConstrainedView, UIPickerViewDelegate, UIPickerViewDataSource
     var selectedItem: (value: String, idx: Int)?
     
     var Items = [String]()
+   
     override func awakeFromNib() {
         self.frame = CGRect(x: 0, y: 0, width: _screenSize.width, height: _screenSize.height)
         pickerViewBottomSpace.constant = -(260 * _widthRatio)

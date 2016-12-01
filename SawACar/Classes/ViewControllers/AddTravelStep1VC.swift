@@ -10,19 +10,16 @@ import UIKit
 
 class AddTravelStep1VC: ParentVC {
 
-    //MARK: DatePicker Outlets
-    @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet var datePickerBottomConstraint : NSLayoutConstraint!
-    @IBOutlet var datePickerView: UIView!
-    @IBOutlet var datePicker: UIDatePicker!
  
     var isLoading = false
     var travel: Travel!
     var dateSelectedForIndex = 0
     
+    var datePickerView: VDatePickerView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.loadDatePickerView()
       }
 
     override func didReceiveMemoryWarning() {
@@ -125,7 +122,24 @@ extension AddTravelStep1VC {
     
     @IBAction func travelDateTimeBtnClicked(sender: UIButton) {
         dateSelectedForIndex = sender.tag
-        showDatePickerView()
+        var type : DatePickerForType
+        
+        switch sender.tag {
+        case 1:
+            type = .RegularTravelDate
+        case 2:
+            type = .RoundTravelDate
+        case 3:
+            type = .RoundTravelTime
+        case 4:
+            type = .DepartureDate
+        case 5:
+            type = .DepartureTime
+        default:
+            type = .Date
+        }
+        
+        showDatePickerView(forType: type)
     }
     
     @IBAction func repeatTypeBtnClicked(sender: UIButton) {
@@ -233,88 +247,72 @@ extension AddTravelStep1VC {
 
 //MARK: DatePicker Methods
 extension AddTravelStep1VC {
-    func showDatePickerView() {
-        if [1, 2, 4].contains(dateSelectedForIndex) {//Repeat End date, Departure, Ride Date
-            datePicker.minimumDate = NSDate()
-            datePicker.datePickerMode = UIDatePickerMode.Date
-        }  else if dateSelectedForIndex == 3 {//Departure Time
-            datePicker.datePickerMode = UIDatePickerMode.Time
-        }  else if dateSelectedForIndex == 5 {//Ride Time
-            datePicker.datePickerMode = UIDatePickerMode.Time
+   
+    //load picker view from nib file
+    func loadDatePickerView() {
+        let nibViews = NSBundle.mainBundle().loadNibNamed("VDatePickerView", owner: nil, options: nil)!
+        self.datePickerView = nibViews[0] as! VDatePickerView
+        self.datePickerSelectionBlockSetup()
+        self.view.addSubview(datePickerView)
+    }
+
+    func showDatePickerView(forType type: DatePickerForType) {
+        print(dateSelectedForIndex)
+        //if [1, 2, 4].contains(dateSelectedForIndex)
+        if [DatePickerForType.DepartureDate, DatePickerForType.RegularTravelDate, DatePickerForType.RoundTravelDate].contains(type) {
+            datePickerView.minDate = NSDate()
+            datePickerView.dateMode = UIDatePickerMode.Date
+            
+        }  else if [DatePickerForType.DepartureTime, DatePickerForType.RoundTravelTime].contains(type) {//Departure Time
+            datePickerView.dateMode = UIDatePickerMode.Time
+            
         }
         
-        self.datePickerViewTopConstraint.constant = 0
-        self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
-        self.datePickerBottomConstraint.constant = -240 * _widthRatio
-
-        self.view.layoutIfNeeded()
-        UIView.animateWithDuration(0.3, animations: {
-            self.datePickerView.alpha = 1
-            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-            self.datePickerBottomConstraint.constant = 10 * _widthRatio
-            self.view.layoutIfNeeded()
-            }) { (res) in
-        }
+        datePickerView.datePickerForType = type
+        datePickerView.show()
     }
     
-    func hideDatePickerView() {
-        UIView.animateWithDuration(0.3, animations: {
-            self.datePickerBottomConstraint.constant = -240 * _widthRatio
-            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
-            self.view.layoutIfNeeded()
-        }) { (res) in
-            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
-            self.view.layoutIfNeeded()
+    //func for setup datePicker date selection callback block
+    func datePickerSelectionBlockSetup() {
+        datePickerView.dateSelectionBlock = {[weak self](dt, forType) in
+            if let selff = self {
+                if forType == .RegularTravelDate {//Repeat End date
+                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
+                    cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                    selff.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+                    
+                } else if forType == .RoundTravelDate {//Departure Date
+                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0)) as? TravelDateTimeCell
+                    cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                    selff.travel.roundDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+                    
+                } else if forType == .RoundTravelTime {//Departure Time
+                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0)) as? TravelDateTimeCell
+                    let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
+                    let timeArr = timeString.componentsSeparatedByString(":")
+                    
+                    cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
+                    selff.travel.roundHour = timeArr[0]
+                    selff.travel.roundMinute = timeArr[1]
+                    
+                } else if forType == .DepartureDate {//Ride Date
+                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
+                    cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                    selff.travel.departureDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
+                    
+                } else if forType == .DepartureTime {//Ride Time
+                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
+                    let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
+                    let timeArr = timeString.componentsSeparatedByString(":")
+                    
+                    cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
+                    selff.travel.departureHour = timeArr[0]
+                    selff.travel.departureMinute = timeArr[1]
+                    
+                }
+            }
         }
     }
 
-    @IBAction func datePickerDoneBtnClicked(sender: UIButton) {
-        didSelectDate(dateSelectedForIndex)
-        hideDatePickerView()
-    }
-    
-    @IBAction func datePickerCancelBtnClicked(sender: UIButton) {
-        hideDatePickerView()
-    }
-
-    //datePicker did completed selection
-    func didSelectDate(type: Int) {
-        let dt = datePicker.date
-        if type == 1 {//Repeat End date
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-            cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-            self.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
-            
-        } else if type == 2 {//Departure Date
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0)) as? TravelDateTimeCell
-            cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-            self.travel.roundDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
-            
-        } else if type == 3 {//Departure Time
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0)) as? TravelDateTimeCell
-            let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
-            let timeArr = timeString.componentsSeparatedByString(":")
-            
-            cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
-            self.travel.roundHour = timeArr[0]
-            self.travel.roundMinute = timeArr[1]
-            
-        } else if type == 4 {//Ride Date
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
-            cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
-            self.travel.departureDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
-            
-        } else if type == 5 {//Ride Time
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
-            let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
-            let timeArr = timeString.componentsSeparatedByString(":")
-            
-            cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
-            self.travel.departureHour = timeArr[0]
-            self.travel.departureMinute = timeArr[1]
-            
-        }
-    }
-    
 }
 

@@ -231,8 +231,8 @@ enum VAction {
 
 //============================= Functions ===================================
 
-func getCurrencyForCountry(countryCode: String)-> String? {
-    let components = [NSLocaleCountryCode : countryCode]
+func getCurrencyCode(forCountryCode code: String)-> String? {
+    let components = [NSLocaleCountryCode : code]
     let localeIdent = NSLocale.localeIdentifierFromComponents(components)
     let locale = NSLocale(localeIdentifier: localeIdent)
     let currencyCode = locale.objectForKey(NSLocaleCurrencyCode) as? String

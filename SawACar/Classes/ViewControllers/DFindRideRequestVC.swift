@@ -53,46 +53,56 @@ class DFindRideRequestVC: ParentVC {
 //MARK: IBActions
 extension DFindRideRequestVC {
     @IBAction func countryBtnDidClicked(sender: UIButton) {
-        openCountryList()
+        navigationToCountryList()
     }
     
     @IBAction func travelTypeBtnDidClicked(sender: UIButton) {
-        
+        navigationToTravelTypeList()
     }
     
     @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
-        if self.validateLoction() {
-            self.performSegueWithIdentifier("FindRequestToResultVC", sender: nil)
+        self.performSegueWithIdentifier("FindRequestToResultVC", sender: nil)
+    }
+    
+    
+}
+
+//MARK: Navigation
+extension DFindRideRequestVC {
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "FindRequestToResultVC" {
+            let nextVC = segue.destinationViewController as! DRideRequestsListVC
+            nextVC.requestSearchObj = rideRequestObj
         }
     }
     
+    //Navigate to country list screen
+    func navigationToCountryList()  {
+        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
+        cListVC.selectedCountryId = rideRequestObj.countryId
+        cListVC.titleString = "Countries".localizedString()
+        cListVC.completionBlock = {(country) in
+            self.txtCountry.text = country.name
+            self.rideRequestObj.countryId = country.Id
+        }
+        self.navigationController?.pushViewController(cListVC, animated: true)
+    }
     
-}
-
-
-extension DFindRideRequestVC {
-
-func openCountryList()  {
-    let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
-    cListVC.selectedCountryId = rideRequestObj.countryId
-    cListVC.titleString = "nationality".localizedString()
-    cListVC.completionBlock = {(country) in
-        self.txtCountry.text = country.name
-        self.rideRequestObj.countryId = country.Id
+    //Navigate to travel list screen for selecting travel type
+    func navigationToTravelTypeList() {
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.TravelType
+        cListVC.preSelectedIDs = [rideRequestObj.travelTypeId]
+        
+        cListVC.completionBlock = {(items) in
+            if let item = items.first {
+                let tType = item.obj as! TravelType
+                self.rideRequestObj.travelTypeId = tType.Id
+                self.txtTravelType.text = tType.name
+            }
+        }
+        self.navigationController?.pushViewController(cListVC, animated: true)
     }
-    self.navigationController?.pushViewController(cListVC, animated: true)
-}
-
-    //Fuction valiation
-    func validateLoction()-> Bool {
-//        guard let _ = travel.locationFrom else {
-//            showToastErrorMessage("", message: kFromLocationRequired)
-//            return false
-//        }
-//        guard let _ = travel.locationTo else {
-//            showToastErrorMessage("", message: kToLocationRequired)
-//            return false
-//        }
-        return true
-    }
+    
 }

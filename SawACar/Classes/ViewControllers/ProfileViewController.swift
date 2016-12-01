@@ -19,11 +19,8 @@ class ProfileViewController: ParentVC {
     @IBOutlet var lblBirthDate: UILabel!
     @IBOutlet var btnShutter: UIButton!
     
-    //MARK: DatePicker Outlets
-    @IBOutlet var datePickerViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet var datePickerBottomConstraint : NSLayoutConstraint!
-    @IBOutlet var datePickerView: UIView!
-    @IBOutlet var datePicker: UIDatePicker!
+    var datePickerView: VDatePickerView!
+
     var selectedIndexPath: NSIndexPath?
     
     var user : User!
@@ -48,6 +45,8 @@ class ProfileViewController: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.loadDatePickerView()
+        
         user = me.copy() as! User
         selectedMenu = Menus[0]
         changeMenuItems(selectedMenu)
@@ -58,8 +57,8 @@ class ProfileViewController: ParentVC {
 
     override func viewWillAppear(animated: Bool) {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     
@@ -758,45 +757,29 @@ extension ProfileViewController {
 
 //MARK: DatePicker Methods
 extension ProfileViewController {
+    //load picker view from nib file
+    func loadDatePickerView() {
+        let nibViews = NSBundle.mainBundle().loadNibNamed("VDatePickerView", owner: nil, options: nil)!
+        self.datePickerView = nibViews[0] as! VDatePickerView
+        self.datePickerSelectionBlockSetup()
+        self.view.addSubview(datePickerView)
+    }
+
     func showDatePickerView() {
         let dateBefor16Years = NSDate().dateByAddingYearOffset(-16) //Validation for user should be 16 years old.
-        datePicker.maximumDate = dateBefor16Years
-        self.datePickerViewTopConstraint.constant = 0
-        self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
-        self.datePickerBottomConstraint.constant = -240 * _widthRatio
-        self.view.layoutIfNeeded()
-        UIView.animateWithDuration(0.4  , animations: {
-            self.datePickerView.alpha = 1
-            self.tableView.contentOffset = CGPoint(x: 0, y: 240)
-            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-            self.datePickerBottomConstraint.constant = 10 * _widthRatio
-            self.view.layoutIfNeeded()
-        }) { (res) in
+        datePickerView.maxDate = dateBefor16Years
+        datePickerView.show()
+    }
+    
+    //func for setup datePicker date selection callback block
+    func datePickerSelectionBlockSetup() {
+        datePickerView.dateSelectionBlock = {[weak self](date, forType) in
+            if let selff = self {
+                selff.user.birthDate = selff.dateFomator.stringFromDate(date)
+                let cell = selff.tableView.cellForRowAtIndexPath(selff.selectedIndexPath!) as? TVSignUpFormCell
+                cell?.txtField.text =  selff.user.birthDate
+            }
         }
-    }
-    
-    func hideDatePickerView() {
-        UIView.animateWithDuration(0.3, animations: {
-            self.datePickerBottomConstraint.constant = -240 * _widthRatio
-            self.datePickerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
-            self.view.layoutIfNeeded()
-        }) { (res) in
-            self.datePickerViewTopConstraint.constant = ScreenSize.SCREEN_HEIGHT
-            self.view.layoutIfNeeded()
-        }
-
-    }
-    
-    @IBAction func datePickerDoneBtnClicked(sender: UIButton) {
-        let dt = datePicker.date
-        self.user.birthDate = self.dateFomator.stringFromDate(dt)
-        let cell = self.tableView.cellForRowAtIndexPath(selectedIndexPath!) as? TVSignUpFormCell
-        cell?.txtField.text =  self.user.birthDate
-        hideDatePickerView()
-    }
-    
-    @IBAction func datePickerCancelBtnClicked(sender: UIButton) {
-        hideDatePickerView()
     }
     
 }

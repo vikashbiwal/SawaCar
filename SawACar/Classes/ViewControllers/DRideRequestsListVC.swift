@@ -10,12 +10,14 @@ import UIKit
 
 class DRideRequestsListVC: ParentVC {
 
+    var requestSearchObj: RideRequestSearchObject!
     var rideRequests = [TravelRequest]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+        //searchRideRequestAPICall()
+        getTravelRequestDetailAPICall()
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +81,46 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        let ride = rideRequests[indexPath.row]
-        self.performSegueWithIdentifier("RideRequestDetailSegue", sender: nil)
+        //self.performSegueWithIdentifier("RideRequestDetailSegue", sender: ride)
     }
+}
+
+//MARK: Navigation
+extension DRideRequestsListVC {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "RideRequestDetailSegue" {
+            let detailVc = segue.destinationViewController as! DRideRequestDetailVC
+            detailVc.travelRequest = sender as! TravelRequest
+        }
+    }
+}
+
+//MARK: API Calls
+extension DRideRequestsListVC {
+   
+    func searchRideRequestAPICall() {
+        
+        wsCall.searchTravelRequests(requestSearchObj) { (response, flag) in
+            
+        }
+        
+    }
+    
+    
+    func getTravelRequestDetailAPICall() {
+        TravelRequest.getTravelRequestDetailAPICall("196") { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    if let trObject = json["Object"] as? [String : AnyObject] {
+                        //self.travelRequest.reset(withInfo: trObject)
+                        let travelRequest = TravelRequest(trObject)
+                        self.performSegueWithIdentifier("RideRequestDetailSegue", sender: travelRequest)
+                    }
+                }
+            } else {
+                
+            }
+        }
+    }
+
 }
