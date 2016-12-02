@@ -97,6 +97,7 @@
 		6943B9181DEED88600A9110D /* MyTravelRequestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943B9171DEED88600A9110D /* MyTravelRequestsVC.swift */; };
 		6943B91A1DEF055600A9110D /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943B9191DEF055600A9110D /* Comment.swift */; };
 		6951C1771DF03504006C99E6 /* FindARideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6951C1761DF03504006C99E6 /* FindARideVC.swift */; };
+		695735051DF179CC000E1ACA /* FindRideResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695735041DF179CC000E1ACA /* FindRideResultVC.swift */; };
 		695A75341DD0550000B9C871 /* DFindRideRequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */; };
 		695A75361DD062AD00B9C871 /* DRideRequestsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */; };
 		695A75381DD064ED00B9C871 /* TravelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75371DD064ED00B9C871 /* TravelRequest.swift */; };
@@ -212,6 +213,7 @@
 		6943B9171DEED88600A9110D /* MyTravelRequestsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTravelRequestsVC.swift; sourceTree = "<group>"; };
 		6943B9191DEF055600A9110D /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		6951C1761DF03504006C99E6 /* FindARideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindARideVC.swift; sourceTree = "<group>"; };
+		695735041DF179CC000E1ACA /* FindRideResultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindRideResultVC.swift; sourceTree = "<group>"; };
 		695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFindRideRequestVC.swift; sourceTree = "<group>"; };
 		695A75351DD062AD00B9C871 /* DRideRequestsListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRideRequestsListVC.swift; sourceTree = "<group>"; };
 		695A75371DD064ED00B9C871 /* TravelRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelRequest.swift; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 			isa = PBXGroup;
 			children = (
 				6951C1761DF03504006C99E6 /* FindARideVC.swift */,
+				695735041DF179CC000E1ACA /* FindRideResultVC.swift */,
 			);
 			name = FindARide;
 			sourceTree = "<group>";
@@ -878,6 +881,7 @@
 				036A896E1CBB7E2700DFB631 /* AppDelegate.swift in Sources */,
 				036F29321CBBD19200931121 /* General.swift in Sources */,
 				696064911DEC33B4003A49A8 /* ShareView.swift in Sources */,
+				695735051DF179CC000E1ACA /* FindRideResultVC.swift in Sources */,
 				034826C11CFC3155000B46AE /* LocalizedApplication.swift in Sources */,
 				03F65D451CBBDE8700C44B5A /* ObjcHelper.m in Sources */,
 				03E7E6AC1CBD14A500DB7723 /* ParentVC.swift in Sources */,

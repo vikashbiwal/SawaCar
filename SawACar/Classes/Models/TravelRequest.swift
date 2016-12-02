@@ -15,8 +15,8 @@ class TravelRequest {
     var fromLocation:        GLocation!
     var toLocation :         GLocation!
     var departureDateString: String! = ""
-    var departureHour:       String! = ""
-    var departureMinute:     String! = ""
+    var departureHour:       String! = "00"
+    var departureMinute:     String! = "00"
     var suggestedPrice :     Int = 0
     var status :             Int = 0
     
@@ -30,7 +30,12 @@ class TravelRequest {
     var departureTime : String { return self.departureHour + ":" + self.departureMinute + ":00"}
     
     func departurDate()-> NSDate? {
-        return dateFormator.dateFromString(self.departureDateString, fomat: "dd/MM/yyyy hh:mm:ss")
+        guard !departureDateString.isEmpty else {
+            return nil
+        } 
+        let  departureDate = departureDateString.substringToIndex(departureDateString.startIndex.advancedBy(10))
+        let departureDateTime = departureDate + " " + departureTime
+        return dateFormator.dateFromString(departureDateTime, fomat: "dd/MM/yyyy HH:mm:ss")
     }
 
     init() {
@@ -48,7 +53,7 @@ class TravelRequest {
         toLocation          = GLocation(info["LocationTo"] as! [String : AnyObject])
         passanger           = Passanger(travelRequester: info)
         currency            = Currency( info)
-       
+       travelType           = TravelType(info)
         if let jsonOffers = info["Offers"] as? [[String : AnyObject]] {
             for jOffer in jsonOffers {
                 let offer = TravelRequestOffer(jOffer)
@@ -71,6 +76,7 @@ class TravelRequest {
         
         //offers
         if let jsonOffers = info["Offers"] as? [[String : AnyObject]] {
+            offers.removeAll()
             for jOffer in jsonOffers {
                 let offer = TravelRequestOffer(jOffer)
                 self.offers.append(offer)
@@ -88,24 +94,26 @@ extension TravelRequest {
         wsCall.getTravelRequest(id, block: block)
     }
     
-    //Add travel request api call
+    //Add travel request api call.
     func addTravelRequestAPICall(block: WSBlock) {
         let params = self.parametersForAddTravelRequestAPI()
         wsCall.addTravelRequest(params, block: block)
     }
     
+    //Update travel request api call.
     func updateTravelRequestAPICall(block: WSBlock) {
-        
+        let params = self.parametersForUpdateTravelRequestAPI()
+        wsCall.updateTravelRequest(params, block: block)
     }
     
     
-    //Add an offer (by the driver)
+    //Add an offer on the travel request (by the driver).
     func addOffer(travelRequestID: String, price: String, date: String, block: WSBlock) {
         let params = ["TravelRequestID" : travelRequestID, "Price": price, "OfferDate": date]
         wsCall.addOfferOnTravelRequest(params, block: block)
     }
 
-    //func return json paramters for add travel request API.
+    //json paramters for add travel request API.
     func parametersForAddTravelRequestAPI() -> [String : AnyObject] {
         var params : [String : AnyObject]
         params = ["RequesterID"     : me.Id,
@@ -131,6 +139,23 @@ extension TravelRequest {
         return params
     }
     
+    //json parameters for update request API.
+    func parametersForUpdateTravelRequestAPI() -> [String : AnyObject] {
+        var params : [String : AnyObject]
+        params = ["RequesterID"     : me.Id,
+                  "TravelTypeID"    : self.travelType.Id,
+                  "CurrencyID"      : self.currency!.Id,
+                  "Price"           : self.suggestedPrice.ToString(),
+                  "DepartureDate"   : dateFormator.stringFromDate(departurDate()!, format: "dd/MM/yyyy"),
+                  "DepartureHour"   : self.departureHour,
+                  "DepartureMinute" : self.departureMinute,
+                  "TravelOrderID"   : self.id,
+                  "Privacy"         : 1]
+        
+        
+        return params
+    }
+
 }
 
 extension TravelRequest {
@@ -139,7 +164,7 @@ extension TravelRequest {
         guard let _ =  departurDate() else {
             return (false, "RideDateRequired".localizedString())
         }
-        guard !departureHour.isEmpty else {
+        guard departureTime != "00:00:00" else {
             return (false, "RideTimeRequired".localizedString())
         }
         guard let _ = currency else {

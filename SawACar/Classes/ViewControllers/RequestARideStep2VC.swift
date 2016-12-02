@@ -16,6 +16,12 @@ class RequestARideStep2VC: ParentVC {
     
     var tRequest : TravelRequest!
     var sectionRows = [2, 1, 3, 2] //number of rows in tableview sections
+    var isEditRequestMode = false
+    
+    let kSectionForLocation = 0
+    let kSectionForDateTime = 1
+    let kSectionForCurrencyPrice = 2
+    let kSectionForPublish  = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +66,7 @@ extension RequestARideStep2VC {
     @IBAction func publishRequestBtnClicked(sender: UIButton) {
         let process = tRequest.validateAddRequestProcess()
         if process.isSucss {
-            self.addTravelRequestAPICall()
+            isEditRequestMode ? self.updateTravelRequestApiCall() : self.addTravelRequestAPICall()
         } else {
             showToastErrorMessage("", message: process.message)
         }
@@ -87,7 +93,7 @@ extension RequestARideStep2VC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return  [0,1].contains(section) ? 40 : 0
+        return  [kSectionForLocation,kSectionForDateTime].contains(section) ? 40 : 0
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -95,11 +101,11 @@ extension RequestARideStep2VC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+        if indexPath.section == kSectionForLocation {
             return 45 * _widthRatio
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == kSectionForDateTime {
             return 80 * _widthRatio
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == kSectionForCurrencyPrice {
             return 52 * _widthRatio
         } else {
             return indexPath.row == 0 ? 50 * _widthRatio : 55 * _widthRatio
@@ -107,7 +113,7 @@ extension RequestARideStep2VC : UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if [0,1].contains(section) {
+        if [kSectionForLocation,kSectionForDateTime].contains(section) {
             let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
             cell.lblTitle.text = section == 0 ? "Start and End point".localizedString() : "Details".localizedString()
             return cell.contentView
@@ -125,18 +131,18 @@ extension RequestARideStep2VC : UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == kSectionForLocation {
             let location = indexPath.row == 0 ? tRequest.fromLocation : tRequest.toLocation
             let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
             cell.lblTitle.text = location.name
             return cell
             
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == kSectionForDateTime {
             let cell = tableView.dequeueReusableCellWithIdentifier("rideDateTimeCell") as! TravelDateTimeCell
             cell.setDateAndTime(ForRideRequest: tRequest)
             return cell
             
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == kSectionForCurrencyPrice {
             let cell = tableView.dequeueReusableCellWithIdentifier("listActionCell") as! TVGenericeCell
             cell.button?.tag = indexPath.row
             if indexPath.row == 0 {
@@ -172,6 +178,8 @@ extension RequestARideStep2VC : UITableViewDataSource, UITableViewDelegate {
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("buttonCell") as! TVGenericeCell
+                let titleText = (isEditRequestMode ? "update" : "PUBLISH").localizedString().uppercaseString
+                cell.button?.setTitle(titleText, forState: .Normal)
                 return cell
             }
         }
@@ -278,12 +286,11 @@ extension RequestARideStep2VC {
         if forType == .DepartureDate {
             datePickerView.dateMode = .Date
             datePickerView.minDate = NSDate()
-            
         } else if forType == .DepartureTime {
             datePickerView.dateMode = .Time
             datePickerView.minDate = NSDate()
         }
-        
+        datePickerView.currentDate = tRequest.departurDate()
         datePickerView.datePickerForType = forType
         datePickerView.show()
     }
@@ -344,15 +351,45 @@ extension RequestARideStep2VC {
 //MARK: API Calls
 extension RequestARideStep2VC {
     
+    //Add travel api calls
     func addTravelRequestAPICall() {
         self.showCentralGraySpinner()
        
         tRequest.addTravelRequestAPICall { [weak self] (response, flag) in
-            if let selff = self {
-                selff.shareView.showInView(selff.view)
-                selff.hideCentralGraySpinner()
-
+            if response.isSuccess {
+                if let selff = self {
+                    selff.shareView.showInView(selff.view)
+                    
+                }
+                
+            } else {
+                //error
+                showToastErrorMessage("", message: response.message!)
             }
+            self?.hideCentralGraySpinner()
+        }
+    }
+    
+    //Update travel request api calls
+    func updateTravelRequestApiCall() {
+        self.showCentralGraySpinner()
+        tRequest.updateTravelRequestAPICall { [weak self] (response, flag) in
+            if response.isSuccess {
+                if let selff = self {
+                    if let json = response.json {
+                        if let object = json["Object"] as? [String : AnyObject] {
+                            selff.tRequest.reset(withInfo: object)
+                            showToastMessage("", message: "UpdateRequestSuccess".localizedString())
+                            selff.navigationController?.popViewControllerAnimated(true)
+                        }
+                    }
+                }
+            } else {
+                //error
+                showToastErrorMessage("", message: response.message!)
+            }
+            self?.hideCentralGraySpinner()
+            
         }
     }
 }

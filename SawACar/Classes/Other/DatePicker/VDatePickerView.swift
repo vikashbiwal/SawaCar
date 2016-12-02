@@ -26,6 +26,7 @@ class VDatePickerView: ConstrainedView {
     var dateMode: UIDatePickerMode = UIDatePickerMode.Date
     var minDate: NSDate?
     var maxDate: NSDate?
+    var currentDate: NSDate?
     
     var datePickerForType: DatePickerForType = .Date
     
@@ -40,7 +41,9 @@ class VDatePickerView: ConstrainedView {
         datePicker.datePickerMode = dateMode
         datePicker.minimumDate = minDate
         datePicker.maximumDate = maxDate
-        
+        if let currentDate = currentDate {
+            datePicker.date = currentDate
+        }
         self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
         self.datePickerBottomConstraint.constant = -240 * _widthRatio
         

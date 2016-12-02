@@ -241,6 +241,14 @@ extension Webservice {
         postRequest(urlWithMethod("AddTravelRequest"), param:params, block: block)
     }
     
+    func updateTravelRequest(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateTravelRequest
+        //Parameters: TravelOrderID, TravelTypeID, CurrencyID, Price
+        //DepartureDate, DepartureHour, DepartureMinute, Privacy
+        jprint("=======WS = UpdateTravelRequest=======")
+        postRequest(urlWithMethod("UpdateTravelRequest"), param:params, block: block)
+    }
+
     func getTravelRequest(id: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetTravelRequest&TravelRequestID=196
         jprint("=======WS = GetTravelRequest=======")
@@ -250,7 +258,7 @@ extension Webservice {
     func getUserTravelRequests(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequests&UserID=153
         jprint("=======WS = GetUserTravelRequests=======")
-        getRequest(urlWithMethod("GetUserTravelRequests&UserID=\(153)"), param: nil, block: block)
+        getRequest(urlWithMethod("GetUserTravelRequests&UserID=\(me.Id)"), param: nil, block: block)
     }
     
     func searchTravelRequests(searchObj: RideRequestSearchObject, block: WSBlock) {
@@ -412,7 +420,9 @@ class Webservice: NSObject {
 
 //MARK: Create WS url with api name
 func urlWithMethod(method: String) -> String {
-    let url = kWSBaseUrl + "?Method=" + method
+    let characterSet = NSCharacterSet.URLPathAllowedCharacterSet()
+    let query = method.stringByAddingPercentEncodingWithAllowedCharacters(characterSet)!
+    let url = kWSBaseUrl + "?Method=" + query
     jprint("Requested url -" + url)
     return url
 }

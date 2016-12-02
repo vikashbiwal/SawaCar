@@ -85,20 +85,7 @@ extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
         let index = forArchivedRides ? indexPath.row : indexPath.row - 1
         let cell = tableView.dequeueReusableCellWithIdentifier("travelCell") as! TVTravelCell
         let ride = myRides[index]
-       
-        cell.lblTravelDate.text = dateFormator.dateString(ride.departureDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd MMM")//ride.departureDate
-        cell.lblTravelTime.text = dateFormator.dateString(ride.departureTime, fromFomat: "HH:mm", toFromat: "hh:mm a")
-       
-        cell.lblCarName.text      = ride.car?.name
-        cell.lblLocationFrom.text = ride.locationFrom?.name
-        cell.lblLocationTo.text   = ride.locationTo?.name
-        cell.lblSeatNumber.text   = ride.travelSeat.value.ToString() + " " + "Seats".localizedString()
-        cell.lblSeatsLeft.text    = ride.seatLeft.ToString() + " " + "Left".localizedString()
-        cell.lblDriverName.text   = ride.driver.name
-        cell.lblCarPrice.text     = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
-        cell.ratingView.value     = CGFloat(ride.driver.rating)
-        
-        cell.imgvDriver.setImageWithURL(NSURL(string: ride.driver.photoURl)!, placeholderImage: _userPlaceholderImage)
+        cell.setRideInfo(ride)
         return cell
     }
     

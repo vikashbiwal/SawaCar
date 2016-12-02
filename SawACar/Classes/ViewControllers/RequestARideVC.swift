@@ -59,11 +59,11 @@ class RequestARideVC: ParentVC {
 //MARK: IBActions
 extension RequestARideVC {
     @IBAction func fromBtnDidClicked(sender: UIButton) {
-        goForPickLocation(.From)
+        navigateToLocationPicker(.From)
     }
     
     @IBAction func toBtnDidClicked(sender: UIButton) {
-        goForPickLocation(.To)
+        navigateToLocationPicker(.To)
     }
     
     @IBAction func goNextBtnClicked(sender: UIButton) {
@@ -73,12 +73,15 @@ extension RequestARideVC {
         }
     } 
     
+    @IBAction func searchRideBtnClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("toFindARideVCSegue", sender: nil)
+    }
     
 }
 
 //MARK: Others
 extension RequestARideVC {
-    func goForPickLocation(type: LocationSelectionForType)  {
+    func navigateToLocationPicker(type: LocationSelectionForType)  {
         let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
         loctionPicker.completionBlcok = {(place) in
             if let place = place {

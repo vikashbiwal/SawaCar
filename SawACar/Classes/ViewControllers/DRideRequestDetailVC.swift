@@ -52,9 +52,18 @@ class DRideRequestDetailVC: ParentVC {
         _defaultCenter.removeObserver(self)
     }
 
-    
+    //Reset comment box UI
+    func resetCommentBox(onMessageSent: Bool = false) {
+        let commentText = txtComment.text.trimmedString()
+        if onMessageSent || commentText.isEmpty  {
+            chatTextViewHeightConstraint.constant = 35
+            txtComment.text = ""
+            lblCommentPlaceholder.hidden = false
+        }
+    }
 }
 
+//MARK: Notification setup and selectors
 extension DRideRequestDetailVC {
     
     func addObservations() {
@@ -74,8 +83,9 @@ extension DRideRequestDetailVC {
     }
     
     func keyboardWillHide(nf: NSNotification)  {
-        //tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:0 , right: 0)
+        //Reset comment textview
         chatBoxBottomConstraint.constant = 0
+        self.resetCommentBox()
         self.view.layoutIfNeeded()
     }
 }
@@ -113,6 +123,21 @@ extension DRideRequestDetailVC {
     //This action navigate the driver at chat screen for chating with passanger
     @IBAction func chatBtnClicked(sender: UIButton) {
         //TODO
+    }
+    
+    //Edit request button clicked
+    @IBAction func editTravelBtnClicked(sender: UIButton) {//navigate to request a ride screen for edit the request.
+        let requestRideVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_RequestARideVC") as! RequestARideStep2VC
+        requestRideVC.tRequest = travelRequest
+        requestRideVC.isEditRequestMode = true
+        self.navigationController?.pushViewController(requestRideVC, animated: true)
+    }
+    
+    //Comment send button clicked
+    @IBAction func sendCommentBtnClicked(sender: UIButton) {
+      //TODO - sent message api call
+        self.resetCommentBox(true)
+        txtComment.resignFirstResponder()
     }
 }
 
@@ -187,7 +212,7 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
                 cell.offers = travelRequest.offers
                 cell.travelRequest = travelRequest
                 cell.tableview.reloadData()
-                let titleText = isOfferAddedByDriver(me.Id) ? "CancelYourOffer".localizedString() : "AddYourOffer".localizedString()
+                let titleText = offerOfDriverIsExist(me.Id) ? "CancelYourOffer".localizedString() : "AddYourOffer".localizedString()
                 cell.btnAddOffer.setTitle(titleText, forState: .Normal)
                 cell.noOffersView.hidden = !travelRequest.offers.isEmpty
                 return cell
@@ -280,7 +305,6 @@ extension DRideRequestDetailVC {
         //Add a textfield for date
         alert.addTextFieldWithConfigurationHandler { (textField) in
             textField.placeholder = "Date".localizedString()
-            
             //add datepicker as inputview for the textfield
             let datePicker = AlertTextDatePicker()
             datePicker.textfild = textField
@@ -293,21 +317,19 @@ extension DRideRequestDetailVC {
         let addAction = UIAlertAction(title: "Add".localizedString(), style: .Destructive) { (action) in
             let price = alert.textFields![0].text!
             let date  = alert.textFields![1].text!
-            
-            self.travelRequest.addOffer(self.travelRequest.id, price: price, date: date, block: { (response, flag) in
-                
-            })
-            
+            if !price.isEmpty && !date.isEmpty {
+                self.travelRequest.addOffer(self.travelRequest.id, price: price, date: date, block: { (response, flag) in
+                    
+                })
+            }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel".localizedString(), style: .Default) { (action) in
-            
-        }
-        
+        let cancelAction = UIAlertAction(title: "Cancel".localizedString(), style: .Default, handler: nil)
         alert.addAction(cancelAction)
         alert.addAction(addAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
     
     //datepicker's value change event.
     func datePickerDidChangeDate(sender: UIDatePicker) {
@@ -317,8 +339,16 @@ extension DRideRequestDetailVC {
         }
     }
     
+    //Func for checking that a user has added an offer on the request
+    func offerOfDriverIsExist(driverId: String)-> Bool {
+        let result =   travelRequest.offers.filter { (offer) -> Bool in
+            return offer.userID == driverId
+        }
+        return !result.isEmpty
+    }
     
-    //Set Marker Pin and drawLine between locations on map view.
+    
+    //MARK: MapView - Marker pin and path line setup.
     func setMarkerAndPathOnMap() {
         let cameraPositionCoordinates = CLLocationCoordinate2D(latitude: travelRequest.fromLocation!.lat, longitude: travelRequest.fromLocation!.long)
         let cameraPosition = GMSCameraPosition.cameraWithTarget(cameraPositionCoordinates, zoom: 8)
@@ -346,14 +376,8 @@ extension DRideRequestDetailVC {
         rectangle.strokeColor = UIColor.greenColor()
         rectangle.map = gMapView
     }
+    
 
-    //Func for checking that a user has added an offer on the request
-    func isOfferAddedByDriver(id: String)-> Bool {
-      let result =   travelRequest.offers.filter { (offer) -> Bool in
-            return offer.userID == id
-        }
-        return !result.isEmpty
-    }
  }
 
 //MARK: API Calls
@@ -364,8 +388,9 @@ extension DRideRequestDetailVC {
             if response.isSuccess {
                 if let json = response.json {
                     if let trObject = json["Object"] as? [String : AnyObject] {
-                        //self.travelRequest.reset(withInfo: trObject)
-                        self.travelRequest = TravelRequest(trObject)
+                        self.travelRequest.reset(withInfo: trObject)
+                        //self.travelRequest = TravelRequest(trObject)
+                        self.tableView.reloadData()
                     }
                 }
             } else {

@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct RideSearchObject {
+    var locationFrom: GLocation!
+    var locationTo: GLocation!
+}
+
 class FindARideVC: ParentVC {
 
     @IBOutlet var inputView1: UIView!
@@ -15,12 +20,11 @@ class FindARideVC: ParentVC {
     @IBOutlet var roundedView: UIView!
     @IBOutlet var txtFrom: UITextField!
     @IBOutlet var txtTo: UITextField!
-    var travel = Travel()
+    var searchDataObject = RideSearchObject()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setRoundCircleUI()
-        notificationSetup()
         self.view.layoutIfNeeded()
     }
     
@@ -29,13 +33,6 @@ class FindARideVC: ParentVC {
         // Dispose of any resources that can be recreated.
     }
     
-    deinit{
-        _defaultCenter.removeObserver(self)
-    }
-    
-    func notificationSetup() {
-        _defaultCenter.addObserver(self, selector: #selector(OfferARideVC.resetTravelObj), name: kTravelAddedNotificationKey, object: nil)
-    }
     
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
@@ -52,9 +49,17 @@ class FindARideVC: ParentVC {
     
     //Reset a new travel object when travel created successfully.
     func resetTravelObj() {
-        travel = Travel()
+        searchDataObject = RideSearchObject()
         txtTo.text = "To".localizedString()
         txtFrom.text = "From".localizedString()
+    }
+    
+    //MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "findRideToResultSegue" {
+            let resultVC = segue.destinationViewController as! FindRideResultVC
+            resultVC.searchDataObject = searchDataObject
+        }
     }
 
 }
@@ -69,9 +74,9 @@ extension FindARideVC {
         goForPickLocation(.To)
     }
     
-    @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
+    @IBAction func goBtnClicked(sender: UIButton) {
         if self.validateLoction() {
-            self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
+            self.performSegueWithIdentifier("findRideToResultSegue", sender: nil)
         }
     }
     
@@ -84,11 +89,11 @@ extension FindARideVC {
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
                 if type == .From {
-                    self.txtFrom.text = place.name
-                    self.travel.locationFrom = place
+                    self.txtFrom.text = place.address
+                    self.searchDataObject.locationFrom = place
                 } else {
-                    self.txtTo.text = place.name
-                    self.travel.locationTo = place
+                    self.txtTo.text = place.address
+                    self.searchDataObject.locationTo = place
                 }
             }
         }
@@ -97,11 +102,11 @@ extension FindARideVC {
     
     //Fuction valiation
     func validateLoction()-> Bool {
-        guard let _ = travel.locationFrom else {
+        guard let _ = searchDataObject.locationFrom else {
             showToastErrorMessage("", message: "kFromLocationRequired".localizedString())
             return false
         }
-        guard let _ = travel.locationTo else {
+        guard let _ = searchDataObject.locationTo else {
             showToastErrorMessage("", message: "kToLocationRequired".localizedString())
             return false
         }

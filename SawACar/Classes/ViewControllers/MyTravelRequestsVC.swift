@@ -20,6 +20,7 @@ class MyTravelRequestsVC: ParentVC {
         super.viewDidLoad()
         prepareUI()
         getUserTravelRequest()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,6 +44,8 @@ class MyTravelRequestsVC: ParentVC {
         
         initEmptyDataView()
         showEmptyDataView("kMyRidesNotAvailable".localizedString())
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+
     }
 
     @IBAction func nextBtnClicked(sender: UIButton) {
@@ -114,11 +117,16 @@ extension MyTravelRequestsVC : UITableViewDataSource, UITableViewDelegate {
 //MARK: API calls
 extension MyTravelRequestsVC {
     
+    //Get user's travel requests
     func getUserTravelRequest() {
+        if !refreshControl.refreshing {
+            self.showCentralGraySpinner()
+        }
         wsCall.getUserTravelRequests { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
                     if let objets = json["Object"] as? [[String : AnyObject]] {
+                       self.requests.removeAll()
                         for obj in objets {
                             let request = TravelRequest(obj)
                             self.requests.append(request)
@@ -133,6 +141,10 @@ extension MyTravelRequestsVC {
             if !self.requests.isEmpty {
                 self.emptyDataView.hide()
             }
+            self.refreshControl.endRefreshing()
+            self.hideCentralGraySpinner()
+
         }
+
     }
 }

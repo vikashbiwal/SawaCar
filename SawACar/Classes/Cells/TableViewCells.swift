@@ -244,17 +244,20 @@ class TravelDateTimeCell: TVGenericeCell {
         if let date = request.departurDate() {
             let dateString = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
             self.lblDate.text = dateString
+            self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
+
         } else {
             self.lblDate.text = "Select".localizedString()
-        }
-        
-        //Ride time.
-        if let date = dateFormator.dateFromString(request.departureTime, fomat: "HH:mm:ss") {
-            self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
-            
-        } else {
             self.lblTime.text = "Select".localizedString()
         }
+        
+//        //Ride time.
+//        if let date = dateFormator.dateFromString(request.departureTime, fomat: "HH:mm:ss") {
+//            self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
+//            
+//        } else {
+//            self.lblTime.text = "Select".localizedString()
+//        }
 
     }
     
@@ -413,6 +416,23 @@ class TVTravelCell : TVGenericeCell {
         cardView?.layer.cornerRadius = 5 * _widthRatio
         cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
         cardView?.layer.borderWidth = 2.0
+    }
+    
+    //set ride info 
+    func setRideInfo(ride: Travel) {
+        lblTravelDate.text = dateFormator.dateString(ride.departureDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd MMM")//ride.departureDate
+        lblTravelTime.text = dateFormator.dateString(ride.departureTime, fromFomat: "HH:mm", toFromat: "hh:mm a")
+        
+        lblCarName.text      = ride.car?.name
+        lblLocationFrom.text = ride.locationFrom?.name
+        lblLocationTo.text   = ride.locationTo?.name
+        lblSeatNumber.text   = ride.travelSeat.value.ToString() + " " + "Seats".localizedString()
+        lblSeatsLeft.text    = ride.seatLeft.ToString() + " " + "Left".localizedString()
+        lblDriverName.text   = ride.driver.name
+        lblCarPrice.text     = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
+        ratingView.value     = CGFloat(ride.driver.rating)
+        
+        imgvDriver.setImageWithURL(NSURL(string: ride.driver.photoURl)!, placeholderImage: _userPlaceholderImage)
     }
 }
 
