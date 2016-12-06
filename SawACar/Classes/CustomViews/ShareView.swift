@@ -39,13 +39,13 @@ class ShareView: VBlurView {
         if shareType == .Travel {
             lblMsg1.text = "Great, Now other people can join your travel!"
             lblMsg2.text = "Please wait for offer from passengers!"
-            lblMsg2.text = "You can share to reach more people"
+            lblMsg3.text = "You can share to reach more people"
             messageView.backgroundColor = UIColor.scHeaderColor()
             
         } else if shareType == .TravelRequest {
             lblMsg1.text = "Great, your request is registered"
             lblMsg2.text = "Please wait for offer from driver!"
-            lblMsg2.text = "You can share to reach more people"
+            lblMsg3.text = "You can share to reach more people"
             messageView.backgroundColor = UIColor.greenColor()
         }
     }

@@ -16,6 +16,7 @@ class FindRideResultVC: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.findRidesAPICall()
+        self.initEmptyDataView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,6 +35,12 @@ class FindRideResultVC: ParentVC {
     }
     */
 
+    //MAR: - Navigatioin
+    func navigateToRideDetailsScreen(ride: Travel) {
+        let detailVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_TravelDetailVC") as! TravelDetailVC
+        detailVC.travel = ride
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 //MARK: TableView DataSource
@@ -77,7 +84,10 @@ extension FindRideResultVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        if indexPath.section == 1 {
+            let ride = travels[indexPath.row]
+            self.navigateToRideDetailsScreen(ride)
+        }
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -103,6 +113,7 @@ extension FindRideResultVC : UITableViewDataSource, UITableViewDelegate {
 //MARK: API Calls
 extension FindRideResultVC {
     func findRidesAPICall() {
+        self.showCentralGraySpinner()
         let fromAddress = searchDataObject.locationFrom.address
         let toAddress = searchDataObject.locationTo.address
         wsCall.findTravels(fromAddress, toAddress: toAddress) { (response, flag) in
@@ -121,6 +132,9 @@ extension FindRideResultVC {
             } else {
                 //error
             }
+            self.travels.isEmpty ? self.showEmptyDataView("kMyRidesNotAvailable".localizedString(), frame: CGRect(x: 0, y: 280 * _widthRatio, width: _screenSize.width, height: 40)) : self.emptyDataView.hide()
+            self.tableView.scrollEnabled = !self.travels.isEmpty
+            self.hideCentralGraySpinner()
         }
     }
 }

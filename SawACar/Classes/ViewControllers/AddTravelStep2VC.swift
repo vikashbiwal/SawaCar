@@ -421,36 +421,31 @@ extension AddTravelStep2VC {
     //MARK: AddTravel API
     func addTravelAPICall () {
         self.showCentralGraySpinner()
-        let parameters = travel.travelAPIParameters()
-        //Api call
-        wsCall.addTravel(parameters) { (response, flag) in
-            if response.isSuccess {
-                let travelInfo = response.json!["Object"] as! [String :  AnyObject]
-                self.travel.updateInfo(travelInfo)
+        travel.addTravel {[weak self] (isSuccess) in
+            if isSuccess {
+                if let selff = self {
                 _defaultCenter.postNotificationName(kTravelAddedNotificationKey, object: nil)
-                self.shareView.showInView(self.view)
-                
+                selff.shareView.showInView(selff.view)
+                }
             } else {
-                showToastErrorMessage("", message: response.message!)
+             //
             }
-            
-            self.hideCentralGraySpinner()
+            self?.hideCentralGraySpinner()
         }
     }
     
     //Update travel api call
     func updateTravelAPICall() {
         self.showCentralGraySpinner()
-        let parameters = travel.travelAPIParameters()
-        
-        wsCall.updateTravel(parameters) { (response, flag) in
-            if response.isSuccess {
-                
+        travel.updateTravel {[weak self] (isSuccess) in
+            if isSuccess {
+                if let selff = self {
+                    //TODO after update success
+                }
             } else {
-                
+                //
             }
-            
-            self.hideCentralGraySpinner()
+            self?.hideCentralGraySpinner()
         }
     
     }
@@ -495,5 +490,11 @@ extension AddTravelStep2VC {
             }
         }
     }
+    
+    //Createa a booking api call
+    func bookTravelAPICall() {
+        
+    }
+    
 }
 

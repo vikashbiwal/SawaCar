@@ -16,7 +16,7 @@ var kWSDomainURL = "https://sawacar.com/"
 var kWSBaseUrl = kWSDomainURL + "Services/Sawacar.ashx"
 let googleKey = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww"   //got from Ravi
 
-//MARK: General WebService
+//MARK: General APIs
 extension Webservice {
     func getAllCoutries(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCountries
@@ -62,7 +62,7 @@ extension Webservice {
 
 }
 
-//MARK: User Management -  Login, Registratin, UpdateProfile, UpdatePhoto, GetUserInfo, etc.
+//MARK: User Management - APIs -  Login, Signup, UpdateProfile, UpdatePhoto, GetUserInfo, etc.
 extension Webservice {
     
     func checkEmailAvailability(email: String, block: WSBlock) {
@@ -148,7 +148,7 @@ extension Webservice {
     }
 }
 
-//MARK: Car: AddCar, DeleteCar, UpdateCar, GetUserCars, GetAllCarCompanies
+//MARK: Car APIs: AddCar, DeleteCar, UpdateCar, GetUserCars, GetAllCarCompanies
 extension Webservice {
     func getCarCompanies(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCarCompanies
@@ -190,7 +190,7 @@ extension Webservice {
     
 }
 
-//MARK: Travel - AddTravel, GetTravel, UpdateTravel, DeleteTravel
+//MARK: Travel APIs - AddTravel, GetTravel, UpdateTravel, DeleteTravel
 extension Webservice {
     func addTravel(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravel
@@ -231,7 +231,50 @@ extension Webservice {
     }
 }
 
-//MARK: TravelRequest - AddTravelRequest, UpdateTravelRequest, DeleteTravelRequest, GetTravelRequest, GetTravelTypes
+//MARK: Booking On Travels - APIs - BookTravel, CancelBooking, ApproveBooking, DeclineBooking, GetUserBookings, GetUserTravelBookings
+extension Webservice {
+    
+    func bookTravel(params: [String: String], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=BookTravel&TravelID=217&UserID=128&Seats=1&AllCar=false
+        jprint("=======WS = BookTravel=======")
+        let travelId = params["TravelID"]!, userid = params["UserID"]!, seats = params["Seats"]!
+        getRequest(urlWithMethod("BookTravel&TravelID=\(travelId)&UserID=\(userid)&Seats=\(seats)&AllCar=false"), param: nil, block: block)
+    }
+    
+    func cancelBooking(bookingId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=CancelBooking&BookID=14
+        jprint("=======WS = CancelBooking=======")
+        getRequest(urlWithMethod("CancelBooking&BookID=" + bookingId), param: nil, block: block)
+    }
+    
+    func approveBooking(bookingId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=ApproveBooking&BookID=14
+        jprint("=======WS = ApproveBooking=======")
+        getRequest(urlWithMethod("ApproveBooking&BookID=" + bookingId), param: nil, block: block)
+    }
+
+    func declineBooking(bookingId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=DeclineBooking&BookID=18
+        jprint("=======WS = DeclineBooking=======")
+        getRequest(urlWithMethod("DeclineBooking&BookID=" + bookingId), param: nil, block: block)
+    }
+
+    func getBookings(forPassanger passangerID: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserBookings&UserID=39
+        jprint("=======WS = GetUserBookings for passanger=======")
+        getRequest(urlWithMethod("GetUserBookings&UserID=" + passangerID), param: nil, block: block)
+
+    }
+    
+    func getBookings(forDriver driverID: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelBookings&UserID=39
+        jprint("=======WS = GetUserTravelBookings for driver=======")
+        getRequest(urlWithMethod("GetUserTravelBookings&UserID=" + driverID), param: nil, block: block)
+        
+    }
+}
+
+//MARK: TravelRequest APIs - AddTravelRequest, UpdateTravelRequest, DeleteTravelRequest, GetTravelRequest, GetTravelTypes
 extension Webservice {
     func addTravelRequest(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelRequest
@@ -276,14 +319,16 @@ extension Webservice {
     }
 }
 
-//MARK: Offer on TravelRequest - AddOffer, ApproveOffer, DeclineOffer, CancelOffer, GetUserOffers, GetUserTravelRequestOffers
+//MARK: Offer on TravelRequest APIs - AddOffer, ApproveOffer, DeclineOffer, CancelOffer, GetUserOffers, GetUserTravelRequestOffers
 extension Webservice {
     
     func addOfferOnTravelRequest(params: [String :  String], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=OfferTravelRequest&TravelRequestID=195&UserID=128&Price=12&OfferDate=07/04/2016
         jprint("=======WS = OfferTravelRequest=======")
-        let tRequestId = params["TravelRequestID"]!; let price = params["Price"]!; let date = params["OfferDate"]!
-        getRequest(urlWithMethod("OfferTravelRequest&TravelRequestID=\(tRequestId)&UserID=\(me.Id)&Price=\(price)&OfferDate=\(date)"), param: nil, block: block)
+//        let tRequestId = params["TravelRequestID"]!; let price = params["Price"]!; let date = params["OfferDate"]!
+//        getRequest(urlWithMethod("OfferTravelRequest&TravelRequestID=\(tRequestId)&UserID=\(me.Id)&Price=\(price)&OfferDate=\(date)"), param: nil, block: block)
+        getRequest(urlWithMethod("OfferTravelRequest"), param: params, block: block)
+
     }
     
     func cancelOffer(travelRequestID: String, userID: String, block: WSBlock) {
@@ -304,6 +349,18 @@ extension Webservice {
         getRequest(urlWithMethod("DeclineOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
     }
     
+    
+    func getOffers(forDriver driverId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserOffers&UserID=295
+        jprint("=======WS = GetUserOffers for driver=======")
+        getRequest(urlWithMethod("GetUserOffers&UserID=" + driverId), param: nil, block: block)
+    }
+    
+    func getOffers(forPassenger passengerId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequestOffers&UserID=295
+        jprint("=======WS = GetUserOffers for driver=======")
+        getRequest(urlWithMethod("GetUserTravelRequestOffers&UserID=" + passengerId), param: nil, block: block)
+    }
 }
 
 //MARK: Webservice Inialization and AFNetworking setup

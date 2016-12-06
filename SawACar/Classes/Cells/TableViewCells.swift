@@ -366,7 +366,8 @@ class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UI
 
 
 class TVTravelPassengersCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    var passengers = [User]()
+    var passengers = [Booking]()
+    @IBOutlet var collectionView: UICollectionView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -378,11 +379,13 @@ class TVTravelPassengersCell : TVGenericeCell, UICollectionViewDelegateFlowLayou
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5//passengers.count
+        return passengers.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+        let booking = passengers[indexPath.row]
+        cell.imgView.setImageWithURL(NSURL(string: booking.userPhoto)!, placeholderImage: _userPlaceholderImage)
         return cell
     }
     
@@ -465,7 +468,7 @@ class TblRideRequestCell: TVGenericeCell {
         lblTravelDate.text = dateFormator.stringFromDate(request.departurDate()!, format: "dd MMM")
         lblTravelTime.text = dateFormator.dateString(request.departureTime, fromFomat: "HH:mm:ss", toFromat: "hh:mm a")
         lblOfferCount.text = request.offers.count.ToString() + " " + (request.offers.count > 1 ? "Offers" : "Offer").localizedString()
-        
+        lblPrice.text = request.currency!.symbol + " " + request.suggestedPrice.ToString()
         lblRequesterName.text = request.passanger.name
         imgvRequester.setImageWithURL(NSURL(string: request.passanger.photoURl)!, placeholderImage: _userPlaceholderImage)
     }

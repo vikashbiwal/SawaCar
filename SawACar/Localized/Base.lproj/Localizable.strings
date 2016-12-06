@@ -84,7 +84,7 @@
 
 // Slider Container ViewController
 "home"                  = "Home";
-"booking_to_my_travel"  = "Booking to my travel";
+"booking_to_my_travel"  = "Booking To My Travel";
 "my_offers"             = "My Offers";
 "my_ride"               = "My Ride";
 "my_cars"               = "My Cars";
@@ -239,3 +239,7 @@
 
 
 
+//RideDetails screen
+"My Rules"  = "My Rules";
+"Driver Rules" = "Driver Rules";
+"Travel"        = "Travel";

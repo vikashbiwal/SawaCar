@@ -32,8 +32,8 @@ class DRideRequestDetailVC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.contentInset = UIEdgeInsets(top: 125, left: 0, bottom: 50, right: 0)
-        
+        tableView.contentInset = UIEdgeInsets(top: 125 * _widthRatio, left: 0, bottom: 50, right: 0)
+        self.lblTitle.text = "Request " + travelRequest.number
         self.setMarkerAndPathOnMap()
         self.getTravelRequestDetailAPICall()
     }
@@ -103,7 +103,7 @@ extension DRideRequestDetailVC {
     @IBAction func acceptOfferBtnClicked(sender: UIButton) {
         let offer = travelRequest.offers[sender.tag]
         offer.acceptOffer(travelRequest.id) { (response, flag) in
-            
+            //TODO
         }
     }
     
@@ -111,13 +111,18 @@ extension DRideRequestDetailVC {
     @IBAction func rejectOfferBtnClicked(sender: UIButton) {
         let offer = travelRequest.offers[sender.tag]
         offer.rejectOffer(travelRequest.id) { (response, flag) in
-            
+            //TODO
         }
     }
 
     //Action for calling to passanger
     @IBAction func callBtnClicked(sender: UIButton) {
-        //TODO
+        if !travelRequest.passanger.mobileNumber.isEmpty {
+            let mobileNumber = travelRequest.passanger.mobileNumber
+            if let url = NSURL(string: "tel://\(mobileNumber)") {
+                UIApplication.sharedApplication().canOpenURL(url)
+            }
+        }
     }
     
     //This action navigate the driver at chat screen for chating with passanger
@@ -248,7 +253,7 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == kSectionForLocation {
             if indexPath.row == 0 {
-                return 120 * _widthRatio
+                return 150 * _widthRatio
             } else {
                 return 25 * _widthRatio
             }
@@ -279,7 +284,6 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        print("starting dragging")
         tableViewDragging = true
     }
     

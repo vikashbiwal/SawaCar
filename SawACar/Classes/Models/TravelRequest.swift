@@ -19,6 +19,7 @@ class TravelRequest {
     var departureMinute:     String! = "00"
     var suggestedPrice :     Int = 0
     var status :             Int = 0
+    var offerAccepted : Bool = false
     
     var travelType: TravelType!
     var passanger : Passanger!
@@ -49,12 +50,16 @@ class TravelRequest {
         departureHour       = RConverter.string(info["DepartureHour"])
         departureMinute     = RConverter.string(info["DepartureMinute"])
         suggestedPrice      = RConverter.integer(info["Price"])
+        offerAccepted       = RConverter.boolean(info["OfferAccepted"])
+        
         fromLocation        = GLocation(info["LocationFrom"] as! [String : AnyObject])
         toLocation          = GLocation(info["LocationTo"] as! [String : AnyObject])
         passanger           = Passanger(travelRequester: info)
         currency            = Currency( info)
-       travelType           = TravelType(info)
+        travelType          = TravelType(info)
+        
         if let jsonOffers = info["Offers"] as? [[String : AnyObject]] {
+            offers.removeAll()
             for jOffer in jsonOffers {
                 let offer = TravelRequestOffer(jOffer)
                 self.offers.append(offer)
@@ -68,13 +73,15 @@ class TravelRequest {
         departureDateString = RConverter.string(info["DepartureDate"])
         departureHour       = RConverter.string(info["DepartureHour"])
         departureMinute     = RConverter.string(info["DepartureMinute"])
+        suggestedPrice      = RConverter.integer(info["Price"])
+        offerAccepted       = RConverter.boolean(info["OfferAccepted"])
+        
         fromLocation        = GLocation(info["LocationFrom"] as! [String : AnyObject])
         toLocation          = GLocation(info["LocationTo"] as! [String : AnyObject])
-        
         passanger           = Passanger(travelRequester: info)
         currency            = Currency( info)
+        travelType          = TravelType(info)
         
-        //offers
         if let jsonOffers = info["Offers"] as? [[String : AnyObject]] {
             offers.removeAll()
             for jOffer in jsonOffers {

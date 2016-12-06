@@ -34,7 +34,7 @@ class Passanger  {
     var photoURl : String!
     var rating: Float = 0.0
     var rules  = [String]()
-    
+    var mobileNumber: String!
     init() {
         //
     }
@@ -45,6 +45,7 @@ class Passanger  {
         photoURl = kWSDomainURL + RConverter.string(info["RequesterPhoto"])
         rating = RConverter.float(info["RequesterRating"])
         rules = info["RequesterRules"] as! [String]
+        mobileNumber = RConverter.string(info["RequesterMobileNumber"])
     }
     
     init(passanger info: [String : AnyObject]) {

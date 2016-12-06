@@ -12,11 +12,14 @@ import GoogleMaps
 class TravelDetailVC: ParentVC {
 
     @IBOutlet var gMapView: GMSMapView!
+    @IBOutlet var mapViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var bookBtnView: UIView!
     
+    var tableViewDragging = false
     var shareView: ShareView!
     
     var travel: Travel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initShareView()
@@ -32,6 +35,7 @@ class TravelDetailVC: ParentVC {
     //prepare any initial UI
     func prepareUI() {
         bookBtnView.hidden = travel.driver.id == me.Id
+        tableView.contentInset = UIEdgeInsets(top: mapViewHeightConstraint.constant , left: 0, bottom: 50, right: 0)
     }
     
     //MARK: Navigations
@@ -56,6 +60,11 @@ extension TravelDetailVC {
     //Share button action
     @IBAction func shareBtnClicked(sender: UIButton) {
         self.openShareView()
+    }
+    
+    //Book ride button clicked
+    @IBAction func bookRideButtonClicked(sender: UIButton) {
+        self.bookTravel()
     }
 }
 
@@ -121,6 +130,15 @@ extension TravelDetailVC {
     func openShareView() {
         self.shareView.showInView(self.view)
     }
+    
+    //BookTravel
+    func bookTravel() {
+        //let alert = UIAlertController(title: "", message: <#T##String?#>, preferredStyle: <#T##UIAlertControllerStyle#>)
+        travel.bookTravel(forSeats: 2) { (response, flag) in
+            
+        }
+
+    }
 }
 
 //MARK: TableView DataSource and Delegate
@@ -144,17 +162,20 @@ extension TravelDetailVC : UITableViewDataSource, UITableViewDelegate {
             return cell
         } else if indexPath.row == 1  {
             let cell = tableView.dequeueReusableCellWithIdentifier("myRulesCell") as! TVDriverRulesCell
+            cell.lblTitle.text = (travel.driver.id == me.Id ? "My Rules" : "Driver Rules" ).localizedString()
             cell.driverRules = travel.driver.rules
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("passengersCell") as! TVTravelPassengersCell
+            cell.passengers = travel.bookings
+            cell.collectionView.reloadData()
             return cell
         }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 158 * _widthRatio
+            return 180 * _widthRatio
         } else if indexPath.row == 1 {
             return 110 * _widthRatio
         } else  if indexPath.row == 2 {
@@ -163,6 +184,24 @@ extension TravelDetailVC : UITableViewDataSource, UITableViewDelegate {
             return 0
         }
     }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if tableViewDragging {
+            let offset = scrollView.contentOffset
+            mapViewHeightConstraint.constant = -offset.y
+            //self.view.layoutIfNeeded()
+        }
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        print("starting dragging")
+        tableViewDragging = true
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        tableViewDragging = false
+    }
+
 }
 
 //MARK: Share view setup
@@ -185,6 +224,5 @@ extension TravelDetailVC {
             }
         }
     }
-    
     
 }

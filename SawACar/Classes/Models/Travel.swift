@@ -56,7 +56,7 @@ class Travel: NSObject, NSCopying {
     var isRegularTravel = false
     var isRoundTravel   = false
     
-    var bookings    = []
+    var bookings    = [Booking]()
     var comments    = []
     var usersRatings = []
     
@@ -127,6 +127,14 @@ class Travel: NSObject, NSCopying {
         status               = RConverter.boolean(info["Status"])
         trackingEnable       = RConverter.boolean(info["Tracking"])
         
+        if let jsonBookings = info["Bookings"] as? [[String : AnyObject]] {
+            bookings.removeAll()
+            for item in jsonBookings {
+                let booking = Booking(item)
+                bookings.append(booking)
+            }
+        }
+        
     }
     
     //Travel object update or reset info from json dictionary getting by API response.
@@ -176,6 +184,15 @@ class Travel: NSObject, NSCopying {
         detail               = RConverter.string(info["Details"])
         status               = RConverter.boolean(info["Status"])
         trackingEnable       = RConverter.boolean(info["Tracking"])
+        
+        if let jsonBookings = info["Bookings"] as? [[String : AnyObject]] {
+            bookings.removeAll()
+            for item in jsonBookings {
+                let booking = Booking(item)
+                bookings.append(booking)
+            }
+        }
+
     }
     
     
@@ -213,6 +230,7 @@ class Travel: NSObject, NSCopying {
         cpTravel.detail = self.detail
         cpTravel.status = self.status
         cpTravel.trackingEnable = self.trackingEnable
+        cpTravel.bookings = self.bookings
         return cpTravel
     }
     
@@ -306,6 +324,48 @@ extension Travel {
         return parameters
     }
     
+}
+
+//API calls
+extension Travel {
+    
+    //Add Travel api call
+    func addTravel(block: (Bool)->Void) {
+        let params = self.travelAPIParameters()
+        wsCall.addTravel(params) { (response, flag) in
+            if response.isSuccess {
+                let travelInfo = response.json!["Object"] as! [String :  AnyObject]
+                self.updateInfo(travelInfo)
+            } else {
+                showToastErrorMessage("", message: response.message!)
+            }
+            block(response.isSuccess)
+        }
+    }
+    
+    //Update travel api call
+    func updateTravel(block: (Bool)->Void) {
+        let params = self.travelAPIParameters()
+        wsCall.updateTravel(params) { (response, flag) in
+            if response.isSuccess {
+                let travelInfo = response.json!["Object"] as! [String :  AnyObject]
+                self.updateInfo(travelInfo)
+            } else {
+                showToastErrorMessage("", message: response.message!)
+            }
+            block(response.isSuccess)
+
+        }
+    }
+    
+    
+    //Book travel api calls
+    func bookTravel(forSeats seats: Int, block: WSBlock) {
+        let params = ["TravelID": self.Id,
+                      "UserID" : me.Id,
+                      "Seats": seats.ToString()]
+        wsCall.bookTravel(params as! [String : String], block: block)
+    }
 }
 
 

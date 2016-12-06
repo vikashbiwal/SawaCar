@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "spinnerIcon_gray@3x-2.png",
+      "filename" : "spinnerIcon_gray.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "spinnerIcon_gray@3x-1.png",
+      "filename" : "spinnerIcon_gray@2x.png",
       "scale" : "2x"
     },
     {
