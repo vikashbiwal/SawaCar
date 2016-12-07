@@ -8,9 +8,10 @@
 
 import UIKit
 
-struct RideSearchObject {
-    var locationFrom: GLocation!
-    var locationTo: GLocation!
+class RideSearchObject {
+    var locationFrom: String!
+    var locationTo: String!
+    var alert: Alert?
 }
 
 class FindARideVC: ParentVC {
@@ -90,10 +91,10 @@ extension FindARideVC {
             if let place = place {
                 if type == .From {
                     self.txtFrom.text = place.address
-                    self.searchDataObject.locationFrom = place
+                    self.searchDataObject.locationFrom = place.address
                 } else {
                     self.txtTo.text = place.address
-                    self.searchDataObject.locationTo = place
+                    self.searchDataObject.locationTo = place.address
                 }
             }
         }

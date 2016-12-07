@@ -13,6 +13,8 @@ class TravelDetailVC: ParentVC {
 
     @IBOutlet var gMapView: GMSMapView!
     @IBOutlet var mapViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var btnEditTrailingConstraint: NSLayoutConstraint!
+    
     @IBOutlet var bookBtnView: UIView!
     
     var tableViewDragging = false
@@ -36,6 +38,7 @@ class TravelDetailVC: ParentVC {
     func prepareUI() {
         bookBtnView.hidden = travel.driver.id == me.Id
         tableView.contentInset = UIEdgeInsets(top: mapViewHeightConstraint.constant , left: 0, bottom: 50, right: 0)
+        btnEditTrailingConstraint.constant = travel.driver.id == me.Id ? 0 : -55
     }
     
     //MARK: Navigations
@@ -164,6 +167,7 @@ extension TravelDetailVC : UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier("myRulesCell") as! TVDriverRulesCell
             cell.lblTitle.text = (travel.driver.id == me.Id ? "My Rules" : "Driver Rules" ).localizedString()
             cell.driverRules = travel.driver.rules
+            cell.collView.reloadData()
             return cell
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("passengersCell") as! TVTravelPassengersCell

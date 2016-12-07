@@ -77,6 +77,9 @@ extension RequestARideVC {
         self.performSegueWithIdentifier("toFindARideVCSegue", sender: nil)
     }
     
+    @IBAction func searchDriverBtnClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("FindDriverSegue", sender: nil)
+    }
 }
 
 //MARK: Others

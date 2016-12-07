@@ -243,3 +243,8 @@
 "My Rules"  = "My Rules";
 "Driver Rules" = "Driver Rules";
 "Travel"        = "Travel";
+
+//Alerts Screen
+"NotTravelAlrts" = "No travel alerts created by you.";
+"NotTravelRequestAlrts" = "No travel request alerts created by you.";
+

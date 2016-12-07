@@ -107,6 +107,9 @@
 		696064981DEC347D003A49A8 /* VPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6960649A1DEC347D003A49A8 /* VPickerView.xib */; };
 		6962921E1DD4458800352DDF /* car_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 696292201DD4458800352DDF /* car_image.jpg */; };
 		6965969C1DD5AE16000303A6 /* DRideRequestDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965969B1DD5AE16000303A6 /* DRideRequestDetailVC.swift */; };
+		696B523D1DF7D402002631BE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B523C1DF7D402002631BE /* Alert.swift */; };
+		696B52401DF7E1CA002631BE /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B523F1DF7E1CA002631BE /* AlertsViewController.swift */; };
+		696B52431DF83E97002631BE /* FindDriverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B52421DF83E97002631BE /* FindDriverVC.swift */; };
 		697EE9F01DD326B100060F40 /* CustomViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697EE9F21DD326B100060F40 /* CustomViews.xib */; };
 		697EE9FE1DD327A300060F40 /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA001DD327A300060F40 /* SBDriver.storyboard */; };
 		697EEA091DD327FD00060F40 /* SBPassanger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA0B1DD327FD00060F40 /* SBPassanger.storyboard */; };
@@ -228,6 +231,9 @@
 		6960649C1DEC347F003A49A8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/VPickerView.strings; sourceTree = "<group>"; };
 		696292231DD445E600352DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Base; path = Base.lproj/car_image.jpg; sourceTree = "<group>"; };
 		6965969B1DD5AE16000303A6 /* DRideRequestDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRideRequestDetailVC.swift; sourceTree = "<group>"; };
+		696B523C1DF7D402002631BE /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		696B523F1DF7E1CA002631BE /* AlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
+		696B52421DF83E97002631BE /* FindDriverVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDriverVC.swift; sourceTree = "<group>"; };
 		697EE9961DD2F10900060F40 /* SawACar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SawACar.entitlements; sourceTree = "<group>"; };
 		697EE9F11DD326B100060F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CustomViews.xib; sourceTree = "<group>"; };
 		697EE9F41DD326B400060F40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CustomViews.strings; sourceTree = "<group>"; };
@@ -471,6 +477,7 @@
 				6943B9191DEF055600A9110D /* Comment.swift */,
 				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
 				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
+				696B523C1DF7D402002631BE /* Alert.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -665,6 +672,22 @@
 			name = RideRequestSearch;
 			sourceTree = "<group>";
 		};
+		696B523E1DF7E1AE002631BE /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				696B523F1DF7E1CA002631BE /* AlertsViewController.swift */,
+			);
+			name = Alerts;
+			sourceTree = "<group>";
+		};
+		696B52411DF83E45002631BE /* FindDriver */ = {
+			isa = PBXGroup;
+			children = (
+				696B52421DF83E97002631BE /* FindDriverVC.swift */,
+			);
+			name = FindDriver;
+			sourceTree = "<group>";
+		};
 		697EE9991DD2FA6F00060F40 /* Localized */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,8 +720,10 @@
 			children = (
 				69EFD5021DE6F36E0019FF37 /* RequestARideVC */,
 				6951C1751DF034E8006C99E6 /* FindARide */,
+				696B52411DF83E45002631BE /* FindDriver */,
 				699DB22C1DF55175002BB58A /* MyBookings */,
 				6943B9161DEED7C700A9110D /* MyTravelRequestVC */,
+				696B523E1DF7E1AE002631BE /* Alerts */,
 			);
 			name = Passanger;
 			sourceTree = "<group>";
@@ -883,6 +908,7 @@
 				034832221D76AF2F004E0F38 /* VNoDataView.swift in Sources */,
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
+				696B52401DF7E1CA002631BE /* AlertsViewController.swift in Sources */,
 				034BA1521D3CB9EB0050F0AC /* TravelDetailVC.swift in Sources */,
 				032680DE1D06CDA500969C16 /* AddTravelStep1VC.swift in Sources */,
 				03F65D3B1CBBDE8700C44B5A /* UIViewExtension.swift in Sources */,
@@ -935,6 +961,7 @@
 				031316AC1D1C0E780096077A /* AddCarVC.swift in Sources */,
 				03F65D3E1CBBDE8700C44B5A /* CustomActivityIndicatorView.swift in Sources */,
 				034832251D76C260004E0F38 /* MyRidesVC.swift in Sources */,
+				696B52431DF83E97002631BE /* FindDriverVC.swift in Sources */,
 				03E7E6AE1CBD14DF00DB7723 /* CollectionViewCells.swift in Sources */,
 				03F65D371CBBDE8700C44B5A /* StringExtension.swift in Sources */,
 				031E4CFB1D014EFA0055C6E6 /* VAuthorization.swift in Sources */,
@@ -943,6 +970,7 @@
 				6965969C1DD5AE16000303A6 /* DRideRequestDetailVC.swift in Sources */,
 				031316AE1D1C0E8C0096077A /* CarListVC.swift in Sources */,
 				69EFD5041DE6FC9A0019FF37 /* RequestARideStep2VC.swift in Sources */,
+				696B523D1DF7D402002631BE /* Alert.swift in Sources */,
 				0349D8461D3E0C7E00B17976 /* AppMessages.swift in Sources */,
 				03F65D401CBBDE8700C44B5A /* DocumentAccess.swift in Sources */,
 				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,

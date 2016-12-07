@@ -35,11 +35,18 @@ class FindRideResultVC: ParentVC {
     }
     */
 
-    //MAR: - Navigatioin
+    //MARK: - Navigation
     func navigateToRideDetailsScreen(ride: Travel) {
         let detailVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_TravelDetailVC") as! TravelDetailVC
         detailVC.travel = ride
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    //MARK: IBActions
+    @IBAction func trackingSwitchChanged(sender: UISwitch) {
+        if sender.on {
+            addAlertAPICall()
+        }
     }
 }
 
@@ -58,12 +65,16 @@ extension FindRideResultVC : UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == 0 {
             if indexPath.row == 0 { // location cell
                 let cell = tableView.dequeueReusableCellWithIdentifier("locationCell")  as! TVGenericeCell
-                cell.lblTitle.text = searchDataObject.locationFrom.address
-                cell.lblSubTitle.text = searchDataObject.locationTo.address
+                cell.lblTitle.text = searchDataObject.locationFrom
+                cell.lblSubTitle.text = searchDataObject.locationTo
                 return cell
                 
             } else { //tracking switch btn cell
-                let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell")  as! TVGenericeCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell")  as! TblSwitchBtnCell
+                cell.switchBtn.on = false
+                if let alert = searchDataObject.alert {
+                    cell.switchBtn.on = alert.activated
+                }
                 return cell
             }
             
@@ -114,8 +125,8 @@ extension FindRideResultVC : UITableViewDataSource, UITableViewDelegate {
 extension FindRideResultVC {
     func findRidesAPICall() {
         self.showCentralGraySpinner()
-        let fromAddress = searchDataObject.locationFrom.address
-        let toAddress = searchDataObject.locationTo.address
+        let fromAddress = searchDataObject.locationFrom
+        let toAddress = searchDataObject.locationTo
         wsCall.findTravels(fromAddress, toAddress: toAddress) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
@@ -137,4 +148,27 @@ extension FindRideResultVC {
             self.hideCentralGraySpinner()
         }
     }
+    
+    //Add alert for passenger api call
+    func addAlertAPICall() {
+        self.showCentralGraySpinner()
+        let params = ["UserID" : me.Id,
+                      "LocationFrom": searchDataObject.locationFrom,
+                      "LocationTo" : searchDataObject.locationTo]
+        
+        wsCall.addAlertByPassengerOnTravel(params) { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    if let object = json["Object"] as? [String : AnyObject] {
+                        let alert = Alert(object)
+                        self.searchDataObject.alert = alert
+                    }
+                }
+            } else {
+                showToastErrorMessage("", message: response.message!)
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+    
 }

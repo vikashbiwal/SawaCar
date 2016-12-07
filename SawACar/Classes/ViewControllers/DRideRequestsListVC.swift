@@ -27,6 +27,13 @@ class DRideRequestsListVC: ParentVC {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK: IBAction
+    @IBAction func trackingBtnClicked(sender: UISwitch) {
+        if sender.on {
+            self.addAlertAPICall()
+        }
+    }
+    
 }
 
 
@@ -44,13 +51,13 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == kSectionForLoctionAndTracking {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
-                cell.lblTitle.text = "Arabia"
+                cell.lblTitle.text = requestSearchObj.countryName
                 cell.imgView.image = UIImage(named: "ic_location")
                 return cell
                 
             } else if indexPath.row == 1 {
                 let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
-                cell.lblTitle.text = "Lift_Between_cities".localizedString()
+                cell.lblTitle.text = requestSearchObj.travelTypeName
                 cell.imgView.image = UIImage(named: "ic_lift_btwn_cities")
                 return cell
                 
@@ -58,6 +65,11 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell") as! TblSwitchBtnCell
                 cell.lblTitle.text = "Keep_searching_for_me".localizedString()
                 cell.imgView.image = UIImage(named: "ic_notification_green")
+                cell.switchBtn.on = false
+                
+                if let alert  = requestSearchObj.alert {
+                    cell.switchBtn.on = alert.activated
+                }
                 
                 if let v = cell.viewWithTag(111) {//background view
                     v.layer.borderColor = UIColor.scTravelCardColor().CGColor
@@ -138,10 +150,33 @@ extension DRideRequestsListVC {
             }
             
             self.hideCentralGraySpinner()
-        
         }
         
     }
     
+    
+    //Add alert for driver api call
+    func addAlertAPICall() {
+        self.showCentralGraySpinner()
+        let params = ["UserID" : me.Id,
+                      "CountryID": requestSearchObj.countryId,
+                      "TravelTypeID" : requestSearchObj.travelTypeId]
+        
+        wsCall.addAlertByDriverOnTravelRequest(params) { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    if let object = json["Object"] as? [String : AnyObject] {
+                        let alert = Alert(object)
+                        self.requestSearchObj.alert = alert
+                    }
+                }
+            } else {
+                showToastErrorMessage("", message: response.message!)
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+    
+
     
 }

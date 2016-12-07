@@ -363,6 +363,35 @@ extension Webservice {
     }
 }
 
+//MARK: Alert APIs - AddTravelAlert, AddTravelRequestAlert, GetUserTravelAlerts, GetUserTravelRequestAlerts
+extension Webservice {
+    func addAlertByPassengerOnTravel(params : [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelAlert
+        //Parameters : UserID, LocationFrom, LocationTo
+        jprint("=======WS = AddTravelAlert=======")
+        postRequest(urlWithMethod("AddTravelAlert"), param:params, block: block)
+    }
+    
+    func addAlertByDriverOnTravelRequest(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelRequestAlert
+        //Parameters : UserID, TravelTypeID, CountryID
+        jprint("=======WS = AddTravelRequestAlert=======")
+        postRequest(urlWithMethod("AddTravelRequestAlert"), param:params, block: block)
+    }
+    
+    func getAlerts(forPassenger passengerId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelAlerts&UserID=39
+        jprint("=======WS = GetUserTravelAlerts for passenger=======")
+        getRequest(urlWithMethod("GetUserTravelAlerts&UserID=\(passengerId)"), param: nil, block: block)
+    }
+    
+    func getAlerts(forDriver driverId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequestAlerts&UserID=39
+        jprint("=======WS = GetUserTravelRequestAlerts for driver=======")
+        getRequest(urlWithMethod("GetUserTravelRequestAlerts&UserID=\(driverId)"), param: nil, block: block)
+    }
+}
+
 //MARK: Webservice Inialization and AFNetworking setup
 class Webservice: NSObject {
     var manager : AFHTTPSessionManager!

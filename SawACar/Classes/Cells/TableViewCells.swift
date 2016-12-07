@@ -314,6 +314,8 @@ class TVCarCell : TVGenericeCell {
 
 //MARK: MyRulesCell
 class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    @IBOutlet var collView: UICollectionView!
+    
     let Rules = ["Smoking", "Music", "Food", "Kids", "Pets", "PrayingStop", "Quran"]
     var driverRules = [String]()
     

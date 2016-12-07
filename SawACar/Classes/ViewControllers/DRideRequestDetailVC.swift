@@ -20,7 +20,7 @@ class DRideRequestDetailVC: ParentVC {
     @IBOutlet var mapViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var chatBoxBottomConstraint: NSLayoutConstraint!
     @IBOutlet var chatTextViewHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet var btnEditTrailingConstraint: NSLayoutConstraint!
     
     var travelRequest: TravelRequest!
     
@@ -32,9 +32,7 @@ class DRideRequestDetailVC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.contentInset = UIEdgeInsets(top: 125 * _widthRatio, left: 0, bottom: 50, right: 0)
-        self.lblTitle.text = "Request " + travelRequest.number
-        self.setMarkerAndPathOnMap()
+        self.prepareUI()
         self.getTravelRequestDetailAPICall()
     }
 
@@ -52,6 +50,13 @@ class DRideRequestDetailVC: ParentVC {
         _defaultCenter.removeObserver(self)
     }
 
+    func prepareUI() {
+        tableView.contentInset = UIEdgeInsets(top: 125 * _widthRatio, left: 0, bottom: 50, right: 0)
+        self.lblTitle.text = "Request " + travelRequest.number
+        btnEditTrailingConstraint.constant = travelRequest.passanger.id == me.Id ? 0 : -55
+        self.setMarkerAndPathOnMap()
+    }
+    
     //Reset comment box UI
     func resetCommentBox(onMessageSent: Bool = false) {
         let commentText = txtComment.text.trimmedString()

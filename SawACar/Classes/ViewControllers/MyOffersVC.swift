@@ -23,7 +23,6 @@ class MyOffersVC: ParentVC {
         // Dispose of any resources that can be recrea.
     }
     
-
 }
 
 //MARK: TableviewDataSource
