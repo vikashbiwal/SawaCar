@@ -146,6 +146,15 @@ extension Webservice {
         jprint("=======WS = Forgot password api call=======")
         postRequest(urlWithMethod("ForgetPassword"), param:params, block: block)
     }
+    
+    //Passenger
+    func findDrivers(params: [String : String], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=FindDrivers&AccountTypeID=1&CountryID=105
+        jprint("=======WS = FindDrivers=======")
+        let accoutTypeId = params["AccountTypeID"]!
+        let countryID = params["CountryID"]!
+        getRequest(urlWithMethod("FindDrivers&AccountTypeID=\(accoutTypeId)&CountryID=\(countryID)"), param: nil, block: block)
+    }
 }
 
 //MARK: Car APIs: AddCar, DeleteCar, UpdateCar, GetUserCars, GetAllCarCompanies

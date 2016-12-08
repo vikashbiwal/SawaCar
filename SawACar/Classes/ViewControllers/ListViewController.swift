@@ -110,7 +110,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UISear
         }
         
         if listType == .Language {
-            if preSelectedIDs.contains(item.code) || item.selected {
+            if preSelectedIDs.contains(item.code) || item.selected || preSelectedIDs.contains(item.Id) {
                 cell.accessoryType = .Checkmark
                 item.selected = true
             } else {

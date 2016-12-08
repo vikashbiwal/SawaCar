@@ -106,6 +106,7 @@
 		696064931DEC3403003A49A8 /* ShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 696064951DEC3403003A49A8 /* ShareView.xib */; };
 		696064981DEC347D003A49A8 /* VPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6960649A1DEC347D003A49A8 /* VPickerView.xib */; };
 		6962921E1DD4458800352DDF /* car_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 696292201DD4458800352DDF /* car_image.jpg */; };
+		6964414A1DF9347D00930114 /* DriverSearchResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696441491DF9347D00930114 /* DriverSearchResultVC.swift */; };
 		6965969C1DD5AE16000303A6 /* DRideRequestDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965969B1DD5AE16000303A6 /* DRideRequestDetailVC.swift */; };
 		696B523D1DF7D402002631BE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B523C1DF7D402002631BE /* Alert.swift */; };
 		696B52401DF7E1CA002631BE /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B523F1DF7E1CA002631BE /* AlertsViewController.swift */; };
@@ -118,6 +119,7 @@
 		699DB22E1DF55198002BB58A /* MyBookingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699DB22D1DF55198002BB58A /* MyBookingsViewController.swift */; };
 		69B5DD8F1DE81CB6002DF4B9 /* VDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69B5DD8E1DE81CB6002DF4B9 /* VDatePickerView.xib */; };
 		69B5DD911DE81D36002DF4B9 /* VDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B5DD901DE81D36002DF4B9 /* VDatePickerView.swift */; };
+		69CBF4621DF98FF6000094B5 /* DriverDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CBF4611DF98FF6000094B5 /* DriverDetailViewController.swift */; };
 		69EFD5011DE6F35A0019FF37 /* RequestARideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EFD5001DE6F35A0019FF37 /* RequestARideVC.swift */; };
 		69EFD5041DE6FC9A0019FF37 /* RequestARideStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EFD5031DE6FC9A0019FF37 /* RequestARideStep2VC.swift */; };
 		BD882E187482D644947906A9 /* Pods_SawACar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */; };
@@ -230,6 +232,7 @@
 		696064991DEC347D003A49A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/VPickerView.xib; sourceTree = "<group>"; };
 		6960649C1DEC347F003A49A8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/VPickerView.strings; sourceTree = "<group>"; };
 		696292231DD445E600352DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Base; path = Base.lproj/car_image.jpg; sourceTree = "<group>"; };
+		696441491DF9347D00930114 /* DriverSearchResultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverSearchResultVC.swift; sourceTree = "<group>"; };
 		6965969B1DD5AE16000303A6 /* DRideRequestDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRideRequestDetailVC.swift; sourceTree = "<group>"; };
 		696B523C1DF7D402002631BE /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		696B523F1DF7E1CA002631BE /* AlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
@@ -250,6 +253,7 @@
 		699DB22D1DF55198002BB58A /* MyBookingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBookingsViewController.swift; sourceTree = "<group>"; };
 		69B5DD8E1DE81CB6002DF4B9 /* VDatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VDatePickerView.xib; sourceTree = "<group>"; };
 		69B5DD901DE81D36002DF4B9 /* VDatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDatePickerView.swift; sourceTree = "<group>"; };
+		69CBF4611DF98FF6000094B5 /* DriverDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverDetailViewController.swift; sourceTree = "<group>"; };
 		69EFD5001DE6F35A0019FF37 /* RequestARideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestARideVC.swift; sourceTree = "<group>"; };
 		69EFD5031DE6FC9A0019FF37 /* RequestARideStep2VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestARideStep2VC.swift; sourceTree = "<group>"; };
 		D5029A6397A8E0D0EDAD2E5C /* Pods-SawACar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SawACar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SawACar/Pods-SawACar.release.xcconfig"; sourceTree = "<group>"; };
@@ -684,6 +688,8 @@
 			isa = PBXGroup;
 			children = (
 				696B52421DF83E97002631BE /* FindDriverVC.swift */,
+				696441491DF9347D00930114 /* DriverSearchResultVC.swift */,
+				69CBF4611DF98FF6000094B5 /* DriverDetailViewController.swift */,
 			);
 			name = FindDriver;
 			sourceTree = "<group>";
@@ -920,6 +926,7 @@
 				03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */,
 				6925F7D01DE6BB230025CD3D /* Car.swift in Sources */,
 				032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */,
+				6964414A1DF9347D00930114 /* DriverSearchResultVC.swift in Sources */,
 				03F65D421CBBDE8700C44B5A /* InteractiveNavigationController.swift in Sources */,
 				6935BBE71DF6B8B800C9C093 /* MyOffersVC.swift in Sources */,
 				032680E31D06D81700969C16 /* MapViewController.swift in Sources */,
@@ -984,6 +991,7 @@
 				031316A91D1BB2C40096077A /* VKeyboardAccessoryView.swift in Sources */,
 				03F65D3D1CBBDE8700C44B5A /* ConstrainedSubclasses.swift in Sources */,
 				699DB22B1DF53F1C002BB58A /* TravelBooking.swift in Sources */,
+				69CBF4621DF98FF6000094B5 /* DriverDetailViewController.swift in Sources */,
 				03F65D481CBBDE8700C44B5A /* ShareController.swift in Sources */,
 				0327CDA31D0577F400D51DE4 /* UserTypeSelectVC.swift in Sources */,
 				6943B9151DEEAA3300A9110D /* TravelRequestOffer.swift in Sources */,

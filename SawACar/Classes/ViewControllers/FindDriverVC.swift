@@ -8,6 +8,12 @@
 
 import UIKit
 
+class SearchDriverParameter {
+    var countryId: String = ""
+    var accountTypeId: String = ""
+    var languageId: String = ""
+}
+
 class FindDriverVC: ParentVC {
 
     @IBOutlet var inputView1: UIView!
@@ -17,6 +23,8 @@ class FindDriverVC: ParentVC {
     @IBOutlet var txtCountry: UITextField!
     @IBOutlet var txtAccountType: UITextField!
     @IBOutlet var txtLanguage: UITextField!
+    
+    let searchParams = SearchDriverParameter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,40 +58,81 @@ class FindDriverVC: ParentVC {
 
 }
 
+//MARK: IBActions
 extension FindDriverVC {
     
-
+    @IBAction func countryBtnClicked(sender: UIButton) {
+        self.navigationToCountryList()
+    }
+    
+    @IBAction func accoutyTypeBtnClicked(sender: UIButton) {
+        self.navigationToAccountTypeList()
+    }
+    
+    @IBAction func languageBtnClicked(sender: UIButton) {
+        self.navigationToLanguageList()
+    }
+    
+    @IBAction func nextBtnClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("DriverSearchResultSegue", sender: nil)
+    }
+    
 }
 
+//MARK: Navigations
 extension FindDriverVC {
+    
+    //prepare segue
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "DriverSearchResultSegue" {
+            let resultVC = segue.destinationViewController as! DriverSearchResultVC
+            resultVC.searchParamObj = searchParams
+        }
+    }
+    
     //Navigate to country list screen
     func navigationToCountryList()  {
         let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
-        //cListVC.selectedCountryId = rideRequestObj.countryId
+        cListVC.selectedCountryId = searchParams.countryId
         cListVC.titleString = "Countries".localizedString()
         cListVC.completionBlock = {(country) in
             self.txtCountry.text = country.name
-            //self.rideRequestObj.countryId = country.Id
-            //self.rideRequestObj.countryName = country.name
+            self.searchParams.countryId = country.Id
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
     
-    //Navigate to travel list screen for selecting travel type
-    func navigationToTravelTypeList() {
+    //Navigate to accountType list screen for selecting travel type
+    func navigationToAccountTypeList() {
         let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.AccountType
-        //cListVC.preSelectedIDs = [rideRequestObj.travelTypeId]
+        cListVC.preSelectedIDs = [searchParams.accountTypeId]
         
         cListVC.completionBlock = {(items) in
             if let item = items.first {
-                let tType = item.obj as! TravelType
+                let tType = item.obj as! AccountType
                 self.txtAccountType.text = tType.name
-                //self.rideRequestObj.travelTypeId = tType.Id
-                //self.rideRequestObj.travelTypeName = tType.name
+                self.searchParams.accountTypeId = tType.Id
             }
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
     }
+    
+    //Navigate to languages list screen for selecting travel type
+    func navigationToLanguageList() {
+        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.Language
+        cListVC.preSelectedIDs = [searchParams.languageId]
+        
+        cListVC.completionBlock = {(items) in
+            if let item = items.first {
+                let tType = item 
+                self.txtLanguage.text = tType.name
+                self.searchParams.languageId = tType.Id
+            }
+        }
+        self.navigationController?.pushViewController(cListVC, animated: true)
+    }
+
 
 }

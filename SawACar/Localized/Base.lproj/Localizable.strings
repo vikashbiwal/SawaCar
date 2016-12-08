@@ -248,3 +248,6 @@
 "NotTravelAlrts" = "No travel alerts created by you.";
 "NotTravelRequestAlrts" = "No travel request alerts created by you.";
 
+//Find Driver screens
+"NoDriversFound" = "No driver found.";
+
