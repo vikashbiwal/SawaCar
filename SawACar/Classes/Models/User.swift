@@ -32,7 +32,7 @@ class User :NSObject,  NSCopying {
     var isFacebookVerified: Bool = false
     var lastLoginTime:      String!
     var createDate:         String!
-    var isTermsAccepted:    Bool!
+    var isTermsAccepted:    Bool = false
     var rating = 0
     var numberOfTravels: Int = 0
     var numberOfContacts     = 0

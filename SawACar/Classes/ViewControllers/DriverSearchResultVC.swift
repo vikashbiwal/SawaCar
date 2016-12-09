@@ -31,6 +31,12 @@ class DriverSearchResultVC: ParentVC {
     }
     
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "DriverDetailSegue" {
+            let detailVc = segue.destinationViewController as! DriverDetailViewController
+            detailVc.driver = sender as! User
+        }
+    }
 }
 
 //MARK: TableViewDataSource
@@ -53,7 +59,8 @@ extension DriverSearchResultVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("DriverDetailSegue", sender: nil)
+        let driver = drivers[indexPath.row]
+        self.performSegueWithIdentifier("DriverDetailSegue", sender: driver)
     }
     
 }

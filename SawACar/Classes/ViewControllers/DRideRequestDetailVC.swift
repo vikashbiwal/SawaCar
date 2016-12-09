@@ -125,7 +125,9 @@ extension DRideRequestDetailVC {
         if !travelRequest.passanger.mobileNumber.isEmpty {
             let mobileNumber = travelRequest.passanger.mobileNumber
             if let url = NSURL(string: "tel://\(mobileNumber)") {
-                UIApplication.sharedApplication().canOpenURL(url)
+                if UIApplication.sharedApplication().canOpenURL(url) {
+                    UIApplication.sharedApplication().openURL(url)
+                }
             }
         }
     }
