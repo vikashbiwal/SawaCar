@@ -240,7 +240,7 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
             
         } else { //Section for Comments
             let cell = tableView.dequeueReusableCellWithIdentifier("commentContainerCell") as! CommnetsContainerCell
-            cell.comments = [Comment(), Comment()]
+            cell.comments = []//[Message([:]), Message([:])]
             cell.tableView.reloadData()
 
             return cell
@@ -485,7 +485,7 @@ class TravelRequestOfferInfoCell: TVGenericeCell, UITableViewDataSource, UITable
 class CommnetsContainerCell: TVGenericeCell, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var tableView: UITableView!
-    var comments = [Comment]()
+    var comments = [Message]()
     
     override func awakeFromNib() {
         super.awakeFromNib()

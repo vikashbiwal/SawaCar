@@ -401,6 +401,22 @@ extension Webservice {
     }
 }
 
+//MARK: Message/Comment APIs -
+extension Webservice {
+    func getInboxMessages(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetInboxMessages
+        jprint("=======WS = GetInboxMessages=======")
+        postRequest(urlWithMethod("GetInboxMessages"), param:params, block: block)
+    }
+    
+    func getContacts(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserContacts
+        jprint("=======WS = GetUserContacts=======")
+        postRequest(urlWithMethod("GetUserContacts"), param:params, block: block)
+    }
+    
+}
+
 //MARK: Webservice Inialization and AFNetworking setup
 class Webservice: NSObject {
     var manager : AFHTTPSessionManager!

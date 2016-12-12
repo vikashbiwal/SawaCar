@@ -12,9 +12,10 @@ class MyOffersVC: ParentVC {
 
     var offers = [TravelRequestOffer]()
     var refreshControl: UIRefreshControl!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view.
     }
 

@@ -128,6 +128,44 @@ extension UITableView {
     }
 }
 
+//MARK: UILocalizedIndexedCollaction configuration
+extension UILocalizedIndexedCollation {
+   
+    //Add below commented line in your viewController for accesing func partitionObjects(_:)
+    // let indexedCollation = UILocalizedIndexedCollation.currentCollation()
+
+    func partitionObjects(array:[AnyObject], collationStringSelector:Selector) -> [AnyObject] {
+        var unsortedSections = [[AnyObject]]()
+        
+        //Create a array to hold the data for each section
+        for _ in self.sectionTitles {
+            //var array = [AnyObject]()
+            unsortedSections.append([])
+        }
+        
+        //put each objects into a section
+        for item in array {
+            let index:Int = self.sectionForObject(item, collationStringSelector:collationStringSelector)
+            unsortedSections[index].append(item)
+        }
+        
+        var sections = [AnyObject]()
+        //sort each sections
+        //sectionTitles  = NSMutableArray()
+        for index in 0  ..< unsortedSections.count
+        {
+            if unsortedSections[index].count > 0 {
+                for ob in unsortedSections[index]  {
+                    print(ob)
+                }
+                //sectionTitles!.addObject(collation.sectionTitles[index])
+                sections.append(self.sortedArrayFromArray(unsortedSections[index], collationStringSelector: collationStringSelector))
+            }
+        }
+        return sections
+    }
+
+}
 
 //============================= SubClasses ===================================
 //Swift view resize as per device ratio
@@ -154,10 +192,18 @@ class TblWidthHeaderView: UIView {
 
 class IndexPathButton: JPWidthButton {
     var indexPath : NSIndexPath!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }
 
 class IndexPathTextField: JPWidthTextField {
     var indexpath: NSIndexPath!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }
 
 class CornerRadiusView: ConstrainedView {
