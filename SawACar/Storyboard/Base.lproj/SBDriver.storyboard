@@ -11213,21 +11213,21 @@
                                 <edgeInsets key="layoutMargins" top="8" left="20" bottom="8" right="8"/>
                                 <inset key="separatorInset" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="receiverCell" rowHeight="50" id="rgF-jN-pZd" customClass="MessageCell" customModule="SawACar" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="receiverCell" rowHeight="55" id="rgF-jN-pZd" customClass="MessageCell" customModule="SawACar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rgF-jN-pZd" id="wCg-t0-xlz">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aGY-0j-EPJ">
-                                                    <rect key="frame" x="13" y="7" width="64" height="36"/>
+                                                    <rect key="frame" x="13" y="7" width="64" height="41"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_chatReceiver" translatesAutoresizingMaskIntoConstraints="NO" id="Q9N-Oq-M5c">
-                                                            <rect key="frame" x="0.0" y="0.0" width="64" height="36"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="64" height="41"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFW-jO-nxe">
-                                                            <rect key="frame" x="21" y="3" width="33" height="30"/>
+                                                            <rect key="frame" x="21" y="12" width="33" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="240" id="6wj-9y-uS6"/>
                                                             </constraints>
@@ -11239,12 +11239,12 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="Q9N-Oq-M5c" secondAttribute="bottom" id="A65-Tb-HX6"/>
-                                                        <constraint firstAttribute="bottom" secondItem="LFW-jO-nxe" secondAttribute="bottom" constant="3" id="NZ4-BC-Wxu"/>
+                                                        <constraint firstAttribute="bottom" secondItem="LFW-jO-nxe" secondAttribute="bottom" constant="12" id="NZ4-BC-Wxu"/>
                                                         <constraint firstAttribute="trailing" secondItem="LFW-jO-nxe" secondAttribute="trailing" constant="10" id="P9X-KO-XrL"/>
                                                         <constraint firstAttribute="trailing" secondItem="Q9N-Oq-M5c" secondAttribute="trailing" id="PEt-zj-4HU"/>
                                                         <constraint firstItem="LFW-jO-nxe" firstAttribute="leading" secondItem="aGY-0j-EPJ" secondAttribute="leading" constant="21" id="Q56-XL-DuN"/>
                                                         <constraint firstItem="Q9N-Oq-M5c" firstAttribute="top" secondItem="aGY-0j-EPJ" secondAttribute="top" id="Yoi-XD-6J5"/>
-                                                        <constraint firstItem="LFW-jO-nxe" firstAttribute="top" secondItem="aGY-0j-EPJ" secondAttribute="top" constant="3" id="cb1-TS-JKE"/>
+                                                        <constraint firstItem="LFW-jO-nxe" firstAttribute="top" secondItem="aGY-0j-EPJ" secondAttribute="top" constant="12" id="cb1-TS-JKE"/>
                                                         <constraint firstItem="Q9N-Oq-M5c" firstAttribute="leading" secondItem="aGY-0j-EPJ" secondAttribute="leading" id="clo-S2-zXm"/>
                                                     </constraints>
                                                 </view>
