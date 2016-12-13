@@ -134,7 +134,7 @@ extension ContactsViewController {
                     if let objects = json["Object"] as? [[String : AnyObject]] {
                         self.contacts.removeAll()
                         for item in objects {
-                            let message = Contact(item)
+                            let message = Contact(fromContact: item)
                             self.contacts.append(message)
                         }
                         self.sortContacts(self.contacts)

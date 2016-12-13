@@ -28,6 +28,14 @@ class InboxViewController: ParentVC {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toChatVCSegue" {
+            let chatVC = segue.destinationViewController as! ChatingViewController
+            chatVC.contact = (sender as! Message).contact
+        }
+    }
+    
 }
 
 //MARK: IBActions
@@ -87,7 +95,7 @@ extension InboxViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("messageCell") as! MessageCell
         let message  = filteredInbox[indexPath.row]
-        cell.setInfo(forMessasge: message)
+        cell.setInfo(forInbox: message)
         return cell
     }
     
@@ -97,7 +105,8 @@ extension InboxViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.performSegueWithIdentifier("toChatVCSegue", sender: nil)
+        let message = inbox[indexPath.row]
+        self.performSegueWithIdentifier("toChatVCSegue", sender: message)
     }
     
 }
@@ -142,13 +151,19 @@ class MessageCell: TVGenericeCell {
     }
     
     //Set message info
-    func setInfo(forMessasge message: Message) {
-        lblTitle.text = message.senderName
+    func setInfo(forInbox message: Message) {
+        lblTitle.text = message.contact.name
         lblSubTitle.text = (message.senderId == me.Id ? "You : " : "") + message.text
         lblTime.text = message.dateString
-        imgView.setImageWithURL(NSURL(string: message.senderPhoto)!, placeholderImage: _userPlaceholderImage)
+        imgView.setImageWithURL(NSURL(string: message.contact.photo)!, placeholderImage: _userPlaceholderImage)
     }
+    
+    func setInfo(forMessage message: Message) {
+        lblTitle.text = message.text
+        //lblSubTitle.text = (message.senderId == me.Id ? "You : " : "") + message.text
+        lblTime.text = dateFormator.stringFromDate(message.date, format: "hh:mm a")
+    }
+
 }
 
-//Message class
 

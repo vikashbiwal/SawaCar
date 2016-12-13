@@ -415,6 +415,18 @@ extension Webservice {
         postRequest(urlWithMethod("GetUserContacts"), param:params, block: block)
     }
     
+    func getMessageWithOtherUser(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetMessagesFromUser
+        jprint("=======WS = GetMessagesFromUser=======")
+        postRequest(urlWithMethod("GetMessagesFromUser"), param:params, block: block)
+    }
+    
+    func sendMessage(params: [String : AnyObject], block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=SendNewMessage
+        jprint("=======WS = SendNewMessage=======")
+        postRequest(urlWithMethod("SendNewMessage"), param:params, block: block)
+    }
+
 }
 
 //MARK: Webservice Inialization and AFNetworking setup
@@ -554,7 +566,7 @@ struct vResponse {
                 message = (messageObj as! [String]).first
             }
         } else {
-          message = "Server Error"
+          message = "Something going wrong!"
         }
         json = rJson
     }
