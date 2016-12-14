@@ -14,6 +14,7 @@ class ContactsViewController: ParentVC {
     
     var contacts = [Contact] ()
     var sortedContacts = [[Contact]] ()
+    var sectionTitles = [String]()
     
     //property used for partitioned array in sections
     let indexedCollation = UILocalizedIndexedCollation.currentCollation()
@@ -31,7 +32,9 @@ class ContactsViewController: ParentVC {
     
     //Sort contacts section wise
     func sortContacts(contacts: [Contact]) {
-        sortedContacts = indexedCollation.partitionObjects(contacts, collationStringSelector: Selector("name")) as! [[Contact]]
+        let (resultContacts, resultSectionTitls) = indexedCollation.partitionObjects(contacts, collationStringSelector: Selector("name"))
+        self.sortedContacts = resultContacts as! [[Contact]]
+        self.sectionTitles = resultSectionTitls
     }
 }
 
@@ -86,7 +89,7 @@ extension ContactsViewController : UISearchBarDelegate {
 extension ContactsViewController : UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sortedContacts.count
+        return sectionTitles.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -110,7 +113,7 @@ extension ContactsViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
-        cell.lblTitle.text = indexedCollation.sectionTitles[section]
+        cell.lblTitle.text = sectionTitles[section]
         cell.contentView.backgroundColor = UIColor.whiteColor()
         return cell.contentView
     }
@@ -127,7 +130,7 @@ extension ContactsViewController {
     //Get inbox messages api call
     func getContactsAPICall() {
         self.showCentralGraySpinner()
-        let params = ["UserID" : "39"]
+        let params = ["UserID" : me.Id]
         wsCall.getContacts(params) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {

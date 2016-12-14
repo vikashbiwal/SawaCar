@@ -115,10 +115,11 @@ extension InboxViewController : UITableViewDataSource, UITableViewDelegate {
 //MARK: Web service calls
 extension InboxViewController {
     //Get inbox messages api call
+    
     func getInboxMessageAPICall() {
         
         self.showCentralGraySpinner()
-        let params = ["UserID" : "39"]
+        let params = ["UserID" : me.Id]
         wsCall.getInboxMessages(params) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {

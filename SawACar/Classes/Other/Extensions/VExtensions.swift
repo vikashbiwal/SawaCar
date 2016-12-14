@@ -134,7 +134,7 @@ extension UILocalizedIndexedCollation {
     //Add below commented line in your viewController for accesing func partitionObjects(_:)
     // let indexedCollation = UILocalizedIndexedCollation.currentCollation()
 
-    func partitionObjects(array:[AnyObject], collationStringSelector:Selector) -> [AnyObject] {
+    func partitionObjects(array:[AnyObject], collationStringSelector:Selector) -> ([AnyObject], [String]) {
         var unsortedSections = [[AnyObject]]()
         
         //Create a array to hold the data for each section
@@ -149,20 +149,18 @@ extension UILocalizedIndexedCollation {
             unsortedSections[index].append(item)
         }
         
+        var sectionTitles = [String]()
         var sections = [AnyObject]()
         //sort each sections
         //sectionTitles  = NSMutableArray()
         for index in 0  ..< unsortedSections.count
         {
             if unsortedSections[index].count > 0 {
-                for ob in unsortedSections[index]  {
-                    print(ob)
-                }
-                //sectionTitles!.addObject(collation.sectionTitles[index])
+                sectionTitles.append(self.sectionTitles[index])
                 sections.append(self.sortedArrayFromArray(unsortedSections[index], collationStringSelector: collationStringSelector))
             }
         }
-        return sections
+        return (sections, sectionTitles)
     }
 
 }
