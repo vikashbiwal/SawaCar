@@ -44,12 +44,6 @@ class ForgotPasswordVC: ParentVC {
     }
 }
 
-//MARK: UITextfield delegate
-extension ForgotPasswordVC: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return txtEmail.resignFirstResponder()
-    }
-}
 
 //MARK: API Calls
 extension ForgotPasswordVC {

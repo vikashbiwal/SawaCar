@@ -549,12 +549,6 @@ extension ProfileViewController {
     
 }
 
-//MARK: UITextField delegate and actions
-extension ProfileViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return textField.resignFirstResponder()
-    }
-}
 
 //MARK: Other
 extension ProfileViewController {

@@ -92,6 +92,8 @@
 		03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F65D321CBBDE8700C44B5A /* UserLocation.swift */; };
 		03FD10671CBB8AA400695AE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10661CBB8AA400695AE2 /* Constants.swift */; };
 		03FD10691CBB9E6F00695AE2 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD10681CBB9E6E00695AE2 /* Webservice.swift */; };
+		690C87721E02986C0099A70D /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C87711E02986C0099A70D /* AddContactViewController.swift */; };
+		690C87741E02B3D50099A70D /* TrackingLocationDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C87731E02B3D50099A70D /* TrackingLocationDetailVC.swift */; };
 		6925F7D01DE6BB230025CD3D /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6925F7CF1DE6BB230025CD3D /* Car.swift */; };
 		6935BBE71DF6B8B800C9C093 /* MyOffersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6935BBE61DF6B8B800C9C093 /* MyOffersVC.swift */; };
 		6943B9151DEEAA3300A9110D /* TravelRequestOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943B9141DEEAA3300A9110D /* TravelRequestOffer.swift */; };
@@ -220,6 +222,8 @@
 		03FD10681CBB9E6E00695AE2 /* Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Webservice.swift; path = ../Other/Webservice.swift; sourceTree = "<group>"; };
 		03FD106A1CBB9EB600695AE2 /* SawACar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SawACar-Bridging-Header.h"; sourceTree = "<group>"; };
 		1A66172A59E14E56D6E81EF6 /* Pods_SawACar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SawACar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		690C87711E02986C0099A70D /* AddContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
+		690C87731E02B3D50099A70D /* TrackingLocationDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingLocationDetailVC.swift; sourceTree = "<group>"; };
 		6925F7CF1DE6BB230025CD3D /* Car.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
 		6935BBE61DF6B8B800C9C093 /* MyOffersVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyOffersVC.swift; sourceTree = "<group>"; };
 		6943B9141DEEAA3300A9110D /* TravelRequestOffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelRequestOffer.swift; sourceTree = "<group>"; };
@@ -745,6 +749,8 @@
 			isa = PBXGroup;
 			children = (
 				69B827E41E01567000D61C17 /* TrackingViewController.swift */,
+				690C87711E02986C0099A70D /* AddContactViewController.swift */,
+				690C87731E02B3D50099A70D /* TrackingLocationDetailVC.swift */,
 			);
 			name = Tracking;
 			sourceTree = "<group>";
@@ -940,6 +946,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				034832221D76AF2F004E0F38 /* VNoDataView.swift in Sources */,
+				690C87741E02B3D50099A70D /* TrackingLocationDetailVC.swift in Sources */,
 				03F65D4B1CBBDE8700C44B5A /* Subclasses.swift in Sources */,
 				03F65D461CBBDE8700C44B5A /* Popups.swift in Sources */,
 				696B52401DF7E1CA002631BE /* AlertsViewController.swift in Sources */,
@@ -1014,6 +1021,7 @@
 				03F65D4A1CBBDE8700C44B5A /* Structures.swift in Sources */,
 				695A75341DD0550000B9C871 /* DFindRideRequestVC.swift in Sources */,
 				69644E7B1DFE674700E73E42 /* InboxViewController.swift in Sources */,
+				690C87721E02986C0099A70D /* AddContactViewController.swift in Sources */,
 				69EFD5011DE6F35A0019FF37 /* RequestARideVC.swift in Sources */,
 				03F65D381CBBDE8700C44B5A /* UIColorExtension.swift in Sources */,
 				699DB22E1DF55198002BB58A /* MyBookingsViewController.swift in Sources */,

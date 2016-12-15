@@ -69,8 +69,8 @@ extension LoginVC {
 }
 
 //MARK: UITextfield delegate
-extension LoginVC: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+extension LoginVC {
+    override func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField === txtEmail {
             txtpassword.becomeFirstResponder()
         } else {

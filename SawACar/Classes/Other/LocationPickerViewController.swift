@@ -28,6 +28,12 @@ class GLocation: Address {
         name = RConverter.string(info["Address"])
         address = name
     }
+    
+    //used for create location from google route api. 
+    init(fromGoogleRoute info : [String : AnyObject]) {
+        lat = RConverter.double(info["lat"])
+        long = RConverter.double(info["lng"])
+    }
 }
 
 class Address {
@@ -58,7 +64,7 @@ enum LoadingType:Int{
     case NetWorkErr
 }
 
-class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: - IBOutlet
     @IBOutlet var tfSerach: UITextField!
@@ -152,11 +158,6 @@ class LocationPickerViewController: ParentVC,UITableViewDelegate,UITableViewData
             self.arrData = [] 
             self.tblView.reloadData()
         }
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        tfSerach.resignFirstResponder()
-        return true
     }
     
     
@@ -379,7 +380,7 @@ class LocationOperation: NSOperation {
         if self.cancelled {
             return
         }
-        
+        print("Request URL : \(url.absoluteString)")
         let data = NSData(contentsOfURL: url)
         let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
         if self.cancelled {

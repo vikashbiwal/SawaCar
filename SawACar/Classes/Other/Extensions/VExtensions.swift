@@ -283,4 +283,10 @@ func getCurrencyCode(forCountryCode code: String)-> String? {
     return currencyCode
 }
 
+func getCountryCodeFromCurrentLocale()-> String? {
+    let locale = NSLocale.currentLocale()
+    let code = locale.objectForKey(NSLocaleCountryCode) as? String
+    return code
+}
+
 

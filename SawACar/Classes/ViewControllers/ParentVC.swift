@@ -157,6 +157,13 @@ class ParentVC: UIViewController  {
     }
 }
 
+//MARK: TextField Delegate
+extension ParentVC : UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        return textField.resignFirstResponder()
+    }
+}
+
 //MARK: Setup Empty data view
 extension ParentVC {
     func initEmptyDataView()  {

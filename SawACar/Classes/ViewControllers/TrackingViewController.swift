@@ -8,21 +8,19 @@
 
 import UIKit
 
+
 class TrackingViewController: ParentVC {
 
     @IBOutlet var lblScrollLine: UILabel!
     @IBOutlet var lblScrollLeadingSpace: NSLayoutConstraint!
     @IBOutlet var menuContainerView: UIView!
-   
-    enum TrackingMenuType: Int {
-        case Me, MyTrips, MyContacts
-    }
-    
-    var selectedMenuType = TrackingMenuType.Me
+    @IBOutlet var collView: UICollectionView!
+    @IBOutlet var addContactButtonView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        addContactButtonView.drawShadow()
+        addContactsBtnTransform()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,9 +28,17 @@ class TrackingViewController: ParentVC {
         // Dispose of any resources that can be recreated.
     }
     
-    //Set UI and Other info for current selected menu
-    func setUIForCurrentMenu() {
-        
+    //show/hide addContacts button
+    func addContactsBtnTransform(toVisible: Bool = false) {
+        let scaleFactor: CGFloat = toVisible ? 1.0 : 0.1
+        self.addContactButtonView.hidden = false
+        UIView.animateWithDuration(0.3, animations: {
+            let transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor)
+            self.addContactButtonView.transform = transform
+            
+        }) { (hmm) in
+            self.addContactButtonView.hidden = !toVisible
+        }
     }
 }
 
@@ -40,19 +46,94 @@ class TrackingViewController: ParentVC {
 extension TrackingViewController {
     
     @IBAction func menuButtonTapped(sender: UIButton) {
-        let positionX = lblScrollLine.frame.size.width * CGFloat(sender.tag)
-        
-        UIView.animateWithDuration(0.3, animations: {
-            self.lblScrollLeadingSpace.constant = positionX
-            self.menuContainerView.layoutIfNeeded()
-        })
-        selectedMenuType = TrackingMenuType(rawValue: sender.tag)!
-        self.tableView.reloadData()
+        let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
+        collView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+    }
+    
+    @IBAction func followMeSwitchTapped(sender: UISwitch) {
+        //TODO
+    }
+    
+    @IBAction func generateCodeButtonTapped(sender: UIButton) {
+        //TODO
+    }
+    
+    @IBAction func addContactsBtnTapped(sender: UIButton) {
+        self.performSegueWithIdentifier("toAddContactSegue", sender: nil)
     }
 }
 
-extension TrackingViewController : UITableViewDataSource, UITableViewDelegate {
+
+//MARK: CollectionView DataSource and Delegate
+extension TrackingViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
     
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! TrackingCollectionViewCell
+        if indexPath.row == 0 {
+            cell.selectedMenuType = .Me
+        } else if indexPath.row == 1  {
+            cell.selectedMenuType = .MyTrips
+        } else {
+            cell.selectedMenuType = .MyContacts
+        }
+        cell.viewcontroller = self
+        cell.tableView.reloadData()
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        //TODO
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let contentOffSet = scrollView.contentOffset
+        self.lblScrollLeadingSpace.constant = contentOffSet.x / 3
+        self.menuContainerView.layoutIfNeeded()
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let contentOffSet = scrollView.contentOffset
+        let pageIndex = Int(contentOffSet.x / ScreenSize.SCREEN_WIDTH)
+        self.setUIForPageIndex(pageIndex)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        let contentOffSet = scrollView.contentOffset
+        let pageIndex = Int(contentOffSet.x / ScreenSize.SCREEN_WIDTH)
+        self.setUIForPageIndex(pageIndex)
+    }
+    
+    //SetUI for Current Visible Page Menu
+    func setUIForPageIndex(index: Int) {
+        if (index >= 0) && (index < collView.numberOfItemsInSection(0)) {
+            addContactsBtnTransform(index == 2 ? true : false)
+            self.view.endEditing(true)
+        }
+    }
+}
+
+//MARK: Tracking CollectionView cell
+class TrackingCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableViewDelegate {
+   
+    enum TrackingMenuType: Int {
+        case Me, MyTrips, MyContacts
+    }
+
+    @IBOutlet var tableView: UITableView!
+    var selectedMenuType = TrackingMenuType.Me
+    weak var viewcontroller: UIViewController?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    //MARK: TableView DataSource and Delegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedMenuType == .Me {
             return 2
@@ -98,7 +179,11 @@ extension TrackingViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        if selectedMenuType == .MyTrips {
+            
+        } else if selectedMenuType == .MyContacts {
+            viewcontroller?.performSegueWithIdentifier("toLocationSegue", sender: nil)
+        }
     }
-    
+
 }
