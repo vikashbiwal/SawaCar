@@ -8,7 +8,7 @@
 
 import Foundation
 
-//============================= Extensions ===================================
+//MARK:============================= Extensions ===================================
 
 //MARK: String
 extension String {
@@ -165,7 +165,7 @@ extension UILocalizedIndexedCollation {
 
 }
 
-//============================= SubClasses ===================================
+//MARK:============================= SubClasses ===================================
 //Swift view resize as per device ratio
 class VkUISwitch: UISwitch {
     override func awakeFromNib() {
@@ -267,13 +267,37 @@ class CornerRadiusView: ConstrainedView {
     }
 }
 
+//Operation for call location related API :
+//Added by vikash
+class VPOperation: NSOperation {
+    var url : NSURL!
+    var block: ((NSDictionary) -> Void)?
+    
+    init(strUrl: String, block:(NSDictionary?) -> Void) {
+        self.url = NSURL(string: strUrl)
+        self.block = block
+    }
+    
+    override func main() {
+        if self.cancelled {
+            return
+        }
+        print("Request URL : \(url.absoluteString)")
+        let data = NSData(contentsOfURL: url)
+        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
+        if self.cancelled {
+            return
+        }
+        block?(json as! NSDictionary)
+    }
+}
 
-//============================= Enums ===================================
+//MARK:============================= Enums ===================================
 enum VAction {
     case Cancel, Done, Share
 }
 
-//============================= Functions ===================================
+//MARK:============================= Functions ===================================
 
 func getCurrencyCode(forCountryCode code: String)-> String? {
     let components = [NSLocaleCountryCode : code]
@@ -287,6 +311,75 @@ func getCountryCodeFromCurrentLocale()-> String? {
     let locale = NSLocale.currentLocale()
     let code = locale.objectForKey(NSLocaleCountryCode) as? String
     return code
+}
+
+//MARK:============================= Protocols ===================================
+
+//should import GoogleMaps sdk in your project
+//MARK: Google Map Route Path Protocol
+import GoogleMaps
+protocol GoogleMapRoutePath {
+    var mapView: GMSMapView {get set}
+}
+
+extension GoogleMapRoutePath {
+    //Get route beween two location using google map direction api.
+    func getRoutesFromGoogleApi(originCoordinates: CLLocationCoordinate2D, _ destinationCoordinates: CLLocationCoordinate2D) {
+        var paths = [GMSPath]()
+        let fromLatLong = "\(originCoordinates.latitude),\(originCoordinates.longitude)"
+        let toLatLong = "\(destinationCoordinates.latitude),\(destinationCoordinates.longitude)"
+        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(fromLatLong)&destination=\(toLatLong)&sensor=false"
+        
+        let operation = VPOperation(strUrl: url) { (response) in
+            if let response = response as? [String : AnyObject] {
+                print(response)
+                if let routes = response["routes"] as? [[String : AnyObject]] {
+                    if let firstRoute = routes.first {
+                        if let legs = firstRoute["legs"] as? [[String : AnyObject]] {
+                            if let firstLeg = legs.first {
+                                if let steps = firstLeg["steps"] as? [[String : AnyObject]] {
+                                    for step in steps {
+                                        
+                                        if let encodedPolyline = step["polyline"] as? [String : AnyObject] {
+                                            if let encodedPolylinePoints = encodedPolyline["points"] as? String {
+                                                let path = GMSPath(fromEncodedPath: encodedPolylinePoints)!
+                                                paths.append(path)
+                                                print(encodedPolylinePoints)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                print(paths)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.drawRouteOnGoogleMap(paths, zoomLocation: originCoordinates)
+                })
+            }
+        }
+        let operationQueue = NSOperationQueue()
+        operationQueue.addOperation(operation)
+    }
+    
+    //Draw route path on map
+    func drawRouteOnGoogleMap(paths: [GMSPath], zoomLocation: CLLocationCoordinate2D) {
+        let startPositionCoordinates = zoomLocation
+        let cameraPositionCoordinates = startPositionCoordinates
+        let cameraPosition = GMSCameraPosition.cameraWithTarget(cameraPositionCoordinates, zoom: 8)
+        mapView.animateToCameraPosition(cameraPosition)
+        
+        
+        for path in paths {
+            let rectangle = GMSPolyline(path: path)
+            rectangle.strokeWidth = 3.0
+            rectangle.strokeColor = UIColor.scHeaderColor()
+            rectangle.map = mapView
+        }
+    }
+    
 }
 
 

@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SawACar/Classes/ViewControllers/TravelDetailVC.swift"
-            timestampString = "502795475.188594"
+            timestampString = "503577828.470265"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "tableView(tableView:cellForRowAtIndexPath:)"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -65,54 +65,6 @@
             endingLineNumber = "234"
             landmarkName = "sendMessage()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/ViewControllers/TrackingLocationDetailVC.swift"
-            timestampString = "503501369.734656"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "getRoutesFromGoogleApi()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SawACar.TrackingLocationDetailVC.getRoutesFromGoogleApi () -&gt; ()"
-                  moduleName = "SawACar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yudizsolutionspvt.ltd./Documents/VikashWorks/Projects/CurrentProjects/SawACar/SourceCode/SawACar/SawACar/Classes/ViewControllers/TrackingLocationDetailVC.swift"
-                  timestampString = "503501638.285064"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "1338">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SawACar.TrackingLocationDetailVC.(getRoutesFromGoogleApi () -&gt; ()).(closure #1)"
-                  moduleName = "SawACar"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yudizsolutionspvt.ltd./Documents/VikashWorks/Projects/CurrentProjects/SawACar/SourceCode/SawACar/SawACar/Classes/ViewControllers/TrackingLocationDetailVC.swift"
-                  timestampString = "503501638.286833"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "41">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

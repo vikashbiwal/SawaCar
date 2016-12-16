@@ -19,7 +19,6 @@ class TrackingViewController: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addContactButtonView.drawShadow()
         addContactsBtnTransform()
     }
 
@@ -65,7 +64,7 @@ extension TrackingViewController {
 
 
 //MARK: CollectionView DataSource and Delegate
-extension TrackingViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension TrackingViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -91,6 +90,10 @@ extension TrackingViewController : UICollectionViewDelegate, UICollectionViewDat
         //TODO
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: 375 * _widthRatio, height: 553 * _widthRatio)
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let contentOffSet = scrollView.contentOffset
         self.lblScrollLeadingSpace.constant = contentOffSet.x / 3
@@ -131,6 +134,7 @@ class TrackingCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITable
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        tableView?.tableFooterView = UIView()
     }
     
     //MARK: TableView DataSource and Delegate

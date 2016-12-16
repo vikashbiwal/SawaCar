@@ -84,7 +84,7 @@ class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDa
     var loadType : LoadingType!
     var selectedAddress = GLocation()
     var selectionBlock: ((add: GLocation) -> Void)!
-    var locationOperation : LocationOperation?
+    var locationOperation : VPOperation?
     var operationQueue: NSOperationQueue!
     
     //MARK: - Life cycle methods
@@ -233,7 +233,7 @@ class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDa
     //MARK: Google api call.  Developer : Vikash Kumar
     func googelApiCallForSearchPlace(name: String) {
         let path = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(name)&sensor=false&key=\(googleKey)"
-        locationOperation = LocationOperation(strUrl: path) { (response) in
+        locationOperation = VPOperation(strUrl: path) { (response) in
             if let json = response {
                 self.arrData = []
                 if json["status"] as! String == "OK" {
@@ -271,7 +271,7 @@ class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDa
     
     func getLatLongWithPlaceRefCode(refCode: String) {
         let path = "https://maps.googleapis.com/maps/api/place/details/json?reference=\(refCode)&sensor=false&key=\(googleKey)" //&language=ar
-        locationOperation = LocationOperation(strUrl: path) { (response) in
+        locationOperation = VPOperation(strUrl: path) { (response) in
             if let json = response {
                 print("location Info :: \(response)")
                 if json["status"] as! String == "OK" {
@@ -365,27 +365,3 @@ extension NSDictionary{
     }
 }
 
-//Operation for call location related API : 
-//Added by vikash
-class LocationOperation: NSOperation {
-    var url : NSURL!
-    var block: ((NSDictionary) -> Void)?
-    
-    init(strUrl: String, block:(NSDictionary?) -> Void) {
-     self.url = NSURL(string: strUrl)
-        self.block = block
-    }
-    
-    override func main() {
-        if self.cancelled {
-            return
-        }
-        print("Request URL : \(url.absoluteString)")
-        let data = NSData(contentsOfURL: url)
-        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
-        if self.cancelled {
-            return
-        }
-        block?(json as! NSDictionary)
-    }
-}
