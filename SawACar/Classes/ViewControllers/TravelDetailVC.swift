@@ -14,6 +14,7 @@ class TravelDetailVC: ParentVC, GoogleMapRoutePath {
     @IBOutlet var gMapView: GMSMapView!
     @IBOutlet var mapViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var btnEditTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var btnShareRide: UIButton!
     
     var mapView: GMSMapView {get{return gMapView} set{}}
 
@@ -41,6 +42,9 @@ class TravelDetailVC: ParentVC, GoogleMapRoutePath {
         bookBtnView.hidden = travel.driver.id == me.Id
         tableView.contentInset = UIEdgeInsets(top: mapViewHeightConstraint.constant , left: 0, bottom: 50, right: 0)
         btnEditTrailingConstraint.constant = travel.driver.id == me.Id ? 0 : -55
+        
+        let shareBtnSelector = travel.driver.id == me.Id ? #selector(self.shareBtnClicked(_:)) : #selector(self.ratingButtonClicked(_:))
+        btnShareRide.addTarget(self, action: shareBtnSelector, forControlEvents: .TouchUpInside)
     }
     
     //MARK: Navigations
@@ -62,14 +66,19 @@ extension TravelDetailVC {
         self.navigateForEditTravel()
     }
     
-    //Share button action
-    @IBAction func shareBtnClicked(sender: UIButton) {
-        self.openShareView()
-    }
-    
     //Book ride button clicked
     @IBAction func bookRideButtonClicked(sender: UIButton) {
         self.bookTravel()
+    }
+    
+    //Share button action
+    @IBAction func shareBtnClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("travelToGiveRatingSegue", sender: nil)
+        // self.openShareView()
+    }
+    
+    @IBAction func ratingButtonClicked(sender: UIButton) {
+        self.performSegueWithIdentifier("travelToGiveRatingSegue", sender: nil)
     }
 }
 

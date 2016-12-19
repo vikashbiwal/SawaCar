@@ -270,7 +270,7 @@ class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDa
     }
     
     func getLatLongWithPlaceRefCode(refCode: String) {
-        let path = "https://maps.googleapis.com/maps/api/place/details/json?reference=\(refCode)&sensor=false&key=\(googleKey)" //&language=ar
+        let path = "https://maps.googleapis.com/maps/api/place/details/json?reference=\(refCode)&sensor=false&key=\(googleKey)&language=en"
         locationOperation = VPOperation(strUrl: path) { (response) in
             if let json = response {
                 print("location Info :: \(response)")

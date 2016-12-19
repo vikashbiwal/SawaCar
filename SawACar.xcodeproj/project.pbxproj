@@ -117,6 +117,8 @@
 		696B523D1DF7D402002631BE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B523C1DF7D402002631BE /* Alert.swift */; };
 		696B52401DF7E1CA002631BE /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B523F1DF7E1CA002631BE /* AlertsViewController.swift */; };
 		696B52431DF83E97002631BE /* FindDriverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B52421DF83E97002631BE /* FindDriverVC.swift */; };
+		69788C701E07A4A9002940EC /* GiveRatingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69788C6F1E07A4A9002940EC /* GiveRatingsVC.swift */; };
+		69788C721E07F805002940EC /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69788C711E07F805002940EC /* Rating.swift */; };
 		697EE9F01DD326B100060F40 /* CustomViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697EE9F21DD326B100060F40 /* CustomViews.xib */; };
 		697EE9FE1DD327A300060F40 /* SBDriver.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA001DD327A300060F40 /* SBDriver.storyboard */; };
 		697EEA091DD327FD00060F40 /* SBPassanger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 697EEA0B1DD327FD00060F40 /* SBPassanger.storyboard */; };
@@ -250,6 +252,8 @@
 		696B523C1DF7D402002631BE /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		696B523F1DF7E1CA002631BE /* AlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
 		696B52421DF83E97002631BE /* FindDriverVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindDriverVC.swift; sourceTree = "<group>"; };
+		69788C6F1E07A4A9002940EC /* GiveRatingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GiveRatingsVC.swift; sourceTree = "<group>"; };
+		69788C711E07F805002940EC /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		697EE9961DD2F10900060F40 /* SawACar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SawACar.entitlements; sourceTree = "<group>"; };
 		697EE9F11DD326B100060F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CustomViews.xib; sourceTree = "<group>"; };
 		697EE9F41DD326B400060F40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CustomViews.strings; sourceTree = "<group>"; };
@@ -497,6 +501,7 @@
 				6943B9141DEEAA3300A9110D /* TravelRequestOffer.swift */,
 				6943B9191DEF055600A9110D /* Comment.swift */,
 				696B523C1DF7D402002631BE /* Alert.swift */,
+				69788C711E07F805002940EC /* Rating.swift */,
 				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
 				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
 			);
@@ -697,6 +702,7 @@
 			isa = PBXGroup;
 			children = (
 				695CB1AD1E03AE87006C310C /* RatingsViewController.swift */,
+				69788C6F1E07A4A9002940EC /* GiveRatingsVC.swift */,
 			);
 			name = Ratings;
 			sourceTree = "<group>";
@@ -1007,10 +1013,12 @@
 				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
 				03162F9D1D1A7DF700869987 /* Travel.swift in Sources */,
 				039909F21DB603830012B7F9 /* VBlurViews.swift in Sources */,
+				69788C701E07A4A9002940EC /* GiveRatingsVC.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
 				032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */,
 				038F50ED1D22859400E28B5D /* ValidationToast.swift in Sources */,
 				6943B9181DEED88600A9110D /* MyTravelRequestsVC.swift in Sources */,
+				69788C721E07F805002940EC /* Rating.swift in Sources */,
 				031D03BC1D196DB100BA0D5E /* AddTravelStep2VC.swift in Sources */,
 				695A75361DD062AD00B9C871 /* DRideRequestsListVC.swift in Sources */,
 				03E7E6AA1CBD146B00DB7723 /* TableViewCells.swift in Sources */,

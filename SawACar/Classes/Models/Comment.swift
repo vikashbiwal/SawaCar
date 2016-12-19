@@ -61,7 +61,7 @@ class Contact: NSObject {
     
     //Create contact from message object get through json response
     init(fromMessage info: [String : AnyObject]) {
-        //inbox object does not have contact info separately in it, thats why i(Vikash) have create contact from message info.
+        //inbox object does not have contact info separately in it, thats why i(Vikash) have create contact from message info like asf.
         
         let contactId = RConverter.string(info["UserFromID"])
         if contactId == me.Id {

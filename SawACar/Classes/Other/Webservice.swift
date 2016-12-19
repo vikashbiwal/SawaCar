@@ -429,6 +429,35 @@ extension Webservice {
 
 }
 
+
+//MARK: Ratings APIs -
+extension Webservice {
+    
+    //Api for getting ratings which you have gave for other users and cars.
+    func getRatings(byUser userId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetRatesUserGive&UserID=39
+        jprint("=======WS = GetUserTravelRequestAlerts for driver=======")
+        getRequest(urlWithMethod("GetRatesUserGive&UserID=\(userId)"), param: nil, block: block)
+    }
+    
+    //API for getting ratings which you have got from other users.
+    func getRatings(forUser userId: String, block: WSBlock) {
+        //http://sawacar.com/Services/Sawacar.ashx?Method=GetRatesUserGot&UserID=39
+        jprint("=======WS = GetUserTravelRequestAlerts for driver=======")
+        getRequest(urlWithMethod("GetRatesUserGot&UserID=\(userId)"), param: nil, block: block)
+    }
+    
+    //rate user api
+    func rateUser(params: [String : AnyObject], block: WSBlock) {
+        //Needs api request in httpPost method.
+    }
+    
+    //rate car api
+    func rateCar(params: [String : AnyObject], block: WSBlock) {
+        //Needs api request in httpPost method.
+    }
+ }
+
 //MARK: Webservice Inialization and AFNetworking setup
 class Webservice: NSObject {
     var manager : AFHTTPSessionManager!

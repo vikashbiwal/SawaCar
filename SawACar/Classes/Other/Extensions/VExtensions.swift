@@ -332,7 +332,7 @@ extension GoogleMapRoutePath {
         
         let operation = VPOperation(strUrl: url) { (response) in
             if let response = response as? [String : AnyObject] {
-                print(response)
+                jprint("Route API Request URL: \(url)\nResponse:\n\(response)")
                 if let routes = response["routes"] as? [[String : AnyObject]] {
                     if let firstRoute = routes.first {
                         if let legs = firstRoute["legs"] as? [[String : AnyObject]] {
