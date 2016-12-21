@@ -23,14 +23,6 @@ class RatingsViewController: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        var classA = ClassA()
-//        classA.doWork() //ClassA do the work
-//       
-//        let classB = ClassB()
-//        classB.doWork() //ClassB do the work
-//       
-//        classA = classB
-//        classA.doWork() //ClassB do the work
     }
 
     override func didReceiveMemoryWarning() {
@@ -144,16 +136,3 @@ extension RatingsViewController {
 }
 
 
-class ClassA {
-    
-    func doWork() {
-        print("ClassA do the work")
-    }
-}
-
-class ClassB: ClassA {
-    
-    override func doWork() {
-        print("ClassB do the work")
-    }
-}

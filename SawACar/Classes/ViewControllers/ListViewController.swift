@@ -176,7 +176,9 @@ extension ListViewController {
                     for item in arr {
                         let Id = RConverter.string(item["AccountTypeID"])
                         let name = RConverter.string(item["Name"])
-                        let li = ListItem(id: Id, name: name)
+                        let li = ListItem()
+                        li.Id = Id
+                        li.name = name
                         let at = AccountType(info: item)
                         li.obj = at
                         self.listItems.append(li)
@@ -203,7 +205,10 @@ extension ListViewController {
                         let Id = RConverter.string(item["LanguageID"])
                         let name = RConverter.string(item["Name"])
                         let code = RConverter.string(item["Code"])
-                        let li = ListItem(id: Id, name: name, code: code)
+                        let li = ListItem()
+                        li.Id = Id
+                        li.name = name
+                        li.code = code
                         self.listItems.append(li)
                     }
                     self.filteredItems = self.listItems
@@ -228,7 +233,10 @@ extension ListViewController {
                         let Id = RConverter.string(item["CurrencyID"])
                         let name = RConverter.string(item["CurrencyName"])
                         let code = RConverter.string(item["CurrencyCode"])
-                        let at = ListItem(id: Id, name: name, code: code)
+                        let at = ListItem()
+                        at.Id = Id
+                        at.name = name
+                        at.code = code
                         let currency = Currency(item)
                         at.obj = currency
                         self.listItems.append(at)
@@ -255,7 +263,9 @@ extension ListViewController {
                         let Id = RConverter.string(item["CompanyID"])
                         let name = RConverter.string(item["Name"])
                         let company = Company(item)
-                        let listItem = ListItem(id: Id, name: name)
+                        let listItem = ListItem()
+                        listItem.Id = Id
+                        listItem.name = name
                         listItem.obj = company
                         self.listItems.append(listItem)
                     }
@@ -281,7 +291,9 @@ extension ListViewController {
                         let Id = RConverter.string(item["ColorID"])
                         let name = RConverter.string(item["Name"])
                         let color = Color(item)
-                        let listItem = ListItem(id: Id, name: name)
+                        let listItem = ListItem()
+                        listItem.Id = Id
+                        listItem.name = name
                         listItem.obj = color
                         self.listItems.append(listItem)
                     }
@@ -307,7 +319,9 @@ extension ListViewController {
                         let Id = RConverter.string(item["TravelTypeID"])
                         let name = RConverter.string(item["Name"])
                         let travelType = TravelType(item)
-                        let listItem = ListItem(id: Id, name: name)
+                        let listItem = ListItem()
+                        listItem.Id = Id
+                        listItem.name = name
                         listItem.obj = travelType
                         self.listItems.append(listItem)
                     }
@@ -324,20 +338,6 @@ extension ListViewController {
 
 }
 
-//MARK: List Item to handle all type of item
-class ListItem : Equatable {
-    var Id: String!
-    var name: String
-    var code: String!
-    var selected = false
-    var obj: AnyObject!
-    init(id: String, name: String, code: String = "") {
-        self.Id = id
-        self.name = name
-        self.code = code
-    }
-    
-}
 
 func ==(lhs:ListItem, rhs:ListItem) -> Bool { // Implement Equatable
     return lhs.Id == rhs.Id

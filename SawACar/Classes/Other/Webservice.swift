@@ -18,6 +18,13 @@ let googleKey = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww"   //got from Ravi
 
 //MARK: General APIs
 extension Webservice {
+    
+    func callAPI(withName apiName: String, block: WSBlock) {
+        jprint("=======WS = Get LIst Items API=======")
+        jprint("=Requested API - \(apiName)")
+        getRequest(urlWithMethod(apiName), param: nil, block: block)
+    }
+    
     func getAllCoutries(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCountries
         jprint("=======WS = GetAllCountries=======")
@@ -456,7 +463,7 @@ extension Webservice {
     func rateCar(params: [String : AnyObject], block: WSBlock) {
         //Needs api request in httpPost method.
     }
- }
+}
 
 //MARK: Webservice Inialization and AFNetworking setup
 class Webservice: NSObject {

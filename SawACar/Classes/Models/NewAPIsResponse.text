@@ -1,0 +1,211 @@
+
+Postman Credentials :  username = sawatruckweb@gmail.com, password = sawatrsawatr
+
+Content-Type Header for all the api request is :  application/x-www-form-urlencoded
+
+
+=======================================================================================================================================
+================================================================ SignUp ===============================================================
+=======================================================================================================================================
+
+1. http://sawacar.es/api/users/Signup
+
+paramters :
+Email, FirstName LastName Password Gender Birthday NationalityID LivingCountryID MobileCountryCode PhoneNumber FCMToken
+
+Response :
+
+{
+"Object": "a7a1ee15-a29e-4e25-9de6-1128d1a631ee",
+"Message": "Created Successfully"
+}
+
+
+=======================================================================================================================================
+================================================================ Login ================================================================
+=======================================================================================================================================
+
+2. http://sawacar.es/token
+
+Paramters :
+client_id = "sawaCarAndroid",
+grant_type = "password",
+client_secret = 21#@hf:2016^%*&f4#$SFD$#^%*(1R^1F ,
+RegisterationToken = "2544sf6ds4fsdf4654d6"
+username,
+password
+
+Response :
+{
+"access_token": "rOWeP_i5TdNN7NiwHba-GuPvALOpSo9bu397w1BrrMJUbFoBrNXNaB3P1jxgK-8X5L7cIUj4qBo-T30Hgp_OUWyPrcpF6gjZ8tyutZCASHP95BtVUBVqCU6j_mEI_QsUGyGzYqoOenP-mk2it03xkSEXa1BjnTpbVDJC2BhRVmfiMZZMz7lv0xf5bClkz-jBbzp2W-cEUKsljI-R9lQWtNcryUNa0uqnH_u0hnWLYUXpu8XN1HKhdLtAy0rbGwbE4P2x-wrw7sCTozPn7mbx0dHDOwXk_LPTg9rqls9W7nzCyomtea4d3Fin6sOqXFt3hBwMi1eUWUKnf9nBo64_HzKFLj_3n9562neKWwfOH41W7MlOTQ41N1VEGdyBkQcY7IqHqFOEfSn60AblWwr2Ud473JegflMR9M52FuYvwO-Qk_6r36-idUhGJaBvj_agRtdYOmIP7AXrvCrK-Nr9sdLR8m5nW5zh7tgQZmqlRw0RlR2pt60vQPGoO47ybOz-4tszg_OaVqMRWPafNeP35wYbnZZG3MpwMdeQ0orhH02_fVQ0pMWcqYvQE1UXiajB",
+"token_type": "bearer",
+"expires_in": 31103999,
+"refresh_token": "e821c10c84764bb0b4494d19e8c0c14e",
+"username": "bushra1mb@gmail.com",
+"email": "bushra1mb@gmail.com",
+"userid": "c23997e4-6114-476f-89b9-abba180e0a18",
+"gender": "True",
+"photo": "",
+"type": "-1",
+"as:client_id": "sawaCarAndroid",
+".issued": "Tue, 20 Dec 2016 09:52:56 GMT",
+".expires": "Fri, 15 Dec 2017 09:52:56 GMT"
+}
+
+=======================================================================================================================================
+================================================================ Change Password ======================================================
+=======================================================================================================================================
+3. http://sawacar.es/api/users/ChangePassword
+
+Paramters : request header
+Authorization = Bearer TLdXlkxbbRj4cXhzIxyfG4FfArPAu3EKfz0mos9qCcRpv8CFh8yqWoGG4gjh4sA4KS24NcsDM0mD8rcPUAMysLSeXyALf5ioD-X9C6qF4TBy_IfApE5Tz-sj-VrJfv5Wb2PFuMRzu0QhX-Int_hwJKa55tHDH4fQ0ZOyLrx0TEFBYMn54cSXiaHor_dt_6HCxT4hpeF3GzUU8NufuCsLRVIki2mNPrJ-QP6eL8Msc6APgbiOynhkqWOj4gHl0TdL7B1ESnuNh-S-rCSrlmex1TmCcMM6wlf9UyZ_2ER58tY-yffS6T5xdWV4o7T3LDZ8ARIibiK9IFV2xTU8B3eP0iuBFLxd5SyWzI2cb2ER107RCRvNuVYBrFaj8Da-RdkZAm8IithoBKe6DT4mREL_psT4fkPo_VuY_hBn3-TFA1Cj6smljslLxXiPAzFSkBPWvoQfs6UjVO4HOVzMiFxp74yqLpBWNIcVezhMEtMfyNebAagyBgp-eoLeNXpuNXP71QxpZgphvTJ4lXjU56RWX56FTKWjwE5WfORnVpfc8oRyo9purPb8XwLA_ZA3w4cb
+
+Form Data paramters :
+OldPassword , NewPassword
+
+Response :
+{
+"$id": "1",
+"Message": "Your Password Changed"
+}
+
+
+=======================================================================================================================================
+================================================================ UpdateUserInfo =======================================================
+=======================================================================================================================================
+4. http://sawacar.es/api/users/UpdateUserPersonalnfo
+
+Add access_token with Authorization header
+
+Form Data paramters :
+UserID, FirstName, LastName, Gender, Birthday, NationalityID, LivingCountryID, Bio, AccountTypeID
+
+Response :
+{
+"$id": "1",
+"Object": "a7a1ee15-a29e-4e25-9de6-1128d1a631ee",
+"Message": "Updated Successfully"
+}
+
+=======================================================================================================================================
+============================================================== UpdateUserSocialMedia ==================================================
+=======================================================================================================================================
+5. http://sawacar.es/api/users/UpdateUserSocialMedia
+
+Add access_token with Authorization header
+
+Form Data paramters :
+UserID, Whatsapp, Viber, Line, Tango, Telegram, Facebook, Twitter, Snapchat, Instagram
+
+Response :
+
+{
+"$id": "1",
+"Object": "a7a1ee15-a29e-4e25-9de6-1128d1a631ee",
+"Message": "Updated Successfully"
+}
+
+=======================================================================================================================================
+============================================================== UpdateUserPhoneNumber ==================================================
+=======================================================================================================================================
+6. http://sawacar.es/api/users/UpdateUserPhoneNumber
+
+Add access_token with Authorization header
+
+Form Data paramters :
+UserID, MobileCountryCode, PhoneNumber
+
+Response :
+{
+"$id": "1",
+"Object": "a7a1ee15-a29e-4e25-9de6-1128d1a631ee",
+"Message": "Updated Successfully"
+}
+
+=======================================================================================================================================
+============================================================== UpdateUserPreferences ==================================================
+=======================================================================================================================================
+7. http://sawacar.es/api/users/UpdateUserPreferences
+
+Add access_token with Authorization header
+
+Form Data paramters :
+UserID, PreferencesShowEmail,  PreferencesShowMobile, PreferencesSmoking, PreferencesMusic, PreferencesFood, PreferencesKids,
+PreferencesPets, PreferencesPrayingStop, PreferencesQuran
+
+Response :
+{
+"$id": "1",
+"Object": "a7a1ee15-a29e-4e25-9de6-1128d1a631ee",
+"Message": "Updated Successfully"
+}
+
+=======================================================================================================================================
+============================================================== accountTypes ===========================================================
+=======================================================================================================================================
+8. http://sawacar.es/api/accountTypes/get
+
+Header parameter for result language
+Accept-Language = ar
+
+Response :
+[{"$id":"1","ID":1,"Name":"شخصي"},
+{"$id":"2","ID":2,"Name":"سائق تاكسي"},
+{"$id":"3","ID":3,"Name":"سائق باص"},
+{"$id":"4","ID":4,"Name":"مكتب تأجير سيارات"},
+{"$id":"5","ID":5,"Name":"مرشد سياحي"},
+{"$id":"6","ID":6,"Name":"سائق على سيارته الخاصة"},
+{"$id":"7","ID":7,"Name":"أخرى"}]
+
+=======================================================================================================================================
+================================================================== GetMyInfo ==========================================================
+=======================================================================================================================================
+9. http://sawacar.es/api/users/GetMyInfo/
+
+Header parameter
+Authorization
+
+no other parameter required
+
+Response :
+{
+"$id": "1",
+"Id": "a7a1ee15-a29e-4e25-9de6-1128d1a631ee",
+"FullName": "Vikash Kumar Prajapati",
+"UserName": "vikash@gmail.com",
+"Email": "vikash@gmail.com",
+"EmailConfirmed": false,
+"Facebook": null,
+"Twitter": null,
+"ImageUrl": null,
+"Viber": null,
+"Whatsapp": null,
+"Tango": null,
+"Telegram": null,
+"Snapchat": null,
+"Birthday": "1/1/1992 12:00:00 AM",
+"CountryName": "United Arab Emirates",
+"Details": "hmmmm",
+"Gender": true,
+"Instagram": null,
+"Language": "",
+"Line": null,
+"PhoneNumber": "9711234567841",
+"Rating": 0,
+"AccountTypeID": null,
+"AccountType": null
+}
+
+=======================================================================================================================================
+================================================================== ForgetPassword =====================================================
+=======================================================================================================================================
+10. http://sawacar.es/api/users/ForgetPassword
+Paramters :
+Email
+
+Response :
+
+{
+"$id": "1",
+"Message": "email Sent Check Your Mail, Please ."
+}

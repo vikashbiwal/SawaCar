@@ -99,6 +99,9 @@
 		6943B9151DEEAA3300A9110D /* TravelRequestOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943B9141DEEAA3300A9110D /* TravelRequestOffer.swift */; };
 		6943B9181DEED88600A9110D /* MyTravelRequestsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943B9171DEED88600A9110D /* MyTravelRequestsVC.swift */; };
 		6943B91A1DEF055600A9110D /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6943B9191DEF055600A9110D /* Comment.swift */; };
+		694A453A1E08FC7600584F9F /* VListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694A45391E08FC7600584F9F /* VListViewController.swift */; };
+		694A453C1E08FF5100584F9F /* VListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 694A453B1E08FF5100584F9F /* VListViewController.xib */; };
+		694A453E1E093F9F00584F9F /* NewAPIsResponse.text in Sources */ = {isa = PBXBuildFile; fileRef = 694A453D1E093F9F00584F9F /* NewAPIsResponse.text */; };
 		6951C1771DF03504006C99E6 /* FindARideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6951C1761DF03504006C99E6 /* FindARideVC.swift */; };
 		695735051DF179CC000E1ACA /* FindRideResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695735041DF179CC000E1ACA /* FindRideResultVC.swift */; };
 		695A75341DD0550000B9C871 /* DFindRideRequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */; };
@@ -232,6 +235,9 @@
 		6943B9141DEEAA3300A9110D /* TravelRequestOffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelRequestOffer.swift; sourceTree = "<group>"; };
 		6943B9171DEED88600A9110D /* MyTravelRequestsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTravelRequestsVC.swift; sourceTree = "<group>"; };
 		6943B9191DEF055600A9110D /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		694A45391E08FC7600584F9F /* VListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VListViewController.swift; sourceTree = "<group>"; };
+		694A453B1E08FF5100584F9F /* VListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VListViewController.xib; sourceTree = "<group>"; };
+		694A453D1E093F9F00584F9F /* NewAPIsResponse.text */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = NewAPIsResponse.text; sourceTree = "<group>"; };
 		6951C1761DF03504006C99E6 /* FindARideVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindARideVC.swift; sourceTree = "<group>"; };
 		695735041DF179CC000E1ACA /* FindRideResultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindRideResultVC.swift; sourceTree = "<group>"; };
 		695A75331DD0550000B9C871 /* DFindRideRequestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DFindRideRequestVC.swift; sourceTree = "<group>"; };
@@ -504,6 +510,7 @@
 				69788C711E07F805002940EC /* Rating.swift */,
 				03FD10681CBB9E6E00695AE2 /* Webservice.swift */,
 				03E7E6961CBCBDAE00DB7723 /* WSReponse.text */,
+				694A453D1E093F9F00584F9F /* NewAPIsResponse.text */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -539,6 +546,7 @@
 		036A89731CBB80E200DFB631 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				694A45381E08FC6900584F9F /* VListController */,
 				03FD10661CBB8AA400695AE2 /* Constants.swift */,
 				0349D8451D3E0C7E00B17976 /* AppMessages.swift */,
 				038F50E91D22859400E28B5D /* ValidationToast */,
@@ -677,6 +685,15 @@
 				6943B9171DEED88600A9110D /* MyTravelRequestsVC.swift */,
 			);
 			name = MyTravelRequestVC;
+			sourceTree = "<group>";
+		};
+		694A45381E08FC6900584F9F /* VListController */ = {
+			isa = PBXGroup;
+			children = (
+				694A45391E08FC7600584F9F /* VListViewController.swift */,
+				694A453B1E08FF5100584F9F /* VListViewController.xib */,
+			);
+			name = VListController;
 			sourceTree = "<group>";
 		};
 		6951C1751DF034E8006C99E6 /* FindARide */ = {
@@ -875,6 +892,7 @@
 				034826D51CFC5B46000B46AE /* OpenSans-Semibold.ttf in Resources */,
 				696064931DEC3403003A49A8 /* ShareView.xib in Resources */,
 				034826CF1CFC5B46000B46AE /* OpenSans-ExtraBold.ttf in Resources */,
+				694A453C1E08FF5100584F9F /* VListViewController.xib in Resources */,
 				696064981DEC347D003A49A8 /* VPickerView.xib in Resources */,
 				034826D31CFC5B46000B46AE /* OpenSans-LightItalic.ttf in Resources */,
 				697EEA121DD32CB400060F40 /* Localizable.strings in Resources */,
@@ -975,6 +993,7 @@
 				036A89711CBB7E6500DFB631 /* LoginVC.swift in Sources */,
 				03F65D4C1CBBDE8700C44B5A /* UserLocation.swift in Sources */,
 				6943B91A1DEF055600A9110D /* Comment.swift in Sources */,
+				694A453E1E093F9F00584F9F /* NewAPIsResponse.text in Sources */,
 				03F65D331CBBDE8700C44B5A /* CGSizeExtension.swift in Sources */,
 				6925F7D01DE6BB230025CD3D /* Car.swift in Sources */,
 				032360101D08341D0004CDA9 /* ProfileViewController.swift in Sources */,
@@ -1013,6 +1032,7 @@
 				03E7E6B11CBD161400DB7723 /* CountryListVC.swift in Sources */,
 				03162F9D1D1A7DF700869987 /* Travel.swift in Sources */,
 				039909F21DB603830012B7F9 /* VBlurViews.swift in Sources */,
+				694A453A1E08FC7600584F9F /* VListViewController.swift in Sources */,
 				69788C701E07A4A9002940EC /* GiveRatingsVC.swift in Sources */,
 				03F65D411CBBDE8700C44B5A /* Extensions.swift in Sources */,
 				032680E21D06D81700969C16 /* LocationPickerViewController.swift in Sources */,
