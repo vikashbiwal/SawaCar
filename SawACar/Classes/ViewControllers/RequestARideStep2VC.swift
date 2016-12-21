@@ -364,7 +364,7 @@ extension RequestARideStep2VC {
                 
             } else {
                 //error
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self?.hideCentralGraySpinner()
         }
@@ -386,7 +386,7 @@ extension RequestARideStep2VC {
                 }
             } else {
                 //error
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self?.hideCentralGraySpinner()
             

@@ -337,7 +337,7 @@ extension Travel {
                 let travelInfo = response.json!["Object"] as! [String :  AnyObject]
                 self.updateInfo(travelInfo)
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             block(response.isSuccess)
         }
@@ -351,7 +351,7 @@ extension Travel {
                 let travelInfo = response.json!["Object"] as! [String :  AnyObject]
                 self.updateInfo(travelInfo)
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             block(response.isSuccess)
 

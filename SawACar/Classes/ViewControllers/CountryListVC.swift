@@ -101,17 +101,18 @@ extension CountryListVC: UITableViewDelegate, UITableViewDataSource, UISearchBar
 extension CountryListVC {
     func getCountriesWS()  {
         self.showCentralGraySpinner()
-        wsCall.getAllCoutries { (response, statusCode) in
+        wsCall.getActiveCountries { (response, statusCode) in
             if response.isSuccess  {
-                let arr = response.json!["Object"] as! [[String : AnyObject]]
-                self.countries.removeAll()
-                for item in arr {
-                    self.countries.append(Country(info: item))
+                if let arr = response.json as? [[String : AnyObject]] {
+                    self.countries.removeAll()
+                    for item in arr {
+                        self.countries.append(Country(info: item))
+                    }
+                    self.filteredCountries = self.countries
+                    self.tableView.reloadData()
                 }
-                self.filteredCountries = self.countries
-                self.tableView.reloadData()
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }

@@ -146,7 +146,7 @@ extension DRideRequestsListVC {
                 self.tableView.scrollEnabled = !self.resultRequests.isEmpty
                 self.tableView.reloadData()
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             
             self.hideCentralGraySpinner()
@@ -171,7 +171,7 @@ extension DRideRequestsListVC {
                     }
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }

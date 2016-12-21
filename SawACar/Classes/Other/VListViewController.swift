@@ -23,11 +23,9 @@ import UIKit
  
  */
 
-class VListViewController: UIViewController, UISearchBarDelegate {
+class VListViewController: ParentVC, UISearchBarDelegate {
    
     
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var lblTitle: UILabel!
     var refreshControl : UIRefreshControl!
     
     var screenTitle: String = "List Item"
@@ -63,6 +61,7 @@ class VListViewController: UIViewController, UISearchBarDelegate {
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(self.getItemsAPICall), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
+        tableView.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -162,10 +161,11 @@ extension VListViewController : UITableViewDataSource, UITableViewDelegate {
 
 extension VListViewController {
     func getItemsAPICall() {
+        self.showCentralGraySpinner()
         wsCall.callAPI(withName: apiName) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
-                    if let objects = json[self.keyForData] as? [[String : AnyObject]] {
+                    if let objects = json as? [[String : AnyObject]] {
                         for obj in objects {
                             let listItem = ListItem()
                             listItem.Id = RConverter.string(obj[self.keyForId])
@@ -180,6 +180,7 @@ extension VListViewController {
             } else {
                 //
             }
+            self.hideCentralGraySpinner()
         }
     }
 }

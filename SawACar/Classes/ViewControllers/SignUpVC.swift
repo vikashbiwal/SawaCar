@@ -297,43 +297,50 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
 extension SignUpVC {
     //Method : Open country list controller for select user's nationality and country
     func openCountryList(forAction : SignUpFormActionType)  {
-        let cListVC = self.storyboard?.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
+        let cListVC = VListViewController.loadFromNib()
+        cListVC.keyForTitle = "CountryName"
+        cListVC.keyForId = "CountryID"
+        cListVC.apiName = APIName.GetActiveCountries
+        
         if forAction == .NationalityAction {
-            cListVC.selectedCountryId = user.nationality.Id
-            cListVC.titleString = "nationality".localizedString()
+            cListVC.preSelectedIDs = [user.nationality.Id]
+            cListVC.screenTitle = "nationality".localizedString()
+            cListVC.apiName = APIName.GetAllCountries
             
         } else if forAction == .CountryAction {
-            cListVC.selectedCountryId = user.country.Id
-            cListVC.titleString = "countries".localizedString()
+            cListVC.preSelectedIDs = [user.country.Id]
+            cListVC.screenTitle = "countries".localizedString()
             
         } else if forAction == .DialCodeAction {
-            cListVC.selectedCountryId = user.mobileCountryCode
-            cListVC.titleString = "country_dial_code".localizedString()
+            cListVC.preSelectedIDs = [user.mobileCountryCode]
+            cListVC.screenTitle = "country_dial_code".localizedString()
         }
         
-        cListVC.completionBlock = {(country) in 
+        cListVC.completionBlock = {(countries) in
             let cells = self.CollectionView.visibleCells()
             let cell = cells.first as! SignUpCollectionViewCell
-
-            if forAction == .NationalityAction {
-                self.user.nationality = country
-                let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
-                tblcell.txtField.text = country.name
-                
-            } else if forAction == .CountryAction {
-                self.user.country = country
-                self.user.mobileCountryCode = country.dialCode
-                let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as! TVSignUpFormCell
-                tblcell.txtField.text = country.name
-                
-            } else if forAction == .DialCodeAction {
-                let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
-                tblcell.lblTitle.text = "+" + country.dialCode
-                self.user.mobileCountryCode = country.dialCode
+            if let item = countries.first {
+                let country = Country(info: item.obj as! [String : AnyObject])
+                if forAction == .NationalityAction {
+                    self.user.nationality = country
+                    let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
+                    tblcell.txtField.text = country.name
+                    
+                } else if forAction == .CountryAction {
+                    self.user.country = country
+                    self.user.mobileCountryCode = country.dialCode
+                    let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as! TVSignUpFormCell
+                    tblcell.txtField.text = country.name
+                    
+                } else if forAction == .DialCodeAction {
+                    let tblcell = cell.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! TVSignUpFormCell
+                    tblcell.lblTitle.text = "+" + country.dialCode
+                    self.user.mobileCountryCode = country.dialCode
+                }
             }
         }
         
-        self.navigationController?.pushViewController(cListVC, animated: true)
+        self.presentViewController(cListVC, animated: true, completion: nil)
     }
     
 }
@@ -418,10 +425,10 @@ extension SignUpVC {
                     
                     self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
                 } else {
-                    showToastErrorMessage("Signup Error", message: response.message!)
+                    showToastErrorMessage("Signup Error", message: response.message)
                 }
             } else {
-                showToastErrorMessage("Signup Error", message: response.message!)
+                showToastErrorMessage("Signup Error", message: response.message)
             }
             self.hideCentralGraySpinner()
         })
@@ -438,11 +445,12 @@ extension SignUpVC {
                     if result {
                         self.scrollCollectionViewForSignupStep(1)
                     } else {
-                        showToastErrorMessage("Signup Error", message: response.message!)
+                        let message = json["Message"] as! String
+                        showToastErrorMessage("Signup Error", message: message)
                     }
                 }
             } else {
-                showToastErrorMessage("Signup Error", message: response.message!)
+                showToastErrorMessage("Signup Error", message: response.message)
             }
         }
     }

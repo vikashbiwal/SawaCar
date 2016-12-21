@@ -136,7 +136,7 @@ extension MyRidesVC {
                 self.myRides.isEmpty ? self.showEmptyDataView("kMyRidesNotAvailable".localizedString(), frame: CGRect(x: 0, y: 120, width: _screenSize.width, height: 40)) : self.emptyDataView.hide()
                 self.tableView.reloadData()
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.refreshControl.endRefreshing()
             self.hideCentralGraySpinner()
@@ -166,7 +166,7 @@ extension MyRidesVC {
                 self.myRides.isEmpty ? self.showEmptyDataView("ArchivedRidesNotAvailable".localizedString(), frame: CGRect(x: 0, y: 120, width: _screenSize.width, height: 40)) : self.emptyDataView.hide()
                 self.tableView.reloadData()
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.refreshControl.endRefreshing()
             self.hideCentralGraySpinner()

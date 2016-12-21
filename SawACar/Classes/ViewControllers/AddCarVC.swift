@@ -312,7 +312,7 @@ extension AddCarVC {
                 self.car.setInfo(carInfo)
                  self.addCarImageAPICall(self.car.id)
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
                 self.hideCentralGraySpinner()
             }
         }

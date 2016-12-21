@@ -170,7 +170,7 @@ extension CarListVC {
                 self.Cars.removeElement(car)
                 self.tableView.reloadData()
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }

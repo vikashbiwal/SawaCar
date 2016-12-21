@@ -165,7 +165,7 @@ extension FindRideResultVC {
                     }
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }

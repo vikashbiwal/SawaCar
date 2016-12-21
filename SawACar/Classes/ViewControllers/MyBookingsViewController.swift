@@ -162,7 +162,7 @@ extension MyBookingsViewController {
                     self?.tableView.reloadData()
                     
                 } else {
-                    showToastMessage("", message: response.message!)
+                    showToastMessage("", message: response.message)
                 }
             }
         }
@@ -191,7 +191,7 @@ extension MyBookingsViewController {
                     self?.tableView.reloadData()
 
                 } else {
-                    showToastMessage("", message: response.message!)
+                    showToastMessage("", message: response.message)
                 }
             }
         }
@@ -220,7 +220,7 @@ extension MyBookingsViewController {
                     self?.tableView.reloadData()
                     
                 } else {
-                    showToastMessage("", message: response.message!)
+                    showToastMessage("", message: response.message)
                 }
                 
             }

@@ -27,7 +27,7 @@ class SignUpCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableVi
     
     lazy var dateFomator: NSDateFormatter = {
         let df = NSDateFormatter()
-        df.dateFormat = "dd/MM/yyyy"
+        df.dateFormat = "yyy-MM-dd"
         return df
     }()
     

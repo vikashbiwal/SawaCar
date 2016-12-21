@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKLoginKit
 
+
 class LoginVC: ParentVC {
     
     @IBOutlet var txtEmail: UITextField!
@@ -18,7 +19,7 @@ class LoginVC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -26,9 +27,11 @@ class LoginVC: ParentVC {
         _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
+    
     override func viewWillDisappear(animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -81,6 +84,8 @@ extension LoginVC {
     }
 }
 
+
+
 //MARK: WS call
 extension LoginVC {
     
@@ -94,15 +99,18 @@ extension LoginVC {
             user.login({ (response, flag) in
                 if response.isSuccess {
                     if let json = response.json {
-                        let info = json["Object"] as! [String : AnyObject]
-                        me = User(info: info)
-                        archiveObject(info, key: kLoggedInUserKey)
-                        self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                        if let info = json as? [String : AnyObject] {
+                            me = User(info: info)
+                            archiveObject(info, key: kLoggedInUserKey)
+                            self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                        } else {
+                            showToastErrorMessage("Login Error", message: response.message)
+                        }
                     } else {
-                        showToastErrorMessage("Login Error", message: response.message!)
+                        showToastErrorMessage("Login Error", message: response.message)
                     }
                 } else {
-                    showToastErrorMessage("Login Error", message: response.message!)
+                    showToastErrorMessage("Login Error", message: response.message)
                 }
                 self.hideCentralGraySpinner()
             })
@@ -176,10 +184,10 @@ extension LoginVC {
                     }
                     archiveObject(info, key: kLoggedInUserKey)
                 } else {
-                    showToastErrorMessage("", message: response.message!)
+                    showToastErrorMessage("", message: response.message)
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }

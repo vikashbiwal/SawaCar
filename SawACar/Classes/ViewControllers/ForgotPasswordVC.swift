@@ -53,10 +53,13 @@ extension ForgotPasswordVC {
         let params = ["Email" : email]
         wsCall.forgotPassword(params) { (response, flag) in
             if response.isSuccess {
-                showToastMessage("", message: "reset_pass_msg_sent".localizedString())
-                self.txtEmail.text = ""
+                if let json = response.json as? [String: AnyObject] {
+                    let message = json["Message"] as! String
+                    showToastMessage("", message: message)
+                    self.txtEmail.text = ""
+                }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
         }
     }

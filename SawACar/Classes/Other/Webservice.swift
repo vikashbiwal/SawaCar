@@ -12,9 +12,23 @@ import UIKit
 
 typealias WSBlock = (response: vResponse, flag: Int) -> ()
 var wsCall = {  return Webservice()}()
-var kWSDomainURL = "https://sawacar.com/"
-var kWSBaseUrl = kWSDomainURL + "Services/Sawacar.ashx"
+var kWSDomainURL = "http://sawacar.es/"  //"https://sawacar.com/"
+var kWSBaseUrl = kWSDomainURL + ""//"Services/Sawacar.ashx"
+
 let googleKey = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww"   //got from Ravi
+
+let kClientID = "sawaCarAndroid"
+let kClientSecret = "21#@hf:2016^%*&f4#$SFD$#^%*(1R^1F"
+let kGrantType = "password"
+
+struct APIName {
+    static let GetAllCountries = "api/Countries/Get"
+    static let GetActiveCountries = "api/Countries/GetActiveCountry"
+    static let CheckEmailAvailability = "api/users/IsEmailAvailableToSignUp"
+    static let Authentication = "token"
+    static let SignUp = "api/users/Signup"
+    static let ForgetPassword = "api/users/ForgetPassword"
+}
 
 //MARK: General APIs
 extension Webservice {
@@ -22,19 +36,19 @@ extension Webservice {
     func callAPI(withName apiName: String, block: WSBlock) {
         jprint("=======WS = Get LIst Items API=======")
         jprint("=Requested API - \(apiName)")
-        getRequest(urlWithMethod(apiName), param: nil, block: block)
+        getRequest(apiName, param: nil, block: block)
     }
     
     func getAllCoutries(block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCountries
+        //http://sawacar.es/api/Countries/Get
         jprint("=======WS = GetAllCountries=======")
-        getRequest(urlWithMethod("GetAllCountries"), param: nil, block: block)
+        getRequest(APIName.GetAllCountries, param: nil, block: block)
     }
     
-    func getActiveCoutries(block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetActiveCountries
+    func getActiveCountries(block: WSBlock) {
+        //http://sawacar.es/api/Countries/GetActiveCountry
         jprint("=======WS = GetActiveCountries=======")
-        getRequest(urlWithMethod("GetActiveCountries"), param: nil, block: block)
+        getRequest(APIName.GetActiveCountries, param: nil, block: block)
     }
     
     func GetAllCurrencies(block: WSBlock) {
@@ -73,25 +87,31 @@ extension Webservice {
 extension Webservice {
     
     func checkEmailAvailability(email: String, block: WSBlock) {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=IsEmailAvailableToSignUp
+        //http://sawacar.es/api/users/IsEmailAvailableToSignUp
         //parameters : Email
         jprint("=======WS = IsEmailAvailableToSignUp=======")
-        postRequest(urlWithMethod("IsEmailAvailableToSignUp"), param: ["Email" : email], block: block)
+        postRequest(APIName.CheckEmailAvailability, param: ["Email" : email], block: block)
     }
     
     func signUp(params: [String : AnyObject], block: WSBlock) {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=SignUp
-        //parameters  -  Email, FirstName, LastName, Password, Gender, YearOfBirth,
+        //http://sawacar.es/api/users/Signup
+        //parameters  -  Email, FirstName, LastName, Password, Gender, Birthday,
         //NationalityID, CountryID, MobileCountryCode, MobileNumber
         jprint("=======WS = SignUp=======")
-        postRequest(urlWithMethod("SignUp"), param: params, block: block)
+        postRequest(APIName.SignUp, param: params, block: block)
     }
     
     func login(params: [String : String!], block : WSBlock)  {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=Login
-        //parameters - Email, Password
+        //http://sawacar.es/token
+        /*parameters - 
+         client_id = sawaCarAndroid,
+         grant_type = password, 
+         client_secret = 21#@hf:2016^%*&f4#$SFD$#^%*(1R^1F  ,
+         RegisterationToken = your device token,
+         username, 
+         password */
         jprint("=======WS = Login=======")
-        postRequest(urlWithMethod("Login"), param: params, block: block)
+        postRequest(APIName.Authentication, param: params, block: block)
     }
     
     func loginWithFacebook(params: [String : AnyObject], block: WSBlock) {
@@ -148,10 +168,10 @@ extension Webservice {
     }
     
     func forgotPassword(params: [String : AnyObject], block: WSBlock) {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=ForgetPassword
+        //http://sawacar.es/api/users/ForgetPassword
         //Parameters : Email
         jprint("=======WS = Forgot password api call=======")
-        postRequest(urlWithMethod("ForgetPassword"), param:params, block: block)
+        postRequest(APIName.ForgetPassword, param:params, block: block)
     }
     
     //Passenger
@@ -475,14 +495,16 @@ class Webservice: NSObject {
     
     override init() {
         manager = AFHTTPSessionManager(baseURL: NSURL(string: kWSBaseUrl))
-        manager.requestSerializer = AFJSONRequestSerializer()
+        //manager.requestSerializer = AFJSONRequestSerializer()
         manager.responseSerializer.acceptableContentTypes = Set(["text/html", "text/plain", "application/json"])
+        
+        
         // Success and Error response block, singletone block for all responses
         succBlock = { (dataTask, responseObj, relPath, block) in
             let response = dataTask.response! as! NSHTTPURLResponse
             print("Response Code : \(response.statusCode)")
             print("Response ((\(relPath)): \(responseObj)")
-            block(response: vResponse(rJson: responseObj), flag: response.statusCode)
+            block(response: vResponse(success: responseObj), flag: response.statusCode)
         }
         
         errBlock = { (dataTask, error, relPath, block) in
@@ -490,10 +512,11 @@ class Webservice: NSObject {
             if let errData = dat {
                 let erInfo =  (try! NSJSONSerialization.JSONObjectWithData(errData, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 print("Error - json(\(relPath)): \(erInfo)")
+                block(response: vResponse(error: erInfo) , flag: error.code)
             } else {
                 print("Error(\(relPath)): \(error)")
+                block(response: vResponse(error: error) , flag: error.code)
             }
-            block(response: vResponse(rJson: nil) , flag: error.code)
         }
         
         super.init()
@@ -507,12 +530,19 @@ class Webservice: NSObject {
         }
         
         manager.reachabilityManager.startMonitoring()
+        self.setRequiredHeader()
     }
     
     // sign manager with access token
     func addAccesTokenToHeader(token: String){
         manager.requestSerializer.setValue("\(token)", forHTTPHeaderField: "")
         print("Token added: \(token)")
+    }
+    
+    //Set other header
+    func setRequiredHeader() {
+        manager.requestSerializer.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        manager.requestSerializer.setValue("en", forHTTPHeaderField: "Accept-Language")
     }
     
     func accessTokenForHeader() -> String? {
@@ -539,7 +569,7 @@ class Webservice: NSObject {
         manager.POST(relativePath, parameters: param, success: { (task, responseObj) -> Void in
             self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
             }, failure: { (task, error) -> Void in
-                self.errBlock(dataTask: task, error: task?.error, relPath: relativePath, block: block)
+                self.errBlock(dataTask: task, error: error, relPath: relativePath, block: block)
         })
     }
     
@@ -590,20 +620,28 @@ func urlWithMethod(method: String) -> String {
 struct vResponse {
     var isSuccess  = false
     let json: AnyObject?
-    var message: String?
+    var message: String
     
-    init(rJson : AnyObject?) {
-        if let rJson = rJson { // for SawCar api response
-            if let  _  = (rJson as! NSDictionary)["IsSuccess"] {
-                isSuccess = ((rJson as! NSDictionary)["IsSuccess"] as! Int)  == 1 ? true : false
-            }
-            //assign message, if any get with response.
-            if let messageObj = (rJson as! [String : AnyObject])["Messages"] {
-                message = (messageObj as! [String]).first
+    init(success rJson : AnyObject?) {
+        isSuccess = true
+        json = rJson
+        message = ""
+    }
+    
+    init(error rJson : AnyObject?) {
+        isSuccess = false
+        if rJson is [String : AnyObject] {
+            if  let msg = rJson!["Message"] as? String {
+                message = msg
+            } else if let msg = rJson!["error_description"] as? String {
+                message = msg
+            } else {
+                message = "AnErrorAccured".localizedString()
             }
         } else {
-          message = "Something going wrong!"
+            message = "AnErrorAccured".localizedString()
         }
         json = rJson
     }
+
 }

@@ -89,7 +89,7 @@ extension DriverSearchResultVC {
                 }
                 
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.refreshControl.endRefreshing()
             self.hideCentralGraySpinner()

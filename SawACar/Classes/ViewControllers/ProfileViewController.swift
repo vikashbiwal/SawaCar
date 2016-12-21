@@ -653,7 +653,7 @@ extension ProfileViewController {
             wsCall.changePassword(params, block: { (response, statusCode) in
                 if response.isSuccess {
                     // success code
-                    showToastMessage("", message: response.message!)
+                    showToastMessage("", message: response.message)
                     self.user.password = ""
                     self.user.oldPassword = ""
                     self.user.confPass = ""
@@ -701,7 +701,7 @@ extension ProfileViewController {
                     
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -721,7 +721,7 @@ extension ProfileViewController {
                     showToastMessage("", message: "kSocialUpdatedSuccess".localizedString())
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -741,7 +741,7 @@ extension ProfileViewController {
                     showToastMessage("", message: "kPreferenceSettingSucess".localizedString())
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }

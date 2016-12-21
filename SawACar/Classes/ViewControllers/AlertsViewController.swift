@@ -128,7 +128,7 @@ extension AlertsViewController {
                     }
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
             self.refreshControl.endRefreshing()
@@ -155,7 +155,7 @@ extension AlertsViewController {
                     }
                 }
             } else {
-                showToastErrorMessage("", message: response.message!)
+                showToastErrorMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
             self.refreshControl.endRefreshing()

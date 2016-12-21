@@ -187,7 +187,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -215,7 +215,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -245,7 +245,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -273,7 +273,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -301,7 +301,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
         }
@@ -329,7 +329,7 @@ extension ListViewController {
                     self.tableView.reloadData()
                 }
             } else {
-                showToastMessage("", message: response.message!)
+                showToastMessage("", message: response.message)
             }
             self.hideCentralGraySpinner()
 
