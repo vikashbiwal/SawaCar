@@ -24,10 +24,18 @@ let kGrantType = "password"
 struct APIName {
     static let GetAllCountries = "api/Countries/Get"
     static let GetActiveCountries = "api/Countries/GetActiveCountry"
+    static let GetAccountTypes = "api/accountTypes/get"
     static let CheckEmailAvailability = "api/users/IsEmailAvailableToSignUp"
     static let Authentication = "token"
     static let SignUp = "api/users/Signup"
     static let ForgetPassword = "api/users/ForgetPassword"
+    static let PostUserPhoto = "api/upload/PostUserPhoto"
+    static let UpdateUserPhoto = "api/upload/UpdateMyPhoto"
+    static let GetMyInfo = "api/users/GetMyInfo/"
+    static let UpdatePersonalnfo = "api/users/UpdateUserPersonalnfo"
+    static let UpdateSocialMedia = "api/users/UpdateUserSocialMedia"
+    static let UpdatePhoneNumber = "api/users/UpdateUserPhoneNumber"
+    static let UpdatePreferences = "api/users/UpdateUserPreferences"
 }
 
 //MARK: General APIs
@@ -40,43 +48,36 @@ extension Webservice {
     }
     
     func getAllCoutries(block: WSBlock) {
-        //http://sawacar.es/api/Countries/Get
-        jprint("=======WS = GetAllCountries=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAllCountries)=======")
         getRequest(APIName.GetAllCountries, param: nil, block: block)
     }
     
     func getActiveCountries(block: WSBlock) {
-        //http://sawacar.es/api/Countries/GetActiveCountry
-        jprint("=======WS = GetActiveCountries=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetActiveCountries)=======")
         getRequest(APIName.GetActiveCountries, param: nil, block: block)
     }
     
     func GetAllCurrencies(block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCurrencies
         jprint("=======WS = GetAllCurrencies=======")
         getRequest(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
     }
     
     func GetCurrency(code: String, block: WSBlock) {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=GetCurrencyByCode&Code=INR
         jprint("=======WS = GetCurrencyByCode=======")
         getRequest(urlWithMethod("GetCurrencyByCode&Code=" + code), param: nil, block: block)
     }
 
     func getAccountTypes(block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAccountTypes
-        jprint("=======WS = GetAccountTypes=======")
-        getRequest(urlWithMethod("GetAccountTypes"), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAccountTypes)=======")
+        getRequest(APIName.GetAccountTypes, param: nil, block: block)
     }
 
     func getLanguages(block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetLanguages
         jprint("=======WS = GetLanguages=======")
         getRequest(urlWithMethod("GetLanguages"), param: nil, block: block)
     }
     
     func getColors(block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllColors
         jprint("=======WS = GetAllColors=======")
         getRequest(urlWithMethod("GetAllColors"), param: nil, block: block)
     }
@@ -87,90 +88,92 @@ extension Webservice {
 extension Webservice {
     
     func checkEmailAvailability(email: String, block: WSBlock) {
-        //http://sawacar.es/api/users/IsEmailAvailableToSignUp
         //parameters : Email
-        jprint("=======WS = IsEmailAvailableToSignUp=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.CheckEmailAvailability)=======")
         postRequest(APIName.CheckEmailAvailability, param: ["Email" : email], block: block)
     }
     
     func signUp(params: [String : AnyObject], block: WSBlock) {
-        //http://sawacar.es/api/users/Signup
         //parameters  -  Email, FirstName, LastName, Password, Gender, Birthday,
         //NationalityID, CountryID, MobileCountryCode, MobileNumber
-        jprint("=======WS = SignUp=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.SignUp)=======")
         postRequest(APIName.SignUp, param: params, block: block)
     }
     
     func login(params: [String : String!], block : WSBlock)  {
-        //http://sawacar.es/token
-        /*parameters - 
+        /*parameters -
          client_id = sawaCarAndroid,
          grant_type = password, 
          client_secret = 21#@hf:2016^%*&f4#$SFD$#^%*(1R^1F  ,
          RegisterationToken = your device token,
          username, 
          password */
-        jprint("=======WS = Login=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.Authentication)=======")
         postRequest(APIName.Authentication, param: params, block: block)
     }
     
     func loginWithFacebook(params: [String : AnyObject], block: WSBlock) {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=LoginWithFacebook
         //parameters - Email, FacebookID, FirstName, LastName, Gender
         jprint("=======WS = LoginWithFacebook=======")
         postRequest(urlWithMethod("LoginWithFacebook"), param: params, block: block)
     }
     
     func changePassword(params: [String : AnyObject], block : WSBlock)  {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=ChangePassword
         //parameters - Email, OldPassword, NewPassword
         jprint("=======WS = ChangePassword=======")
         postRequest(urlWithMethod("ChangePassword"), param: params, block: block)
     }
     
+    func getLoggedInUserInfo( block : WSBlock)  {
+        //parameters - access_token with Authorization header
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetMyInfo)=======")
+        getRequest(APIName.GetMyInfo, param: nil, block: block)
+    }
+
     func GetUserInformation(userId: String, block : WSBlock)  {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=GetUserInformation
         //parameters - UserID
         jprint("=======WS = GetUserInformation=======")
         postRequest(urlWithMethod("GetUserInformation"), param: ["UserID" : userId], block: block)
     }
     
-    func updateUserProfileImage(imgData: NSData, userid: String,  block : WSBlock)  {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserImage&UserID=128
-        //parameters - UserID, FileData
+    func uploadProfileImage(forSignup imgData: NSData,   block : WSBlock)  {
+        //parameters - UserID, upload
+        jprint("=======WS =\(kWSDomainURL)\(APIName.PostUserPhoto)=======")
+        uploadImage(imgData, relativepath: APIName.PostUserPhoto, param: nil, block: block)
+    }
+    
+    func uploadProfileImage(forUpdate imgData: NSData, block : WSBlock)  {
+        //parameters - Authorization header token, upload
         jprint("=======WS = UpdateUserImage=======")
-        uploadImage(imgData, relativepath: urlWithMethod("UpdateUserImage&UserID=" + userid), param: nil, block: block)
+        uploadImage(imgData, relativepath: APIName.UpdateUserPhoto, param: nil, block: block)
     }
     
     func updateUserInformation(params: [String : AnyObject], block : WSBlock)  {
-        //https://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserPersonalnfo
         //parameters - UserID, FirstName, LastName, Gender, YearOfBirth, NationalityID,
         //CountryID, MobileCountryCode, MobileNumber, Bio, AccountTypeID
-        jprint("=======WS = UpdateUserPersonalnfo=======")
-        postRequest(urlWithMethod("UpdateUserPersonalnfo"), param:params, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.UpdatePersonalnfo)=======")
+        postRequest(APIName.UpdatePersonalnfo, param:params, block: block)
     }
     
     func updateSocialInfo(params: [String : AnyObject], block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserSocialMedia
-        //Parameters:- UserID, Whatsapp, Viber, Line, Tango, Telegram, Facebook, 
+        //Parameters:- UserID, Whatsapp, Viber, Line, Tango, Telegram, Facebook,
         //Twitter, Snapchat, Instagram
-        jprint("=======WS = UpdateUserSocialMedia=======")
-        postRequest(urlWithMethod("UpdateUserSocialMedia"), param:params, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.UpdateSocialMedia)=======")
+        postRequest(APIName.UpdateSocialMedia, param:params, block: block)
     }
     
     func updateUserPreference(params: [String : AnyObject], block: WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateUserPreferences
-        //Parameters:- UserID, IsMobilelShown, IsEmailShown, IsMonitoringAccepted, IsTravelRequestReceiver, IsVisibleInSearch, 
+        //Parameters:- UserID, IsMobilelShown, IsEmailShown, IsMonitoringAccepted, IsTravelRequestReceiver, IsVisibleInSearch,
         //PreferencesSmoking, PreferencesMusic, PreferencesFood, PreferencesKids, PreferencesPets, PreferencesPrayingStop, 
         //PreferencesQuran, DefaultLanguage, SpokenLanguages
-        jprint("=======WS = UpdateUserPreferences=======")
-        postRequest(urlWithMethod("UpdateUserPreferences"), param:params, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.UpdatePreferences)=======")
+        postRequest(APIName.UpdatePreferences, param:params, block: block)
     }
     
     func forgotPassword(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.es/api/users/ForgetPassword
         //Parameters : Email
-        jprint("=======WS = Forgot password api call=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.ForgetPassword)=======")
         postRequest(APIName.ForgetPassword, param:params, block: block)
     }
     
@@ -533,11 +536,6 @@ class Webservice: NSObject {
         self.setRequiredHeader()
     }
     
-    // sign manager with access token
-    func addAccesTokenToHeader(token: String){
-        manager.requestSerializer.setValue("\(token)", forHTTPHeaderField: "")
-        print("Token added: \(token)")
-    }
     
     //Set other header
     func setRequiredHeader() {
@@ -545,8 +543,14 @@ class Webservice: NSObject {
         manager.requestSerializer.setValue("en", forHTTPHeaderField: "Accept-Language")
     }
     
+    // sign manager with access token
+    func addAccesTokenToHeader(token: String){
+        manager.requestSerializer.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        print("Token added: \(token)")
+    }
+
     func accessTokenForHeader() -> String? {
-        return manager.requestSerializer.valueForHTTPHeaderField("")
+        return manager.requestSerializer.valueForHTTPHeaderField("Authorization")
     }
     
     // MARK: Utility methods
@@ -586,7 +590,7 @@ class Webservice: NSObject {
     private func uploadImage(imgData: NSData, relativepath: String, param: NSDictionary?, block: WSBlock) {
         print("Parameters %@", param)
         manager.POST(relativepath, parameters: param, constructingBodyWithBlock: { (formData) -> Void in
-            formData.appendPartWithFileData(imgData, name: "FileData", fileName: "image.jpeg", mimeType: "image/jpeg")
+            formData.appendPartWithFileData(imgData, name: "upload", fileName: "image.jpeg", mimeType: "image/jpeg")
             }, success: { (task, responseObj) -> Void in
                 self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativepath, block: block)
             }, failure:  { (task, error) -> Void in
@@ -626,6 +630,12 @@ struct vResponse {
         isSuccess = true
         json = rJson
         message = ""
+
+        if let json = rJson as? [String: AnyObject] {
+            if let msg = json["Message"] as? String {
+                message = msg
+            }
+        }
     }
     
     init(error rJson : AnyObject?) {

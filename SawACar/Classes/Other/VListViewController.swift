@@ -50,6 +50,9 @@ class VListViewController: ParentVC, UISearchBarDelegate {
         getItemsAPICall()
     }
 
+    deinit {
+        print("VListViewController deInit")
+    }
     //Load listVC from nib
     class func loadFromNib()-> VListViewController {
         let vc = VListViewController(nibName: "VListViewController", bundle: nil)

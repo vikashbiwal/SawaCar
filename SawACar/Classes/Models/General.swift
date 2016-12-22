@@ -8,6 +8,19 @@
 
 import UIKit
 
+//MARK: Language
+class Language {
+    var id = ""
+    var name = ""
+    var code = ""
+    
+    init(_ info : [String : AnyObject]) {
+        id = RConverter.string(info["ID"])
+        name = RConverter.string(info["Name"])
+        code = RConverter.string(info["Code"])
+    }
+}
+
 //MARK: Country
 class Country {
     var Id: String!
@@ -69,7 +82,7 @@ class AccountType {
     }
 
     init(info: [String : AnyObject]) {
-        Id = RConverter.string(info["AccountTypeID"])
+        Id = RConverter.string(info["ID"])
         if let _ = info["AccountTypeName"] { //field with user info
             name = RConverter.string(info["AccountTypeName"])
         } else { //field with acount type List api

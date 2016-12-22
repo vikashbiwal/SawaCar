@@ -45,12 +45,13 @@ let dateFormator: NSDateFormatter = {
     return df
 }()
 
-//let serverDateFormator: NSDateFormatter = {
-//    let df = NSDateFormatter()
-//    df.dateFormat = "dd/MM/yyyy HH:mm:ss"
-//    
-//    return df
-//}()
+let serverDateFormator: NSDateFormatter = {
+    let df = NSDateFormatter()
+    df.dateFormat = "dd/MM/yyyy hh:mm:ss a"
+    df.timeZone = NSTimeZone(name: "UTC")
+    
+    return df
+}()
 
 // MARK: App Keys
 let kLoggedInUserKey            = "LoggedInUserKey"

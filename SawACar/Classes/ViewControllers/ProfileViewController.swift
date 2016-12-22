@@ -489,17 +489,22 @@ extension ProfileViewController {
     
     //Navigate to pick User account type.
     func openAccountTypeListVC(indexPath: NSIndexPath)  {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
+        let cListVC = VListViewController.loadFromNib()
         cListVC.preSelectedIDs = [user.accountType.Id]
-        cListVC.listType = ListType.AccountType
+        cListVC.apiName = APIName.GetAccountTypes
+        cListVC.keyForId = "ID"
+        cListVC.keyForTitle = "Name"
+        
         cListVC.completionBlock = {(items) in
-            let acType = items.first!.obj as! AccountType
-            self.user.accountType = acType
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
-            cell?.txtField.text = acType.name
-            self.changeMenuItems(self.selectedMenu)
+            if let acType = items.first!.obj as? [String : AnyObject] {
+                let account = AccountType(info: acType)
+                self.user.accountType = account
+                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                cell?.txtField.text = account.name
+                self.changeMenuItems(self.selectedMenu)
+            }
         }
-        self.navigationController?.pushViewController(cListVC, animated: true)
+        self.presentViewController(cListVC, animated: true, completion: nil)
     }
     
     //Navigate to pick user preference language.
@@ -507,22 +512,22 @@ extension ProfileViewController {
         let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
         cListVC.listType = ListType.Language
         if type == .CommunicationLanguage {
-            cListVC.preSelectedIDs = [user.preference.communicationLanguage]
+            //cListVC.preSelectedIDs = [user.preference.defaultLanguage.id]
         } else {
             cListVC.enableMultipleChoice = true
-            cListVC.preSelectedIDs = user.preference.speackingLanguage
+            //cListVC.preSelectedIDs = user.preference.speakingLanguage
         }
         cListVC.completionBlock = {(items) in
             let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TblSwitchBtnCell
             if type == .CommunicationLanguage {
-                self.user.preference.communicationLanguage = items.first!.name
+                //self.user.preference.communicationLanguage = items.first!.name
                 cell?.lblSubTitle.text = items.first!.name
                 
             } else if type == .SpeackingLanguage {
                 let lngArr = items.map({ (item) -> String in
                     return item.code
                 })
-                self.user.preference.speackingLanguage = lngArr
+                //self.user.preference.speackingLanguage = lngArr
                 cell?.lblSubTitle.text = lngArr.joinWithSeparator(", ")
                 
             }
@@ -556,7 +561,9 @@ extension ProfileViewController {
     func setUserInfo() {
         lblFullName.text = user.fullname
         lblGender.text = user.gender
-        lblBirthDate.text = user.birthDate
+        let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "dd/MM/yyyy hh:mm:ss a", style: NSDateFormatterStyle.MediumStyle)
+
+        lblBirthDate.text = birthdDate
         imgVUserProfile.setImageWithURL(NSURL(string: user.photo)!, placeholderImage: user.placeholderImage)
         //imgVCover.setImageWithURL(NSURL(string: user.photo)!,placeholderImage: user.placeholderImage)
     }
@@ -581,14 +588,17 @@ extension ProfileViewController {
     //MARK: Set Menu Items and UI as per seleted menu
     func changeMenuItems(menu: Menu)  {
         if menu.type == .Profile {
-            menuItems = [CellItem(title: "first_name".localizedString(),      value: user.firstname,      txtFieldType: .FirstName),
-                         CellItem(title: "last_name".localizedString(),       value: user.lastname,       txtFieldType: .LastName),
-                         CellItem(title: "gender".localizedString(),          value: user.gender,         txtFieldType: .Gender, enable: false),
-                         CellItem(title: "birth_date".localizedString(),      value: user.birthDate,      txtFieldType: .BirthDate, enable: false),
-                         CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile,         txtFieldType: .MobileNo, keyboardType: .NumberPad, cellName: "mobileCell"),
-                         CellItem(title: "nationality".localizedString(),     value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
-                         CellItem(title: "country".localizedString(),         value: user.country.name,      txtFieldType: .Country, enable: false),
-                         CellItem(title: "account_type".localizedString(),    value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
+            menuItems = [CellItem(title: "first_name".localizedString(), value: user.firstname, txtFieldType: .FirstName),
+                         CellItem(title: "last_name".localizedString(), value: user.lastname, txtFieldType: .LastName),
+                         CellItem(title: "gender".localizedString(), value: user.gender, txtFieldType: .Gender, enable: false)]
+            
+            let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "dd/MM/yyyy hh:mm:ss a", style: NSDateFormatterStyle.MediumStyle)
+            menuItems += [CellItem(title: "birth_date".localizedString(), value: birthdDate, txtFieldType: .BirthDate, enable: false)]
+           
+            menuItems +=   [CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile, txtFieldType: .MobileNo, keyboardType: .NumberPad, cellName: "mobileCell"),
+                            CellItem(title: "nationality".localizedString(), value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
+                            CellItem(title: "country".localizedString(), value: user.country.name,      txtFieldType: .Country, enable: false),
+                            CellItem(title: "account_type".localizedString(), value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
             
         } else if menu.type == .ChangePass {
             menuItems = [CellItem(title: "old_password".localizedString(),    value: user.oldPassword,    txtFieldType: .OldPassword),
@@ -622,8 +632,8 @@ extension ProfileViewController {
                          CellItem(title: "Accept_special_order".localizedString(),    value: user.preference.specialOrder,    settingType: .SpecialOrder,     icon: "ic_accept_special"),
                          CellItem(title: "Accept_Monitoring".localizedString(),       value: user.preference.acceptMonitring, settingType: .AcceptMonitring,  icon: "ic_monitoring"),
                          
-                         CellItem(title: "Communication_Language".localizedString(),  value: user.preference.communicationLanguage,           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString()),
-                         CellItem(title: "Speaking_Language".localizedString(),       value: user.preference.speackingLanguage.joinWithSeparator(", "),   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
+                         CellItem(title: "Communication_Language".localizedString(),  value: user.preference.defaultLanguage.name,           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString()),
+                         CellItem(title: "Speaking_Language".localizedString(),       value: "",   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang"),
                          
                          CellItem(title: "Children".localizedString(),        value: user.preference.kids,        settingType: .Children,     icon: "ic_childreb", header: "My_Rules".localizedString()),
                          CellItem(title: "Pets".localizedString(),            value: user.preference.pets,        settingType: .Pets,         icon: "ic_pets"),
@@ -769,7 +779,7 @@ extension ProfileViewController {
     func datePickerSelectionBlockSetup() {
         datePickerView.dateSelectionBlock = {[weak self](date, forType) in
             if let selff = self {
-                selff.user.birthDate = selff.dateFomator.stringFromDate(date)
+                selff.user.birthDate = selff.dateFomator.stringFromDate(date, style: .MediumStyle)
                 let cell = selff.tableView.cellForRowAtIndexPath(selff.selectedIndexPath!) as? TVSignUpFormCell
                 cell?.txtField.text =  selff.user.birthDate
             }

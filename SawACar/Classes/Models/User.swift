@@ -96,17 +96,19 @@ class User :NSObject,  NSCopying {
         numberOfTravels   = RConverter.integer(info["TravelsNumber"])
         numberOfContacts  = RConverter.integer(info["ContactsNumber"])
         birthDate         = RConverter.string(info["Birthday"])
-
-        let crDate        = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
-        createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
-        let llT           = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
-        lastLoginTime     = dateFormator.stringFromDate(llT!, format: "MM/dd/yyyy hh:mm:ss a")
-
+        
         preference        = UserPreference(info: info)
         social            = UserSocial(info: info)
         country           = Country(info: info)
         nationality       = Country(info: ["CountryID": info["NationalityCountryID"]!, "CountryName": info["NationalityCountryName"]!])
         accountType       = AccountType(info: info)
+
+        let crDate        = serverDateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
+        createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy hh:mm:ss a")
+        
+        let llT           = serverDateFormator.dateFromString(RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
+        lastLoginTime     = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy hh:mm:ss a")
+
 
     }
     
@@ -220,7 +222,7 @@ extension User {
 
     //MARK: updateProfile image of user
     func updateProfileImage(imgData: NSData, block: ((String?)-> Void)?)  {
-        wsCall.updateUserProfileImage(imgData, userid: self.Id) { (response, flag) in
+        wsCall.uploadProfileImage(forUpdate: imgData) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
                     let imgPath = json["Object"] as! String
@@ -248,7 +250,8 @@ extension User {
                       "LivingCountryID" : country.Id,
                       "MobileCountryCode": mobileCountryCode,
                       "PhoneNumber"    : mobile,
-                      "FCMToken"       : _FCMToken]
+                      "FCMToken"       : _FCMToken,
+                      "Photo"          : photo]
         return params
     }
     
@@ -310,9 +313,9 @@ extension User {
                       "PreferencesKids"         : preference.kids,
                       "PreferencesPets"         : preference.pets,
                       "PreferencesPrayingStop"  : preference.prayingStop,
-                      "PreferencesQuran"        : preference.quran,
-                      "DefaultLanguage"         : preference.communicationLanguage,
-                      "SpokenLanguages"         : preference.speackingLanguage]
+                      "PreferencesQuran"        : preference.quran]
+        //"DefaultLanguage"         : preference.communicationLanguage,
+        //"SpokenLanguages"         : preference.speackingLanguage]
         return params as! [String : AnyObject]
     }
 }
@@ -493,8 +496,8 @@ struct UserPreference {
     var quran           = false
     var IsTravelRequestReceiver = false
     
-    var communicationLanguage = ""
-    var speackingLanguage     = [String]()
+    var defaultLanguage: Language!
+    var speakingLanguages     = [Language]()
 
     init() {
      //Default initializer
@@ -505,7 +508,7 @@ struct UserPreference {
         showMobile      = RConverter.boolean(info["PreferencesShowMobile"])
         visibleInSearch = RConverter.boolean(info["IsVisibleInSearch"])
         acceptMonitring = RConverter.boolean(info["AcceptMonitoring"])
-        //specialOrder    = RConverter.boolean(info[""]) //key not found in api response
+      
         smoking     = RConverter.boolean(info["PreferencesSmoking"])
         music       = RConverter.boolean(info["PreferencesMusic"])
         food        = RConverter.boolean(info["PreferencesFood"])
@@ -514,8 +517,18 @@ struct UserPreference {
         prayingStop = RConverter.boolean(info["PreferencesPrayingStop"])
         quran       = RConverter.boolean(info["PreferencesQuran"])
         
-        communicationLanguage = RConverter.string(info["DefaultLanguage"])
-        speackingLanguage    =  info["SpokenLanguages"] as! [String]
+        //default language
+        if let languageInfo =  info["Language"] as? [String : AnyObject] {
+            defaultLanguage = Language(languageInfo)
+        }
+        
+        //speaking languages
+        if let speakLanguages = info["SpokenLanguages"] as? [[String : AnyObject]] {
+            for item in speakLanguages {
+                let lang = Language(item)
+                speakingLanguages.append(lang)
+            }
+        }
     }
 }
 

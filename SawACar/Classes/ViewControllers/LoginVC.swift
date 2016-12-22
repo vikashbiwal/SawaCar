@@ -17,6 +17,7 @@ class LoginVC: ParentVC {
     let user: User = {return User()}()
     var profileImage : UIImage?
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -98,11 +99,12 @@ extension LoginVC {
             self.showCentralGraySpinner()
             user.login({ (response, flag) in
                 if response.isSuccess {
-                    if let json = response.json {
+                    if let json = response.json {//change size width and height change postition delete this label remove text
                         if let info = json as? [String : AnyObject] {
-                            me = User(info: info)
-                            archiveObject(info, key: kLoggedInUserKey)
-                            self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                            let access_token = info["access_token"] as! String
+                            wsCall.addAccesTokenToHeader(access_token) //set the access token to api request header
+                            self.getMyInfoAPICall()
+                            
                         } else {
                             showToastErrorMessage("Login Error", message: response.message)
                         }
@@ -116,6 +118,24 @@ extension LoginVC {
             })
         } else {
             showToastErrorMessage("Login Error", message: process.msg)
+        }
+    }
+    
+    //Get user's profile info
+    func getMyInfoAPICall() {
+        self.showCentralGraySpinner()
+        wsCall.getLoggedInUserInfo { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json as? [String : AnyObject] {
+                    me = User(info: json)
+                    archiveObject(json, key: kLoggedInUserKey)
+                    self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                }
+                
+            } else {
+                showToastErrorMessage("Login Error", message: response.message)
+            }
+            self.hideCentralGraySpinner()
         }
     }
     
@@ -156,6 +176,8 @@ extension LoginVC {
             }
         }
     }
+    
+    
     
     func loginWithFacebookWSCall(fbInfo : [String : AnyObject])  {
         print(fbInfo)

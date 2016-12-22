@@ -98,7 +98,7 @@ extension SignUpVC {
             process = user.validateContactInfo()
             index = 4 // no need to change index. already on last index
             if process.isValid {
-                self.signupWSCall()
+                self.uploadProfileImage()
             } else {
                 showToastErrorMessage("", message: process.message)
             }
@@ -405,25 +405,37 @@ extension SignUpVC : UIImagePickerControllerDelegate, UINavigationControllerDele
 
 //MARK: Webservice calls
 extension SignUpVC {
+    
+    func uploadProfileImage() {
+        if let image = self.profileImage {
+            self.showCentralGraySpinner()
+            let imgData = image.mediumQualityJPEGNSData
+            wsCall.uploadProfileImage(forSignup: imgData, block: { (response, flag) in
+                if response.isSuccess {
+                    if let json = response.json as? [String : AnyObject] {
+                        let imgName = json["Photo"] as! String
+                        self.signupWSCall(imgName)
+                        
+                    }
+                    
+                } else {
+                    self.hideCentralGraySpinner()
+                }
+            })
+        } else {
+            self.signupWSCall()
+        }
+        
+    }
+    
     //Sign up ws call
-    func signupWSCall() {
-        self.showCentralGraySpinner()
+    func signupWSCall(imageName: String = "") {
+        user.photo = imageName
         user.singUp({ (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
-                    var info = json["Object"] as! [String : AnyObject]
-                    me = User(info: info)
-                    if let image = self.profileImage {
-                        let imgData = image.mediumQualityJPEGNSData
-                        me.updateProfileImage(imgData, block: {(path) in
-                            info["Photo"] = path ?? ""
-                            archiveObject(info, key: kLoggedInUserKey)
-                        })
-                    } else {
-                        archiveObject(info, key: kLoggedInUserKey)
-                    }
-                    
-                    self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                    self.parentBackAction(nil)
+                    showToastMessage("", message: response.message)
                 } else {
                     showToastErrorMessage("Signup Error", message: response.message)
                 }

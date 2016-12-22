@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/ViewControllers/LoginVC.swift"
-            timestampString = "504017548.431427"
+            filePath = "SawACar/Classes/ViewControllers/SignUpVC.swift"
+            timestampString = "504092064.708999"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "loginWithEmailWS()"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
+            landmarkName = "uploadProfileImage()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/Models/User.swift"
-            timestampString = "504017606.089982"
+            filePath = "SawACar/Classes/ViewControllers/SignUpVC.swift"
+            timestampString = "504092149.864585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "init(info:)"
+            startingLineNumber = "416"
+            endingLineNumber = "416"
+            landmarkName = "uploadProfileImage()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
