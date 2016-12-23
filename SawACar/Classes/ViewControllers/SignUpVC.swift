@@ -115,6 +115,7 @@ extension SignUpVC {
         } else {
             showToastErrorMessage("", message: process.message)
         }
+    
     }
     
     //Method: This method is used for hide keybord when keyboard type is number pad.

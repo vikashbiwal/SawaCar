@@ -313,6 +313,21 @@ func getCountryCodeFromCurrentLocale()-> String? {
     return code
 }
 
+//Store Any custom object to UserDefault with a key
+func archiveObject(obj: AnyObject, key: String) {
+    let archive = NSKeyedArchiver.archivedDataWithRootObject(obj)
+    _userDefault.setObject(archive, forKey: key)
+}
+
+//Get a object from userDefault with key
+func unArchiveObjectForKey(key: String) -> AnyObject? {
+    if let data = _userDefault.objectForKey(key) as? NSData {
+        let unarchiveObj = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        return unarchiveObj
+    }
+    return nil
+}
+
 //MARK:============================= Protocols ===================================
 
 //should import GoogleMaps sdk in your project

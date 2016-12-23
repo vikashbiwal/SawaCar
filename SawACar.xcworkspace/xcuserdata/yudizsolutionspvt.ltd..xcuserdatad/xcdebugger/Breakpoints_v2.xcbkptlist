@@ -41,29 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/ViewControllers/SignUpVC.swift"
-            timestampString = "504092064.708999"
+            filePath = "SawACar/Classes/Other/VListViewController.swift"
+            timestampString = "504172383.776007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
-            landmarkName = "uploadProfileImage()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SawACar/Classes/ViewControllers/SignUpVC.swift"
-            timestampString = "504092149.864585"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "uploadProfileImage()"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "getItemsAPICall()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

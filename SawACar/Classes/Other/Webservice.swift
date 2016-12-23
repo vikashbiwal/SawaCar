@@ -12,21 +12,26 @@ import UIKit
 
 typealias WSBlock = (response: vResponse, flag: Int) -> ()
 var wsCall = {  return Webservice()}()
-var kWSDomainURL = "http://sawacar.es/"  //"https://sawacar.com/"
-var kWSBaseUrl = kWSDomainURL + ""//"Services/Sawacar.ashx"
+let kWSDomainURL = "http://sawacar.es/"  //"https://sawacar.com/"
+let kWSBaseUrl = kWSDomainURL + ""//"Services/Sawacar.ashx"
+let kUserImageBaseUrl = kWSDomainURL + "Images/UserImages/"
 
 let googleKey = "AIzaSyDHpxmF2p1xUhNeFFqarFWJnTH0PsJL2Ww"   //got from Ravi
 
 let kClientID = "sawaCarAndroid"
 let kClientSecret = "21#@hf:2016^%*&f4#$SFD$#^%*(1R^1F"
-let kGrantType = "password"
+let kGrantTypePassword = "password"
+let kGrantTypeRefreshToken = "refresh_token"
+
 
 struct APIName {
     static let GetAllCountries = "api/Countries/Get"
     static let GetActiveCountries = "api/Countries/GetActiveCountry"
     static let GetAccountTypes = "api/accountTypes/get"
+    static let GetLanguages = "api/General/GetLanguages"
     static let CheckEmailAvailability = "api/users/IsEmailAvailableToSignUp"
     static let Authentication = "token"
+    static let RegisterFcmDeviceToken = "api/FcmDevices/RegisterFcmDeviceToken"
     static let SignUp = "api/users/Signup"
     static let ForgetPassword = "api/users/ForgetPassword"
     static let PostUserPhoto = "api/upload/PostUserPhoto"
@@ -36,6 +41,7 @@ struct APIName {
     static let UpdateSocialMedia = "api/users/UpdateUserSocialMedia"
     static let UpdatePhoneNumber = "api/users/UpdateUserPhoneNumber"
     static let UpdatePreferences = "api/users/UpdateUserPreferences"
+    static let ChangePassword    = "api/users/ChangePassword"
 }
 
 //MARK: General APIs
@@ -44,42 +50,42 @@ extension Webservice {
     func callAPI(withName apiName: String, block: WSBlock) {
         jprint("=======WS = Get LIst Items API=======")
         jprint("=Requested API - \(apiName)")
-        getRequest(apiName, param: nil, block: block)
+        GET_REQUEST(apiName, param: nil, block: block)
     }
     
     func getAllCoutries(block: WSBlock) {
         jprint("=======WS =\(kWSDomainURL)\(APIName.GetAllCountries)=======")
-        getRequest(APIName.GetAllCountries, param: nil, block: block)
+        GET_REQUEST(APIName.GetAllCountries, param: nil, block: block)
     }
     
     func getActiveCountries(block: WSBlock) {
         jprint("=======WS =\(kWSDomainURL)\(APIName.GetActiveCountries)=======")
-        getRequest(APIName.GetActiveCountries, param: nil, block: block)
+        GET_REQUEST(APIName.GetActiveCountries, param: nil, block: block)
     }
     
     func GetAllCurrencies(block: WSBlock) {
         jprint("=======WS = GetAllCurrencies=======")
-        getRequest(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
     }
     
     func GetCurrency(code: String, block: WSBlock) {
         jprint("=======WS = GetCurrencyByCode=======")
-        getRequest(urlWithMethod("GetCurrencyByCode&Code=" + code), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetCurrencyByCode&Code=" + code), param: nil, block: block)
     }
 
     func getAccountTypes(block: WSBlock) {
         jprint("=======WS =\(kWSDomainURL)\(APIName.GetAccountTypes)=======")
-        getRequest(APIName.GetAccountTypes, param: nil, block: block)
+        GET_REQUEST(APIName.GetAccountTypes, param: nil, block: block)
     }
 
     func getLanguages(block: WSBlock) {
         jprint("=======WS = GetLanguages=======")
-        getRequest(urlWithMethod("GetLanguages"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetLanguages"), param: nil, block: block)
     }
     
     func getColors(block: WSBlock) {
         jprint("=======WS = GetAllColors=======")
-        getRequest(urlWithMethod("GetAllColors"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetAllColors"), param: nil, block: block)
     }
 
 }
@@ -90,17 +96,17 @@ extension Webservice {
     func checkEmailAvailability(email: String, block: WSBlock) {
         //parameters : Email
         jprint("=======WS =\(kWSDomainURL)\(APIName.CheckEmailAvailability)=======")
-        postRequest(APIName.CheckEmailAvailability, param: ["Email" : email], block: block)
+        POST_REQUEST(APIName.CheckEmailAvailability, param: ["Email" : email], block: block)
     }
     
     func signUp(params: [String : AnyObject], block: WSBlock) {
         //parameters  -  Email, FirstName, LastName, Password, Gender, Birthday,
         //NationalityID, CountryID, MobileCountryCode, MobileNumber
         jprint("=======WS =\(kWSDomainURL)\(APIName.SignUp)=======")
-        postRequest(APIName.SignUp, param: params, block: block)
+        POST_REQUEST(APIName.SignUp, param: params, block: block)
     }
     
-    func login(params: [String : String!], block : WSBlock)  {
+    func login(params: [String : String], block : WSBlock)  {
         /*parameters -
          client_id = sawaCarAndroid,
          grant_type = password, 
@@ -109,31 +115,37 @@ extension Webservice {
          username, 
          password */
         jprint("=======WS =\(kWSDomainURL)\(APIName.Authentication)=======")
-        postRequest(APIName.Authentication, param: params, block: block)
+        POST_REQUEST(APIName.Authentication, param: params, block: block)
     }
     
     func loginWithFacebook(params: [String : AnyObject], block: WSBlock) {
         //parameters - Email, FacebookID, FirstName, LastName, Gender
         jprint("=======WS = LoginWithFacebook=======")
-        postRequest(urlWithMethod("LoginWithFacebook"), param: params, block: block)
+        POST_REQUEST(urlWithMethod("LoginWithFacebook"), param: params, block: block)
     }
     
+    func registerFCMToken(params: [String : AnyObject], block: WSBlock) {
+        //parameters - token, access_token with Authorization header
+        jprint("=======WS =\(kWSDomainURL)\(APIName.RegisterFcmDeviceToken)=======")
+        POST_REQUEST(APIName.RegisterFcmDeviceToken, param: params, block: block)
+    }
+
     func changePassword(params: [String : AnyObject], block : WSBlock)  {
-        //parameters - Email, OldPassword, NewPassword
-        jprint("=======WS = ChangePassword=======")
-        postRequest(urlWithMethod("ChangePassword"), param: params, block: block)
+        //parameters - OldPassword, NewPassword
+        jprint("=======WS =\(kWSDomainURL)\(APIName.ChangePassword)=======")
+        PUT_REQUEST(APIName.ChangePassword, param: params, block: block)
     }
     
     func getLoggedInUserInfo( block : WSBlock)  {
         //parameters - access_token with Authorization header
         jprint("=======WS =\(kWSDomainURL)\(APIName.GetMyInfo)=======")
-        getRequest(APIName.GetMyInfo, param: nil, block: block)
+        GET_REQUEST(APIName.GetMyInfo, param: nil, block: block)
     }
 
     func GetUserInformation(userId: String, block : WSBlock)  {
         //parameters - UserID
         jprint("=======WS = GetUserInformation=======")
-        postRequest(urlWithMethod("GetUserInformation"), param: ["UserID" : userId], block: block)
+        POST_REQUEST(urlWithMethod("GetUserInformation"), param: ["UserID" : userId], block: block)
     }
     
     func uploadProfileImage(forSignup imgData: NSData,   block : WSBlock)  {
@@ -144,7 +156,7 @@ extension Webservice {
     
     func uploadProfileImage(forUpdate imgData: NSData, block : WSBlock)  {
         //parameters - Authorization header token, upload
-        jprint("=======WS = UpdateUserImage=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.UpdateUserPhoto)=======")
         uploadImage(imgData, relativepath: APIName.UpdateUserPhoto, param: nil, block: block)
     }
     
@@ -152,14 +164,14 @@ extension Webservice {
         //parameters - UserID, FirstName, LastName, Gender, YearOfBirth, NationalityID,
         //CountryID, MobileCountryCode, MobileNumber, Bio, AccountTypeID
         jprint("=======WS =\(kWSDomainURL)\(APIName.UpdatePersonalnfo)=======")
-        postRequest(APIName.UpdatePersonalnfo, param:params, block: block)
+        PUT_REQUEST(APIName.UpdatePersonalnfo, param:params, block: block)
     }
     
     func updateSocialInfo(params: [String : AnyObject], block: WSBlock) {
         //Parameters:- UserID, Whatsapp, Viber, Line, Tango, Telegram, Facebook,
         //Twitter, Snapchat, Instagram
         jprint("=======WS =\(kWSDomainURL)\(APIName.UpdateSocialMedia)=======")
-        postRequest(APIName.UpdateSocialMedia, param:params, block: block)
+        PUT_REQUEST(APIName.UpdateSocialMedia, param:params, block: block)
     }
     
     func updateUserPreference(params: [String : AnyObject], block: WSBlock) {
@@ -167,14 +179,14 @@ extension Webservice {
         //PreferencesSmoking, PreferencesMusic, PreferencesFood, PreferencesKids, PreferencesPets, PreferencesPrayingStop, 
         //PreferencesQuran, DefaultLanguage, SpokenLanguages
         jprint("=======WS =\(kWSDomainURL)\(APIName.UpdatePreferences)=======")
-        postRequest(APIName.UpdatePreferences, param:params, block: block)
+        PUT_REQUEST(APIName.UpdatePreferences, param:params, block: block)
     }
     
     func forgotPassword(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.es/api/users/ForgetPassword
         //Parameters : Email
         jprint("=======WS =\(kWSDomainURL)\(APIName.ForgetPassword)=======")
-        postRequest(APIName.ForgetPassword, param:params, block: block)
+        POST_REQUEST(APIName.ForgetPassword, param:params, block: block)
     }
     
     //Passenger
@@ -183,7 +195,7 @@ extension Webservice {
         jprint("=======WS = FindDrivers=======")
         let accoutTypeId = params["AccountTypeID"]!
         let countryID = params["CountryID"]!
-        getRequest(urlWithMethod("FindDrivers&AccountTypeID=\(accoutTypeId)&CountryID=\(countryID)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("FindDrivers&AccountTypeID=\(accoutTypeId)&CountryID=\(countryID)"), param: nil, block: block)
     }
 }
 
@@ -192,27 +204,27 @@ extension Webservice {
     func getCarCompanies(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCarCompanies
         jprint("=======WS = GetAllCarCompanies=======")
-        getRequest(urlWithMethod("GetAllCarCompanies"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetAllCarCompanies"), param: nil, block: block)
     }
     
     func getCarOfUser(userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserCars&UserID=128
         jprint("=======WS = GetUserCars=======")
-        getRequest(urlWithMethod("GetUserCars&UserID=" + userId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserCars&UserID=" + userId), param: nil, block: block)
     }
 
     func addCar(params: [String : AnyObject], block: WSBlock)  {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddCar
         //Parameters: UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
         jprint("=======WS = AddCar=======")
-        postRequest(urlWithMethod("AddCar"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("AddCar"), param:params, block: block)
     }
     
     func updateCar(params: [String : AnyObject], block: WSBlock)  {
         //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateCar
         //Parameters: CarID, UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
         jprint("=======WS = UpdateCar=======")
-        postRequest(urlWithMethod("UpdateCar"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("UpdateCar"), param:params, block: block)
     }
 
     func updateCarImage(imgData: NSData, carId: String, block: WSBlock) {
@@ -224,7 +236,7 @@ extension Webservice {
     func deleteCar(carId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=DeleteCar&CarID=89
         jprint("=======WS = DeleteCar=======")
-        getRequest(urlWithMethod("DeleteCar&CarID=" + carId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("DeleteCar&CarID=" + carId), param: nil, block: block)
     }
     
 }
@@ -238,7 +250,7 @@ extension Webservice {
         //PassengerPrice, Luggages, Seats, LadiesOnly, Tracking, Details, RepeatType, RepeatEndDate,
         //RoundDate, RoundHour, RoundMinute, DepartureFlexibility
         jprint("=======WS = AddTravel=======")
-        postRequest(urlWithMethod("AddTravel"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("AddTravel"), param:params, block: block)
     }
     
     func updateTravel(params: [String : AnyObject], block: WSBlock) {
@@ -248,25 +260,25 @@ extension Webservice {
         //PassengerPrice, Luggages, Seats, LadiesOnly, Tracking, Details, RepeatType, RepeatEndDate,
         //RoundDate, RoundHour, RoundMinute, DepartureFlexibility
         jprint("=======WS = UpdateTravel=======")
-        postRequest(urlWithMethod("UpdateTravel"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("UpdateTravel"), param:params, block: block)
     }
     
     func getTravels(userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravels&UserID=39
         jprint("=======WS = GetUserTravels=======")
-        getRequest(urlWithMethod("GetUserTravels&UserID=" + userId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserTravels&UserID=" + userId), param: nil, block: block)
     }
     
     func getArchivedTravels(userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserArchivedTravels&UserID=15
         jprint("=======WS = GetUserArchivedTravels=======")
-        getRequest(urlWithMethod("GetUserArchivedTravels&UserID=" + userId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserArchivedTravels&UserID=" + userId), param: nil, block: block)
     }
 
     func findTravels(fromAddress: String, toAddress: String, block: WSBlock) {
         //https://sawacar.com/Services/Sawacar.ashx?Method=FindTravel&FromAddress=Syria&ToAddress=abc
         jprint("=======WS = FindTravel=======")
-        getRequest(urlWithMethod("FindTravel&FromAddress=\(fromAddress)&ToAddress=\(toAddress)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("FindTravel&FromAddress=\(fromAddress)&ToAddress=\(toAddress)"), param: nil, block: block)
     }
 }
 
@@ -277,38 +289,38 @@ extension Webservice {
         //http://sawacar.com/Services/Sawacar.ashx?Method=BookTravel&TravelID=217&UserID=128&Seats=1&AllCar=false
         jprint("=======WS = BookTravel=======")
         let travelId = params["TravelID"]!, userid = params["UserID"]!, seats = params["Seats"]!
-        getRequest(urlWithMethod("BookTravel&TravelID=\(travelId)&UserID=\(userid)&Seats=\(seats)&AllCar=false"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("BookTravel&TravelID=\(travelId)&UserID=\(userid)&Seats=\(seats)&AllCar=false"), param: nil, block: block)
     }
     
     func cancelBooking(bookingId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=CancelBooking&BookID=14
         jprint("=======WS = CancelBooking=======")
-        getRequest(urlWithMethod("CancelBooking&BookID=" + bookingId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("CancelBooking&BookID=" + bookingId), param: nil, block: block)
     }
     
     func approveBooking(bookingId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=ApproveBooking&BookID=14
         jprint("=======WS = ApproveBooking=======")
-        getRequest(urlWithMethod("ApproveBooking&BookID=" + bookingId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("ApproveBooking&BookID=" + bookingId), param: nil, block: block)
     }
 
     func declineBooking(bookingId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=DeclineBooking&BookID=18
         jprint("=======WS = DeclineBooking=======")
-        getRequest(urlWithMethod("DeclineBooking&BookID=" + bookingId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("DeclineBooking&BookID=" + bookingId), param: nil, block: block)
     }
 
     func getBookings(forPassanger passangerID: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserBookings&UserID=39
         jprint("=======WS = GetUserBookings for passanger=======")
-        getRequest(urlWithMethod("GetUserBookings&UserID=" + passangerID), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserBookings&UserID=" + passangerID), param: nil, block: block)
 
     }
     
     func getBookings(forDriver driverID: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelBookings&UserID=39
         jprint("=======WS = GetUserTravelBookings for driver=======")
-        getRequest(urlWithMethod("GetUserTravelBookings&UserID=" + driverID), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserTravelBookings&UserID=" + driverID), param: nil, block: block)
         
     }
 }
@@ -320,7 +332,7 @@ extension Webservice {
         //Parameters: LocationFrom, LocationTo, RequesterID, TravelTypeID, CurrencyID, Price
         //DepartureDate, DepartureHour, DepartureMinute, Privacy
         jprint("=======WS = AddTravelRequest=======")
-        postRequest(urlWithMethod("AddTravelRequest"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("AddTravelRequest"), param:params, block: block)
     }
     
     func updateTravelRequest(params: [String : AnyObject], block: WSBlock) {
@@ -328,32 +340,32 @@ extension Webservice {
         //Parameters: TravelOrderID, TravelTypeID, CurrencyID, Price
         //DepartureDate, DepartureHour, DepartureMinute, Privacy
         jprint("=======WS = UpdateTravelRequest=======")
-        postRequest(urlWithMethod("UpdateTravelRequest"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("UpdateTravelRequest"), param:params, block: block)
     }
 
     func getTravelRequest(id: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetTravelRequest&TravelRequestID=196
         jprint("=======WS = GetTravelRequest=======")
-        getRequest(urlWithMethod("GetTravelRequest&TravelRequestID=\(id)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetTravelRequest&TravelRequestID=\(id)"), param: nil, block: block)
     }
     
     func getUserTravelRequests(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequests&UserID=153
         jprint("=======WS = GetUserTravelRequests=======")
-        getRequest(urlWithMethod("GetUserTravelRequests&UserID=\(me.Id)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserTravelRequests&UserID=\(me.Id)"), param: nil, block: block)
     }
     
     func searchTravelRequests(searchObj: RideRequestSearchObject, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=FindTravelRequest&CountryID=193&TravelTypeID=1
         jprint("=======WS = FindTravelRequest=======")
         let methodUrl = "FindTravelRequest&CountryID=\(searchObj.countryId)&TravelTypeID=\(searchObj.travelTypeId)"
-        getRequest(urlWithMethod(methodUrl), param: nil, block: block)
+        GET_REQUEST(urlWithMethod(methodUrl), param: nil, block: block)
     }
     
     func getTravelTypes(block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetTravelTypes
         jprint("=======WS = GetTravelTypes=======")
-        getRequest(urlWithMethod("GetTravelTypes"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetTravelTypes"), param: nil, block: block)
         
     }
 }
@@ -366,39 +378,39 @@ extension Webservice {
         jprint("=======WS = OfferTravelRequest=======")
 //        let tRequestId = params["TravelRequestID"]!; let price = params["Price"]!; let date = params["OfferDate"]!
 //        getRequest(urlWithMethod("OfferTravelRequest&TravelRequestID=\(tRequestId)&UserID=\(me.Id)&Price=\(price)&OfferDate=\(date)"), param: nil, block: block)
-        getRequest(urlWithMethod("OfferTravelRequest"), param: params, block: block)
+        GET_REQUEST(urlWithMethod("OfferTravelRequest"), param: params, block: block)
 
     }
     
     func cancelOffer(travelRequestID: String, userID: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=CancelOffer&TravelRequestID=195&UserID=128
         jprint("=======WS = CancelOffer=======")
-        getRequest(urlWithMethod("CancelOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("CancelOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
     }
     
     func acceptOffer(travelRequestID: String, userID: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=ApproveOffer&TravelRequestID=195&UserID=128
         jprint("=======WS = ApproveOffer=======")
-        getRequest(urlWithMethod("ApproveOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("ApproveOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
     }
     
     func rejectOffer(travelRequestID: String, userID: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=DeclineOffer&TravelRequestID=195&UserID=128
         jprint("=======WS = DeclineOffer=======")
-        getRequest(urlWithMethod("DeclineOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("DeclineOffer&TravelRequestID=\(travelRequestID)&UserID=\(userID)"), param: nil, block: block)
     }
     
     
     func getOffers(forDriver driverId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserOffers&UserID=295
         jprint("=======WS = GetUserOffers for driver=======")
-        getRequest(urlWithMethod("GetUserOffers&UserID=" + driverId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserOffers&UserID=" + driverId), param: nil, block: block)
     }
     
     func getOffers(forPassenger passengerId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequestOffers&UserID=295
         jprint("=======WS = GetUserOffers for driver=======")
-        getRequest(urlWithMethod("GetUserTravelRequestOffers&UserID=" + passengerId), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserTravelRequestOffers&UserID=" + passengerId), param: nil, block: block)
     }
 }
 
@@ -408,26 +420,26 @@ extension Webservice {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelAlert
         //Parameters : UserID, LocationFrom, LocationTo
         jprint("=======WS = AddTravelAlert=======")
-        postRequest(urlWithMethod("AddTravelAlert"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("AddTravelAlert"), param:params, block: block)
     }
     
     func addAlertByDriverOnTravelRequest(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelRequestAlert
         //Parameters : UserID, TravelTypeID, CountryID
         jprint("=======WS = AddTravelRequestAlert=======")
-        postRequest(urlWithMethod("AddTravelRequestAlert"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("AddTravelRequestAlert"), param:params, block: block)
     }
     
     func getAlerts(forPassenger passengerId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelAlerts&UserID=39
         jprint("=======WS = GetUserTravelAlerts for passenger=======")
-        getRequest(urlWithMethod("GetUserTravelAlerts&UserID=\(passengerId)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserTravelAlerts&UserID=\(passengerId)"), param: nil, block: block)
     }
     
     func getAlerts(forDriver driverId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserTravelRequestAlerts&UserID=39
         jprint("=======WS = GetUserTravelRequestAlerts for driver=======")
-        getRequest(urlWithMethod("GetUserTravelRequestAlerts&UserID=\(driverId)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetUserTravelRequestAlerts&UserID=\(driverId)"), param: nil, block: block)
     }
 }
 
@@ -436,25 +448,25 @@ extension Webservice {
     func getInboxMessages(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetInboxMessages
         jprint("=======WS = GetInboxMessages=======")
-        postRequest(urlWithMethod("GetInboxMessages"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("GetInboxMessages"), param:params, block: block)
     }
     
     func getContacts(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserContacts
         jprint("=======WS = GetUserContacts=======")
-        postRequest(urlWithMethod("GetUserContacts"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("GetUserContacts"), param:params, block: block)
     }
     
     func getMessageWithOtherUser(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetMessagesFromUser
         jprint("=======WS = GetMessagesFromUser=======")
-        postRequest(urlWithMethod("GetMessagesFromUser"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("GetMessagesFromUser"), param:params, block: block)
     }
     
     func sendMessage(params: [String : AnyObject], block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=SendNewMessage
         jprint("=======WS = SendNewMessage=======")
-        postRequest(urlWithMethod("SendNewMessage"), param:params, block: block)
+        POST_REQUEST(urlWithMethod("SendNewMessage"), param:params, block: block)
     }
 
 }
@@ -467,14 +479,14 @@ extension Webservice {
     func getRatings(byUser userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetRatesUserGive&UserID=39
         jprint("=======WS = GetUserTravelRequestAlerts for driver=======")
-        getRequest(urlWithMethod("GetRatesUserGive&UserID=\(userId)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetRatesUserGive&UserID=\(userId)"), param: nil, block: block)
     }
     
     //API for getting ratings which you have got from other users.
     func getRatings(forUser userId: String, block: WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetRatesUserGot&UserID=39
         jprint("=======WS = GetUserTravelRequestAlerts for driver=======")
-        getRequest(urlWithMethod("GetRatesUserGot&UserID=\(userId)"), param: nil, block: block)
+        GET_REQUEST(urlWithMethod("GetRatesUserGot&UserID=\(userId)"), param: nil, block: block)
     }
     
     //rate user api
@@ -568,7 +580,7 @@ class Webservice: NSObject {
     }
     
     // MARK: Private Methods
-    private func postRequest(relativePath: String, param: NSDictionary?, block: WSBlock) {
+    private func POST_REQUEST(relativePath: String, param: NSDictionary?, block: WSBlock) {
         print("Parameters %@", param)
         manager.POST(relativePath, parameters: param, success: { (task, responseObj) -> Void in
             self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
@@ -577,8 +589,28 @@ class Webservice: NSObject {
         })
     }
     
+    // MARK: Private Methods
+    private func PUT_REQUEST(relativePath: String, param: NSDictionary?, block: WSBlock) {
+        print("Parameters %@", param)
+        manager.PUT(relativePath, parameters: param, success: { (task, responseObj) -> Void in
+            self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
+            }, failure: { (task, error) -> Void in
+                self.errBlock(dataTask: task, error: error, relPath: relativePath, block: block)
+        })
+    }
+
+    // MARK: Private Methods
+    private func DELETE_REQUEST(relativePath: String, param: NSDictionary?, block: WSBlock) {
+        print("Parameters %@", param)
+        manager.DELETE(relativePath, parameters: param, success: { (task, responseObj) -> Void in
+            self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)
+            }, failure: { (task, error) -> Void in
+                self.errBlock(dataTask: task, error: error, relPath: relativePath, block: block)
+        })
+    }
+
     
-    private func getRequest(relativePath: String, param: NSDictionary?, block: WSBlock)-> NSURLSessionDataTask {
+    private func GET_REQUEST(relativePath: String, param: NSDictionary?, block: WSBlock)-> NSURLSessionDataTask {
         print("Parameters %@", param)
       return  manager.GET(relativePath, parameters: param, success: { (task, responseObj) -> Void in
             self.succBlock(dataTask: task, responseObj: responseObj, relPath: relativePath, block: block)

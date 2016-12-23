@@ -82,7 +82,11 @@ class AccountType {
     }
 
     init(info: [String : AnyObject]) {
-        Id = RConverter.string(info["ID"])
+        if let _ = info["AccountTypeID"] { //field with user info
+            Id = RConverter.string(info["AccountTypeID"])
+        } else { //field with acount type List api
+            Id = RConverter.string(info["ID"])
+        }
         if let _ = info["AccountTypeName"] { //field with user info
             name = RConverter.string(info["AccountTypeName"])
         } else { //field with acount type List api

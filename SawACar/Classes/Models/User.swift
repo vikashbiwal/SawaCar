@@ -87,7 +87,7 @@ class User :NSObject,  NSCopying {
         mobile            = RConverter.string(info["PhoneNumber"])
         mobileCountryCode = RConverter.string(info["MobileCountryCode"])
         language          = RConverter.string(info["DefaultLanguage"])
-        photo             = kWSDomainURL + RConverter.string(info["Photo"])
+        photo             = kUserImageBaseUrl + RConverter.string(info["Photo"])
         isMobileVerified  = RConverter.boolean(info["PhoneNumberConfirmed"])
         isEmailVerified   = RConverter.boolean(info["EmailConfirmed"])
         isTermsAccepted   = RConverter.boolean(info["TermsAccept"])
@@ -95,14 +95,16 @@ class User :NSObject,  NSCopying {
         rating            = RConverter.integer(info["Rating"])
         numberOfTravels   = RConverter.integer(info["TravelsNumber"])
         numberOfContacts  = RConverter.integer(info["ContactsNumber"])
-        birthDate         = RConverter.string(info["Birthday"])
         
         preference        = UserPreference(info: info)
         social            = UserSocial(info: info)
         country           = Country(info: info)
         nationality       = Country(info: ["CountryID": info["NationalityCountryID"]!, "CountryName": info["NationalityCountryName"]!])
         accountType       = AccountType(info: info)
-
+        
+        let bDate        = serverDateFormator.dateFromString(RConverter.string(info["Birthday"]), fomat: "dd/MM/yyyy hh:mm:ss a")
+        birthDate        = dateFormator.stringFromDate(bDate!, format: "yyyy-MM-dd")
+        
         let crDate        = serverDateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
         createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy hh:mm:ss a")
         
@@ -114,37 +116,40 @@ class User :NSObject,  NSCopying {
     
     // update user info after successfully updated from server.
     func resetUserInfo(info: [String : AnyObject]) {
-        Id                = RConverter.string(info["UserID"])
+        Id                = RConverter.string(info["ID"])
         firstname         = RConverter.string(info["FirstName"])
         lastname          = RConverter.string(info["LastName"])
         fullname          = RConverter.string(info["FullName"])
         gender            = RConverter.boolean(info["Gender"]) ? "Male" : "Female"
         bio               = RConverter.string(info["Bio"])
         email             = RConverter.string(info["Email"])
-        mobile            = RConverter.string(info["MobileNumber"])
+        mobile            = RConverter.string(info["PhoneNumber"])
         mobileCountryCode = RConverter.string(info["MobileCountryCode"])
         language          = RConverter.string(info["DefaultLanguage"])
-        photo             =  kWSDomainURL + RConverter.string(info["Photo"])
-        isMobileVerified  = RConverter.boolean(info["IsMobileVerified"])
-        isEmailVerified   = RConverter.boolean(info["IsEmailVerified"])
-        isTermsAccepted   = RConverter.boolean(info["IsTermsAccepted"])
+        photo             = kUserImageBaseUrl + RConverter.string(info["Photo"])
+        isMobileVerified  = RConverter.boolean(info["PhoneNumberConfirmed"])
+        isEmailVerified   = RConverter.boolean(info["EmailConfirmed"])
+        isTermsAccepted   = RConverter.boolean(info["TermsAccept"])
         isFacebookVerified = RConverter.boolean(info["IsFacebookVerified"])
         rating            = RConverter.integer(info["Rating"])
         numberOfTravels   = RConverter.integer(info["TravelsNumber"])
         numberOfContacts  = RConverter.integer(info["ContactsNumber"])
-        birthDate         = RConverter.string(info["BirthDate"])
-        
-        let crDate        = dateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
-        createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy HH:mm:ss")
-        let llT           = dateFormator.dateFromString( RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy HH:mm:ss")
-        lastLoginTime     = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy HH:mm:ss")
         
         preference        = UserPreference(info: info)
         social            = UserSocial(info: info)
         country           = Country(info: info)
-        nationality       = Country(info: ["CountryID": info["NationalityID"]!, "CountryName": info["NationalityName"]!])
+        nationality       = Country(info: ["CountryID": info["NationalityCountryID"]!, "CountryName": info["NationalityCountryName"]!])
         accountType       = AccountType(info: info)
         
+        let bDate        = serverDateFormator.dateFromString(RConverter.string(info["Birthday"]), fomat: "dd/MM/yyyy hh:mm:ss a")
+        birthDate        = dateFormator.stringFromDate(bDate!, format: "yyyy-MM-dd")
+
+        let crDate        = serverDateFormator.dateFromString(RConverter.string(info["CreateDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
+        createDate        = dateFormator.stringFromDate(crDate!, format: "dd/MM/yyyy hh:mm:ss a")
+        
+        let llT           = serverDateFormator.dateFromString(RConverter.string(info["LastLoginDate"]), fomat: "dd/MM/yyyy hh:mm:ss a")
+        lastLoginTime     = dateFormator.stringFromDate(llT!, format: "dd/MM/yyyy hh:mm:ss a")
+
     }
     
     
@@ -204,6 +209,11 @@ extension User {
         wsCall.login(loginParameters(), block: block)
     }
     
+    //MARK: Refresh Access_token
+    func refreshAccessToken(block: WSBlock) {
+        wsCall.login(refreshTokenParameters(), block: block)
+    }
+
     //MARK: user update Profile information
     func updateProfileInfo(block: WSBlock) {
         wsCall.updateUserInformation(updateProfileInfoParams(), block: block)
@@ -225,9 +235,9 @@ extension User {
         wsCall.uploadProfileImage(forUpdate: imgData) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
-                    let imgPath = json["Object"] as! String
-                    self.photo = kWSDomainURL + imgPath
-                    block?(imgPath)
+                    let imgName = json["PhotoPath"] as! String
+                    self.photo = kWSDomainURL + imgName
+                    block?(imgName)
                 } else {
                     block?(nil)
                 }
@@ -256,29 +266,39 @@ extension User {
     }
     
     //Login Params
-    func loginParameters() -> [String : String!] {
+    func loginParameters() -> [String : String] {
         let params = ["username"        : email,
                       "password"        : password,
                       "client_id"       : kClientID,
-                      "grant_type"      : kGrantType,
+                      "grant_type"      : kGrantTypePassword,
                       "client_secret"   : kClientSecret,
                       "RegisterationToken" : _FCMToken]
-        return params
+        return params as! [String : String]
     }
     
+    //Refresh Token Parameters Params
+    func refreshTokenParameters() -> [String : String] {
+        if let tokenInfo = unArchiveObjectForKey(kAuthorizationInfoKey) as? [String : AnyObject] {
+            let refreshToken = tokenInfo["refresh_token"] as! String
+            let params = ["client_id"       : kClientID,
+                          "grant_type"      : kGrantTypeRefreshToken,
+                          "client_secret"   : kClientSecret,
+                          "refresh_token"   : refreshToken,
+                          "RegisterationToken" : _FCMToken]
+            return params
+        }
+        return [:]
+    }
+
     //UpdateProfile Params
     func updateProfileInfoParams() -> [String : AnyObject] {
         let params = ["UserID"          : Id,
                       "FirstName"       : firstname,
                       "LastName"        : lastname,
                       "Gender"          : gender == "Male" ? "true" : "false",
-                      "YearOfBirth"     : birthDate.componentsSeparatedByString("/")[2],
-                      "MonthOfBirth"    : birthDate.componentsSeparatedByString("/")[1],
-                      "DayOfBirth"      : birthDate.componentsSeparatedByString("/")[0],
+                      "Birthday"        : birthDate,
                       "NationalityID"   : nationality.Id,
-                      "CountryID"       : country.Id,
-                      "MobileCountryCode": mobileCountryCode,
-                      "MobileNumber"    : mobile,
+                      "LivingCountryID"       : country.Id,
                       "Bio"             : bio,
                       "AccountTypeID"   : accountType.Id]
         return params 
@@ -301,12 +321,9 @@ extension User {
     
     //Update user preference params
     func updateUserPreferenceParams() -> [String : AnyObject] {
-        let params = ["UserID":Id,
-                      "IsMobilelShown"          : preference.showMobile,
-                      "IsEmailShown"            : preference.showEmail,
-                      "IsMonitoringAccepted"    : preference.acceptMonitring,
-                      "IsTravelRequestReceiver" : preference.IsTravelRequestReceiver,
-                      "IsVisibleInSearch"       : preference.visibleInSearch,
+        let params = ["UserID"                  : Id,
+                      "PreferencesShowMobile"   : preference.showMobile,
+                      "PreferencesShowEmail"    : preference.showEmail,
                       "PreferencesSmoking"      : preference.smoking,
                       "PreferencesMusic"        : preference.music,
                       "PreferencesFood"         : preference.food,
@@ -316,6 +333,10 @@ extension User {
                       "PreferencesQuran"        : preference.quran]
         //"DefaultLanguage"         : preference.communicationLanguage,
         //"SpokenLanguages"         : preference.speackingLanguage]
+//        "IsMonitoringAccepted"    : preference.acceptMonitring,
+//        "IsTravelRequestReceiver" : preference.IsTravelRequestReceiver,
+//        "IsVisibleInSearch"       : preference.visibleInSearch,
+
         return params as! [String : AnyObject]
     }
 }

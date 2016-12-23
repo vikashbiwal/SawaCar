@@ -34,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let userInfo = unArchiveObjectForKey(kLoggedInUserKey) {
             print(userInfo)
             me = User(info: userInfo as! [String : AnyObject])
-            
             let rootNav = self.window?.rootViewController as! UINavigationController
             let loginVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_LoginVC")
             let lastVC:UIViewController!
@@ -46,6 +45,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 lastVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_UserTypVC")  //UserTypeSelectVC
             }
             rootNav.viewControllers = [loginVC, lastVC]
+           
+            me.refreshAccessToken({ (response, flag) in
+                if response.isSuccess {
+                    if let json = response.json {
+                        if let info = json as? [String : AnyObject] {
+                            let access_token = info["access_token"] as! String
+                            wsCall.addAccesTokenToHeader(access_token) //set the access token to api request header
+                            archiveObject(info, key: kAuthorizationInfoKey)
+                        } else {
+                            showToastErrorMessage("Login Error", message: response.message)
+                        }
+                    } else {
+                        rootNav.viewControllers = [loginVC]
+                        showToastErrorMessage("Login Error", message: response.message)
+                    }
+ 
+                } else {
+                    rootNav.viewControllers = [loginVC]
+                    showToastErrorMessage("Login Error", message: response.message)
+                }
+            })
+
         }
     }
     

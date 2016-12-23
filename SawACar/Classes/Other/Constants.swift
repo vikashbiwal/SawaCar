@@ -54,6 +54,7 @@ let serverDateFormator: NSDateFormatter = {
 }()
 
 // MARK: App Keys
+let kAuthorizationInfoKey       = "kAuthorizationInfoKey"
 let kLoggedInUserKey            = "LoggedInUserKey"
 let UserModeKey                 = "UserModeKey"
 let kProfileUpdateNotificationKey = "UserProfileUpdateNotificationKey"
@@ -81,20 +82,6 @@ func jprint(items: Any...) {
     }
 }
 
-//Store Any custom object to UserDefault with a key
-func archiveObject(obj: AnyObject, key: String) {
-    let archive = NSKeyedArchiver.archivedDataWithRootObject(obj)
-    _userDefault.setObject(archive, forKey: key)
-}
-
-//Get a object from userDefault with key
-func unArchiveObjectForKey(key: String) -> AnyObject? {
-    if let data = _userDefault.objectForKey(key) as? NSData {
-        let unarchiveObj = NSKeyedUnarchiver.unarchiveObjectWithData(data)
-       return unarchiveObj
-    }
-    return nil
-}
 
 func convertTimeStampToLocalDate(timeStampString: String)-> NSDate? {
     if !timeStampString.isEmpty {

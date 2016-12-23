@@ -30,12 +30,24 @@ class LoginVC: ParentVC {
     }
     
     override func viewWillDisappear(animated: Bool) {
+
         _defaultCenter.removeObserver(self)
     }
    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .Default
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func resetInput() {
+        txtEmail.text = ""
+        txtpassword.text = ""
+        txtEmail.resignFirstResponder()
+        txtpassword.resignFirstResponder()
     }
     
 }
@@ -98,11 +110,14 @@ extension LoginVC {
         if process.isValid {
             self.showCentralGraySpinner()
             user.login({ (response, flag) in
+                self.hideCentralGraySpinner()
                 if response.isSuccess {
                     if let json = response.json {//change size width and height change postition delete this label remove text
                         if let info = json as? [String : AnyObject] {
                             let access_token = info["access_token"] as! String
                             wsCall.addAccesTokenToHeader(access_token) //set the access token to api request header
+                            archiveObject(info, key: kAuthorizationInfoKey)
+                            self.resetInput()
                             self.getMyInfoAPICall()
                             
                         } else {
@@ -114,7 +129,6 @@ extension LoginVC {
                 } else {
                     showToastErrorMessage("Login Error", message: response.message)
                 }
-                self.hideCentralGraySpinner()
             })
         } else {
             showToastErrorMessage("Login Error", message: process.msg)

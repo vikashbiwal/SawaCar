@@ -125,7 +125,7 @@ extension VListViewController : UITableViewDataSource, UITableViewDelegate {
         let item = filteredItems[indexPath.row]
         
         cell!.textLabel!.text = item.name
-        if preSelectedIDs.contains(item.Id) || item.selected {
+        if  item.selected {
             cell!.accessoryType = .Checkmark
             item.selected = true
         } else {
@@ -137,8 +137,6 @@ extension VListViewController : UITableViewDataSource, UITableViewDelegate {
     }
         
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        cell?.accessoryType = .Checkmark
         let item = filteredItems[indexPath.row]
         
         if enableMultipleChoice {
@@ -174,6 +172,9 @@ extension VListViewController {
                             listItem.Id = RConverter.string(obj[self.keyForId])
                             listItem.name = RConverter.string(obj[self.keyForTitle])
                             listItem.obj = obj
+                            if self.preSelectedIDs.contains(listItem.Id) {
+                                listItem.selected = true
+                            }
                             self.listItems.append(listItem)
                         }
                         self.filteredItems = self.listItems
