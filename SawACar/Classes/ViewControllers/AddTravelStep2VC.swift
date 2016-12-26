@@ -23,13 +23,13 @@ class AddTravelStep2VC: ParentVC {
         getCurrency()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(AddTravelStep2VC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
     
@@ -39,13 +39,13 @@ class AddTravelStep2VC: ParentVC {
     }
     
     //MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SBSegue_ToCarList" {
-            let vc = segue.destinationViewController as! CarListVC
+            let vc = segue.destination as! CarListVC
             vc.selectedCar = travel.car
             vc.completionBlock = {(car) in
                 self.travel.car = car
-                let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0)) as? StopoverCell
+                let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? StopoverCell
                 cell?.lblStop2.text = car.name
                 self.travel.travelSeat.max = car.seatCounter.value
                 self.travel.travelSeat.value = car.seatCounter.value
@@ -58,21 +58,21 @@ class AddTravelStep2VC: ParentVC {
 //MARK: Share view setup
 extension AddTravelStep2VC {
     func initShareView() {
-        let views  = NSBundle.mainBundle().loadNibNamed("ShareView", owner: nil, options: nil)
+        let views  = Bundle.main.loadNibNamed("ShareView", owner: nil, options: nil)
         shareView  = views![0] as! ShareView
         shareView.actionBlock = {[weak self] (action) in
-            if action == .Share {
+            if action == .share {
                 if let selfVc = self {
                     let strShare = "From " + selfVc.travel.locationFrom!.name + " to " + selfVc.travel.locationTo!.name + " a travel has been created by " + me.fullname
                     let activityVC = UIActivityViewController(activityItems: [strShare], applicationActivities: nil)
                     activityVC.completionWithItemsHandler = {(str, isSuccess, obj, error) in
-                        selfVc.navigationController?.popToRootViewControllerAnimated(true)
+                        _ = selfVc.navigationController?.popToRootViewController(animated: true)
                         selfVc.shareView.hide()
                     }
-                    selfVc.presentViewController(activityVC, animated: true, completion: nil)
+                    selfVc.present(activityVC, animated: true, completion: nil)
                 }
-            } else if action  == .Cancel {//plz do not call hide func here it automatically hide the view.
-                self?.navigationController?.popToRootViewControllerAnimated(true)
+            } else if action  == .cancel {//plz do not call hide func here it automatically hide the view.
+               _ =  self?.navigationController?.popToRootViewController(animated: true)
             }
         }
     }
@@ -83,14 +83,14 @@ extension AddTravelStep2VC {
 //MARK: Notifications
 extension AddTravelStep2VC {
     //Keyboard Notifications
-    func keyboardWillShow(nf: NSNotification)  {
+    func keyboardWillShow(_ nf: Notification)  {
         if let kbInfo = nf.userInfo {
-            let kbFrame = (kbInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let kbFrame = (kbInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kbFrame.size.height, 0)
         }
     }
     
-    func keyboardWillHide(nf: NSNotification)  {
+    func keyboardWillHide(_ nf: Notification)  {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
     }
     
@@ -98,64 +98,64 @@ extension AddTravelStep2VC {
 
 //MARK: Tableview datasource and delegate
 extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cellIdentifier = ""
         if indexPath.row == 0 {
             cellIdentifier = "switchCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelSwitchCell
-            cell.switchBtn1.on = travel.ladiesOnly
-            cell.switchBtn1.type = TravelPreferenceType.OnlyWomen
-            cell.switchBtn2.on = travel.trackingEnable
-            cell.switchBtn2.type = TravelPreferenceType.Tracking
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TravelSwitchCell
+            cell.switchBtn1.isOn = travel.ladiesOnly
+            cell.switchBtn1.type = TravelPreferenceType.onlyWomen
+            cell.switchBtn2.isOn = travel.trackingEnable
+            cell.switchBtn2.type = TravelPreferenceType.tracking
             return cell
             
         } else if indexPath.row == 1 {
             cellIdentifier = "CurrencyCarCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StopoverCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! StopoverCell
             cell.lblStop1.text = travel.currency == nil ? "Currency".localizedString() : travel.currency!.name + "(\(travel.currency!.code))"
             cell.lblStop2.text = travel.car == nil ? "Car".localizedString() : travel.car!.name
             return cell
             
         } else if indexPath.row == 6 { //Publish BtnCell
             cellIdentifier = "buttonCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TVGenericeCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TVGenericeCell
             let title = travel.inEditMode ? "SAVE".localizedString() : "PUBLISH".localizedString()
-            cell.button!.setTitle(title, forState: .Normal)
+            cell.button!.setTitle(title, for: UIControlState())
             return cell
             
         } else {
             cellIdentifier = "counterCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SteperCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! SteperCell
             cell.delegate = self
             if indexPath.row == 2 {
                 cell.lblTitle.text = "Number_of_Seat".localizedString()
                 cell.txtField.text = travel.travelSeat.value.ToString()
-                cell.steperForType = TravelPreferenceType.NumberOfSeat
-                cell.txtField.userInteractionEnabled = false
+                cell.steperForType = TravelPreferenceType.numberOfSeat
+                cell.txtField.isUserInteractionEnabled = false
                 
             } else if indexPath.row == 3 {
                 cell.lblTitle.text = "Price_Passenger".localizedString()
                 let currencySymbol = travel.currency?.symbol ?? ""
                 cell.txtField.text =  currencySymbol + "\(travel.passengerPrice.value)"
-                cell.steperForType = TravelPreferenceType.PassengerPrice
-                cell.txtField.userInteractionEnabled = true
+                cell.steperForType = TravelPreferenceType.passengerPrice
+                cell.txtField.isUserInteractionEnabled = true
                 
             } else if indexPath.row == 4 {
                 cell.lblTitle.text = "Price_Car".localizedString()
                 let currencySymbol = travel.currency?.symbol ?? ""
                 cell.txtField.text = currencySymbol + travel.carPrice.value.ToString()
-                cell.steperForType = TravelPreferenceType.CarPrice
-                cell.txtField.userInteractionEnabled = true
+                cell.steperForType = TravelPreferenceType.carPrice
+                cell.txtField.isUserInteractionEnabled = true
                 
             } else  {
                 cell.lblTitle.text = "Number_of_luggage".localizedString()
                 cell.txtField.text = travel.travelLuggage.value.ToString()
-                cell.steperForType = TravelPreferenceType.NumberOfLuggage
-                cell.txtField.userInteractionEnabled = false
+                cell.steperForType = TravelPreferenceType.numberOfLuggage
+                cell.txtField.isUserInteractionEnabled = false
             }
             cell.btnIncreaseCount.indexPath = indexPath
             cell.btnDecreaseCount.indexPath = indexPath
@@ -164,7 +164,7 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 124 * _widthRatio
         } else if indexPath.row == 1 {
@@ -180,47 +180,47 @@ extension AddTravelStep2VC: UITableViewDataSource, UITableViewDelegate {
 //MARK: IBActions
 extension AddTravelStep2VC {
     
-    @IBAction func travelPublishBtnClicked(sender: UIButton) {
+    @IBAction func travelPublishBtnClicked(_ sender: UIButton) {
         if validateTravel() {
             travel.inEditMode ? updateTravelAPICall() : addTravelAPICall()
         }
     }
     
-    @IBAction func currencyBtnClicked(sender: UIButton) {
+    @IBAction func currencyBtnClicked(_ sender: UIButton) {
         openCurrencyListVC()
     }
     
-    @IBAction func carBtnClicked(sender: UIButton ) {
-        self.performSegueWithIdentifier("SBSegue_ToCarList", sender: nil)
+    @IBAction func carBtnClicked(_ sender: UIButton ) {
+        self.performSegue(withIdentifier: "SBSegue_ToCarList", sender: nil)
     }
     
     //Steper cell's counter btn (for seat, price, luggage) clicked
-    @IBAction func counterBtnClicked(sender: IndexPathButton) {
+    @IBAction func counterBtnClicked(_ sender: IndexPathButton) {
         var counter: VCounterRange!
-        if let cell = tableView.cellForRowAtIndexPath(sender.indexPath) as? SteperCell {
+        if let cell = tableView.cellForRow(at: sender.indexPath as IndexPath) as? SteperCell {
             let type = cell.steperForType
             switch type {
-            case .NumberOfSeat:
+            case .numberOfSeat:
                 travel.travelSeat.value = sender.tag == 1 ? (travel.travelSeat.value - 1) : (travel.travelSeat.value + 1)
                 travel.travelSeat.value = valueFromCounterRange(travel.travelSeat)
                 cell.txtField.text = travel.travelSeat.value.ToString()
                 counter = travel.travelSeat
                 break
-            case .CarPrice:
+            case .carPrice:
                 let value = sender.tag == 1 ? (travel.carPrice.value - 1) : (travel.carPrice.value + 1)
                 travel.carPrice.value = value <= travel.carPrice.min ? travel.passengerPrice.min : value
                 let currencySymbol = travel.currency?.symbol ?? ""
                 cell.txtField.text = currencySymbol + travel.carPrice.value.ToString()
                 counter = travel.carPrice
                 break
-            case .PassengerPrice:
+            case .passengerPrice:
                 let value = sender.tag == 1 ? (travel.passengerPrice.value - 1) : (travel.passengerPrice.value + 1)
                 travel.passengerPrice.value = value <= travel.passengerPrice.min ? travel.passengerPrice.min : value
                 let currencySymbol = travel.currency?.symbol ?? ""
                 cell.txtField.text = currencySymbol + travel.passengerPrice.value.ToString()
                 counter = travel.passengerPrice
                 break
-            case .NumberOfLuggage:
+            case .numberOfLuggage:
                 travel.travelLuggage.value = sender.tag == 1 ? (travel.travelLuggage.value - 1) : (travel.travelLuggage.value + 1)
                 travel.travelLuggage.value = valueFromCounterRange(travel.travelLuggage)
                 cell.txtField.text = travel.travelLuggage.value.ToString()
@@ -230,42 +230,42 @@ extension AddTravelStep2VC {
                 break
             }
             
-            if type == .NumberOfSeat || type == .NumberOfLuggage {
+            if type == .numberOfSeat || type == .numberOfLuggage {
                 if counter.value > counter.min {
-                    cell.btnDecreaseCount.enabled = true
+                    cell.btnDecreaseCount.isEnabled = true
                 } else {
-                    cell.btnDecreaseCount.enabled = false
+                    cell.btnDecreaseCount.isEnabled = false
                 }
                 if counter.value >= counter.max {
-                    cell.btnIncreaseCount.enabled = false
+                    cell.btnIncreaseCount.isEnabled = false
                 } else {
-                    cell.btnIncreaseCount.enabled = true
+                    cell.btnIncreaseCount.isEnabled = true
                 }
             }  else {
                 if counter.value > counter.min {
-                    cell.btnDecreaseCount.enabled = true
+                    cell.btnDecreaseCount.isEnabled = true
                 } else {
-                    cell.btnDecreaseCount.enabled = false
+                    cell.btnDecreaseCount.isEnabled = false
                 }
             }
         }
     }
     
     //Steper cell textfield did begin editing
-    @IBAction func steperTextFieldDidBeginEditing(sender: IndexPathTextField) {
-        if let cell = tableView.cellForRowAtIndexPath(sender.indexpath) as? SteperCell {
+    @IBAction func steperTextFieldDidBeginEditing(_ sender: IndexPathTextField) {
+        if let cell = tableView.cellForRow(at: sender.indexpath as IndexPath) as? SteperCell {
             let type = cell.steperForType
             switch type {
-            case .NumberOfSeat:
+            case .numberOfSeat:
                 cell.txtField.text = travel.travelSeat.value.ToString()
                 break
-            case .CarPrice:
+            case .carPrice:
                 cell.txtField.text = travel.carPrice.value.ToString()
                 break
-            case .PassengerPrice:
+            case .passengerPrice:
                 cell.txtField.text = travel.passengerPrice.value.ToString()
                 break
-            case .NumberOfLuggage:
+            case .numberOfLuggage:
                 cell.txtField.text = travel.travelLuggage.value.ToString()
                 break
             default:
@@ -276,32 +276,32 @@ extension AddTravelStep2VC {
     }
  
     //Steper cell's textfield didChange editing
-    @IBAction func steperTextfieldDidChangedEditing(sender: IndexPathTextField) {
-        if let cell = tableView.cellForRowAtIndexPath(sender.indexpath) as? SteperCell {
+    @IBAction func steperTextfieldDidChangedEditing(_ sender: IndexPathTextField) {
+        if let cell = tableView.cellForRow(at: sender.indexpath as IndexPath) as? SteperCell {
             let type = cell.steperForType
             var counter: (min: Int, value: Int, max: Int)!
             
             switch type {
-            case .NumberOfSeat:
+            case .numberOfSeat:
                 let value = sender.text?.integerValue ?? travel.travelSeat.min
                 travel.travelSeat.value = value
                 travel.travelSeat.value = valueFromCounterRange(travel.travelSeat)
                 cell.txtField.text = travel.travelSeat.value.ToString()
                 counter = travel.travelSeat
                 break
-            case .CarPrice:
+            case .carPrice:
                 let value = sender.text?.integerValue ?? 0
                 travel.carPrice.value = value
                 cell.txtField.text = travel.carPrice.value.ToString()
                 counter = travel.carPrice
                 break
-            case .PassengerPrice:
+            case .passengerPrice:
                 let value = sender.text?.integerValue ?? 0
                 travel.passengerPrice.value = value
                 cell.txtField.text =  travel.passengerPrice.value.ToString()
                 counter = travel.passengerPrice
                 break
-            case .NumberOfLuggage:
+            case .numberOfLuggage:
                 let value = sender.text?.integerValue ?? travel.travelLuggage.min
                 travel.travelLuggage.value = value
                 travel.travelLuggage.value = valueFromCounterRange(travel.travelLuggage)
@@ -312,23 +312,23 @@ extension AddTravelStep2VC {
                 break
             }
             
-            if type == .NumberOfSeat || type == .NumberOfLuggage {
+            if type == .numberOfSeat || type == .numberOfLuggage {
                 if counter.value >= counter.min {
-                    cell.btnDecreaseCount.enabled = true
+                    cell.btnDecreaseCount.isEnabled = true
                 } else {
-                    cell.btnDecreaseCount.enabled = false
+                    cell.btnDecreaseCount.isEnabled = false
                 }
                 
                 if counter.value >= counter.max {
-                    cell.btnIncreaseCount.enabled = false
+                    cell.btnIncreaseCount.isEnabled = false
                 } else {
-                    cell.btnIncreaseCount.enabled = true
+                    cell.btnIncreaseCount.isEnabled = true
                 }
             } else {
                 if counter.value > counter.min {
-                    cell.btnDecreaseCount.enabled = true
+                    cell.btnDecreaseCount.isEnabled = true
                 } else {
-                    cell.btnDecreaseCount.enabled = false
+                    cell.btnDecreaseCount.isEnabled = false
                 }
             }
         }
@@ -336,20 +336,20 @@ extension AddTravelStep2VC {
     
     //Function call when keyboard (opened for Steper Cell's textField) will hide
     //This function call from Steper cell
-    func steperTextFieldCompleteEditing(type: TravelPreferenceType, cell: SteperCell) {
+    func steperTextFieldCompleteEditing(_ type: TravelPreferenceType, cell: SteperCell) {
         switch type {
-        case .NumberOfSeat:
+        case .numberOfSeat:
             cell.txtField.text = travel.travelSeat.value.ToString()
             break
-        case .CarPrice:
+        case .carPrice:
             let currencySymbol = travel.currency?.symbol ?? ""
             cell.txtField.text = currencySymbol + travel.carPrice.value.ToString()
             break
-        case .PassengerPrice:
+        case .passengerPrice:
             let currencySymbol = travel.currency?.symbol ?? ""
             cell.txtField.text =  currencySymbol + travel.passengerPrice.value.ToString()
             break
-        case .NumberOfLuggage:
+        case .numberOfLuggage:
             cell.txtField.text = travel.travelLuggage.value.ToString()
             break
         default:
@@ -357,12 +357,12 @@ extension AddTravelStep2VC {
         }
     }
     
-    @IBAction func switchBtnValueChanged(sender: TravelSwitch) {
+    @IBAction func switchBtnValueChanged(_ sender: TravelSwitch) {
         let type = sender.type
-        if type == TravelPreferenceType.OnlyWomen {
-            travel.ladiesOnly = sender.on
-        } else if type == TravelPreferenceType.Tracking {
-            travel.trackingEnable = sender.on
+        if type == TravelPreferenceType.onlyWomen {
+            travel.ladiesOnly = sender.isOn
+        } else if type == TravelPreferenceType.tracking {
+            travel.trackingEnable = sender.isOn
         }
     }
 }
@@ -371,16 +371,16 @@ extension AddTravelStep2VC {
 extension AddTravelStep2VC {
     //navigate to select currency
     func openCurrencyListVC()  {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.Currency
+        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.currency
         if let currency = travel.currency {
             cListVC.preSelectedIDs = [currency.Id]
         }
         cListVC.completionBlock = {(items) in
             if let item = items.first {
                 let currency = item.obj as! Currency
-                let indexPath = NSIndexPath(forRow: 1, inSection: 0)
-                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? StopoverCell
+                let indexPath = IndexPath(row: 1, section: 0)
+                let cell = self.tableView.cellForRow(at: indexPath) as? StopoverCell
                 cell?.lblStop1.text = currency.name + " (\(currency.code))"
                 self.travel.currency = currency
                 self.tableView.reloadData()
@@ -390,7 +390,7 @@ extension AddTravelStep2VC {
     }
     
     //counter value with min, max, and current value
-    func valueFromCounterRange(counter: VCounterRange)-> Int {
+    func valueFromCounterRange(_ counter: VCounterRange)-> Int {
         if counter.value <= counter.min {
             return counter.min
         } else if counter.value >= counter.max {
@@ -424,7 +424,7 @@ extension AddTravelStep2VC {
         travel.addTravel {[weak self] (isSuccess) in
             if isSuccess {
                 if let selff = self {
-                _defaultCenter.postNotificationName(kTravelAddedNotificationKey, object: nil)
+                _defaultCenter.post(name: Notification.Name(rawValue: kTravelAddedNotificationKey), object: nil)
                 selff.shareView.showInView(selff.view)
                 }
             } else {
@@ -439,7 +439,7 @@ extension AddTravelStep2VC {
         self.showCentralGraySpinner()
         travel.updateTravel {[weak self] (isSuccess) in
             if isSuccess {
-                if let selff = self {
+                if let _ = self {
                     //TODO after update success
                 }
             } else {
@@ -458,11 +458,13 @@ extension AddTravelStep2VC {
         
         wsCall.getCarOfUser(me.Id) { (response, flag) in
             if response.isSuccess {
-                let carsObject = response.json!["Object"] as! [[String : AnyObject]]
-                for item in carsObject {
-                    self.travel.car = Car(item)
-                    self.tableView.reloadData()
-                    break;
+                if let json = response.json as? [String :Any] {
+                    let carsObject = json["Object"] as! [[String : Any]]
+                    for item in carsObject {
+                        self.travel.car = Car(item)
+                        self.tableView.reloadData()
+                        break;
+                    }
                 }
             } else {
                 

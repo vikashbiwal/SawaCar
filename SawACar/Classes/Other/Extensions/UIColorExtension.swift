@@ -9,11 +9,11 @@ import UIKit
 
 extension UIColor {
     
-    class func colorWithGray(gray: Int) -> UIColor {
+    class func colorWithGray(_ gray: Int) -> UIColor {
         return UIColor(red: CGFloat(gray) / 255.0, green: CGFloat(gray) / 255.0, blue: CGFloat(gray) / 255.0, alpha: 1.0)
     }
     
-    class func colorWithRGB(r r: Int, g: Int, b: Int) -> UIColor {
+    class func colorWithRGB(r: Int, g: Int, b: Int) -> UIColor {
         return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: 1.0)
     }
     

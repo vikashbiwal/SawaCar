@@ -11,22 +11,22 @@ import UIKit
 class RConverter: NSObject {
     
     // MARK: Flinnt Object type
-    class func date(timestamp: AnyObject?) -> NSDate {
-        if let any:AnyObject = timestamp {
+    class func date(_ timestamp: Any?) -> Date {
+        if let any = timestamp {
             if let str = any as? NSString {
-                return NSDate(timeIntervalSince1970: str.doubleValue)
+                return Date(timeIntervalSince1970: str.doubleValue)
             } else if let str = any as? NSNumber {
-                return NSDate(timeIntervalSince1970: str.doubleValue)
+                return Date(timeIntervalSince1970: str.doubleValue)
             }
         }
-        return NSDate()
+        return Date()
     }
     
-    class func integer(anything: AnyObject?) -> Int {
+    class func integer(_ anything: Any?) -> Int {
         
-        if let any:AnyObject = anything {
+        if let any = anything {
             if let num = any as? NSNumber {
-                return num.integerValue
+                return num.intValue
             } else if let str = any as? NSString {
                 return str.integerValue
             }
@@ -35,9 +35,9 @@ class RConverter: NSObject {
         
     }
     
-    class func double(anything: AnyObject?) -> Double {
+    class func double(_ anything: Any?) -> Double {
         
-        if let any:AnyObject = anything {
+        if let any = anything {
             if let num = any as? NSNumber {
                 return num.doubleValue
             } else if let str = any as? NSString {
@@ -48,9 +48,9 @@ class RConverter: NSObject {
         
     }
     
-    class func float(anything: AnyObject?) -> Float {
+    class func float(_ anything: Any?) -> Float {
         
-        if let any:AnyObject = anything {
+        if let any = anything {
             if let num = any as? NSNumber {
                 return num.floatValue
             } else if let str = any as? NSString {
@@ -61,9 +61,9 @@ class RConverter: NSObject {
         
     }
     
-    class func string(anything: AnyObject?) -> String {
+    class func string(_ anything: Any?) -> String {
         
-        if let any:AnyObject = anything {
+        if let any = anything {
             if let num = any as? NSNumber {
                 return num.stringValue
             } else if let str = any as? String {
@@ -74,9 +74,9 @@ class RConverter: NSObject {
         
     }
     
-    class func optionalString(anything: AnyObject?) -> String? {
+    class func optionalString(_ anything: Any?) -> String? {
         
-        if let any:AnyObject = anything {
+        if let any = anything {
             if let num = any as? NSNumber {
                 return num.stringValue
             } else if let str = any as? String {
@@ -87,9 +87,9 @@ class RConverter: NSObject {
         
     }
     
-    class func boolean(anything: AnyObject?) -> Bool {
+    class func boolean(_ anything: Any?) -> Bool {
         
-        if let any:AnyObject = anything {
+        if let any = anything {
             if let num = any as? NSNumber {
                 return num.boolValue
             } else if let str = any as? NSString {

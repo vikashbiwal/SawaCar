@@ -13,13 +13,13 @@ extension String {
     
     func isValidUsername() -> Bool {
         let usernameRegex = "[A-Z0-9a-z_]{3,20}"
-        let temp = NSPredicate(format: "SELF MATCHES %@", usernameRegex).evaluateWithObject(self)
+        let temp = NSPredicate(format: "SELF MATCHES %@", usernameRegex).evaluate(with: self)
         return temp
     }
 
     func isValidEmailAddress() -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
-        let temp = NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluateWithObject(self)
+        let temp = NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
         return temp
     }
     
@@ -27,8 +27,8 @@ extension String {
         if self.characters.count > 14 || self.characters.count < 8 {
             return false
         }
-        let newCharacters = NSCharacterSet(charactersInString: self)
-        return NSCharacterSet.decimalDigitCharacterSet().isSupersetOfSet(newCharacters)
+        let newCharacters = CharacterSet(charactersIn: self)
+        return CharacterSet.decimalDigits.isSuperset(of: newCharacters)
     }
 
 }
@@ -37,18 +37,18 @@ extension String {
 extension String {
     
     func trimmedString() -> String {
-        return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
-    func contains(find: String) -> Bool{
-        return self.rangeOfString(find, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
+    func contains(_ find: String) -> Bool{
+        return self.range(of: find, options: NSString.CompareOptions.caseInsensitive) != nil
     }
     
-    func trimWhiteSpace(newline: Bool = false) -> String {
+    func trimWhiteSpace(_ newline: Bool = false) -> String {
         if newline {
-            return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         } else {
-            return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            return self.trimmingCharacters(in: CharacterSet.whitespaces)
         }
     }
 }
@@ -70,25 +70,25 @@ extension String {
 // MARK: - Layout
 extension String {
     
-    func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: CGFloat.max)
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+    func heightWithConstrainedWidth(_ width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         return boundingBox.height
     }
     
-    func WidthWithNoConstrainedHeight(font: UIFont) -> CGFloat {
+    func WidthWithNoConstrainedHeight(_ font: UIFont) -> CGFloat {
         let width = CGFloat(999)
-        let constraintRect = CGSize(width: width, height: CGFloat.max)
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         return boundingBox.width
     }
 }
 
 extension NSAttributedString {
     
-    func heightWithConstrainedWidth(width: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: CGFloat.max)
-        let boundingBox = self.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+    func heightWithConstrainedWidth(_ width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         return ceil(boundingBox.height)
     }
 }
@@ -97,10 +97,10 @@ extension NSAttributedString {
 extension NSAttributedString {
     
     // This will give combined string with respective attributes
-    func attributedText(texts: [String], attributes: [[String : AnyObject]]) -> NSAttributedString {
+    func attributedText(_ texts: [String], attributes: [[String : AnyObject]]) -> NSAttributedString {
         let attbStr = NSMutableAttributedString()
-        for (index,element) in texts.enumerate() {
-            attbStr.appendAttributedString(NSAttributedString(string: element, attributes: attributes[index]))
+        for (index,element) in texts.enumerated() {
+            attbStr.append(NSAttributedString(string: element, attributes: attributes[index]))
         }
         return attbStr
     }

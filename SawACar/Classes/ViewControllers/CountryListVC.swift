@@ -9,9 +9,9 @@
 import UIKit
 
 enum LocationSelectionForType {
-    case Nationality, Country, DialCodeAction
-    case From, To
-    case None
+    case nationality, country, dialCodeAction
+    case from, to
+    case none
 }
 
 class CountryListVC: ParentVC {
@@ -38,12 +38,12 @@ class CountryListVC: ParentVC {
     //MARK: SetupUI
     func setupRefreshControl()  {
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(self.getCountriesWS), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(self.getCountriesWS), for: .valueChanged)
         tableView.addSubview(refreshControl)
     }
     
     //MARK: Other
-    func filterList(text: String)  {
+    func filterList(_ text: String)  {
         let arr = countries.filter { (ct) -> Bool in
             return ct.name.hasPrefix(text)
         }
@@ -56,38 +56,38 @@ class CountryListVC: ParentVC {
 //MARK: Conform Protocols
 extension CountryListVC: UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     //MARK: Tableview datasource and delgate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredCountries.count;
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! TVGenericeCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TVGenericeCell
         let country = filteredCountries[indexPath.row]
         cell.lblTitle.text = country.name
         if country.Id == selectedCountryId {
-            cell.accessoryType = .Checkmark
+            cell.accessoryType = .checkmark
         } else {
-            cell.accessoryType = .None
+            cell.accessoryType = .none
         }
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        cell?.accessoryType = .Checkmark
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .checkmark
         
         let ct = filteredCountries[indexPath.row]
         completionBlock(ct)
         self.parentBackAction(nil)
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
-        cell?.accessoryType = .None
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .none
     }
     
     //MARK: SearchBar Delegate
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.characters.count > 0 {
             filterList(searchText)
         } else {

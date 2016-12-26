@@ -24,23 +24,23 @@ class ParentVC: UIViewController  {
 
     // MARK: - Actions
     // Navigate to Previous View Controller with navigation popview method
-    @IBAction func parentBackAction(sender:UIButton? ){
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func parentBackAction(_ sender:UIButton? ){
+        self.navigationController?.popViewController(animated: true)
     }
     
     // Navigate to Previous View Controller with dismiss view method
-    @IBAction func parentDismissAction(sender:UIButton?){
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func parentDismissAction(_ sender:UIButton?){
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func shutterAction(sender: UIButton) {
+    @IBAction func shutterAction(_ sender: UIButton) {
         self.view.endEditing(true)
         shutterActioinBlock()
     }
     
     // Navigate to Root view controller
-    @IBAction func parentBackToRootViewController(sender: UIButton?){
-        self.navigationController?.popToRootViewControllerAnimated(true)
+    @IBAction func parentBackToRootViewController(_ sender: UIButton?){
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLoad() {
@@ -52,8 +52,8 @@ class ParentVC: UIViewController  {
         super.didReceiveMemoryWarning()
         
     }
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-       return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+       return .lightContent
     }
     
     func setHeaderShadow(){
@@ -95,11 +95,11 @@ class ParentVC: UIViewController  {
     }
     
     //Show an alert message
-    func showAlert(message: String?, title: String?)  {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let action = UIAlertAction(title: "OK".localizedString(), style: .Default, handler: nil)
+    func showAlert(_ message: String?, title: String?)  {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK".localizedString(), style: .default, handler: nil)
         alert.addAction(action)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: Show and hide spinner hud
@@ -110,24 +110,24 @@ class ParentVC: UIViewController  {
     
     func showCentralSpinner() {
         self.view.addSubview(centralActivityIndicator)
-        let xConstraint = NSLayoutConstraint(item: centralActivityIndicator, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-        let yConstraint = NSLayoutConstraint(item: centralActivityIndicator, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        let xConstraint = NSLayoutConstraint(item: centralActivityIndicator, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+        let yConstraint = NSLayoutConstraint(item: centralActivityIndicator, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
         centralActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activateConstraints([xConstraint, yConstraint])
+        NSLayoutConstraint.activate([xConstraint, yConstraint])
         centralActivityIndicator.alpha = 0.0
         view.layoutIfNeeded()
-        self.view.userInteractionEnabled = false
+        self.view.isUserInteractionEnabled = false
         centralActivityIndicator.startAnimating()
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.centralActivityIndicator.alpha = 1.0
-        }
+        }) 
     }
     func hideCentralSpinner() {
-        self.view.userInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
         centralActivityIndicator.stopAnimating()
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.centralActivityIndicator.alpha = 0.0
-        }
+        }) 
     }
     
     lazy internal var centralGrayActivityIndicator : CustomActivityIndicatorView = {
@@ -141,25 +141,25 @@ class ParentVC: UIViewController  {
         centralGrayActivityIndicator.translatesAutoresizingMaskIntoConstraints = false
         centralGrayActivityIndicator.alpha = 0.0
         view.layoutIfNeeded()
-        self.view.userInteractionEnabled = false
+        self.view.isUserInteractionEnabled = false
         centralGrayActivityIndicator.startAnimating()
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.centralGrayActivityIndicator.alpha = 1.0
-        }
+        }) 
     }
     
     func hideCentralGraySpinner() {
-        self.view.userInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
         centralGrayActivityIndicator.stopAnimating()
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.centralGrayActivityIndicator.alpha = 0.0
-        }
+        }) 
     }
 }
 
 //MARK: TextField Delegate
 extension ParentVC : UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return textField.resignFirstResponder()
     }
 }
@@ -167,19 +167,19 @@ extension ParentVC : UITextFieldDelegate {
 //MARK: Setup Empty data view
 extension ParentVC {
     func initEmptyDataView()  {
-        let customViews = NSBundle.mainBundle().loadNibNamed("VNoDataView", owner: nil, options: nil)
+        let customViews = Bundle.main.loadNibNamed("VNoDataView", owner: nil, options: nil)
         emptyDataView = customViews![0] as! VNoDataView
     }
     
-    func showEmptyDataView(message: String = "No_items_available".localizedString(), frame frm : CGRect = CGRectZero) {
-        if frm == CGRectZero {
+    func showEmptyDataView(_ message: String = "No_items_available".localizedString(), frame frm : CGRect = CGRect.zero) {
+        if frm == CGRect.zero {
             self.emptyDataView.showInCenterInView(self.view, title: message)
         } else {
             self.emptyDataView.showInView(self.view, message: message, frame : frm)
         }
     }
     
-    func showEmptyDataViewAtTop(message: String = "No_items_available".localizedString()) {
+    func showEmptyDataViewAtTop(_ message: String = "No_items_available".localizedString()) {
         self.emptyDataView.showInView(self.view, message: message)
     }
 

@@ -13,7 +13,7 @@ class JPUtility: NSObject {
     
     static let shared = JPUtility()
     
-    func agoStringFromTime(date: NSDate) -> String {
+    func agoStringFromTime(_ date: Date) -> String {
         var timeScale = [String : Int]()
         timeScale["sec"] = 1
         timeScale["min"] = 60

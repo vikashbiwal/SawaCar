@@ -26,15 +26,15 @@ class TravelRequest {
     var currency :  Currency?
     
     var offers   = [TravelRequestOffer]()
-    var comments = []
+    var comments = [Message]()
     
     var departureTime : String { return self.departureHour + ":" + self.departureMinute + ":00"}
     
-    func departurDate()-> NSDate? {
+    func departurDate()-> Date? {
         guard !departureDateString.isEmpty else {
             return nil
         } 
-        let  departureDate = departureDateString.substringToIndex(departureDateString.startIndex.advancedBy(10))
+        let  departureDate = departureDateString.substring(to: departureDateString.index(departureDateString.startIndex, offsetBy: 10))
         let departureDateTime = departureDate + " " + departureTime
         return dateFormator.dateFromString(departureDateTime, fomat: "dd/MM/yyyy HH:mm:ss")
     }
@@ -43,7 +43,7 @@ class TravelRequest {
         
     }
     
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         id                  = RConverter.string(info["TravelRequestID"])
         number              = RConverter.string(info["TravelRequestNumber"])
         departureDateString = RConverter.string(info["DepartureDate"])
@@ -52,13 +52,13 @@ class TravelRequest {
         suggestedPrice      = RConverter.integer(info["Price"])
         offerAccepted       = RConverter.boolean(info["OfferAccepted"])
         
-        fromLocation        = GLocation(info["LocationFrom"] as! [String : AnyObject])
-        toLocation          = GLocation(info["LocationTo"] as! [String : AnyObject])
+        fromLocation        = GLocation(info["LocationFrom"] as! [String : Any])
+        toLocation          = GLocation(info["LocationTo"] as! [String : Any])
         passanger           = Passanger(travelRequester: info)
         currency            = Currency( info)
         travelType          = TravelType(info)
         
-        if let jsonOffers = info["Offers"] as? [[String : AnyObject]] {
+        if let jsonOffers = info["Offers"] as? [[String : Any]] {
             offers.removeAll()
             for jOffer in jsonOffers {
                 let offer = TravelRequestOffer(jOffer)
@@ -67,7 +67,7 @@ class TravelRequest {
         }
     }
     
-    func reset(withInfo info : [String : AnyObject]) {
+    func reset(withInfo info : [String : Any]) {
         id                  = RConverter.string(info["TravelRequestID"])
         number              = RConverter.string(info["TravelRequestNumber"])
         departureDateString = RConverter.string(info["DepartureDate"])
@@ -76,13 +76,13 @@ class TravelRequest {
         suggestedPrice      = RConverter.integer(info["Price"])
         offerAccepted       = RConverter.boolean(info["OfferAccepted"])
         
-        fromLocation        = GLocation(info["LocationFrom"] as! [String : AnyObject])
-        toLocation          = GLocation(info["LocationTo"] as! [String : AnyObject])
+        fromLocation        = GLocation(info["LocationFrom"] as! [String : Any])
+        toLocation          = GLocation(info["LocationTo"] as! [String : Any])
         passanger           = Passanger(travelRequester: info)
         currency            = Currency( info)
         travelType          = TravelType(info)
         
-        if let jsonOffers = info["Offers"] as? [[String : AnyObject]] {
+        if let jsonOffers = info["Offers"] as? [[String : Any]] {
             offers.removeAll()
             for jOffer in jsonOffers {
                 let offer = TravelRequestOffer(jOffer)
@@ -97,32 +97,32 @@ class TravelRequest {
 extension TravelRequest {
     
     //Class func - Get travel details api call
-    class func getTravelRequestDetailAPICall(id: String, block: WSBlock) {
+    class func getTravelRequestDetailAPICall(_ id: String, block: @escaping WSBlock) {
         wsCall.getTravelRequest(id, block: block)
     }
     
     //Add travel request api call.
-    func addTravelRequestAPICall(block: WSBlock) {
+    func addTravelRequestAPICall(_ block: @escaping WSBlock) {
         let params = self.parametersForAddTravelRequestAPI()
         wsCall.addTravelRequest(params, block: block)
     }
     
     //Update travel request api call.
-    func updateTravelRequestAPICall(block: WSBlock) {
+    func updateTravelRequestAPICall(_ block: @escaping WSBlock) {
         let params = self.parametersForUpdateTravelRequestAPI()
         wsCall.updateTravelRequest(params, block: block)
     }
     
     
     //Add an offer on the travel request (by the driver).
-    func addOffer(travelRequestID: String, price: String, date: String, block: WSBlock) {
+    func addOffer(_ travelRequestID: String, price: String, date: String, block:@escaping WSBlock) {
         let params = ["TravelRequestID" : travelRequestID, "Price": price, "OfferDate": date]
         wsCall.addOfferOnTravelRequest(params, block: block)
     }
 
     //json paramters for add travel request API.
-    func parametersForAddTravelRequestAPI() -> [String : AnyObject] {
-        var params : [String : AnyObject]
+    func parametersForAddTravelRequestAPI() -> [String : Any] {
+        var params : [String : Any]
         params = ["RequesterID"     : me.Id,
                   "TravelTypeID"    : self.travelType.Id,
                   "CurrencyID"      : self.currency!.Id,
@@ -147,8 +147,8 @@ extension TravelRequest {
     }
     
     //json parameters for update request API.
-    func parametersForUpdateTravelRequestAPI() -> [String : AnyObject] {
-        var params : [String : AnyObject]
+    func parametersForUpdateTravelRequestAPI() -> [String : Any] {
+        var params : [String : Any]
         params = ["RequesterID"     : me.Id,
                   "TravelTypeID"    : self.travelType.Id,
                   "CurrencyID"      : self.currency!.Id,

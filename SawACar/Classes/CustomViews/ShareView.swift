@@ -20,10 +20,10 @@ class ShareView: VBlurView {
     var actionBlock: (VAction)-> Void = {_ in}
     
     enum ShareViewType {
-        case Travel, TravelRequest
+        case travel, travelRequest
     }
     
-    var shareType: ShareViewType = ShareViewType.Travel
+    var shareType: ShareViewType = ShareViewType.travel
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,32 +36,32 @@ class ShareView: VBlurView {
     }
     
     func prepareForUI() {
-        if shareType == .Travel {
+        if shareType == .travel {
             lblMsg1.text = "Great, Now other people can join your travel!"
             lblMsg2.text = "Please wait for offer from passengers!"
             lblMsg3.text = "You can share to reach more people"
             messageView.backgroundColor = UIColor.scHeaderColor()
             
-        } else if shareType == .TravelRequest {
+        } else if shareType == .travelRequest {
             lblMsg1.text = "Great, your request is registered"
             lblMsg2.text = "Please wait for offer from driver!"
             lblMsg3.text = "You can share to reach more people"
-            messageView.backgroundColor = UIColor.greenColor()
+            messageView.backgroundColor = UIColor.green
         }
     }
     
-    func showInView(view: UIView) {
+    func showInView(_ view: UIView) {
         self.prepareForUI()
-        self.transform = CGAffineTransformMakeScale(0, 0)
+        self.transform = CGAffineTransform(scaleX: 0, y: 0)
         view.addSubview(self)
-        UIView.animateWithDuration(0.5) {
-            self.transform = CGAffineTransformMakeScale(1.0, 1.0)
-        }
+        UIView.animate(withDuration: 0.5, animations: {
+            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }) 
     }
     
     func hide() {
-        UIView.animateWithDuration(0.3, animations: {
-            self.transform = CGAffineTransformMakeScale(0.1, 0.1)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             }, completion: {(finished) in
                 if finished {
                     self.removeFromSuperview()
@@ -69,12 +69,12 @@ class ShareView: VBlurView {
         })
     }
     
-    @IBAction func closeBtnClicked(sender: UIButton) {
+    @IBAction func closeBtnClicked(_ sender: UIButton) {
         hide()
-        actionBlock(VAction.Cancel)
+        actionBlock(VAction.cancel)
     }
     
-    @IBAction func shareBtnClicked(sender: UIButton) {
-        actionBlock(VAction.Share)
+    @IBAction func shareBtnClicked(_ sender: UIButton) {
+        actionBlock(VAction.share)
     }
 }

@@ -16,7 +16,7 @@ class MyBookingsViewController: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initEmptyDataView()
-        if me.userMode == .Driver {
+        if me.userMode == .driver {
             self.refreshControl = self.tableView.addRefreshControl(self, selector: #selector(self.getBookingsAPICallForDriver))
             self.getBookingsAPICallForDriver()
         } else {
@@ -35,7 +35,7 @@ class MyBookingsViewController: ParentVC {
         if bookings.isEmpty {
             let fr = CGRect(x: 0, y: 20, width: ScreenSize.SCREEN_WIDTH, height: 40)
             var message  = ""
-            if me.userMode == .Driver {
+            if me.userMode == .driver {
                 message = "No bookings are made on your travels.".localizedString()
             } else {
                 message = "No bookings are available.".localizedString()
@@ -49,12 +49,12 @@ class MyBookingsViewController: ParentVC {
 //MARK: IBAction
 extension MyBookingsViewController {
 
-    @IBAction func cancelBookingBtnClicked(sender: UIButton) {
+    @IBAction func cancelBookingBtnClicked(_ sender: UIButton) {
         let booking = bookings[sender.tag]
-        me.userMode == .Driver ? self.rejectBookingAPICall(booking) : self.cancelBookingAPICall(booking)
+        me.userMode == .driver ? self.rejectBookingAPICall(booking) : self.cancelBookingAPICall(booking)
     }
     
-    @IBAction func acceptBookingBtnClicked(sender: UIButton) {
+    @IBAction func acceptBookingBtnClicked(_ sender: UIButton) {
         let booking = bookings[sender.tag]
         self.approveBookingAPICall(booking)
     }
@@ -63,12 +63,12 @@ extension MyBookingsViewController {
 //MARK: TableViewDataSource
 extension MyBookingsViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bookings.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("bookingCell") as! TravelBookingCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "bookingCell") as! TravelBookingCell
         let booking = bookings[indexPath.row]
         cell.setInfo(forBooking: booking)
         cell.btnAccept.tag = indexPath.row
@@ -76,11 +76,11 @@ extension MyBookingsViewController : UITableViewDataSource, UITableViewDelegate 
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 190 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
@@ -91,13 +91,13 @@ extension MyBookingsViewController {
     
     //Get passenger's bookings
     func getBookingsAPICallsForPassanger() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             self.showCentralGraySpinner()
         }
         wsCall.getBookings(forPassanger: me.Id) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let bookingArray = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json  as? [String : Any] {
+                    if let bookingArray = json["Object"] as? [[String : Any]] {
                         self.bookings.removeAll()
                         for item in bookingArray {
                             let booking = Booking(item)
@@ -118,13 +118,13 @@ extension MyBookingsViewController {
     
     //Get bookings for driver on thier travels
     func getBookingsAPICallForDriver()  {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             self.showCentralGraySpinner()
         }
         wsCall.getBookings(forDriver: me.Id) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let bookingArray = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json  as? [String : Any] {
+                    if let bookingArray = json["Object"] as? [[String : Any]] {
                         self.bookings.removeAll()
                         for item in bookingArray {
                             let booking = Booking(item)
@@ -145,16 +145,16 @@ extension MyBookingsViewController {
     
     
     //Cancel booking
-    func cancelBookingAPICall(booking: Booking) {
-        let alert = UIAlertController(title: "SawaCar", message: "Are you sure you want to cancel your booking?", preferredStyle: .Alert)
-        let noAction = UIAlertAction(title: "No", style: .Default, handler: nil)
-        let yesAction = UIAlertAction(title: "Yes", style: .Destructive) {(alert) in
+    func cancelBookingAPICall(_ booking: Booking) {
+        let alert = UIAlertController(title: "SawaCar", message: "Are you sure you want to cancel your booking?", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "No", style: .default, handler: nil)
+        let yesAction = UIAlertAction(title: "Yes", style: .destructive) {(alert) in
             self.showCentralGraySpinner()
             booking.cancelAPICall {[weak self] (response, flag) in
                 self?.hideCentralGraySpinner()
                 if response.isSuccess {
-                    if let json = response.json {
-                        if let object = json["Object"] as? [String : AnyObject] {
+                    if let json = response.json as? [String : Any] {
+                        if let object = json["Object"] as? [String : Any] {
                             booking.resetInfo(object)
                         }
                     }
@@ -169,21 +169,21 @@ extension MyBookingsViewController {
         
         alert.addAction(noAction)
         alert.addAction(yesAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //Approve booking
-    func approveBookingAPICall(booking: Booking) {
-        let alert = UIAlertController(title: "SawaCar", message: "Are you sure you want to accept booking from '\(booking.userName)' on your Travel \(booking.travelId)?", preferredStyle: .Alert)
-        let noAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+    func approveBookingAPICall(_ booking: Booking) {
+        let alert = UIAlertController(title: "SawaCar", message: "Are you sure you want to accept booking from '\(booking.userName)' on your Travel \(booking.travelId)?", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "No", style: .default, handler: nil)
         
-        let yesAction = UIAlertAction(title: "Yes", style: .Destructive) {(alert) in
+        let yesAction = UIAlertAction(title: "Yes", style: .destructive) {(alert) in
             self.showCentralGraySpinner()
             booking.approveAPICall {[weak self] (response, flag) in
                 self?.hideCentralGraySpinner()
                 if response.isSuccess {
-                    if let json = response.json {
-                        if let object = json["Object"] as? [String : AnyObject] {
+                    if let json = response.json as? [String : Any] {
+                        if let object = json["Object"] as? [String : Any] {
                            booking.resetInfo(object)
                         }
                     }
@@ -198,21 +198,21 @@ extension MyBookingsViewController {
         
         alert.addAction(noAction)
         alert.addAction(yesAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //Reject booking
-    func rejectBookingAPICall(booking: Booking) {
-        let alert = UIAlertController(title: "SawaCar", message: "Are you sure you want to reject booking from '\(booking.userName)' on your Travel \(booking.travelId)?", preferredStyle: .Alert)
-        let noAction = UIAlertAction(title: "No", style: .Default, handler: nil)
+    func rejectBookingAPICall(_ booking: Booking) {
+        let alert = UIAlertController(title: "SawaCar", message: "Are you sure you want to reject booking from '\(booking.userName)' on your Travel \(booking.travelId)?", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "No", style: .default, handler: nil)
        
-        let yesAction = UIAlertAction(title: "Yes", style: .Destructive) {(alert) in
+        let yesAction = UIAlertAction(title: "Yes", style: .destructive) {(alert) in
             self.showCentralGraySpinner()
             booking.rejectAPICall {[weak self] (response, flag) in
                 self?.hideCentralGraySpinner()
                 if response.isSuccess {
-                    if let json = response.json {
-                        if let object = json["Object"] as? [String : AnyObject] {
+                    if let json = response.json  as? [String : Any]{
+                        if let object = json["Object"] as? [String : Any] {
                             booking.resetInfo(object)
                         }
                     }
@@ -228,7 +228,7 @@ extension MyBookingsViewController {
     
         alert.addAction(noAction)
         alert.addAction(yesAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -249,7 +249,7 @@ class TravelBookingCell: TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView?.layer.cornerRadius = 5 * _widthRatio
-        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().cgColor
         cardView?.layer.borderWidth = 1.0
 
     }
@@ -262,15 +262,15 @@ class TravelBookingCell: TVGenericeCell {
         //lblLocationFrom.text = booking.locationFrom
         //lblLocationTo.text = booking.locationTo
         lblUserName.text = booking.userName
-        imgView.setImageWithURL(NSURL(string: booking.userPhoto)!, placeholderImage: _userPlaceholderImage)
-        cardView?.layer.borderColor = booking.status.color().CGColor
+        imgView.setImageWith(URL(string: booking.userPhoto)!, placeholderImage: _userPlaceholderImage)
+        cardView?.layer.borderColor = booking.status.color().cgColor
         
-        if booking.status == .Pending {
-            btnAccept.hidden = booking.userId == me.Id
-            btnReject.hidden = false
+        if booking.status == .pending {
+            btnAccept.isHidden = booking.userId == me.Id
+            btnReject.isHidden = false
         } else {
-            btnAccept.hidden = true
-            btnReject.hidden = true
+            btnAccept.isHidden = true
+            btnReject.isHidden = true
         }
 
     }

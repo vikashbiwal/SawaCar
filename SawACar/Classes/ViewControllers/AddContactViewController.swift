@@ -39,12 +39,12 @@ class AddContactViewController: ParentVC {
     //MARK: Navigation
     
     func navigateToCountryList() {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
+        let cListVC = _generalStoryboard.instantiateViewController(withIdentifier: "SBID_CountryListVC") as! CountryListVC
         //cListVC.selectedCountryId =
         cListVC.titleString = "countries".localizedString()
         
         cListVC.completionBlock = {(country) in
-            self.btnDialCode.setTitle("+" + country.dialCode, forState: .Normal)
+            self.btnDialCode.setTitle("+" + country.dialCode, for: UIControlState())
         }
         self.navigationController?.pushViewController(cListVC, animated: true)
 
@@ -53,11 +53,11 @@ class AddContactViewController: ParentVC {
 
 extension AddContactViewController {
     
-    @IBAction func countryCodeButtonTapped(sender: UIButton) {
+    @IBAction func countryCodeButtonTapped(_ sender: UIButton) {
         self.navigateToCountryList()
     }
     
-    @IBAction func saveBtnTapped(sender: UIButton) {
+    @IBAction func saveBtnTapped(_ sender: UIButton) {
         //TODO
     }
 }

@@ -16,7 +16,7 @@ class VNoDataView: ConstrainedView {
        // self.frame = CGRect(x: 0, y: 64, width: _screenSize.width, height: 50)
     }
     
-    func showInView(view: UIView, message: String? = nil, textColor: UIColor = UIColor.blackColor(), backgroundColor: UIColor = UIColor.whiteColor(), frame frm: CGRect = CGRect(x: 0, y: 64, width: _screenSize.width, height: 50)) {
+    func showInView(_ view: UIView, message: String? = nil, textColor: UIColor = UIColor.black, backgroundColor: UIColor = UIColor.white, frame frm: CGRect = CGRect(x: 0, y: 64, width: _screenSize.width, height: 50)) {
         self.frame = frm
         self.lblTitle.textColor = textColor
         self.lblTitle.text = message ?? "No data available."
@@ -24,7 +24,7 @@ class VNoDataView: ConstrainedView {
         view.addSubview(self)
     }
     
-    func showInCenterInView(view: UIView, title: String? = nil, textColor: UIColor = UIColor.blackColor(), backgroundColor: UIColor = UIColor.whiteColor()) {
+    func showInCenterInView(_ view: UIView, title: String? = nil, textColor: UIColor = UIColor.black, backgroundColor: UIColor = UIColor.white) {
         
         let center = (_screenSize.height / 2) - 25
         self.frame = CGRect(x: 0, y: center, width: _screenSize.width, height: 50)
@@ -34,7 +34,7 @@ class VNoDataView: ConstrainedView {
         view.addSubview(self)
     }
 
-    func hide(animated: Bool = false) {
+    func hide(_ animated: Bool = false) {
         self.removeFromSuperview()
     }
     

@@ -28,93 +28,93 @@ class TrackingViewController: ParentVC {
     }
     
     //show/hide addContacts button
-    func addContactsBtnTransform(toVisible: Bool = false) {
+    func addContactsBtnTransform(_ toVisible: Bool = false) {
         let scaleFactor: CGFloat = toVisible ? 1.0 : 0.1
-        self.addContactButtonView.hidden = false
-        UIView.animateWithDuration(0.3, animations: {
-            let transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor)
+        self.addContactButtonView.isHidden = false
+        UIView.animate(withDuration: 0.3, animations: {
+            let transform = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
             self.addContactButtonView.transform = transform
             
-        }) { (hmm) in
-            self.addContactButtonView.hidden = !toVisible
-        }
+        }, completion: { (hmm) in
+            self.addContactButtonView.isHidden = !toVisible
+        }) 
     }
 }
 
 //MARK: IBActions
 extension TrackingViewController {
     
-    @IBAction func menuButtonTapped(sender: UIButton) {
-        let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
-        collView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+    @IBAction func menuButtonTapped(_ sender: UIButton) {
+        let indexPath = IndexPath(item: sender.tag, section: 0)
+        collView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
-    @IBAction func followMeSwitchTapped(sender: UISwitch) {
+    @IBAction func followMeSwitchTapped(_ sender: UISwitch) {
         //TODO
     }
     
-    @IBAction func generateCodeButtonTapped(sender: UIButton) {
+    @IBAction func generateCodeButtonTapped(_ sender: UIButton) {
         //TODO
     }
     
-    @IBAction func addContactsBtnTapped(sender: UIButton) {
-        self.performSegueWithIdentifier("toAddContactSegue", sender: nil)
+    @IBAction func addContactsBtnTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "toAddContactSegue", sender: nil)
     }
 }
 
 
 //MARK: CollectionView DataSource and Delegate
 extension TrackingViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return 1
     }
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! TrackingCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! TrackingCollectionViewCell
         if indexPath.row == 0 {
-            cell.selectedMenuType = .Me
+            cell.selectedMenuType = .me
         } else if indexPath.row == 1  {
-            cell.selectedMenuType = .MyTrips
+            cell.selectedMenuType = .myTrips
         } else {
-            cell.selectedMenuType = .MyContacts
+            cell.selectedMenuType = .myContacts
         }
         cell.viewcontroller = self
         cell.tableView.reloadData()
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //TODO
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 375 * _widthRatio, height: 553 * _widthRatio)
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffSet = scrollView.contentOffset
         self.lblScrollLeadingSpace.constant = contentOffSet.x / 3
         self.menuContainerView.layoutIfNeeded()
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let contentOffSet = scrollView.contentOffset
         let pageIndex = Int(contentOffSet.x / ScreenSize.SCREEN_WIDTH)
         self.setUIForPageIndex(pageIndex)
     }
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let contentOffSet = scrollView.contentOffset
         let pageIndex = Int(contentOffSet.x / ScreenSize.SCREEN_WIDTH)
         self.setUIForPageIndex(pageIndex)
     }
     
     //SetUI for Current Visible Page Menu
-    func setUIForPageIndex(index: Int) {
-        if (index >= 0) && (index < collView.numberOfItemsInSection(0)) {
+    func setUIForPageIndex(_ index: Int) {
+        if (index >= 0) && (index < collView.numberOfItems(inSection: 0)) {
             addContactsBtnTransform(index == 2 ? true : false)
             self.view.endEditing(true)
         }
@@ -125,11 +125,11 @@ extension TrackingViewController : UICollectionViewDelegateFlowLayout, UICollect
 class TrackingCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITableViewDelegate {
    
     enum TrackingMenuType: Int {
-        case Me, MyTrips, MyContacts
+        case me, myTrips, myContacts
     }
 
     @IBOutlet var tableView: UITableView!
-    var selectedMenuType = TrackingMenuType.Me
+    var selectedMenuType = TrackingMenuType.me
     weak var viewcontroller: UIViewController?
     
     override func awakeFromNib() {
@@ -138,10 +138,10 @@ class TrackingCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITable
     }
     
     //MARK: TableView DataSource and Delegate
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if selectedMenuType == .Me {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if selectedMenuType == .me {
             return 2
-        } else if selectedMenuType == .MyTrips {
+        } else if selectedMenuType == .myTrips {
             return 5
             
         } else  { //if selectedMenuType == .MyContacts
@@ -149,32 +149,32 @@ class TrackingCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITable
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if selectedMenuType == .Me {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if selectedMenuType == .me {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("followMeCell")  as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "followMeCell")  as! TVGenericeCell
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("codeGenerateCell")  as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "codeGenerateCell")  as! TVGenericeCell
                 return cell
             }
             
-        } else if selectedMenuType == .MyTrips {
-            let cell = tableView.dequeueReusableCellWithIdentifier("tripCell")  as! TVGenericeCell
+        } else if selectedMenuType == .myTrips {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tripCell")  as! TVGenericeCell
             return cell
             
         } else  { //if selectedMenuType == .MyContacts
-            let cell = tableView.dequeueReusableCellWithIdentifier("contactCell")  as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell")  as! TVGenericeCell
             return cell
         }
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if selectedMenuType == .Me {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if selectedMenuType == .me {
             return indexPath.row == 0 ? 60 : 169
             
-        } else if selectedMenuType == .MyTrips {
+        } else if selectedMenuType == .myTrips {
             return 150
             
         } else  { //if selectedMenuType == .MyContacts
@@ -182,11 +182,11 @@ class TrackingCollectionViewCell: CVGenericeCell, UITableViewDataSource, UITable
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if selectedMenuType == .MyTrips {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if selectedMenuType == .myTrips {
             
-        } else if selectedMenuType == .MyContacts {
-            viewcontroller?.performSegueWithIdentifier("toLocationSegue", sender: nil)
+        } else if selectedMenuType == .myContacts {
+            viewcontroller?.performSegue(withIdentifier: "toLocationSegue", sender: nil)
         }
     }
 

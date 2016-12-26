@@ -39,12 +39,12 @@ class DFindRideRequestVC: ParentVC {
     //Func for circle view with location input
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
-        inputView1.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView1.layer.borderColor = UIColor.white.cgColor
         inputView1.layer.cornerRadius = 3.0
         inputView1.clipsToBounds  = true
         
         inputView2.layer.borderWidth = 1.0
-        inputView2.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView2.layer.borderColor = UIColor.white.cgColor
         inputView2.layer.cornerRadius = 3.0
         inputView2.clipsToBounds  = true
         
@@ -55,16 +55,16 @@ class DFindRideRequestVC: ParentVC {
 
 //MARK: IBActions
 extension DFindRideRequestVC {
-    @IBAction func countryBtnDidClicked(sender: UIButton) {
+    @IBAction func countryBtnDidClicked(_ sender: UIButton) {
         navigationToCountryList()
     }
     
-    @IBAction func travelTypeBtnDidClicked(sender: UIButton) {
+    @IBAction func travelTypeBtnDidClicked(_ sender: UIButton) {
         navigationToTravelTypeList()
     }
     
-    @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("FindRequestToResultVC", sender: nil)
+    @IBAction func gotoAddTravelBtnClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "FindRequestToResultVC", sender: nil)
     }
     
     
@@ -73,16 +73,16 @@ extension DFindRideRequestVC {
 //MARK: Navigation
 extension DFindRideRequestVC {
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FindRequestToResultVC" {
-            let nextVC = segue.destinationViewController as! DRideRequestsListVC
+            let nextVC = segue.destination as! DRideRequestsListVC
             nextVC.requestSearchObj = rideRequestObj
         }
     }
     
     //Navigate to country list screen
     func navigationToCountryList()  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
+        let cListVC = _generalStoryboard.instantiateViewController(withIdentifier: "SBID_CountryListVC") as! CountryListVC
         cListVC.selectedCountryId = rideRequestObj.countryId
         cListVC.titleString = "Countries".localizedString()
         cListVC.completionBlock = {(country) in
@@ -95,8 +95,8 @@ extension DFindRideRequestVC {
     
     //Navigate to travel list screen for selecting travel type
     func navigationToTravelTypeList() {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.TravelType
+        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.travelType
         cListVC.preSelectedIDs = [rideRequestObj.travelTypeId]
         
         cListVC.completionBlock = {(items) in

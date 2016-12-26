@@ -10,50 +10,50 @@ import UIKit
 
 class DocPicker: NSObject, UIDocumentMenuDelegate, UIDocumentPickerDelegate {
 
-    var pickerBlock: ((NSURL?) -> ())?
+    var pickerBlock: ((URL?) -> ())?
     weak var toController: UIViewController?
     
     static var shared = DocPicker()
     
     // Method to Pick Document from third party app and iCloud
-    func pickDocumentFromStorage(toController: UIViewController, block: (NSURL?) -> ()) {
+    func pickDocumentFromStorage(_ toController: UIViewController, block: @escaping (URL?) -> ()) {
         pickerBlock = block
         self.toController = toController
-        let testPicker : UIDocumentMenuViewController = UIDocumentMenuViewController(documentTypes: ["public.data"], inMode: .Import)
+        let testPicker : UIDocumentMenuViewController = UIDocumentMenuViewController(documentTypes: ["public.data"], in: .import)
         testPicker.delegate = self
-        testPicker.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        toController.presentViewController(testPicker, animated: true, completion: nil)
+        testPicker.modalPresentationStyle = UIModalPresentationStyle.formSheet
+        toController.present(testPicker, animated: true, completion: nil)
     }
     
     // Method to Export Document
-    func shareDocumentFromApp(baseController: UIViewController, filePath: NSURL, block: ((NSURL?) -> ())){
+    func shareDocumentFromApp(_ baseController: UIViewController, filePath: URL, block: @escaping ((URL?) -> ())){
         pickerBlock = block
         self.toController = baseController
-        let docShareVC:UIDocumentMenuViewController = UIDocumentMenuViewController(URL: filePath, inMode: .ExportToService)
+        let docShareVC:UIDocumentMenuViewController = UIDocumentMenuViewController(url: filePath, in: .exportToService)
         docShareVC.delegate = self
-        docShareVC.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        baseController.presentViewController(docShareVC, animated: true, completion: nil)
+        docShareVC.modalPresentationStyle = UIModalPresentationStyle.formSheet
+        baseController.present(docShareVC, animated: true, completion: nil)
     }
     
     // MARK: - Document Menu Delegate Methods
-    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController){
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController){
         documentPicker.delegate = self
-        toController?.presentViewController(documentPicker, animated: true, completion: nil)
+        toController?.present(documentPicker, animated: true, completion: nil)
     }
     
-    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController){
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController){
         jprint("--- documentMenuWasCancelled ---")
         pickerBlock?(nil)
     }
     
     // MARK: - Document Picker Deleage Methods
-    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         jprint("--- documentPicker ---")
         jprint(url)
         pickerBlock?(url)
     }
     
-    func documentPickerWasCancelled(controller: UIDocumentPickerViewController){
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController){
         jprint("--- documentPickerWasCancelled ---")
         pickerBlock?(nil)
     }

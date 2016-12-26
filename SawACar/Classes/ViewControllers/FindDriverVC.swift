@@ -40,17 +40,17 @@ class FindDriverVC: ParentVC {
 
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
-        inputView1.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView1.layer.borderColor = UIColor.white.cgColor
         inputView1.layer.cornerRadius = 3.0
         inputView1.clipsToBounds  = true
         
         inputView2.layer.borderWidth = 1.0
-        inputView2.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView2.layer.borderColor = UIColor.white.cgColor
         inputView2.layer.cornerRadius = 3.0
         inputView2.clipsToBounds  = true
         
         inputView3.layer.borderWidth = 1.0
-        inputView3.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView3.layer.borderColor = UIColor.white.cgColor
         inputView3.layer.cornerRadius = 3.0
         inputView3.clipsToBounds  = true
         
@@ -61,20 +61,20 @@ class FindDriverVC: ParentVC {
 //MARK: IBActions
 extension FindDriverVC {
     
-    @IBAction func countryBtnClicked(sender: UIButton) {
+    @IBAction func countryBtnClicked(_ sender: UIButton) {
         self.navigationToCountryList()
     }
     
-    @IBAction func accoutyTypeBtnClicked(sender: UIButton) {
+    @IBAction func accoutyTypeBtnClicked(_ sender: UIButton) {
         self.navigationToAccountTypeList()
     }
     
-    @IBAction func languageBtnClicked(sender: UIButton) {
+    @IBAction func languageBtnClicked(_ sender: UIButton) {
         self.navigationToLanguageList()
     }
     
-    @IBAction func nextBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("DriverSearchResultSegue", sender: nil)
+    @IBAction func nextBtnClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "DriverSearchResultSegue", sender: nil)
     }
     
 }
@@ -83,16 +83,16 @@ extension FindDriverVC {
 extension FindDriverVC {
     
     //prepare segue
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DriverSearchResultSegue" {
-            let resultVC = segue.destinationViewController as! DriverSearchResultVC
+            let resultVC = segue.destination as! DriverSearchResultVC
             resultVC.searchParamObj = searchParams
         }
     }
     
     //Navigate to country list screen
     func navigationToCountryList()  {
-        let cListVC = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_CountryListVC") as! CountryListVC
+        let cListVC = _generalStoryboard.instantiateViewController(withIdentifier: "SBID_CountryListVC") as! CountryListVC
         cListVC.selectedCountryId = searchParams.countryId
         cListVC.titleString = "Countries".localizedString()
         cListVC.completionBlock = {(country) in
@@ -104,8 +104,8 @@ extension FindDriverVC {
     
     //Navigate to accountType list screen for selecting travel type
     func navigationToAccountTypeList() {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.AccountType
+        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.accountType
         cListVC.preSelectedIDs = [searchParams.accountTypeId]
         
         cListVC.completionBlock = {(items) in
@@ -120,8 +120,8 @@ extension FindDriverVC {
     
     //Navigate to languages list screen for selecting travel type
     func navigationToLanguageList() {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.Language
+        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.language
         cListVC.preSelectedIDs = [searchParams.languageId]
         
         cListVC.completionBlock = {(items) in

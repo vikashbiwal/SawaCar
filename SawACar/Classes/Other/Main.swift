@@ -9,4 +9,14 @@
 import Foundation
 import UIKit
 
-UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(LocalizedApplication), NSStringFromClass(AppDelegate))
+//UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, NSStringFromClass(LocalizedApplication), NSStringFromClass(AppDelegate))
+//UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(LocalizedApplication), NSStringFromClass(AppDelegate))
+UIApplicationMain(
+    CommandLine.argc,
+    UnsafeMutableRawPointer(CommandLine.unsafeArgv)
+        .bindMemory(
+            to: UnsafeMutablePointer<Int8>.self,
+            capacity: Int(CommandLine.argc)),
+    NSStringFromClass(LocalizedApplication),
+    NSStringFromClass(AppDelegate.self)
+)

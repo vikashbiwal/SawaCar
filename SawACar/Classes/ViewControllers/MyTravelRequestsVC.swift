@@ -33,11 +33,11 @@ class MyTravelRequestsVC: ParentVC {
     func prepareUI() {
         // set back button's actions
         let iconName = forArchivedRequest ? "ic_back_arrow" : "ic_menu"
-        backBtn.setImage(UIImage(named: iconName), forState: .Normal)
+        backBtn.setImage(UIImage(named: iconName), for: UIControlState())
         if  forArchivedRequest {
-            backBtn.addTarget(self, action: #selector(self.parentBackAction(_:)), forControlEvents: .TouchUpInside)
+            backBtn.addTarget(self, action: #selector(self.parentBackAction(_:)), for: .touchUpInside)
         } else {
-            backBtn.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            backBtn.addTarget(self, action: #selector(self.shutterAction(_:)), for: .touchUpInside)
         }
         
         refreshControl = self.tableView.addRefreshControl(self, selector: #selector(self.getUserTravelRequest))
@@ -48,14 +48,14 @@ class MyTravelRequestsVC: ParentVC {
 
     }
 
-    @IBAction func nextBtnClicked(sender: UIButton) {
-        let requestDetailVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_RideRequestDetailVC") as! DRideRequestDetailVC
+    @IBAction func nextBtnClicked(_ sender: UIButton) {
+        let requestDetailVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_RideRequestDetailVC") as! DRideRequestDetailVC
         self.navigationController?.pushViewController(requestDetailVC, animated: true)
     }
     
     //MARK: Navigations
-    func navigateToRequestDetail(request: TravelRequest) {
-        let requestDetailVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_RideRequestDetailVC") as! DRideRequestDetailVC
+    func navigateToRequestDetail(_ request: TravelRequest) {
+        let requestDetailVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_RideRequestDetailVC") as! DRideRequestDetailVC
         requestDetailVC.travelRequest = request
         self.navigationController?.pushViewController(requestDetailVC, animated: true)
     }
@@ -65,7 +65,7 @@ class MyTravelRequestsVC: ParentVC {
 //MARK: IBActions
 extension MyTravelRequestsVC {
     
-    @IBAction func archivedRidesButtonClicked(sender: UIButton?) {
+    @IBAction func archivedRidesButtonClicked(_ sender: UIButton?) {
         //self.navigationToArchivedRides()
     }
 }
@@ -73,32 +73,32 @@ extension MyTravelRequestsVC {
 //MARK: TableView DataSource and Delegate
 extension MyTravelRequestsVC : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return forArchivedRequest ? 1 : 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if forArchivedRequest {
             return requests.count
         }
         return  section == 0 ? 1 : requests.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if forArchivedRequest || (indexPath.section != 0) {
             let request = requests[indexPath.row]
-            let cell = tableView.dequeueReusableCellWithIdentifier("rideRequestCell") as! TblRideRequestCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "rideRequestCell") as! TblRideRequestCell
             cell.setInfoFor(request)
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("archivedRideCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "archivedRideCell") as! TVGenericeCell
             return cell
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 40 * _widthRatio
         } else {
@@ -106,7 +106,7 @@ extension MyTravelRequestsVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if forArchivedRequest || (indexPath.section != 0) {
             let request = requests[indexPath.row]
             self.navigateToRequestDetail(request)
@@ -119,13 +119,13 @@ extension MyTravelRequestsVC {
     
     //Get user's travel requests
     func getUserTravelRequest() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             self.showCentralGraySpinner()
         }
         wsCall.getUserTravelRequests { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let objets = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let objets = json["Object"] as? [[String : Any]] {
                        self.requests.removeAll()
                         for obj in objets {
                             let request = TravelRequest(obj)

@@ -11,20 +11,20 @@ import UIKit
 
 class LazyLoader: NSObject {
     
-    class func downloadImageFromUrl(url: NSURL, block: (UIImage?)->()) {
+    class func downloadImageFromUrl(_ url: URL, block: @escaping (UIImage?)->()) {
         
-        if let img = DocumentAccess.obj.imageForName(url.lastPathComponent!, isthumb: false) {
+        if let img = DocumentAccess.obj.imageForName(url.lastPathComponent, isthumb: false) {
             block(img)
             return
         }
         
-        let request = NSMutableURLRequest(URL: url)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response, data, error) -> Void in
+        let request = NSMutableURLRequest(url: url)
+        NSURLConnection.sendAsynchronousRequest(request as URLRequest, queue: OperationQueue.main) { (response, data, error) -> Void in
             if let _ = error {
                 block(nil)
             } else {
                 if let img = UIImage(data: data!) {
-                    DocumentAccess.obj.setImage(img, isthumb: false, forName: url.lastPathComponent!)
+                    DocumentAccess.obj.setImage(img, isthumb: false, forName: url.lastPathComponent)
                     block(img)
                 } else {
                    block(nil)

@@ -21,24 +21,24 @@ class ProfileViewController: ParentVC {
     
     var datePickerView: VDatePickerView!
 
-    var selectedIndexPath: NSIndexPath?
+    var selectedIndexPath: IndexPath?
     
-    var user : User!
+    var user : LoggedInUser!
     var selectedMenu: Menu!
     
     var isLoading   = false
     var isEditMode  = false
     var isProfileImgeChanged = false
     
-    let Menus = [Menu(title: "profile".localizedString(),         imgName: "ic_profile_selected", selected: true, type: .Profile),
-                 Menu(title: "change_password".localizedString(), imgName: "ic_change_password", type: .ChangePass),
-                 Menu(title: "social_link".localizedString(),     imgName: "ic_social_link", type: .SocialLink),
-                 Menu(title: "details".localizedString(),         imgName: "ic_detail", type: .Details),
-                 Menu(title: "settings".localizedString(),        imgName: "ic_settings", type: .Settings)]
+    let Menus = [Menu(title: "profile".localizedString(),         imgName: "ic_profile_selected", selected: true, type: .profile),
+                 Menu(title: "change_password".localizedString(), imgName: "ic_change_password", type: .changePass),
+                 Menu(title: "social_link".localizedString(),     imgName: "ic_social_link", type: .socialLink),
+                 Menu(title: "details".localizedString(),         imgName: "ic_detail", type: .details),
+                 Menu(title: "settings".localizedString(),        imgName: "ic_settings", type: .settings)]
     
     var menuItems = [CellItem]()
-    lazy var dateFomator: NSDateFormatter = { //formator for birthdate
-        let df = NSDateFormatter()
+    lazy var dateFomator: DateFormatter = { //formator for birthdate
+        let df = DateFormatter()
         df.dateFormat = "dd/MM/yyyy"
         return df
     }()
@@ -47,22 +47,24 @@ class ProfileViewController: ParentVC {
         super.viewDidLoad()
         self.loadDatePickerView()
         
-        user = me.copy() as! User
+        user = me.copy() as! LoggedInUser
+        getMyInfoAPICall()
+        setUserInfo()
+
         selectedMenu = Menus[0]
         changeMenuItems(selectedMenu)
-        setUserInfo()
         icnAddPhoto.drawShadow()
         imgVUserProfile.drawShadowWithCornerRadius()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
 
@@ -77,9 +79,9 @@ class ProfileViewController: ParentVC {
 extension ProfileViewController {
     
     //Edit btn action for change mode (edit or normal mode).
-    @IBAction func editBtnCliclicked(sender: UIButton) {
+    @IBAction func editBtnCliclicked(_ sender: UIButton) {
         if isEditMode {
-            if selectedMenu.type == .Profile {
+            if selectedMenu.type == .profile {
                 let process = user.validateEditPersonalInfo()
                 if process.isValid {
                     self.updateProfileAPICall()
@@ -87,20 +89,20 @@ extension ProfileViewController {
                     showToastErrorMessage("", message: process.message)
                     return
                 }
-            } else if selectedMenu.type == .SocialLink {
+            } else if selectedMenu.type == .socialLink {
                 self.updateSocialLinksAPICall()
-            } else if selectedMenu.type == .Settings {
+            } else if selectedMenu.type == .settings {
                 self.updateUserPreferenceAPICall()
             }
-            icnAddPhoto.hidden = true
-            editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
-            editBtn.setTitle("", forState: .Normal)
+            icnAddPhoto.isHidden = true
+            editBtn.setImage(UIImage(named: "ic_edit"), for: UIControlState())
+            editBtn.setTitle("", for: UIControlState())
         } else  {
-            editBtn.setImage(nil, forState: .Normal)
-            editBtn.setTitle("save".localizedString(), forState: .Normal)
+            editBtn.setImage(nil, for: UIControlState())
+            editBtn.setTitle("save".localizedString(), for: UIControlState())
             tableView.reloadData()
-            if selectedMenu.type == .Profile {
-                icnAddPhoto.hidden = false
+            if selectedMenu.type == .profile {
+                icnAddPhoto.isHidden = false
             }
         }
         isEditMode = !isEditMode
@@ -108,74 +110,74 @@ extension ProfileViewController {
     }
     
     //Action for pick profile image.
-    @IBAction func profileImgBtnClicked(sender: UIButton) {
-        if isEditMode && selectedMenu.type == .Profile {
+    @IBAction func profileImgBtnClicked(_ sender: UIButton) {
+        if isEditMode && selectedMenu.type == .profile {
             showActionForImagePick()
         }
     }
     
     //UISwitch btn clicked in side tableview cell.
-    @IBAction func cellSwitchBtnTapped(sw: SettingSwitch) {
-        let isOn = sw.on
-        if sw.type == .ShowEmail {
+    @IBAction func cellSwitchBtnTapped(_ sw: SettingSwitch) {
+        let isOn = sw.isOn
+        if sw.type == .showEmail {
             user.preference.showEmail = isOn
-        } else if sw.type == .ShowMobile {
+        } else if sw.type == .showMobile {
             user.preference.showMobile = isOn
-        } else if sw.type == .VisibleInSearch {
+        } else if sw.type == .visibleInSearch {
             user.preference.visibleInSearch = isOn
-        } else if sw.type == .SpecialOrder {
+        } else if sw.type == .specialOrder {
             user.preference.specialOrder = isOn
-        } else if sw.type == .AcceptMonitring {
+        } else if sw.type == .acceptMonitring {
             user.preference.acceptMonitring = isOn
-        } else if sw.type == .Children {
+        } else if sw.type == .children {
             user.preference.kids = isOn
-        } else if sw.type == .Pets {
+        } else if sw.type == .pets {
             user.preference.pets = isOn
-        } else if sw.type == .StopForPray {
+        } else if sw.type == .stopForPray {
             user.preference.prayingStop = isOn
-        } else if sw.type == .FoodAndDrink {
+        } else if sw.type == .foodAndDrink {
             user.preference.food = isOn
-        } else if sw.type == .Music {
+        } else if sw.type == .music {
             user.preference.music = isOn
-        } else if sw.type == .Quran {
+        } else if sw.type == .quran {
             user.preference.quran = isOn
-        } else if sw.type == .Smoking {
+        } else if sw.type == .smoking {
             user.preference.smoking = isOn
         }
         menuItems[sw.tag].boolValue = isOn
     }
     
     //TextField text change action.
-    @IBAction func cellTextfieldDidChangeText(txtfield: SignupTextField) {
+    @IBAction func cellTextfieldDidChangeText(_ txtfield: SignupTextField) {
         let value = txtfield.text?.trimmedString()
         let cellItem = menuItems[txtfield.tag]
-        if txtfield.type == .FirstName {
+        if txtfield.type == .firstName {
             user.firstname = value
-        } else if txtfield.type == .LastName {
+        } else if txtfield.type == .lastName {
             user.lastname = value
-        } else if txtfield.type == .MobileNo {
+        } else if txtfield.type == .mobileNo {
             user.mobile = value
         }
         
-        else if txtfield.type == . OldPassword {
+        else if txtfield.type == . oldPassword {
             user.oldPassword = value
-        } else if txtfield.type == .Password {
+        } else if txtfield.type == .password {
             user.password = value
-        } else if txtfield.type == .ConfirmPass {
+        } else if txtfield.type == .confirmPass {
             user.confPass = value
         }
         
-        else if txtfield.type == .WhatsApp {
+        else if txtfield.type == .whatsApp {
             user.social.Whatsapp = value
-        } else if txtfield.type == .Line {
+        } else if txtfield.type == .line {
             user.social.Line = value
-        } else if txtfield.type == .Tango {
+        } else if txtfield.type == .tango {
             user.social.Tango = value
-        } else if txtfield.type == .Telegram {
+        } else if txtfield.type == .telegram {
             user.social.Telegram = value
-        } else if txtfield.type == .Facebook {
+        } else if txtfield.type == .facebook {
             user.social.Facebook = value
-        } else if txtfield.type == .Twitter {
+        } else if txtfield.type == .twitter {
             user.social.Twitter = value
         }
         cellItem.stringValue = value!
@@ -183,16 +185,16 @@ extension ProfileViewController {
     }
     
     //Save Changes btn clicked.
-    @IBAction func updateBtnClicked(sender: UIButton) {
+    @IBAction func updateBtnClicked(_ sender: UIButton) {
         //Password change button
-        if selectedMenu.type == .ChangePass {
+        if selectedMenu.type == .changePass {
             self.changePasswordWsCall()
         }
     }
     
     //Back btn clicked. It will turn back to user in normal mode from edit mode.
-    @IBAction func backBtnClicked(sender: UIButton) {
-        user = me.copy() as! User //reset user info if any changes made.
+    @IBAction func backBtnClicked(_ sender: UIButton) {
+        user = me.copy() as! LoggedInUser //reset user info if any changes made.
         isEditMode = !isEditMode
         changeShutterBtnSelector()
         changeMenuItems(selectedMenu)
@@ -200,10 +202,10 @@ extension ProfileViewController {
     }
     
     //Navigate to select country dial code for mobile number.
-    @IBAction func dialCodeBtnClicked(sender: UIButton) {
+    @IBAction func dialCodeBtnClicked(_ sender: UIButton) {
         if isEditMode {
-            let indexpath = NSIndexPath(forItem: sender.tag, inSection: 0)
-            self.openCountryList(.DialCodeAction, indexPath: indexpath)
+            let indexpath = IndexPath(item: sender.tag, section: 0)
+            self.openCountryList(.dialCodeAction, indexPath: indexpath)
         }
     }
 }
@@ -213,18 +215,18 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
     
     //Show ActionSheet to Choose image for profile picture
     func showActionForImagePick() {
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
-        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .Default) { (action) in
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .cancel, handler: nil)
+        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .default) { (action) in
             self.openCamera()
         }
-        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .Default) { (action) in
+        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .default) { (action) in
             self.openGallery()
         }
         sheet.addAction(cameraActiton)
         sheet.addAction(galleryAction)
         sheet.addAction(cancelAction)
-        self.presentViewController(sheet, animated: true, completion: nil)
+        self.present(sheet, animated: true, completion: nil)
     }
     
     func openCamera()  {
@@ -232,9 +234,9 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
             if isAuthorized {
                 let iPicker = UIImagePickerController()
                 iPicker.delegate = self
-                iPicker.sourceType = .Camera
+                iPicker.sourceType = .camera
                 iPicker.allowsEditing = true
-                self.presentViewController(iPicker, animated: true, completion: nil)
+                self.present(iPicker, animated: true, completion: nil)
             } else {
                 VAuthorization.showCameraAccessDeniedAlert(self)
             }
@@ -246,9 +248,9 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
             if isAuthorized {
                 let iPicker = UIImagePickerController()
                 iPicker.delegate = self
-                iPicker.sourceType = .PhotoLibrary
+                iPicker.sourceType = .photoLibrary
                 iPicker.allowsEditing = true
-                self.presentViewController(iPicker, animated: true, completion: nil)
+                self.present(iPicker, animated: true, completion: nil)
             } else {
                 VAuthorization.showPhotosAccessDeniedAlert(self)
             }
@@ -256,39 +258,39 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
     }
     
     //Image Picker delegate method
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         imgVUserProfile.image = image
         isProfileImgeChanged = true
-        picker.dismissViewControllerAnimated(true , completion: nil)
+        picker.dismiss(animated: true , completion: nil)
     }
 }
 
 //MARK: Tableview datasource and delegate
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if selectedMenu.type == .Profile || selectedMenu.type == .SocialLink {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if selectedMenu.type == .profile || selectedMenu.type == .socialLink {
             let item = menuItems[indexPath.row]
-            let cell = tableView.dequeueReusableCellWithIdentifier(item.cellName) as! TVSignUpFormCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: item.cellName) as! TVSignUpFormCell
             cell.lblTitle.text = item.title
             cell.txtField.text = item.stringValue
             cell.txtField.placeholder = item.title
             cell.txtField.type = item.textfieldType
             cell.txtField.keyboardType = item.keyboardType
-            cell.txtField.enabled = isEditMode ? item.txtFieldEnable : false
+            cell.txtField.isEnabled = isEditMode ? item.txtFieldEnable : false
             cell.txtField.tag = indexPath.row
             cell.button?.tag = indexPath.row
             return cell
-        } else if selectedMenu.type == .ChangePass {
+        } else if selectedMenu.type == .changePass {
             if indexPath.row == 3 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("passwordSaveBtnCell") as! TVSignUpFormCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "passwordSaveBtnCell") as! TVSignUpFormCell
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("passwordCell") as! TVSignUpFormCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "passwordCell") as! TVSignUpFormCell
                 let item = menuItems[indexPath.row]
                 cell.txtField.placeholder = item.title
                 cell.txtField.text = item.stringValue
@@ -297,8 +299,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
 
-        } else if selectedMenu.type == .Details {
-            let cell = tableView.dequeueReusableCellWithIdentifier("detailCell") as! TVSignUpFormCell
+        } else if selectedMenu.type == .details {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell") as! TVSignUpFormCell
             let item = menuItems[indexPath.row]
             cell.lblTitle.text = item.title
             cell.lblSubTitle.text = item.stringValue
@@ -308,29 +310,29 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             if [0, 5, 7].contains(indexPath.row) {
                 cellIdentifier = "switchAndTitleCell"
             }
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TblSwitchBtnCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TblSwitchBtnCell
             let item = menuItems[indexPath.row]
             cell.lblHeader?.text = item.strHeader
             cell.lblTitle.text = item.title
-            if item.settingType == .CommunicationLanguage || item.settingType ==  .SpeackingLanguage {
+            if item.settingType == .communicationLanguage || item.settingType ==  .speackingLanguage {
                 cell.lblSubTitle.text = item.stringValue
-                cell.lblSubTitle.hidden = false
-                cell.switchBtn.hidden = true
+                cell.lblSubTitle.isHidden = false
+                cell.switchBtn.isHidden = true
             } else {
-                cell.lblSubTitle.hidden = true
-                cell.switchBtn.hidden = false
+                cell.lblSubTitle.isHidden = true
+                cell.switchBtn.isHidden = false
                 cell.switchBtn.setOn(item.boolValue, animated: false)
                 cell.switchBtn.type = item.settingType
                 cell.switchBtn.tag = indexPath.row
             }
-            cell.switchBtn.enabled = isEditMode
+            cell.switchBtn.isEnabled = isEditMode
             cell.imgView.image = UIImage(named:item.iconName)
             return cell
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if selectedMenu.type == .Settings {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if selectedMenu.type == .settings {
             if [0, 5, 7].contains(indexPath.row) {
                 return 80 * _widthRatio
             } else {
@@ -340,37 +342,37 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         return 55 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if selectedMenu.type == .Profile  {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if selectedMenu.type == .profile  {
             if isEditMode {
                 self.view.endEditing(true)
                 let item  = menuItems[indexPath.row]
-                if item.textfieldType == .BirthDate {
+                if item.textfieldType == .birthDate {
                     selectedIndexPath = indexPath
                     self.showDatePickerView()
                     
-                } else if item.textfieldType == .Gender {
+                } else if item.textfieldType == .gender {
                     self.showGenderPicker(indexPath)
                     
-                } else if item.textfieldType == .Nationality {
-                    self.openCountryList(.Nationality, indexPath: indexPath)
+                } else if item.textfieldType == .nationality {
+                    self.openCountryList(.nationality, indexPath: indexPath)
                     
-                } else if item.textfieldType == .Country {
-                    self.openCountryList(.Country, indexPath: indexPath)
+                } else if item.textfieldType == .country {
+                    self.openCountryList(.country, indexPath: indexPath)
                     
-                } else if item.textfieldType == .AccountType {
+                } else if item.textfieldType == .accountType {
                     self.openAccountTypeListVC(indexPath)
                 }
             }
-        } else if selectedMenu.type == .Settings {
+        } else if selectedMenu.type == .settings {
             if isEditMode {
                 let item = menuItems[indexPath.row]
-                if item.settingType == .CommunicationLanguage || item.settingType == .SpeackingLanguage {
+                if item.settingType == .communicationLanguage || item.settingType == .speackingLanguage {
                     self.openLanguagesListVC(indexPath, type: item.settingType)
                 }
             }
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
@@ -378,39 +380,39 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 //MARK: CollectionView datasource and delegate
 extension ProfileViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Menus.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CVGenericeCell
        
         let menu = Menus[indexPath.row]
         cell.lblTitle.text = menu.title
         cell.imgView.image = UIImage(named: menu.imgName)
-        cell.lblTitle.textColor = menu.selected ? UIColor.scHeaderColor() : UIColor.lightGrayColor()
-        cell.imgView.tintColor = menu.selected ? UIColor.scHeaderColor() : UIColor.lightGrayColor()
+        cell.lblTitle.textColor = menu.selected ? UIColor.scHeaderColor() : UIColor.lightGray
+        cell.imgView.tintColor = menu.selected ? UIColor.scHeaderColor() : UIColor.lightGray
 
         let lblLine = cell.viewWithTag(101)
-        lblLine?.hidden = indexPath.row == (Menus.count - 1) ? true : false
+        lblLine?.isHidden = indexPath.row == (Menus.count - 1) ? true : false
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 75 * _widthRatio, height: 80 * _widthRatio)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          selectedMenu.selected = false
         isEditMode = false
-        editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
-        editBtn.setTitle("", forState: .Normal)
-        icnAddPhoto.hidden = true
+        editBtn.setImage(UIImage(named: "ic_edit"), for: UIControlState())
+        editBtn.setTitle("", for: UIControlState())
+        icnAddPhoto.isHidden = true
        
         let menu = Menus[indexPath.row]
         menu.selected = true
@@ -425,18 +427,18 @@ extension ProfileViewController : UICollectionViewDataSource, UICollectionViewDe
 extension ProfileViewController {
     
     //Open actionsheet for Gender
-    func showGenderPicker(indexPath: NSIndexPath) {
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+    func showGenderPicker(_ indexPath: IndexPath) {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .cancel, handler: nil)
         
-        let maleAction = UIAlertAction(title: "male".localizedString(), style: .Default) { (action) in
-           let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+        let maleAction = UIAlertAction(title: "male".localizedString(), style: .default) { (action) in
+           let cell = self.tableView.cellForRow(at: indexPath) as? TVSignUpFormCell
             let gender = "male".localizedString()
             self.user.gender = gender
             cell?.txtField.text = gender
         }
-        let femaleAction    = UIAlertAction(title: "female".localizedString(), style: .Default) { (action) in
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+        let femaleAction    = UIAlertAction(title: "female".localizedString(), style: .default) { (action) in
+            let cell = self.tableView.cellForRow(at: indexPath) as? TVSignUpFormCell
            let gender = "female".localizedString()
             self.user.gender = gender
             cell?.txtField.text = gender
@@ -445,21 +447,21 @@ extension ProfileViewController {
         sheet.addAction(maleAction)
         sheet.addAction(femaleAction)
         sheet.addAction(cancelAction)
-        self.presentViewController(sheet, animated: true, completion: nil)
+        self.present(sheet, animated: true, completion: nil)
     }
     
     //This func navigate the user to country list screen. 
     //Where user can select country for user field Nationlity, country, and for DialCode.
-    func openCountryList(forAction : LocationSelectionForType, indexPath: NSIndexPath)  {
+    func openCountryList(_ forAction : LocationSelectionForType, indexPath: IndexPath)  {
         let cListVC = VListViewController.loadFromNib()
         cListVC.keyForTitle = "CountryName"
         cListVC.keyForId = "CountryID"
         cListVC.apiName = APIName.GetActiveCountries
        
-        if forAction == .Nationality {
+        if forAction == .nationality {
             cListVC.preSelectedIDs = [user.nationality.Id]
             cListVC.screenTitle = "nationality".localizedString()
-        } else if forAction == .DialCodeAction {
+        } else if forAction == .dialCodeAction {
             cListVC.keyForId = "CountryDialCode"
 
             cListVC.preSelectedIDs = [user.mobileCountryCode]
@@ -472,31 +474,31 @@ extension ProfileViewController {
         
         cListVC.completionBlock = {(items) in
                 if let item = items.first {
-                    let country = Country(info: item.obj as! [String : AnyObject])
-                    if forAction == .Nationality {
+                    let country = Country(info: item.obj as! [String : Any])
+                    if forAction == .nationality {
                         self.user.nationality = country
-                        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                        let cell = self.tableView.cellForRow(at: indexPath) as? TVSignUpFormCell
                         cell?.txtField.text = country.name
                         
-                    } else if forAction == .DialCodeAction {
+                    } else if forAction == .dialCodeAction {
                         self.user.mobileCountryCode = country.dialCode
-                        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                        let cell = self.tableView.cellForRow(at: indexPath) as? TVSignUpFormCell
                         cell?.txtField.text = country.name
                         
-                    } else  if forAction == .Country {
+                    } else  if forAction == .country {
                         self.user.country = country
-                        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                        let cell = self.tableView.cellForRow(at: indexPath) as? TVSignUpFormCell
                         cell?.txtField.text = country.name
                     }
                     self.changeMenuItems(self.selectedMenu)
                 }
         }
-        self.presentViewController(cListVC, animated: true, completion: nil)
+        self.present(cListVC, animated: true, completion: nil)
     }
     
     
     //Navigate to pick User account type.
-    func openAccountTypeListVC(indexPath: NSIndexPath)  {
+    func openAccountTypeListVC(_ indexPath: IndexPath)  {
         let cListVC = VListViewController.loadFromNib()
         cListVC.preSelectedIDs = [user.accountType.Id]
         cListVC.apiName = APIName.GetAccountTypes
@@ -504,26 +506,26 @@ extension ProfileViewController {
         cListVC.keyForTitle = "Name"
         
         cListVC.completionBlock = {(items) in
-            if let acType = items.first!.obj as? [String : AnyObject] {
+            if let acType = items.first!.obj as? [String : Any] {
                 let account = AccountType(info: acType)
                 self.user.accountType = account
-                let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TVSignUpFormCell
+                let cell = self.tableView.cellForRow(at: indexPath) as? TVSignUpFormCell
                 cell?.txtField.text = account.name
                 self.changeMenuItems(self.selectedMenu)
             }
         }
-        self.presentViewController(cListVC, animated: true, completion: nil)
+        self.present(cListVC, animated: true, completion: nil)
     }
     
     //Navigate to pick user preference language.
-    func openLanguagesListVC(indexPath: NSIndexPath, type: UserPreferenceType)  {
+    func openLanguagesListVC(_ indexPath: IndexPath, type: UserPreferenceType)  {
         let cListVC = VListViewController.loadFromNib()
         cListVC.screenTitle = "Language".localizedString()
         cListVC.apiName = APIName.GetLanguages
         cListVC.keyForId = "ID"
         cListVC.keyForTitle = "Name"
         
-        if type == .CommunicationLanguage {
+        if type == .communicationLanguage {
             cListVC.preSelectedIDs = [user.preference.defaultLanguage?.id ?? ""]
         } else {
             cListVC.enableMultipleChoice = true
@@ -535,16 +537,16 @@ extension ProfileViewController {
         }
         
         cListVC.completionBlock = {(items) in
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? TblSwitchBtnCell
-            if type == .CommunicationLanguage {
-                let jsonLang = items.first!.obj as! [String : AnyObject]
+            let cell = self.tableView.cellForRow(at: indexPath) as? TblSwitchBtnCell
+            if type == .communicationLanguage {
+                let jsonLang = items.first!.obj as! [String : Any]
                 self.user.preference.defaultLanguage = Language(jsonLang)
                 cell?.lblSubTitle.text = items.first!.name
 
-            } else if type == .SpeackingLanguage {
+            } else if type == .speackingLanguage {
                 
                 let lngArr = items.map({ (item) -> Language in
-                    let jsonLang = item.obj as! [String : AnyObject]
+                    let jsonLang = item.obj as! [String : Any]
                     let lang = Language(jsonLang)
                     return lang
                 })
@@ -553,13 +555,13 @@ extension ProfileViewController {
                     return lang.code
                 })
 
-                cell?.lblSubTitle.text = langs.joinWithSeparator(", ")
+                cell?.lblSubTitle.text = langs.joined(separator: ", ")
 
 
             }
             self.changeMenuItems(self.selectedMenu)
         }
-        self.presentViewController(cListVC, animated: true, completion: nil)
+        self.present(cListVC, animated: true, completion: nil)
     }
 
 }
@@ -567,14 +569,14 @@ extension ProfileViewController {
 //MARK: Notifications
 extension ProfileViewController {
     //Keyboard Notifications
-    func keyboardWillShow(nf: NSNotification)  {
+    func keyboardWillShow(_ nf: Notification)  {
         let userinfo = nf.userInfo!
-        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:keyboarFrame.size.height , right: 0)
         }
     }
     
-    func keyboardWillHide(nf: NSNotification)  {
+    func keyboardWillHide(_ nf: Notification)  {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:0 , right: 0)
     }
     
@@ -587,92 +589,92 @@ extension ProfileViewController {
     func setUserInfo() {
         lblFullName.text = user.fullname
         lblGender.text = user.gender
-        let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "yyyy-MM-dd", style: NSDateFormatterStyle.MediumStyle)
+        let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "yyyy-MM-dd", style: DateFormatter.Style.medium)
 
         lblBirthDate.text = birthdDate
-        imgVUserProfile.setImageWithURL(NSURL(string: user.photo)!, placeholderImage: user.placeholderImage)
+        imgVUserProfile.setImageWith(URL(string: user.photo)!, placeholderImage: user.placeholderImage)
         //imgVCover.setImageWithURL(NSURL(string: user.photo)!,placeholderImage: user.placeholderImage)
     }
     
     //func for set action of shutter button as per profile form's mode
     func changeShutterBtnSelector() {
         if isEditMode {
-            btnShutter.removeTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
-            btnShutter.addTarget(self, action: #selector(self.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
-            btnShutter.setImage(UIImage(named: "ic_back_arrow"), forState: .Normal)
+            btnShutter.removeTarget(self, action: #selector(self.shutterAction(_:)), for: .touchUpInside)
+            btnShutter.addTarget(self, action: #selector(self.backBtnClicked(_:)), for: .touchUpInside)
+            btnShutter.setImage(UIImage(named: "ic_back_arrow"), for: UIControlState())
         } else {
             self.view.endEditing(true)
-            btnShutter.removeTarget(self, action: #selector(self.backBtnClicked(_:)), forControlEvents: .TouchUpInside)
-            btnShutter.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
-            btnShutter.setImage(UIImage(named: "ic_menu"), forState: .Normal)
-            icnAddPhoto.hidden = true
-            editBtn.setImage(UIImage(named: "ic_edit"), forState: .Normal)
-            editBtn.setTitle("", forState: .Normal)
+            btnShutter.removeTarget(self, action: #selector(self.backBtnClicked(_:)), for: .touchUpInside)
+            btnShutter.addTarget(self, action: #selector(self.shutterAction(_:)), for: .touchUpInside)
+            btnShutter.setImage(UIImage(named: "ic_menu"), for: UIControlState())
+            icnAddPhoto.isHidden = true
+            editBtn.setImage(UIImage(named: "ic_edit"), for: UIControlState())
+            editBtn.setTitle("", for: UIControlState())
         }
     }
     
     //MARK: Set Menu Items and UI as per seleted menu
-    func changeMenuItems(menu: Menu)  {
-        if menu.type == .Profile {
-            menuItems = [CellItem(title: "first_name".localizedString(), value: user.firstname, txtFieldType: .FirstName),
-                         CellItem(title: "last_name".localizedString(), value: user.lastname, txtFieldType: .LastName),
-                         CellItem(title: "gender".localizedString(), value: user.gender, txtFieldType: .Gender, enable: false)]
+    func changeMenuItems(_ menu: Menu)  {
+        if menu.type == .profile {
+            menuItems = [CellItem(title: "first_name".localizedString(), value: user.firstname, txtFieldType: .firstName),
+                         CellItem(title: "last_name".localizedString(), value: user.lastname, txtFieldType: .lastName),
+                         CellItem(title: "gender".localizedString(), value: user.gender, txtFieldType: .gender, enable: false)]
             
-            let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "yyyy-MM-dd", style: NSDateFormatterStyle.MediumStyle)
-            menuItems += [CellItem(title: "birth_date".localizedString(), value: birthdDate, txtFieldType: .BirthDate, enable: false)]
+            let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "yyyy-MM-dd", style: DateFormatter.Style.medium)
+            menuItems += [CellItem(title: "birth_date".localizedString(), value: birthdDate, txtFieldType: .birthDate, enable: false)]
            
-            menuItems +=   [CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile, txtFieldType: .MobileNo, keyboardType: .NumberPad, cellName: "mobileCell"),
-                            CellItem(title: "nationality".localizedString(), value: user.nationality.name,  txtFieldType: .Nationality, enable: false),
-                            CellItem(title: "country".localizedString(), value: user.country.name,      txtFieldType: .Country, enable: false),
-                            CellItem(title: "account_type".localizedString(), value: user.accountType.name,  txtFieldType: .AccountType, enable: false)]
+            menuItems +=   [CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile, txtFieldType: .mobileNo, keyboardType: .numberPad, cellName: "mobileCell"),
+                            CellItem(title: "nationality".localizedString(), value: user.nationality.name,  txtFieldType: .nationality, enable: false),
+                            CellItem(title: "country".localizedString(), value: user.country.name,      txtFieldType: .country, enable: false),
+                            CellItem(title: "account_type".localizedString(), value: user.accountType.name,  txtFieldType: .accountType, enable: false)]
             
-        } else if menu.type == .ChangePass {
-            menuItems = [CellItem(title: "old_password".localizedString(),    value: user.oldPassword,    txtFieldType: .OldPassword),
-                         CellItem(title: "password".localizedString(),        value: user.password,       txtFieldType: .Password),
-                         CellItem(title: "confirm_password".localizedString(),value: user.confPass,       txtFieldType: .ConfirmPass),
-                         CellItem(title: "Update",          value: "Update",            txtFieldType: .None)]
+        } else if menu.type == .changePass {
+            menuItems = [CellItem(title: "old_password".localizedString(),    value: user.oldPassword,    txtFieldType: .oldPassword),
+                         CellItem(title: "password".localizedString(),        value: user.password,       txtFieldType: .password),
+                         CellItem(title: "confirm_password".localizedString(),value: user.confPass,       txtFieldType: .confirmPass),
+                         CellItem(title: "Update",          value: "Update",            txtFieldType: .none)]
             
-        } else if menu.type == .SocialLink {
-            menuItems = [CellItem(title: "WhatsApp".localizedString(),    value: user.social.Whatsapp,    txtFieldType: .WhatsApp),
-                         CellItem(title: "Line".localizedString(),        value: user.social.Line,        txtFieldType: .Line),
-                         CellItem(title: "Tango".localizedString(),       value: user.social.Tango,       txtFieldType: .Tango),
-                         CellItem(title: "Telegram".localizedString(),    value: user.social.Telegram,    txtFieldType: .Telegram),
-                         CellItem(title: "Facebook".localizedString(),    value: user.social.Facebook,    txtFieldType: .Facebook),
-                         CellItem(title: "Twitter".localizedString(),     value: user.social.Twitter,     txtFieldType: .Twitter)]
+        } else if menu.type == .socialLink {
+            menuItems = [CellItem(title: "WhatsApp".localizedString(),    value: user.social.Whatsapp,    txtFieldType: .whatsApp),
+                         CellItem(title: "Line".localizedString(),        value: user.social.Line,        txtFieldType: .line),
+                         CellItem(title: "Tango".localizedString(),       value: user.social.Tango,       txtFieldType: .tango),
+                         CellItem(title: "Telegram".localizedString(),    value: user.social.Telegram,    txtFieldType: .telegram),
+                         CellItem(title: "Facebook".localizedString(),    value: user.social.Facebook,    txtFieldType: .facebook),
+                         CellItem(title: "Twitter".localizedString(),     value: user.social.Twitter,     txtFieldType: .twitter)]
             
-        } else if menu.type == .Details {
-            menuItems = [CellItem(title: "Member_Since".localizedString() + ":",       value: user.createDate,                 txtFieldType: .None),
-                         CellItem(title: "Last_Login".localizedString() + ":",         value: user.lastLoginTime,              txtFieldType: .None),
-                         CellItem(title: "Last_Activity_Date".localizedString() + ":", value: user.lastLoginTime,              txtFieldType: .None),
-                         CellItem(title: "Number_of_Travels".localizedString() + ":",  value: user.numberOfTravels.ToString(), txtFieldType: .None),
-                         CellItem(title: "Contacts".localizedString() + ":",           value: user.numberOfContacts.ToString(),txtFieldType: .None),
-                         CellItem(title: "Email".localizedString() + ":",              value: user.EmailVerifiedString,        txtFieldType: .None),
-                         CellItem(title: "Phone_Number".localizedString() + ":",       value: user.MobileVerifiedString,       txtFieldType: .None),
-                         CellItem(title: "Facebook".localizedString() + ":",           value: user.FacebookVeriedString,       txtFieldType: .None)]
+        } else if menu.type == .details {
+            menuItems = [CellItem(title: "Member_Since".localizedString() + ":",       value: user.createDate,                 txtFieldType: .none),
+                         CellItem(title: "Last_Login".localizedString() + ":",         value: user.lastLoginTime,              txtFieldType: .none),
+                         CellItem(title: "Last_Activity_Date".localizedString() + ":", value: user.lastLoginTime,              txtFieldType: .none),
+                         CellItem(title: "Number_of_Travels".localizedString() + ":",  value: user.numberOfTravels.ToString(), txtFieldType: .none),
+                         CellItem(title: "Contacts".localizedString() + ":",           value: user.numberOfContacts.ToString(),txtFieldType: .none),
+                         CellItem(title: "Email".localizedString() + ":",              value: user.EmailVerifiedString,        txtFieldType: .none),
+                         CellItem(title: "Phone_Number".localizedString() + ":",       value: user.MobileVerifiedString,       txtFieldType: .none),
+                         CellItem(title: "Facebook".localizedString() + ":",           value: user.FacebookVeriedString,       txtFieldType: .none)]
             
         } else  { //Settings
             
-            menuItems = [CellItem(title: "Show_email_to_others".localizedString(),    value: user.preference.showEmail,       settingType: .ShowEmail,        icon: "ic_show_email", header: "General".localizedString()),
-                         CellItem(title: "Show_mobile_to_others".localizedString(),   value: user.preference.showMobile,      settingType: .ShowMobile,       icon: "ic_show_mobile"),
-                         CellItem(title: "Visible_in_search".localizedString(),       value: user.preference.visibleInSearch, settingType: .VisibleInSearch,  icon: "ic_visible_search"),
-                         CellItem(title: "Accept_special_order".localizedString(),    value: user.preference.specialOrder,    settingType: .SpecialOrder,     icon: "ic_accept_special"),
-                         CellItem(title: "Accept_Monitoring".localizedString(),       value: user.preference.acceptMonitring, settingType: .AcceptMonitring,  icon: "ic_monitoring"),
+            menuItems = [CellItem(title: "Show_email_to_others".localizedString(),    value: user.preference.showEmail,       settingType: .showEmail,        icon: "ic_show_email", header: "General".localizedString()),
+                         CellItem(title: "Show_mobile_to_others".localizedString(),   value: user.preference.showMobile,      settingType: .showMobile,       icon: "ic_show_mobile"),
+                         CellItem(title: "Visible_in_search".localizedString(),       value: user.preference.visibleInSearch, settingType: .visibleInSearch,  icon: "ic_visible_search"),
+                         CellItem(title: "Accept_special_order".localizedString(),    value: user.preference.specialOrder,    settingType: .specialOrder,     icon: "ic_accept_special"),
+                         CellItem(title: "Accept_Monitoring".localizedString(),       value: user.preference.acceptMonitring, settingType: .acceptMonitring,  icon: "ic_monitoring"),
                          
-                         CellItem(title: "Communication_Language".localizedString(),  value: user.preference.defaultLanguage?.name ?? "",           settingType: .CommunicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString())]
+                         CellItem(title: "Communication_Language".localizedString(),  value: user.preference.defaultLanguage?.name ?? "",           settingType: .communicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString())]
             
             let langs = user.preference.speakingLanguages.map({ (lang) -> String in
                 return lang.code
             })
-            menuItems +=       [ CellItem(title: "Speaking_Language".localizedString(),       value: langs.joinWithSeparator(", "),   settingType: .SpeackingLanguage,        icon: "ic_speaking_lang")]
+            menuItems +=       [ CellItem(title: "Speaking_Language".localizedString(),       value: langs.joined(separator: ", "),   settingType: .speackingLanguage,        icon: "ic_speaking_lang")]
             
             
-            menuItems +=       [CellItem(title: "Children".localizedString(),        value: user.preference.kids,        settingType: .Children,     icon: "ic_childreb", header: "My_Rules".localizedString()),
-                                CellItem(title: "Pets".localizedString(),            value: user.preference.pets,        settingType: .Pets,         icon: "ic_pets"),
-                                CellItem(title: "Stop_for_pray".localizedString(),   value: user.preference.prayingStop, settingType: .StopForPray,  icon: "ic_pray"),
-                                CellItem(title: "Food_and_Drinks".localizedString(), value: user.preference.food,        settingType: .FoodAndDrink, icon: "ic_food_drink"),
-                                CellItem(title: "Music".localizedString(),           value: user.preference.music,       settingType: .Music,        icon: "ic_music"),
-                                CellItem(title: "Quran".localizedString(),           value: user.preference.quran,       settingType: .Quran,        icon: "ic_quran"),
-                                CellItem(title: "Smoking".localizedString(),         value: user.preference.smoking,     settingType: .Smoking,      icon: "ic_smoking")]
+            menuItems +=       [CellItem(title: "Children".localizedString(),        value: user.preference.kids,        settingType: .children,     icon: "ic_childreb", header: "My_Rules".localizedString()),
+                                CellItem(title: "Pets".localizedString(),            value: user.preference.pets,        settingType: .pets,         icon: "ic_pets"),
+                                CellItem(title: "Stop_for_pray".localizedString(),   value: user.preference.prayingStop, settingType: .stopForPray,  icon: "ic_pray"),
+                                CellItem(title: "Food_and_Drinks".localizedString(), value: user.preference.food,        settingType: .foodAndDrink, icon: "ic_food_drink"),
+                                CellItem(title: "Music".localizedString(),           value: user.preference.music,       settingType: .music,        icon: "ic_music"),
+                                CellItem(title: "Quran".localizedString(),           value: user.preference.quran,       settingType: .quran,        icon: "ic_quran"),
+                                CellItem(title: "Smoking".localizedString(),         value: user.preference.smoking,     settingType: .smoking,      icon: "ic_smoking")]
             
         }
         
@@ -683,6 +685,28 @@ extension ProfileViewController {
 
 //MARK: Webservice call 
 extension ProfileViewController {
+    
+    
+    //Get user's profile info
+    func getMyInfoAPICall() {
+        self.showCentralGraySpinner()
+        user.getInfo { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json as? [String : Any] {
+                    me.resetUserInfo(json)
+                    self.user = me.copy() as! LoggedInUser
+                    archiveObject(json, key: kLoggedInUserKey)
+                    self.setUserInfo()
+                    self.changeMenuItems(self.selectedMenu)
+                }
+                
+            } else {
+                showToastErrorMessage("Login Error", message: response.message)
+            }
+            self.hideCentralGraySpinner()
+        }
+    }
+
     //Change user Password
     func changePasswordWsCall()  {
         let process = user.validateChangePassProcess()
@@ -698,6 +722,7 @@ extension ProfileViewController {
                     self.user.oldPassword = ""
                     self.user.confPass = ""
                     self.changeMenuItems(self.selectedMenu)
+                    
                 } else {
                     //error message
                     showToastErrorMessage("", message: "kOldPassIsInvalid".localizedString())
@@ -716,10 +741,10 @@ extension ProfileViewController {
         user.updateProfileInfo { (response, flag) in
             self.hideCentralGraySpinner()
             if response.isSuccess {
-                if let json = response.json {
-                    var info = json["Object"] as! [String : AnyObject]
+                if let json = response.json as? [String : Any] {
+                    var info = json["Object"] as! [String : Any]
                     me.resetUserInfo(info)
-                    self.user = me.copy() as! User
+                    self.user = me.copy() as! LoggedInUser
                     self.changeMenuItems(self.selectedMenu)
                     
                     if self.isProfileImgeChanged {
@@ -731,7 +756,7 @@ extension ProfileViewController {
                             self.isProfileImgeChanged = false
                             self.setUserInfo()
                             showToastMessage("", message: "kProfileUpdateSuccess".localizedString())
-                            _defaultCenter.postNotificationName(kProfileUpdateNotificationKey, object: nil)
+                            _defaultCenter.post(name: Notification.Name(rawValue: kProfileUpdateNotificationKey), object: nil)
                             self.hideCentralGraySpinner()
                         })
                         
@@ -739,7 +764,7 @@ extension ProfileViewController {
                         archiveObject(info, key: kLoggedInUserKey)
                         self.setUserInfo()
                         showToastMessage("", message: "kProfileUpdateSuccess".localizedString())
-                        _defaultCenter.postNotificationName(kProfileUpdateNotificationKey, object: nil)
+                        _defaultCenter.post(name: Notification.Name(rawValue: kProfileUpdateNotificationKey), object: nil)
                     }
                     
                 }
@@ -754,8 +779,8 @@ extension ProfileViewController {
         self.showCentralGraySpinner()
         user.updateSocialInfo { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    let info = json["Object"] as! [String : AnyObject]
+                if let json = response.json as? [String : Any] {
+                    let info = json["Object"] as! [String : Any]
                     let social = UserSocial(info: info)
                     me.social = social
                     self.changeMenuItems(self.selectedMenu)
@@ -774,13 +799,13 @@ extension ProfileViewController {
         self.showCentralGraySpinner()
         user.updateUserPreference { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    let info = json["Object"] as! [String : AnyObject]
-                    let preference = UserPreference(info: info)
-                    me.preference = preference
+                if let json = response.json as? [String : Any]  {
+//                    let info = json["Object"] as! [String : AnyObject]
+//                    let preference = UserPreference(info: info)
+//                    me.preference = preference
                     self.changeMenuItems(self.selectedMenu)
-                    archiveObject(info, key: kLoggedInUserKey)
-                    showToastMessage("", message: "kPreferenceSettingSucess".localizedString())
+//                    archiveObject(info, key: kLoggedInUserKey)
+                    showToastMessage("", message: response.message)
                 }
             } else {
                 showToastErrorMessage("", message: response.message)
@@ -795,14 +820,14 @@ extension ProfileViewController {
 extension ProfileViewController {
     //load picker view from nib file
     func loadDatePickerView() {
-        let nibViews = NSBundle.mainBundle().loadNibNamed("VDatePickerView", owner: nil, options: nil)!
+        let nibViews = Bundle.main.loadNibNamed("VDatePickerView", owner: nil, options: nil)!
         self.datePickerView = nibViews[0] as! VDatePickerView
         self.datePickerSelectionBlockSetup()
         self.view.addSubview(datePickerView)
     }
 
     func showDatePickerView() {
-        let dateBefor16Years = NSDate().dateByAddingYearOffset(-16) //Validation for user should be 16 years old.
+        let dateBefor16Years = Date().dateByAddingYearOffset(-16) //Validation for user should be 16 years old.
         datePickerView.maxDate = dateBefor16Years
         datePickerView.show()
     }
@@ -812,8 +837,8 @@ extension ProfileViewController {
         datePickerView.dateSelectionBlock = {[weak self](date, forType) in
             if let selff = self {
                 selff.user.birthDate = selff.dateFomator.stringFromDate(date, format: "yyyy-MM-dd")
-                let cell = selff.tableView.cellForRowAtIndexPath(selff.selectedIndexPath!) as? TVSignUpFormCell
-                cell?.txtField.text =  selff.dateFomator.stringFromDate(date, style: .MediumStyle)
+                let cell = selff.tableView.cellForRow(at: selff.selectedIndexPath!) as? TVSignUpFormCell
+                cell?.txtField.text =  selff.dateFomator.stringFromDate(date, style: .medium)
             }
         }
     }
@@ -835,7 +860,7 @@ class CellItem {
     var txtFieldEnable = true
     var cellName = ""
     
-    init(title: String, value: String, txtFieldType: TextFieldType, keyboardType: UIKeyboardType = .Default, icon: String = "" , enable: Bool = true, cellName: String = "nameCell") {
+    init(title: String, value: String, txtFieldType: TextFieldType, keyboardType: UIKeyboardType = .default, icon: String = "" , enable: Bool = true, cellName: String = "nameCell") {
         self.title = title
         self.stringValue = value
         self.textfieldType = txtFieldType

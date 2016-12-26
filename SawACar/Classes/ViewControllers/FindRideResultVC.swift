@@ -36,15 +36,15 @@ class FindRideResultVC: ParentVC {
     */
 
     //MARK: - Navigation
-    func navigateToRideDetailsScreen(ride: Travel) {
-        let detailVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_TravelDetailVC") as! TravelDetailVC
+    func navigateToRideDetailsScreen(_ ride: Travel) {
+        let detailVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_TravelDetailVC") as! TravelDetailVC
         detailVC.travel = ride
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     //MARK: IBActions
-    @IBAction func trackingSwitchChanged(sender: UISwitch) {
-        if sender.on {
+    @IBAction func trackingSwitchChanged(_ sender: UISwitch) {
+        if sender.isOn {
             addAlertAPICall()
         }
     }
@@ -53,40 +53,40 @@ class FindRideResultVC: ParentVC {
 //MARK: TableView DataSource
 extension FindRideResultVC : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  section == 0 ? 2 : travels.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if indexPath.row == 0 { // location cell
-                let cell = tableView.dequeueReusableCellWithIdentifier("locationCell")  as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell")  as! TVGenericeCell
                 cell.lblTitle.text = searchDataObject.locationFrom
                 cell.lblSubTitle.text = searchDataObject.locationTo
                 return cell
                 
             } else { //tracking switch btn cell
-                let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell")  as! TblSwitchBtnCell
-                cell.switchBtn.on = false
+                let cell = tableView.dequeueReusableCell(withIdentifier: "switchBtnCell")  as! TblSwitchBtnCell
+                cell.switchBtn.isOn = false
                 if let alert = searchDataObject.alert {
-                    cell.switchBtn.on = alert.activated
+                    cell.switchBtn.isOn = alert.activated
                 }
                 return cell
             }
             
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("travelCell")  as! TVTravelCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "travelCell")  as! TVTravelCell
             let ride = travels[indexPath.row]
             cell.setRideInfo(ride)
             return cell
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return (indexPath.row == 0 ? 104 : 60 ) * _widthRatio
         } else {
@@ -94,28 +94,28 @@ extension FindRideResultVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
             let ride = travels[indexPath.row]
             self.navigateToRideDetailsScreen(ride)
         }
     }
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? CGFloat.min : 40 * _widthRatio
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? CGFloat.leastNormalMagnitude : 40 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 10
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {return nil}
-        let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! TVGenericeCell
         return cell.contentView
     }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
     
@@ -127,24 +127,24 @@ extension FindRideResultVC {
         self.showCentralGraySpinner()
         let fromAddress = searchDataObject.locationFrom
         let toAddress = searchDataObject.locationTo
-        wsCall.findTravels(fromAddress, toAddress: toAddress) { (response, flag) in
+        wsCall.findTravels(fromAddress!, toAddress: toAddress!) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let objects = json["Object"] as? [[String : AnyObject]] {
-                        self.travels.removeAll()
-                        for item in objects {
-                            let travel = Travel(item)
-                            self.travels.append(travel)
-
-                        }
-                        self.tableView.reloadData()
-                    }
-                }
+//                if let json = response.json {
+//                    if let objects = json["Object"] as? [[String : AnyObject]] {
+//                        self.travels.removeAll()
+//                        for item in objects {
+//                            let travel = Travel(item)
+//                            self.travels.append(travel)
+//
+//                        }
+//                        self.tableView.reloadData()
+//                    }
+//                }
             } else {
                 //error
             }
             self.travels.isEmpty ? self.showEmptyDataView("kMyRidesNotAvailable".localizedString(), frame: CGRect(x: 0, y: 280 * _widthRatio, width: _screenSize.width, height: 40)) : self.emptyDataView.hide()
-            self.tableView.scrollEnabled = !self.travels.isEmpty
+            self.tableView.isScrollEnabled = !self.travels.isEmpty
             self.hideCentralGraySpinner()
         }
     }
@@ -158,8 +158,8 @@ extension FindRideResultVC {
         
         wsCall.addAlertByPassengerOnTravel(params) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let object = json["Object"] as? [String : AnyObject] {
+                if let json = response.json as? [String : Any] {
+                    if let object = json["Object"] as? [String : Any] {
                         let alert = Alert(object)
                         self.searchDataObject.alert = alert
                     }

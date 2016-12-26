@@ -17,7 +17,7 @@ class ContactsViewController: ParentVC {
     var sectionTitles = [String]()
     
     //property used for partitioned array in sections
-    let indexedCollation = UILocalizedIndexedCollation.currentCollation()
+    let indexedCollation = UILocalizedIndexedCollation.current()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +31,8 @@ class ContactsViewController: ParentVC {
     }
     
     //Sort contacts section wise
-    func sortContacts(contacts: [Contact]) {
-        let (resultContacts, resultSectionTitls) = indexedCollation.partitionObjects(contacts, collationStringSelector: Selector("name"))
+    func sortContacts(_ contacts: [Contact]) {
+        let (resultContacts, resultSectionTitls) = indexedCollation.partitionObjects(contacts, collationStringSelector: #selector(getter: Contact.name))
         self.sortedContacts = resultContacts as! [[Contact]]
         self.sectionTitles = resultSectionTitls
     }
@@ -42,12 +42,12 @@ class ContactsViewController: ParentVC {
 //MARK: IBActions
 extension ContactsViewController {
     
-    @IBAction func searchIconBtnTapped(sender: UIButton) {
+    @IBAction func searchIconBtnTapped(_ sender: UIButton) {
         searchBox.becomeFirstResponder()
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.searchBarTopSpace.constant = 0
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
 }
@@ -55,20 +55,20 @@ extension ContactsViewController {
 //SearchBar delegatation
 extension ContactsViewController : UISearchBarDelegate {
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBox.resignFirstResponder()
         searchBar.showsCancelButton = false
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.searchBarTopSpace.constant = -44
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let text = searchText.trimmedString()
        var filterContacts = [Contact]()
         if text.isEmpty {
@@ -88,38 +88,38 @@ extension ContactsViewController : UISearchBarDelegate {
 
 extension ContactsViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sortedContacts[section].count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("contactCell") as! TVGenericeCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell") as! TVGenericeCell
         let contact  = sortedContacts[indexPath.section][indexPath.row]
         cell.lblTitle.text = contact.name
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! TVGenericeCell
         cell.lblTitle.text = sectionTitles[section]
-        cell.contentView.backgroundColor = UIColor.whiteColor()
+        cell.contentView.backgroundColor = UIColor.white
         return cell.contentView
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
@@ -133,8 +133,8 @@ extension ContactsViewController {
         let params = ["UserID" : me.Id]
         wsCall.getContacts(params) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let objects = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let objects = json["Object"] as? [[String : Any]] {
                         self.contacts.removeAll()
                         for item in objects {
                             let message = Contact(fromContact: item)

@@ -37,10 +37,10 @@ extension UIView {
     //Draw a shadow
     func drawShadow() {
         self.layer.masksToBounds = true;
-        self.layer.shadowOffset = CGSizeMake(3.0, 3.0);
+        self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0);
         self.layer.shadowRadius = 3.0;
         self.layer.shadowOpacity = 1.0;
-        self.layer.shadowColor  = UIColor.blackColor().CGColor
+        self.layer.shadowColor  = UIColor.black.cgColor
     }
     
     func drawShadowWithCornerRadius() {
@@ -51,55 +51,55 @@ extension UIView {
 //MARK: UIImage
 extension UIImage {
     //MARK: Compressed image
-    var uncompressedPNGData: NSData      { return UIImagePNGRepresentation(self)!        }
-    var highestQualityJPEGNSData: NSData { return UIImageJPEGRepresentation(self, 1.0)!  }
-    var highQualityJPEGNSData: NSData    { return UIImageJPEGRepresentation(self, 0.75)! }
-    var mediumQualityJPEGNSData: NSData  { return UIImageJPEGRepresentation(self, 0.5)!  }
-    var lowQualityJPEGNSData: NSData     { return UIImageJPEGRepresentation(self, 0.25)! }
-    var lowestQualityJPEGNSData:NSData   { return UIImageJPEGRepresentation(self, 0.0)!  }
+    var uncompressedPNGData: Data      { return UIImagePNGRepresentation(self)!        }
+    var highestQualityJPEGNSData: Data { return UIImageJPEGRepresentation(self, 1.0)!  }
+    var highQualityJPEGNSData: Data    { return UIImageJPEGRepresentation(self, 0.75)! }
+    var mediumQualityJPEGNSData: Data  { return UIImageJPEGRepresentation(self, 0.5)!  }
+    var lowQualityJPEGNSData: Data     { return UIImageJPEGRepresentation(self, 0.25)! }
+    var lowestQualityJPEGNSData:Data   { return UIImageJPEGRepresentation(self, 0.0)!  }
 }
 
 extension Array where Element: Equatable {
-    mutating func removeElement(element: Element) {
-        if let ind = self.indexOf(element) {
-            removeAtIndex(ind)
+    mutating func removeElement(_ element: Element) {
+        if let ind = self.index(of: element) {
+            remove(at: ind)
         }
     }
 }
 
 //MARK: DateFormator
-extension NSDateFormatter {
-    func stringFromDate(date: NSDate, format: String) -> String {
+extension DateFormatter {
+    func stringFromDate(_ date: Date, format: String) -> String {
         self.dateFormat = format
-        return self.stringFromDate(date)
+        return self.string(from: date)
     }
     
-    func stringFromDate(date: NSDate, style:NSDateFormatterStyle) -> String {
+    func stringFromDate(_ date: Date, style:DateFormatter.Style) -> String {
         self.dateStyle = style
-        return self.stringFromDate(date)
+        return self.string(from: date)
     }
     
-    func dateFromString(strDate: String, fomat: String) -> NSDate? {
+    func dateFromString(_ strDate: String, fomat: String) -> Date? {
         self.dateFormat = fomat
-        return self.dateFromString(strDate)
+        return self.date(from: strDate)
     }
     
-    func dateString(strDate: String, fromFomat: String, toFromat: String) -> String {
+    func dateString(_ strDate: String, fromFomat: String, toFromat: String) -> String {
         self.dateFormat = fromFomat
-        let date = dateFromString(strDate)
+        let date = self.date(from: strDate)
         if let date = date {
          self.dateFormat = toFromat
-            return stringFromDate(date)
+            return string(from: date)
         }
         return ""
     }
     
-    func dateString(strDate: String, fromFomat: String, style: NSDateFormatterStyle) -> String {
+    func dateString(_ strDate: String, fromFomat: String, style: DateFormatter.Style) -> String {
         self.dateFormat = fromFomat
-        let date = dateFromString(strDate)
+        let date = self.date(from: strDate)
         if let date = date {
             self.dateStyle = style
-            return stringFromDate(date)
+            return string(from: date)
         }
         return ""
     }
@@ -107,22 +107,22 @@ extension NSDateFormatter {
 }
 
 //MARK: NSDate
-extension NSDate {
+extension Date {
  //
-    func dateByAddingYearOffset(offset: Int) -> NSDate? {
-        let calendar  =     NSCalendar(identifier: NSCalendarIdentifierGregorian)
-        let offsetComponent = NSDateComponents()
+    func dateByAddingYearOffset(_ offset: Int) -> Date? {
+        let calendar  =     Calendar(identifier: Calendar.Identifier.gregorian)
+        var offsetComponent = DateComponents()
         offsetComponent.year = offset
-        let date = calendar?.dateByAddingComponents(offsetComponent, toDate: self, options: NSCalendarOptions.WrapComponents)
+        let date = (calendar as NSCalendar?)?.date(byAdding: offsetComponent, to: self, options: NSCalendar.Options.wrapComponents)
         return date
     }
 }
 
 //MARK: TableView
 extension UITableView {
-    func addRefreshControl(target: UIViewController, selector: Selector) -> UIRefreshControl {
+    func addRefreshControl(_ target: UIViewController, selector: Selector) -> UIRefreshControl {
         let refControl = UIRefreshControl()
-        refControl.addTarget(target, action: selector, forControlEvents: UIControlEvents.ValueChanged)
+        refControl.addTarget(target, action: selector, for: UIControlEvents.valueChanged)
         self.addSubview(refControl)
         return refControl
     }
@@ -134,7 +134,7 @@ extension UILocalizedIndexedCollation {
     //Add below commented line in your viewController for accesing func partitionObjects(_:)
     // let indexedCollation = UILocalizedIndexedCollation.currentCollation()
 
-    func partitionObjects(array:[AnyObject], collationStringSelector:Selector) -> ([AnyObject], [String]) {
+    func partitionObjects(_ array:[AnyObject], collationStringSelector:Selector) -> ([AnyObject], [String]) {
         var unsortedSections = [[AnyObject]]()
         
         //Create a array to hold the data for each section
@@ -145,7 +145,7 @@ extension UILocalizedIndexedCollation {
         
         //put each objects into a section
         for item in array {
-            let index:Int = self.sectionForObject(item, collationStringSelector:collationStringSelector)
+            let index:Int = self.section(for: item, collationStringSelector:collationStringSelector)
             unsortedSections[index].append(item)
         }
         
@@ -157,7 +157,7 @@ extension UILocalizedIndexedCollation {
         {
             if unsortedSections[index].count > 0 {
                 sectionTitles.append(self.sectionTitles[index])
-                sections.append(self.sortedArrayFromArray(unsortedSections[index], collationStringSelector: collationStringSelector))
+                sections.append(self.sortedArray(from: unsortedSections[index], collationStringSelector: collationStringSelector) as AnyObject)
             }
         }
         return (sections, sectionTitles)
@@ -173,7 +173,7 @@ class VkUISwitch: UISwitch {
         //
         let constantValue: CGFloat = 0.9 //Default Scale value which changed as per device base.
         let scale = constantValue * _widthRatio
-        self.transform = CGAffineTransformMakeScale(scale, scale)
+        self.transform = CGAffineTransform(scaleX: scale, y: scale)
     }
 }
 
@@ -189,7 +189,7 @@ class TblWidthHeaderView: UIView {
 
 
 class IndexPathButton: JPWidthButton {
-    var indexPath : NSIndexPath!
+    var indexPath : IndexPath!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -197,7 +197,7 @@ class IndexPathButton: JPWidthButton {
 }
 
 class IndexPathTextField: JPWidthTextField {
-    var indexpath: NSIndexPath!
+    var indexpath: IndexPath!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -218,17 +218,17 @@ class CornerRadiusView: ConstrainedView {
         super.awakeFromNib()
         corners = UIRectCorner()
         if topLeft {
-            corners.insert(.TopLeft)
+            corners.insert(.topLeft)
         }
         if topRight {
-            corners.insert(.TopRight)
+            corners.insert(.topRight)
         }
         if bottomLeft {
-            corners.insert(.BottomLeft)
+            corners.insert(.bottomLeft)
         }
         
         if bottomRight {
-            corners.insert(.BottomRight)
+            corners.insert(.bottomRight)
         }
         
 
@@ -245,23 +245,23 @@ class CornerRadiusView: ConstrainedView {
                 fr.size.width = fr.size.width * _widthRatio
                 fr.size.height = fr.size.height * _widthRatio
                 
-                let path = UIBezierPath(roundedRect:fr, byRoundingCorners:corners, cornerRadii: CGSizeMake(cornerRadius, cornerRadius))
+                let path = UIBezierPath(roundedRect:fr, byRoundingCorners:corners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
                 let maskLayer = CAShapeLayer()
-                maskLayer.path = path.CGPath
+                maskLayer.path = path.cgPath
                 self.layer.mask = maskLayer
             }
 
         }
         
         if blurEffect {
-            self.backgroundColor = UIColor.clearColor()
-            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+            self.backgroundColor = UIColor.clear
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
             //always fill the view
             blurEffectView.frame = self.bounds
-            blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             self.addSubview(blurEffectView)
-            self.sendSubviewToBack(blurEffectView)
+            self.sendSubview(toBack: blurEffectView)
 
         }
     }
@@ -269,23 +269,23 @@ class CornerRadiusView: ConstrainedView {
 
 //Operation for call location related API :
 //Added by vikash
-class VPOperation: NSOperation {
-    var url : NSURL!
+class VPOperation: Operation {
+    var url : URL!
     var block: ((NSDictionary) -> Void)?
     
-    init(strUrl: String, block:(NSDictionary?) -> Void) {
-        self.url = NSURL(string: strUrl)
+    init(strUrl: String, block:@escaping (NSDictionary?) -> Void) {
+        self.url = URL(string: strUrl)
         self.block = block
     }
     
     override func main() {
-        if self.cancelled {
+        if self.isCancelled {
             return
         }
         print("Request URL : \(url.absoluteString)")
-        let data = NSData(contentsOfURL: url)
-        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
-        if self.cancelled {
+        let data = try? Data(contentsOf: url)
+        let json = try! JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+        if self.isCancelled {
             return
         }
         block?(json as! NSDictionary)
@@ -294,35 +294,35 @@ class VPOperation: NSOperation {
 
 //MARK:============================= Enums ===================================
 enum VAction {
-    case Cancel, Done, Share
+    case cancel, done, share
 }
 
 //MARK:============================= Functions ===================================
 
 func getCurrencyCode(forCountryCode code: String)-> String? {
-    let components = [NSLocaleCountryCode : code]
-    let localeIdent = NSLocale.localeIdentifierFromComponents(components)
-    let locale = NSLocale(localeIdentifier: localeIdent)
-    let currencyCode = locale.objectForKey(NSLocaleCurrencyCode) as? String
-    return currencyCode
+//    let components = [NSLocale.Key.countryCode : code]
+//    let localeIdent = Locale.identifier(fromComponents: components as! [String : String])
+//    let locale = Locale(localeIdentifier: localeIdent)
+//    let currencyCode = locale.object(forKey: NSLocale.Key.currencyCode) as? String
+    return nil
 }
 
 func getCountryCodeFromCurrentLocale()-> String? {
-    let locale = NSLocale.currentLocale()
-    let code = locale.objectForKey(NSLocaleCountryCode) as? String
+    let locale = Locale.current
+    let code = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String
     return code
 }
 
 //Store Any custom object to UserDefault with a key
-func archiveObject(obj: AnyObject, key: String) {
-    let archive = NSKeyedArchiver.archivedDataWithRootObject(obj)
-    _userDefault.setObject(archive, forKey: key)
+func archiveObject(_ obj: Any, key: String) {
+    let archive = NSKeyedArchiver.archivedData(withRootObject: obj)
+    _userDefault.set(archive, forKey: key)
 }
 
 //Get a object from userDefault with key
-func unArchiveObjectForKey(key: String) -> AnyObject? {
-    if let data = _userDefault.objectForKey(key) as? NSData {
-        let unarchiveObj = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+func unArchiveObjectForKey(_ key: String) -> Any? {
+    if let data = _userDefault.object(forKey: key) as? Data {
+        let unarchiveObj = NSKeyedUnarchiver.unarchiveObject(with: data)
         return unarchiveObj
     }
     return nil
@@ -339,7 +339,7 @@ protocol GoogleMapRoutePath {
 
 extension GoogleMapRoutePath {
     //Get route beween two location using google map direction api.
-    func getRoutesFromGoogleApi(originCoordinates: CLLocationCoordinate2D, _ destinationCoordinates: CLLocationCoordinate2D) {
+    func getRoutesFromGoogleApi(_ originCoordinates: CLLocationCoordinate2D, _ destinationCoordinates: CLLocationCoordinate2D) {
         var paths = [GMSPath]()
         let fromLatLong = "\(originCoordinates.latitude),\(originCoordinates.longitude)"
         let toLatLong = "\(destinationCoordinates.latitude),\(destinationCoordinates.longitude)"
@@ -370,21 +370,21 @@ extension GoogleMapRoutePath {
                 }
                 
                 print(paths)
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.drawRouteOnGoogleMap(paths, zoomLocation: originCoordinates)
                 })
             }
         }
-        let operationQueue = NSOperationQueue()
+        let operationQueue = OperationQueue()
         operationQueue.addOperation(operation)
     }
     
     //Draw route path on map
-    func drawRouteOnGoogleMap(paths: [GMSPath], zoomLocation: CLLocationCoordinate2D) {
+    func drawRouteOnGoogleMap(_ paths: [GMSPath], zoomLocation: CLLocationCoordinate2D) {
         let startPositionCoordinates = zoomLocation
         let cameraPositionCoordinates = startPositionCoordinates
-        let cameraPosition = GMSCameraPosition.cameraWithTarget(cameraPositionCoordinates, zoom: 8)
-        mapView.animateToCameraPosition(cameraPosition)
+        let cameraPosition = GMSCameraPosition.camera(withTarget: cameraPositionCoordinates, zoom: 8)
+        mapView.animate(to: cameraPosition)
         
         
         for path in paths {

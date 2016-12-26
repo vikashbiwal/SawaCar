@@ -13,7 +13,7 @@ class TabbarViewController: UITabBarController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.hidden = true
+        self.tabBar.isHidden = true
         self.setViewControllersInTabbar()
     }
 
@@ -26,18 +26,18 @@ class TabbarViewController: UITabBarController {
    
     //Set viewcontroller as per user mode.
     func setViewControllersInTabbar() {
-        let profileVC   = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ProfileVC")
+        let profileVC   = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ProfileVC")
         let nav0 = self.viewControllers![0] as! UINavigationController
         let nav1 = self.viewControllers![1] as! UINavigationController
         let nav2 = self.viewControllers![2] as! UINavigationController
         let nav3 = self.viewControllers![3] as! UINavigationController
         let nav4 = self.viewControllers![4] as! UINavigationController
        
-        if me.userMode == .Driver {
-            let myOffersVC  = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_BookingToMyTravelVC")
-            let myRidesVC   = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_MyOffersVC")
-            let bookingsVC  = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_MyRidesVC")
-            let offerRideVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_DOfferRideVC")
+        if me.userMode == .driver {
+            let myOffersVC  = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_BookingToMyTravelVC")
+            let myRidesVC   = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_MyOffersVC")
+            let bookingsVC  = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_MyRidesVC")
+            let offerRideVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_DOfferRideVC")
             nav0.viewControllers = [profileVC]
             nav1.viewControllers = [myOffersVC]
             nav2.viewControllers = [myRidesVC]
@@ -46,10 +46,10 @@ class TabbarViewController: UITabBarController {
             self.selectedIndex   = 4 //Offer a ride screen is opened by default.
             
         } else { //Passenger
-            let requestRideVC   = _driverStoryboard.instantiateViewControllerWithIdentifier(_PRequestRideVCID)
-            let myBookingsVC    = _driverStoryboard.instantiateViewControllerWithIdentifier(_PBookingsVCID)
-            let offerMeVc       = _driverStoryboard.instantiateViewControllerWithIdentifier(_POffersMeVCID)
-            let myRequestsVc    = _driverStoryboard.instantiateViewControllerWithIdentifier(_PMyRequestsVCID)
+            let requestRideVC   = _driverStoryboard.instantiateViewController(withIdentifier: _PRequestRideVCID)
+            let myBookingsVC    = _driverStoryboard.instantiateViewController(withIdentifier: _PBookingsVCID)
+            let offerMeVc       = _driverStoryboard.instantiateViewController(withIdentifier: _POffersMeVCID)
+            let myRequestsVc    = _driverStoryboard.instantiateViewController(withIdentifier: _PMyRequestsVCID)
             nav0.viewControllers = [profileVC]
             nav1.viewControllers = [myBookingsVC]
             nav2.viewControllers = [offerMeVc]

@@ -14,7 +14,7 @@ class CustomActivityIndicatorView: VBlurView {
     // MARK - Variables
     var isAnimating : Bool = false
     var hidesWhenStopped : Bool = true
-    lazy private var animationLayer : CALayer = {
+    lazy fileprivate var animationLayer : CALayer = {
         return CALayer()
     }()
     
@@ -24,18 +24,18 @@ class CustomActivityIndicatorView: VBlurView {
         
         let centerX = (hieght/2) - (image.size.width/2)
         let centrerY = (hieght/2) - (image.size.height/2)
-        let iframe : CGRect = CGRectMake(centerX, centrerY, image.size.width, image.size.height)
+        let iframe : CGRect = CGRect(x: centerX, y: centrerY, width: image.size.width, height: image.size.height)
 
-        let frame : CGRect = CGRectMake(0.0, 0.0, hieght, hieght)
+        let frame : CGRect = CGRect(x: 0.0, y: 0.0, width: hieght, height: hieght)
         super.init(frame: frame)
         animationLayer.frame = iframe
-        animationLayer.contents = image.CGImage
+        animationLayer.contents = image.cgImage
         animationLayer.masksToBounds = true
         self.layer.addSublayer(animationLayer)
         addRotation(forLayer: animationLayer)
         pause(layer: animationLayer)
         self.layer.cornerRadius = 5.0
-        self.hidden = true
+        self.isHidden = true
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -46,27 +46,27 @@ class CustomActivityIndicatorView: VBlurView {
     func addRotation(forLayer layer : CALayer) {
         let rotation : CABasicAnimation = CABasicAnimation(keyPath:"transform.rotation.z")
         rotation.duration = 1.0
-        rotation.removedOnCompletion = false
+        rotation.isRemovedOnCompletion = false
         rotation.repeatCount = HUGE
         rotation.fillMode = kCAFillModeForwards
-        rotation.fromValue = NSNumber(float: 0.0)
-        rotation.toValue = NSNumber(float: 3.14 * 2.0)
-        layer.addAnimation(rotation, forKey: "rotate")
+        rotation.fromValue = NSNumber(value: 0.0 as Float)
+        rotation.toValue = NSNumber(value: 3.14 * 2.0 as Float)
+        layer.add(rotation, forKey: "rotate")
     }
     
-    private func pause(layer layer : CALayer) {
-        let pausedTime = layer.convertTime(CACurrentMediaTime(), fromLayer: nil)
+    fileprivate func pause(layer : CALayer) {
+        let pausedTime = layer.convertTime(CACurrentMediaTime(), from: nil)
         layer.speed = 0.0
         layer.timeOffset = pausedTime
         isAnimating = false
     }
     
-    private func resume(layer layer : CALayer) {
+    fileprivate func resume(layer : CALayer) {
         let pausedTime : CFTimeInterval = layer.timeOffset
         layer.speed = 1.0
         layer.timeOffset = 0.0
         layer.beginTime = 0.0
-        let timeSincePause = layer.convertTime(CACurrentMediaTime(), fromLayer: nil) - pausedTime
+        let timeSincePause = layer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
         layer.beginTime = timeSincePause
         isAnimating = true
     }
@@ -76,14 +76,14 @@ class CustomActivityIndicatorView: VBlurView {
             return
         }
         if hidesWhenStopped {
-            self.hidden = false
+            self.isHidden = false
         }
         resume(layer: animationLayer)
     }
     
     func stopAnimating () {
         if hidesWhenStopped {
-            self.hidden = true
+            self.isHidden = true
         }
         pause(layer: animationLayer)
     }

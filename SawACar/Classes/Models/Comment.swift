@@ -19,11 +19,11 @@ class Message : NSObject {
     var receiverPhoto:  String!
     var text:           String!
     var dateString:     String!
-    var date:    NSDate!
+    var date:    Date!
     var contact: Contact!
     
     
-    init(_ info: [String: AnyObject]) {
+    init(_ info: [String: Any]) {
         messageId   = RConverter.string(info["MessageID"])
         senderId    = RConverter.string(info["UserFromID"])
         senderName  = RConverter.string(info["UserFromName"])
@@ -50,7 +50,7 @@ class Contact: NSObject {
     var detail: String!
     
     //Create contact from contact object get through json response
-    init(fromContact info: [String : AnyObject]) {
+    init(fromContact info: [String : Any]) {
         id      = RConverter.string(info["ContactID"])
         userId  = RConverter.string(info["UserID"])
         contactUserId = RConverter.string(info["UserContactID"])
@@ -60,7 +60,7 @@ class Contact: NSObject {
     }
     
     //Create contact from message object get through json response
-    init(fromMessage info: [String : AnyObject]) {
+    init(fromMessage info: [String : Any]) {
         //inbox object does not have contact info separately in it, thats why i(Vikash) have create contact from message info like asf.
         
         let contactId = RConverter.string(info["UserFromID"])

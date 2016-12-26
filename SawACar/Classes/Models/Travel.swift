@@ -57,18 +57,18 @@ class Travel: NSObject, NSCopying {
     var isRoundTravel   = false
     
     var bookings    = [Booking]()
-    var comments    = []
-    var usersRatings = []
+    var comments    = [Message]()
+    var usersRatings = [Message]()
     
-    func repeateEndDate()-> NSDate? {
+    func repeateEndDate()-> Date? {
         return dateFormator.dateFromString(self.repeatEndDate, fomat: "dd/MM/yyyy hh:mm:ss")
     }
     
-    func roundTravelDate()-> NSDate? {
+    func roundTravelDate()-> Date? {
         return dateFormator.dateFromString(self.roundDate, fomat: "dd/MM/yyyy hh:mm:ss")
     }
     
-    func departurDate()-> NSDate? {
+    func departurDate()-> Date? {
         return dateFormator.dateFromString(self.departureDate, fomat: "dd/MM/yyyy hh:mm:ss")
     }
 
@@ -78,21 +78,21 @@ class Travel: NSObject, NSCopying {
     }
     
     //Travel object initialize from json dictionary object getting with API response.
-    init (_ info : [String : AnyObject]) {
+    init (_ info : [String : Any]) {
     
         Id = RConverter.string(info["TravelID"])
         travelNumber = RConverter.string(info["TravelNumber"])
         
-        locationFrom =  GLocation(info["LocationFrom"] as! [String : AnyObject])
-        locationTo   =  GLocation(info["LocationTo"] as! [String : AnyObject])
+        locationFrom =  GLocation(info["LocationFrom"] as! [String : Any])
+        locationTo   =  GLocation(info["LocationTo"] as! [String : Any])
         
-        if let stop1Info = info["LocationStop1"] as? [String : AnyObject] {
+        if let stop1Info = info["LocationStop1"] as? [String : Any] {
             locationStop1 =  GLocation(stop1Info)
         }
-        if let stop2Info = info["LocationStop2"] as? [String : AnyObject] {
+        if let stop2Info = info["LocationStop2"] as? [String : Any] {
             locationStop2 =  GLocation(stop2Info)
         }
-        if let stop3Info = info["LocationStop3"] as? [String : AnyObject] {
+        if let stop3Info = info["LocationStop3"] as? [String : Any] {
             locationStop3 =  GLocation(stop3Info)
         }
 
@@ -138,20 +138,20 @@ class Travel: NSObject, NSCopying {
     }
     
     //Travel object update or reset info from json dictionary getting by API response.
-    func updateInfo(info : [String : AnyObject]) {
+    func updateInfo(_ info : [String : Any]) {
         Id = RConverter.string(info["TravelID"])
         travelNumber = RConverter.string(info["TravelNumber"])
         
-        locationFrom =  GLocation(info["LocationFrom"] as! [String : AnyObject])
-        locationTo   =  GLocation(info["LocationTo"] as! [String : AnyObject])
+        locationFrom =  GLocation(info["LocationFrom"] as! [String : Any])
+        locationTo   =  GLocation(info["LocationTo"] as! [String : Any])
         
-        if let stop1Info = info["LocationStop1"] as? [String : AnyObject] {
+        if let stop1Info = info["LocationStop1"] as? [String : Any] {
             locationStop1 =  GLocation(stop1Info)
         }
-        if let stop2Info = info["LocationStop2"] as? [String : AnyObject] {
+        if let stop2Info = info["LocationStop2"] as? [String : Any] {
             locationStop1 =  GLocation(stop2Info)
         }
-        if let stop3Info = info["LocationStop3"] as? [String : AnyObject] {
+        if let stop3Info = info["LocationStop3"] as? [String : Any] {
             locationStop1 =  GLocation(stop3Info)
         }
         
@@ -185,7 +185,7 @@ class Travel: NSObject, NSCopying {
         status               = RConverter.boolean(info["Status"])
         trackingEnable       = RConverter.boolean(info["Tracking"])
         
-        if let jsonBookings = info["Bookings"] as? [[String : AnyObject]] {
+        if let jsonBookings = info["Bookings"] as? [[String : Any]] {
             bookings.removeAll()
             for item in jsonBookings {
                 let booking = Booking(item)
@@ -197,7 +197,7 @@ class Travel: NSObject, NSCopying {
     
     
     //Conform NSCopying protocol by Travel type
-     func copyWithZone(zone: NSZone) -> AnyObject {
+     func copy(with zone: NSZone?) -> Any {
         let cpTravel = Travel()
         cpTravel.Id = self.Id
         cpTravel.travelNumber = self.travelNumber
@@ -241,8 +241,8 @@ class Travel: NSObject, NSCopying {
 extension Travel {
     
     //Add new travel api parameters
-    func travelAPIParameters() ->[String : AnyObject] {
-        var parameters = [String : AnyObject]()
+    func travelAPIParameters() ->[String : Any] {
+        var parameters = [String : Any]()
         if inEditMode {
             parameters["TravelID"] = self.Id
         }
@@ -330,12 +330,13 @@ extension Travel {
 extension Travel {
     
     //Add Travel api call
-    func addTravel(block: (Bool)->Void) {
+    func addTravel(_ block: @escaping (Bool)->Void) {
         let params = self.travelAPIParameters()
         wsCall.addTravel(params) { (response, flag) in
             if response.isSuccess {
-                let travelInfo = response.json!["Object"] as! [String :  AnyObject]
-                self.updateInfo(travelInfo)
+                
+//                let travelInfo = response.json!["Object"] as! [String :  Any]
+//                self.updateInfo(travelInfo)
             } else {
                 showToastErrorMessage("", message: response.message)
             }
@@ -344,12 +345,12 @@ extension Travel {
     }
     
     //Update travel api call
-    func updateTravel(block: (Bool)->Void) {
+    func updateTravel(_ block: @escaping (Bool)->Void) {
         let params = self.travelAPIParameters()
         wsCall.updateTravel(params) { (response, flag) in
             if response.isSuccess {
-                let travelInfo = response.json!["Object"] as! [String :  AnyObject]
-                self.updateInfo(travelInfo)
+//                let travelInfo = response.json!["Object"] as! [String :  Any]
+//                self.updateInfo(travelInfo)
             } else {
                 showToastErrorMessage("", message: response.message)
             }
@@ -360,7 +361,7 @@ extension Travel {
     
     
     //Book travel api calls
-    func bookTravel(forSeats seats: Int, block: WSBlock) {
+    func bookTravel(forSeats seats: Int, block:@escaping  WSBlock) {
         let params = ["TravelID": self.Id,
                       "UserID" : me.Id,
                       "Seats": seats.ToString()]

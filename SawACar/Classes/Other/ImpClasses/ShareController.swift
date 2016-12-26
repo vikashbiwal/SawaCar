@@ -15,16 +15,16 @@ class ShareController: NSObject, MFMessageComposeViewControllerDelegate, MFMailC
     
     var completionBlock: ((SendStatus) -> ())?
     enum SendStatus: Int {
-        case Sent
-        case Cancelled
-        case Failed
-        case NotSupported
-        case Saved
+        case sent
+        case cancelled
+        case failed
+        case notSupported
+        case saved
     }
 
-    func sendMessageToRecipients(numbers: [String], messages: [String], toController: UIViewController, block:(SendStatus)->()) {
+    func sendMessageToRecipients(_ numbers: [String], messages: [String], toController: UIViewController, block:@escaping (SendStatus)->()) {
         guard MFMessageComposeViewController.canSendText() else {
-            block(.NotSupported)
+            block(.notSupported)
             return
         }
         MFMessageComposeViewController.canSendText()
@@ -34,12 +34,12 @@ class ShareController: NSObject, MFMessageComposeViewControllerDelegate, MFMailC
         msgController.body = messages[1]
         msgController.recipients = numbers
         msgController.messageComposeDelegate = self
-        toController.presentViewController(msgController, animated: true, completion: nil)
+        toController.present(msgController, animated: true, completion: nil)
     }
     
-    func sendMailToRecipients(emails: [String], messages: [String], toController: UIViewController, block:(SendStatus)->()) {
+    func sendMailToRecipients(_ emails: [String], messages: [String], toController: UIViewController, block:@escaping (SendStatus)->()) {
         guard MFMailComposeViewController.canSendMail() else {
-            block(.NotSupported)
+            block(.notSupported)
             return
         }
         completionBlock = block
@@ -48,38 +48,38 @@ class ShareController: NSObject, MFMessageComposeViewControllerDelegate, MFMailC
         mailController.setMessageBody(messages[1], isHTML: false)
         mailController.setToRecipients(emails)
         mailController.mailComposeDelegate = self
-        toController.presentViewController(mailController, animated: true, completion: nil)
+        toController.present(mailController, animated: true, completion: nil)
     }
     
     // MARK: MFMessageComposeViewControllerDelegate
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
         switch result {
-        case .Sent:
-            completionBlock?(.Sent)
-        case .Cancelled:
-            completionBlock?(.Cancelled)
-        case .Failed:
-            completionBlock?(.Failed)
+        case .sent:
+            completionBlock?(.sent)
+        case .cancelled:
+            completionBlock?(.cancelled)
+        case .failed:
+            completionBlock?(.failed)
         default:
-            completionBlock?(.NotSupported)
+            completionBlock?(.notSupported)
         }
     }
     
     // MARK: MFMailComposeViewControllerDelegate
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
         switch result {
-        case .Sent:
-            completionBlock?(.Sent)
-        case .Cancelled:
-            completionBlock?(.Cancelled)
-        case .Failed:
-            completionBlock?(.Failed)
-        case .Saved:
-            completionBlock?(.Saved)
+        case .sent:
+            completionBlock?(.sent)
+        case .cancelled:
+            completionBlock?(.cancelled)
+        case .failed:
+            completionBlock?(.failed)
+        case .saved:
+            completionBlock?(.saved)
         default:
-            completionBlock?(.NotSupported)
+            completionBlock?(.notSupported)
         }
     }
 

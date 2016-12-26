@@ -28,8 +28,8 @@ class DRideRequestsListVC: ParentVC {
     }
     
     //MARK: IBAction
-    @IBAction func trackingBtnClicked(sender: UISwitch) {
-        if sender.on {
+    @IBAction func trackingBtnClicked(_ sender: UISwitch) {
+        if sender.isOn {
             self.addAlertAPICall()
         }
     }
@@ -40,49 +40,49 @@ class DRideRequestsListVC: ParentVC {
 //MARK: TableView DataSource and Delegate
 extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return section == kSectionForLoctionAndTracking ? 3 : resultRequests.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == kSectionForLoctionAndTracking {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell") as! TVGenericeCell
                 cell.lblTitle.text = requestSearchObj.countryName
                 cell.imgView.image = UIImage(named: "ic_location")
                 return cell
                 
             } else if indexPath.row == 1 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell") as! TVGenericeCell
                 cell.lblTitle.text = requestSearchObj.travelTypeName
                 cell.imgView.image = UIImage(named: "ic_lift_btwn_cities")
                 return cell
                 
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("switchBtnCell") as! TblSwitchBtnCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "switchBtnCell") as! TblSwitchBtnCell
                 cell.lblTitle.text = "Keep_searching_for_me".localizedString()
                 cell.imgView.image = UIImage(named: "ic_notification_green")
-                cell.switchBtn.on = false
+                cell.switchBtn.isOn = false
                 
                 if let alert  = requestSearchObj.alert {
-                    cell.switchBtn.on = alert.activated
+                    cell.switchBtn.isOn = alert.activated
                 }
                 
                 if let v = cell.viewWithTag(111) {//background view
-                    v.layer.borderColor = UIColor.scTravelCardColor().CGColor
+                    v.layer.borderColor = UIColor.scTravelCardColor().cgColor
                     v.layer.borderWidth = 2
                     v.layer.cornerRadius = 3
                     v.clipsToBounds = true
-                    v.backgroundColor = UIColor.whiteColor()
+                    v.backgroundColor = UIColor.white
                 }
                 return cell
             }
             
         } else { //==kSectionForRideRequests
-            let cell = tableView.dequeueReusableCellWithIdentifier("rideRequestCell") as! TblRideRequestCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "rideRequestCell") as! TblRideRequestCell
             let request = resultRequests[indexPath.row]
             cell.setInfoFor(request)
             
@@ -90,7 +90,7 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == kSectionForLoctionAndTracking {
             if [0, 1].contains(indexPath.row) {
                 return 45 * _widthRatio
@@ -107,19 +107,19 @@ extension DRideRequestsListVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == kSectionForRideRequests {
             let ride = resultRequests[indexPath.row]
-            self.performSegueWithIdentifier("RideRequestDetailSegue", sender: ride)
+            self.performSegue(withIdentifier: "RideRequestDetailSegue", sender: ride)
         }
     }
 }
 
 //MARK: Navigation
 extension DRideRequestsListVC {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "RideRequestDetailSegue" {
-            let detailVc = segue.destinationViewController as! DRideRequestDetailVC
+            let detailVc = segue.destination as! DRideRequestDetailVC
             detailVc.travelRequest = sender as! TravelRequest
         }
     }
@@ -133,8 +133,8 @@ extension DRideRequestsListVC {
         self.showCentralGraySpinner()
         wsCall.searchTravelRequests(requestSearchObj) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let trObjects = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let trObjects = json["Object"] as? [[String : Any]] {
                         for item in trObjects {
                             let request = TravelRequest(item)
                             self.resultRequests.append(request)
@@ -143,7 +143,7 @@ extension DRideRequestsListVC {
                 }
                 
                 self.resultRequests.isEmpty ? self.showEmptyDataView("kMyRidesNotAvailable".localizedString(), frame: CGRect(x: 0, y: 280 * _widthRatio, width: _screenSize.width, height: 40)) : self.emptyDataView.hide()
-                self.tableView.scrollEnabled = !self.resultRequests.isEmpty
+                self.tableView.isScrollEnabled = !self.resultRequests.isEmpty
                 self.tableView.reloadData()
             } else {
                 showToastMessage("", message: response.message)
@@ -164,8 +164,8 @@ extension DRideRequestsListVC {
         
         wsCall.addAlertByDriverOnTravelRequest(params) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let object = json["Object"] as? [String : AnyObject] {
+                if let json = response.json as? [String : Any] {
+                    if let object = json["Object"] as? [String : Any] {
                         let alert = Alert(object)
                         self.requestSearchObj.alert = alert
                     }

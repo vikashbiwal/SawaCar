@@ -10,10 +10,10 @@ import UIKit
 
 //
 enum DatePickerForType {
-    case DepartureDate, DepartureTime
-    case RegularTravelDate, RegularTravelTime
-    case RoundTravelDate, RoundTravelTime
-    case Date
+    case departureDate, departureTime
+    case regularTravelDate, regularTravelTime
+    case roundTravelDate, roundTravelTime
+    case date
 }
 
 class VDatePickerView: ConstrainedView {
@@ -22,13 +22,13 @@ class VDatePickerView: ConstrainedView {
     @IBOutlet var datePickerBottomConstraint : NSLayoutConstraint!
     @IBOutlet var datePicker: UIDatePicker!
 
-    var dateSelectionBlock : (NSDate, DatePickerForType)-> Void = {_ in} //block call when user select date from datepicker
-    var dateMode: UIDatePickerMode = UIDatePickerMode.Date
-    var minDate: NSDate?
-    var maxDate: NSDate?
-    var currentDate: NSDate?
+    var dateSelectionBlock : (Date, DatePickerForType)-> Void = {_ in} //block call when user select date from datepicker
+    var dateMode: UIDatePickerMode = UIDatePickerMode.date
+    var minDate: Date?
+    var maxDate: Date?
+    var currentDate: Date?
     
-    var datePickerForType: DatePickerForType = .Date
+    var datePickerForType: DatePickerForType = .date
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,7 +44,7 @@ class VDatePickerView: ConstrainedView {
         if let currentDate = currentDate {
             datePicker.date = currentDate
         }
-        self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
+        self.backgroundColor = UIColor.black.withAlphaComponent(0)
         self.datePickerBottomConstraint.constant = -240 * _widthRatio
         
         var fr = self.frame
@@ -52,36 +52,36 @@ class VDatePickerView: ConstrainedView {
         self.frame = fr
         self.layoutIfNeeded()
        
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.alpha = 1
-            self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+            self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             self.datePickerBottomConstraint.constant = 10 * _widthRatio
             self.layoutIfNeeded()
-        }) { (res) in
-        }
+        }, completion: { (res) in
+        }) 
     }
     
     //hideDate Picker
     func hide() {
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.datePickerBottomConstraint.constant = -240 * _widthRatio
-            self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0)
+            self.backgroundColor = UIColor.black.withAlphaComponent(0)
             self.layoutIfNeeded()
-        }) { (res) in
+        }, completion: { (res) in
             var fr = self.frame
             fr.origin.y = _screenSize.height
             self.frame = fr
             self.layoutIfNeeded()
-        }
+        }) 
     }
     
     //datePicker button actions
-    @IBAction func datePickerDoneBtnClicked(sender: UIButton) {
+    @IBAction func datePickerDoneBtnClicked(_ sender: UIButton) {
         dateSelectionBlock(datePicker.date, datePickerForType)
         self.hide()
     }
     
-    @IBAction func datePickerCancelBtnClicked(sender: UIButton) {
+    @IBAction func datePickerCancelBtnClicked(_ sender: UIButton) {
         self.hide()
     }
     

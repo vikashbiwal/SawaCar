@@ -21,7 +21,7 @@ class ForgotPasswordVC: ParentVC {
     }
     
     //MARK: IBActions
-    @IBAction func submitBtnClicked(sender: UIButton) {
+    @IBAction func submitBtnClicked(_ sender: UIButton) {
         if validate() {
             forgotPasswordApiCall()
         }

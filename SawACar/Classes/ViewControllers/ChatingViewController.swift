@@ -31,12 +31,12 @@ class ChatingViewController: ParentVC {
         self.getMessagesWithOtherUser()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addObservations()
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         _defaultCenter.removeObserver(self)
     }
@@ -48,13 +48,13 @@ class ChatingViewController: ParentVC {
     
     //Prepare UI
     func prepareUI() {
-        txtComment.layer.borderColor = UIColor.scHeaderColor().CGColor
+        txtComment.layer.borderColor = UIColor.scHeaderColor().cgColor
         txtComment.layer.borderWidth = 1.0
         txtComment.layer.cornerRadius = 5
         txtComment.clipsToBounds = true
         
         lblTitle.text = contact.name
-        imgUserProfile.setImageWithURL(NSURL(string: contact.photo)!, placeholderImage: _userPlaceholderImage)
+        imgUserProfile.setImageWith(URL(string: contact.photo)!, placeholderImage: _userPlaceholderImage)
         
     }
 
@@ -63,7 +63,7 @@ class ChatingViewController: ParentVC {
 //MARK: IBActions
 extension ChatingViewController {
     //Message send button clicked
-    @IBAction func sendMessageBtnClicked(sender: UIButton) {
+    @IBAction func sendMessageBtnClicked(_ sender: UIButton) {
         //TODO - sent message api call
         let text = txtComment.text.trimmedString()
         if !text.isEmpty {
@@ -78,9 +78,9 @@ extension ChatingViewController {
 //MARK: TextViewDelegate functions
 extension ChatingViewController : UITextViewDelegate {
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         let text = textView.text
-        lblCommentPlaceholder.hidden = !text.isEmpty
+        lblCommentPlaceholder.isHidden = !(text?.isEmpty)!
         let contentHieght = textView.contentSize.height
         chatTextViewHeightConstraint.constant =  contentHieght > 250  ? 250 : (contentHieght + 10)
         //txtComment.contentOffset = CGPoint(x: 0, y: 0)
@@ -93,14 +93,14 @@ extension ChatingViewController {
     
     func addObservations() {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     //Keyboard Notifications
-    func keyboardWillShow(nf: NSNotification)  {
+    func keyboardWillShow(_ nf: Notification)  {
         let userinfo = nf.userInfo!
-        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             //tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:keyboarFrame.size.height , right: 0)
             chatBoxBottomConstraint.constant = keyboarFrame.size.height
             self.view.layoutIfNeeded()
@@ -109,7 +109,7 @@ extension ChatingViewController {
 
     }
     
-    func keyboardWillHide(nf: NSNotification)  {
+    func keyboardWillHide(_ nf: Notification)  {
         //Reset comment textview
         chatBoxBottomConstraint.constant = 0
         self.resetCommentBox()
@@ -117,12 +117,12 @@ extension ChatingViewController {
     }
     
     //Reset comment box UI
-    func resetCommentBox(onMessageSent: Bool = false) {
+    func resetCommentBox(_ onMessageSent: Bool = false) {
         let commentText = txtComment.text.trimmedString()
         if onMessageSent || commentText.isEmpty  {
             chatTextViewHeightConstraint.constant = 45
             txtComment.text = ""
-            lblCommentPlaceholder.hidden = false
+            lblCommentPlaceholder.isHidden = false
         }
         scrollToBottom()
     }
@@ -132,35 +132,35 @@ extension ChatingViewController {
 //MARK: TableView DataSource
 extension ChatingViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return messages.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages[section].count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let message = messages[indexPath.section][indexPath.row]
         if message.senderId == me.Id {
-            let cell = tableView.dequeueReusableCellWithIdentifier("senderCell") as! MessageCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "senderCell") as! MessageCell
             cell.setInfo(forMessage: message)
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("receiverCell") as! MessageCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "receiverCell") as! MessageCell
             cell.setInfo(forMessage: message)
             return cell
         }
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let message = messages[indexPath.section][indexPath.row]
        
         let lable = UILabel()
@@ -177,12 +177,12 @@ extension ChatingViewController : UITableViewDataSource, UITableViewDelegate {
         return cellHeight
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! TVGenericeCell
         cell.lblTitle.text = sectionTitles[section]
         return cell.contentView
     }
@@ -190,10 +190,10 @@ extension ChatingViewController : UITableViewDataSource, UITableViewDelegate {
     func scrollToBottom() {
         let lastSection = tableView.numberOfSections - 1
         if lastSection >= 0 {
-            let lastIndex = tableView.numberOfRowsInSection(lastSection) - 1
+            let lastIndex = tableView.numberOfRows(inSection: lastSection) - 1
             if lastIndex >= 0 {
-                let lastIndexPath = NSIndexPath(forItem: lastIndex, inSection: lastSection)
-                tableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: false)
+                let lastIndexPath = IndexPath(item: lastIndex, section: lastSection)
+                tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: false)
             }
         }
     }
@@ -208,8 +208,8 @@ extension ChatingViewController {
         wsCall.getMessageWithOtherUser(params) { (response, flag) in
             if response.isSuccess {
                 
-                if let json = response.json {
-                    if let objects = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let objects = json["Object"] as? [[String : Any]] {
                         var messages = [Message]()
                         for item in objects {
                             let message = Message(item)
@@ -232,8 +232,8 @@ extension ChatingViewController {
         let params = ["UserFromID" : me.Id, "UserToID" : contact.contactUserId, "Text" : txtComment.text]
         wsCall.sendMessage(params) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let jMessage = json["Object"] as? [String : AnyObject] {
+                if let json = response.json as? [String : Any] {
+                    if let jMessage = json["Object"] as? [String : Any] {
                         let message = Message(jMessage)
                         self.addMessageInSection(message)
                     }
@@ -246,7 +246,7 @@ extension ChatingViewController {
     }
     
     //add new message in section array
-    func addMessageInSection(message: Message) {
+    func addMessageInSection(_ message: Message) {
         let messageDateString = dateFormator.stringFromDate(message.date, format: "dd/MM/yyyy")
         
         if let lastSctionDateString = sectionTitles.last {
@@ -270,11 +270,11 @@ extension ChatingViewController {
     }
     
     //Sorting messages and create section as date wise.
-    func sortMessagesDateWise(messages : [Message]) {
+    func sortMessagesDateWise(_ messages : [Message]) {
         //sort all messages in ascending order
-        let sortedItems = messages.sort { (message1, message2) -> Bool in
-            let result = message1.date.compare(message2.date)
-            if result == .OrderedAscending || result == .OrderedSame {
+        let sortedItems = messages.sorted { (message1, message2) -> Bool in
+            let result = message1.date.compare(message2.date as Date)
+            if result == .orderedAscending || result == .orderedSame {
                 return true
             } else {
                 return false
@@ -291,7 +291,7 @@ extension ChatingViewController {
         }
         
         //
-        var sectionedItems = Array(count: sections.count, repeatedValue: [Message]())
+        var sectionedItems = Array(repeating: [Message](), count: sections.count)
         //Add items in sections
         
         for i in 0..<sections.count {

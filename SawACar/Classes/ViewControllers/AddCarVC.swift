@@ -44,17 +44,17 @@ class AddCarVC: ParentVC {
         // Dispose of any resources that can be recreated.
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(AddCarVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(AddCarVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(AddCarVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(AddCarVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
 
     func initializeYearPicker() {
-        let views = NSBundle.mainBundle().loadNibNamed("VPickerView", owner: nil, options: nil)
+        let views = Bundle.main.loadNibNamed("VPickerView", owner: nil, options: nil)
         yearPicker = views![0] as! VPickerView
         yearPicker.actionBlock = {[unowned self](action, value, idx) in
             self.lblProYear.text = value
@@ -63,15 +63,15 @@ class AddCarVC: ParentVC {
 
         }
         var years = [String]()
-        let str = dateFormator.stringFromDate(NSDate(), format: "yyyy")
-        for year in (1970...str.integerValue!).reverse() {
+        let str = dateFormator.stringFromDate(Date(), format: "yyyy")
+        for year in (1970...str.integerValue!).reversed() {
             years.append("\(year)")
         }
         yearPicker.Items = years
     }
     
     func setAccessoryViewForTextField()  {
-        let customViews = NSBundle.mainBundle().loadNibNamed("CustomViews", owner: nil, options: nil)
+        let customViews = Bundle.main.loadNibNamed("CustomViews", owner: nil, options: nil)
         let av = customViews![0] as! VKeyboardAccessoryView
         txtDetail.inputAccessoryView = av
         txtModel.inputAccessoryView = av
@@ -85,11 +85,11 @@ class AddCarVC: ParentVC {
     
     func setCarInfo() {
         if isEditMode {
-            imgVCar.setImageWithURL(NSURL(string: car.photo)!)
+            imgVCar.setImageWith(URL(string: car.photo)!)
             lblCompanyName.text = car.company?.name
             txtModel.text = car.model
             txtDetail.text = car.details
-            btnInsurance.selected = car.insurance
+            btnInsurance.isSelected = car.insurance
             lblSeatCount.text = car.seatCounter.value.ToString()
             lblColor.text = car.color?.name
             lblProYear.text = car.productionYear
@@ -98,14 +98,14 @@ class AddCarVC: ParentVC {
             lblColor.textColor = extraGrayColor
             lblSeatCount.textColor = extraGrayColor
             lblProYear.textColor = extraGrayColor
-            lblDetailPlaceHolder.hidden = !car.details.isEmpty
+            lblDetailPlaceHolder.isHidden = !car.details.isEmpty
         }
     }
 }
 
 //MARK: IBActions
 extension AddCarVC {
-    @IBAction func saveBtnClicked(sender: UIButton) {
+    @IBAction func saveBtnClicked(_ sender: UIButton) {
         let process = car.validateAddCarProcess()
         if process.isValid {
             isEditMode ? self.updateCarAPICall() : self.addCarAPICall()
@@ -114,31 +114,31 @@ extension AddCarVC {
         }
     }
     
-    @IBAction func carCompanyBtnClicked(sender: UIButton) {
+    @IBAction func carCompanyBtnClicked(_ sender: UIButton) {
         openCompanyListVC()
     }
     
-    @IBAction func carColorBtnClicked(sender: UIButton) {
+    @IBAction func carColorBtnClicked(_ sender: UIButton) {
         openColorListVC()
     }
 
-    @IBAction func insuranceCheckBoxBtnClicked(sender: UIButton) {
-        sender.selected = !sender.selected
-        car.insurance = sender.selected
+    @IBAction func insuranceCheckBoxBtnClicked(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        car.insurance = sender.isSelected
     }
     
-    @IBAction func seatCounterBtnClicked(sender: UIButton) {
+    @IBAction func seatCounterBtnClicked(_ sender: UIButton) {
         car.seatCounter.value += sender.tag == 1 ?  -1 :  1
         let counter = car.seatCounter
         if counter.value <= counter.min {
-            btnSeatCounterMinus.enabled = false
+            btnSeatCounterMinus.isEnabled = false
             car.seatCounter.value = counter.min
         } else if counter.value >= counter.max {
             car.seatCounter.value = counter.max
-            btnSeatCounterPlus.enabled = false
+            btnSeatCounterPlus.isEnabled = false
         } else {
-            btnSeatCounterPlus.enabled = true
-            btnSeatCounterMinus.enabled = true
+            btnSeatCounterPlus.isEnabled = true
+            btnSeatCounterMinus.isEnabled = true
             car.seatCounter.value = counter.value
         }
         
@@ -146,13 +146,13 @@ extension AddCarVC {
         lblSeatCount.textColor = extraGrayColor
     }
     
-    @IBAction func yearPickerbtnClicked(sender: UIButton) {
+    @IBAction func yearPickerbtnClicked(_ sender: UIButton) {
         self.view.endEditing(true)
         self.view.addSubview(yearPicker)
         yearPicker.showWithAnnimation()
     }
     
-    @IBAction func txtFieldDidChangeText(sender: UITextField) {
+    @IBAction func txtFieldDidChangeText(_ sender: UITextField) {
         if sender === txtModel {
             car.model = sender.text
         } else if sender === txtDetail {
@@ -162,7 +162,7 @@ extension AddCarVC {
         }
     }
     
-    @IBAction func carImageBtnClicked(sender: UIButton) {
+    @IBAction func carImageBtnClicked(_ sender: UIButton) {
         showActionForImagePick()
     }
     
@@ -171,19 +171,19 @@ extension AddCarVC {
 //MARK: UITextView Delegate
 extension AddCarVC: UITextViewDelegate {
 
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         if textView.text.characters.isEmpty {
-         lblDetailPlaceHolder.hidden = false
+         lblDetailPlaceHolder.isHidden = false
         } else {
-            lblDetailPlaceHolder.hidden = true
+            lblDetailPlaceHolder.isHidden = true
         }
         car.details = textView.text
     }
     
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        UIView.animateWithDuration(0.3) { 
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        UIView.animate(withDuration: 0.3, animations: { 
             self.tableView.contentOffset = CGPoint(x: 0, y: 200)
-        }
+        }) 
         return true
     }
 
@@ -192,14 +192,14 @@ extension AddCarVC: UITextViewDelegate {
 //MARK: Notifications
 extension AddCarVC {
     //Keyboard Notifications
-    func keyboardWillShow(nf: NSNotification)  {
+    func keyboardWillShow(_ nf: Notification)  {
         if let kbInfo = nf.userInfo {
-            let kbFrame = (kbInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let kbFrame = (kbInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             self.tableView.contentInset = UIEdgeInsetsMake(0, 0, kbFrame.size.height, 0)
         }
     }
     
-    func keyboardWillHide(nf: NSNotification)  {
+    func keyboardWillHide(_ nf: Notification)  {
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
     }
 }
@@ -210,42 +210,42 @@ extension AddCarVC : UIImagePickerControllerDelegate, UINavigationControllerDele
     //Show ActionSheet to Choose image for profile picture
     func showActionForImagePick() {
         self.view.endEditing(true)
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
-        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .Default) { (action) in
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction  = UIAlertAction(title: "cancel".localizedString(), style: .cancel, handler: nil)
+        let cameraActiton = UIAlertAction(title: "take_a_photo".localizedString(), style: .default) { (action) in
             self.openCamera()
         }
-        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .Default) { (action) in
+        let galleryAction = UIAlertAction(title: "choose_from_gallery".localizedString(), style: .default) { (action) in
             self.openGallery()
         }
         sheet.addAction(cameraActiton)
         sheet.addAction(galleryAction)
         sheet.addAction(cancelAction)
-        self.presentViewController(sheet, animated: true, completion: nil)
+        self.present(sheet, animated: true, completion: nil)
     }
     
     func openCamera()  {
         let iPicker = UIImagePickerController()
         iPicker.delegate = self
-        iPicker.sourceType = .Camera
+        iPicker.sourceType = .camera
         iPicker.allowsEditing = true
-        self.presentViewController(iPicker, animated: true, completion: nil)
+        self.present(iPicker, animated: true, completion: nil)
     }
     
     
     func openGallery()  {
         let iPicker = UIImagePickerController()
         iPicker.delegate = self
-        iPicker.sourceType = .PhotoLibrary
+        iPicker.sourceType = .photoLibrary
         iPicker.allowsEditing = true
-        self.presentViewController(iPicker, animated: true, completion: nil)
+        self.present(iPicker, animated: true, completion: nil)
         
     }
 
     //Image Picker delegate method
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         imgVCar.image = image
-        picker.dismissViewControllerAnimated(true , completion: nil)
+        picker.dismiss(animated: true , completion: nil)
     }
 }
 
@@ -253,8 +253,8 @@ extension AddCarVC : UIImagePickerControllerDelegate, UINavigationControllerDele
 extension AddCarVC {
     //navigate to select Car Company
     func openCompanyListVC()  {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.CarCompany
+        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.carCompany
         if let company = car.company {
             cListVC.preSelectedIDs = [company.Id]
         }
@@ -270,8 +270,8 @@ extension AddCarVC {
     }
     
     func openColorListVC()  {
-        let cListVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.Color
+        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        cListVC.listType = ListType.color
         if let color = car.color {
             cListVC.preSelectedIDs = [color.Id]
         }
@@ -304,13 +304,15 @@ extension AddCarVC {
                       "ProductionYear" : car.productionYear,
                       "Insurance" : car.insurance,
                       "Photo" : "",
-                      "PaletteNumber" : car.plateNumber]
+                      "PaletteNumber" : car.plateNumber] as [String : Any]
         
-        wsCall.addCar(params as! [String : AnyObject]) { (response, flag) in
+        wsCall.addCar(params) { (response, flag) in
             if response.isSuccess {
-                let carInfo = response.json!["Object"] as! [String : AnyObject]
-                self.car.setInfo(carInfo)
-                 self.addCarImageAPICall(self.car.id)
+                if let json = response.json as? [String : Any] {
+                    let carInfo = json["Object"] as! [String : Any]
+                    self.car.setInfo(carInfo)
+                    self.addCarImageAPICall(self.car.id)
+                }
             } else {
                 showToastErrorMessage("", message: response.message)
                 self.hideCentralGraySpinner()
@@ -318,16 +320,18 @@ extension AddCarVC {
         }
     }
     
-    func addCarImageAPICall(carid: String) {
+    func addCarImageAPICall(_ carid: String) {
         let carImageData = imgVCar.image!.mediumQualityJPEGNSData
         wsCall.updateCarImage(carImageData, carId: carid) { (response, flag) in
             self.hideCentralGraySpinner()
             if response.isSuccess {
-              let imageURL = response.json!["Object"] as! String
-                self.car.photo = kWSDomainURL + imageURL
-                showToastMessage("", message: "Car_Add_Success".localizedString())
-                self.completionBlock(self.car)
-                self.parentBackAction(nil)
+                if let json = response.json as? [String : Any] {
+                    let imageURL = json["Object"] as! String
+                    self.car.photo = kWSDomainURL + imageURL
+                    showToastMessage("", message: "Car_Add_Success".localizedString())
+                    self.completionBlock(self.car)
+                    self.parentBackAction(nil)
+                }
             } else  {
             }
         }
@@ -345,13 +349,15 @@ extension AddCarVC {
                       "ProductionYear" : car.productionYear,
                       "Insurance" : car.insurance,
                       "Photo" : "",
-                      "PaletteNumber" : "GJ 1212"]
+                      "PaletteNumber" : "GJ 1212"] as [String : Any]
         
-        wsCall.updateCar(params as! [String : AnyObject]) { (response, flag) in
+        wsCall.updateCar(params) { (response, flag) in
             if response.isSuccess {
-                let carInfo = response.json!["Object"] as! [String : AnyObject]
-                self.car.setInfo(carInfo)
-                self.addCarImageAPICall(self.car.id)
+                if let json = response.json as? [String : Any] {
+                    let carInfo = json["Object"] as! [String : Any]
+                    self.car.setInfo(carInfo)
+                    self.addCarImageAPICall(self.car.id)
+                }
             } else {
                 self.hideCentralGraySpinner()
             }

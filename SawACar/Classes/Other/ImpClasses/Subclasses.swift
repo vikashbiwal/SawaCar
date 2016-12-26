@@ -32,8 +32,8 @@ class GenericTableViewCell: ConstrainedTableViewCell {
 
 class PushWithoutAnimationSegue: UIStoryboardSegue {
     override func perform() {
-        let svc =  sourceViewController
-        svc.navigationController?.pushViewController(destinationViewController , animated: false)
+        let svc =  source
+        svc.navigationController?.pushViewController(destination , animated: false)
     }
 }
 
@@ -81,7 +81,7 @@ class RoundedLabel: UILabel {
 class RoundedLabelWithWidthRatio: UILabel {
     override func awakeFromNib() {
         super.awakeFromNib()
-        font = font.fontWithSize(font.pointSize * _widthRatio)
+        font = font.withSize(font.pointSize * _widthRatio)
         self.layer.cornerRadius = (self.bounds.size.height * _widthRatio ) / 2
         self.layer.masksToBounds = true
     }

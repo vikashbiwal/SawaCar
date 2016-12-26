@@ -29,16 +29,16 @@ class MyRidesVC: ParentVC {
     }
 
     //MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toRideDetailsSegue" {
-            let rideDetailVC = segue.destinationViewController as! TravelDetailVC
+            let rideDetailVC = segue.destination as! TravelDetailVC
             rideDetailVC.travel = sender as! Travel
         }
     }
     
     //func for navigation to archive rides screen
     func navigationToArchivedRides() {
-        let arVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_MyRidesVC") as! MyRidesVC
+        let arVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_MyRidesVC") as! MyRidesVC
         arVC.forArchivedRides = true
         self.navigationController?.pushViewController(arVC, animated: true)
     }
@@ -47,11 +47,11 @@ class MyRidesVC: ParentVC {
     func prepareUI() {
        // set back button's actions
         let iconName = forArchivedRides ? "ic_back_arrow" : "ic_menu"
-        backBtn.setImage(UIImage(named: iconName), forState: .Normal)
+        backBtn.setImage(UIImage(named: iconName), for: UIControlState())
         if  forArchivedRides {
-            backBtn.addTarget(self, action: #selector(self.parentBackAction(_:)), forControlEvents: .TouchUpInside)
+            backBtn.addTarget(self, action: #selector(self.parentBackAction(_:)), for: .touchUpInside)
         } else {
-            backBtn.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
+            backBtn.addTarget(self, action: #selector(self.shutterAction(_:)), for: .touchUpInside)
         }
         
         refreshControl = self.tableView.addRefreshControl(self, selector: #selector(self.getMyRidesAPICall))
@@ -64,7 +64,7 @@ class MyRidesVC: ParentVC {
 //MARK: IBActions
 extension MyRidesVC {
     
-    @IBAction func archivedRidesButtonClicked(sender: UIButton?) {
+    @IBAction func archivedRidesButtonClicked(_ sender: UIButton?) {
         self.navigationToArchivedRides()
     }
 }
@@ -72,37 +72,37 @@ extension MyRidesVC {
 //MARK: TableView DataSource and Delegate
 extension MyRidesVC : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return forArchivedRides ? myRides.count :  myRides.count + 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (indexPath.row == 0) && !forArchivedRides {//archivedRideCell
-            let cell = tableView.dequeueReusableCellWithIdentifier("archivedRideCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "archivedRideCell") as! TVGenericeCell
             return cell
         }
         let index = forArchivedRides ? indexPath.row : indexPath.row - 1
-        let cell = tableView.dequeueReusableCellWithIdentifier("travelCell") as! TVTravelCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "travelCell") as! TVTravelCell
         let ride = myRides[index]
         cell.setRideInfo(ride)
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath.row == 0) && !forArchivedRides {//archivedRideCell
             return 40 * _widthRatio
         }
         return 200 * _widthRatio
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.row == 0) && !forArchivedRides {//archivedRideCell
             return
         }
         let index = forArchivedRides ? indexPath.row : indexPath.row - 1
         let ride = myRides[index]
-        self.performSegueWithIdentifier("toRideDetailsSegue", sender: ride)
+        self.performSegue(withIdentifier: "toRideDetailsSegue", sender: ride)
     }
 }
 
@@ -115,24 +115,25 @@ extension MyRidesVC {
 
     //Get My Rides API Call
     func getMyRidesAPICall() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             showCentralGraySpinner()
         }
         let userid = me.Id
         
-        wsCall.getTravels(userid) { (response, flag) in
+        wsCall.getTravels(userid!) { (response, flag) in
             if response.isSuccess {
-                
-                if let arrRides = response.json!["Object"] as? [[String : AnyObject]] {
-                    if self.refreshControl.refreshing {
-                        self.myRides.removeAll()
+                if let json = response.json as? [String  :Any] {
+                    if let arrRides = json["Object"] as? [[String : AnyObject]] {
+                        if self.refreshControl.isRefreshing {
+                            self.myRides.removeAll()
+                        }
+                        for json in arrRides {
+                            let ride = Travel(json)
+                            self.myRides.append(ride)
+                        }
                     }
-                    for json in arrRides {
-                        let ride = Travel(json)
-                        self.myRides.append(ride)
-                    }
+                    
                 }
-                
                 self.myRides.isEmpty ? self.showEmptyDataView("kMyRidesNotAvailable".localizedString(), frame: CGRect(x: 0, y: 120, width: _screenSize.width, height: 40)) : self.emptyDataView.hide()
                 self.tableView.reloadData()
             } else {
@@ -145,21 +146,22 @@ extension MyRidesVC {
     
     //Get My Rides API Call
     func getArchivedRidesAPICall() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             showCentralGraySpinner()
         }
         let userid = me.Id
         
-        wsCall.getArchivedTravels(userid) { (response, flag) in
+        wsCall.getArchivedTravels(userid!) { (response, flag) in
             if response.isSuccess {
-                
-                if let arrRides = response.json!["Object"] as? [[String : AnyObject]] {
-                    if self.refreshControl.refreshing {
-                        self.myRides.removeAll()
-                    }
-                    for json in arrRides {
-                        let ride = Travel(json)
-                        self.myRides.append(ride)
+                if let json = response.json as? [String  :Any] {
+                    if let arrRides = json["Object"] as? [[String : AnyObject]] {
+                        if self.refreshControl.isRefreshing {
+                            self.myRides.removeAll()
+                        }
+                        for json in arrRides {
+                            let ride = Travel(json)
+                            self.myRides.append(ride)
+                        }
                     }
                 }
                 

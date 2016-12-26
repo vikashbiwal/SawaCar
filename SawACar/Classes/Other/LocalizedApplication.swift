@@ -10,19 +10,19 @@ import UIKit
 import Foundation
 
 class LocalizedApplication: UIApplication {
-    override func sendEvent(event: UIEvent) {
+    override func sendEvent(_ event: UIEvent) {
         super.sendEvent(event)
         // ... dispatch the message...
     }
     
     override internal var userInterfaceLayoutDirection: UIUserInterfaceLayoutDirection {
         get {
-            let currentLang = NSLocale.preferredLanguages()[0]
+            let currentLang = Locale.preferredLanguages[0]
             //print(currentLang)
             if currentLang.hasPrefix("ar") {
-                return UIUserInterfaceLayoutDirection.RightToLeft;
+                return UIUserInterfaceLayoutDirection.rightToLeft;
             } else {
-                return UIUserInterfaceLayoutDirection.LeftToRight;
+                return UIUserInterfaceLayoutDirection.leftToRight;
             }
         }
     }

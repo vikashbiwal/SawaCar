@@ -25,7 +25,7 @@ class AlertsViewController: ParentVC {
     
     func prepareUI() {
         self.initEmptyDataView()
-        if me.userMode == .Driver {
+        if me.userMode == .driver {
             refreshControl = self.tableView.addRefreshControl(self, selector:  #selector(self.getAlertsForDriverAPICall))
             self.getAlertsForDriverAPICall()
 
@@ -37,8 +37,8 @@ class AlertsViewController: ParentVC {
     
     //MARK: Navigation
     //This func invoke when passenger clicked on view matching button.
-    func navigateToRideSearch(alert: Alert) {
-        let findTravelVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_FindRideResultVC") as! FindRideResultVC
+    func navigateToRideSearch(_ alert: Alert) {
+        let findTravelVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_FindRideResultVC") as! FindRideResultVC
         
         let searchResultObj = RideSearchObject()
         searchResultObj.locationFrom = alert.locationFrom
@@ -50,8 +50,8 @@ class AlertsViewController: ParentVC {
     }
     
     //This func invoke when driver clicked on view matching button
-    func navigateToRideRequestSearch(alert: Alert) {
-        let requestSearchVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_DRideQuestsVC") as! DRideRequestsListVC
+    func navigateToRideRequestSearch(_ alert: Alert) {
+        let requestSearchVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_DRideQuestsVC") as! DRideRequestsListVC
        
         let searchObj = RideRequestSearchObject()
         searchObj.countryId = alert.countryId
@@ -72,14 +72,14 @@ class AlertsViewController: ParentVC {
 //MARK: Tableview DataSource
 extension AlertsViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return alerts.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("travelAlertCell") as! AlertCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "travelAlertCell") as! AlertCell
         let alert = alerts[indexPath.row]
-        if me.userMode == .Driver {
+        if me.userMode == .driver {
             cell.setInfo(forTravelRequest: alert, index: indexPath.row)
         } else {
             cell.setInfo(forTravel: alert, index: indexPath.row)
@@ -87,11 +87,11 @@ extension AlertsViewController : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
@@ -101,9 +101,9 @@ extension AlertsViewController : UITableViewDataSource, UITableViewDelegate {
 extension AlertsViewController{
     
     //navigateTo view matching travels
-    @IBAction func viewMatchingBtnClicked(sender: UIButton) {
+    @IBAction func viewMatchingBtnClicked(_ sender: UIButton) {
         let alert = alerts[sender.tag]
-        me.userMode == .Driver ? navigateToRideRequestSearch(alert) : navigateToRideSearch(alert)
+        me.userMode == .driver ? navigateToRideRequestSearch(alert) : navigateToRideSearch(alert)
     }
 }
 
@@ -112,12 +112,12 @@ extension AlertsViewController {
     
     //Get alerts for passenger
     func getAlertsForPassengerAPICall() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             self.showCentralGraySpinner()
         }
         wsCall.getAlerts(forPassenger: me.Id) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
+                if let json = response.json as? [String : Any] {
                     if let objects = json["Object"] as? [[String : AnyObject]] {
                         self.alerts.removeAll()
                         for object in objects {
@@ -139,13 +139,13 @@ extension AlertsViewController {
     
     //Get alerts for passenger
     func getAlertsForDriverAPICall() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             self.showCentralGraySpinner()
         }
         wsCall.getAlerts(forDriver: me.Id) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let objects = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let objects = json["Object"] as? [[String : Any]] {
                         self.alerts.removeAll()
                         for object in objects {
                             let alert = Alert(object)
@@ -178,7 +178,7 @@ class AlertCell: TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView?.layer.cornerRadius = 5 * _widthRatio
-        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().cgColor
         cardView?.layer.borderWidth = 2.0
     }
     
@@ -186,7 +186,7 @@ class AlertCell: TVGenericeCell {
     func setInfo(forTravel alert: Alert, index: Int) {
         lblTitle.text = alert.locationFrom
         lblSubTitle.text = alert.locationTo
-        switchBtn.on = alert.activated
+        switchBtn.isOn = alert.activated
         viewMatchingBtn.tag = index
         switchBtn.tag = index
         notificationBtn.tag = index
@@ -198,7 +198,7 @@ class AlertCell: TVGenericeCell {
     func setInfo(forTravelRequest alert: Alert, index: Int) {
         lblTitle.text = alert.countryName
         lblSubTitle.text = alert.travelTypeName
-        switchBtn.on = alert.activated
+        switchBtn.isOn = alert.activated
         viewMatchingBtn.tag = index
         switchBtn.tag = index
         notificationBtn.tag = index

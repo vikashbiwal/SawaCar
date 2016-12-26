@@ -12,16 +12,16 @@ import Foundation
 class Booking {
     
     enum  BookingStatus: Int {
-        case Pending = 1, Approve, Reject, Cancel
+        case pending = 1, approve, reject, cancel
         
         func color()-> UIColor {
             switch self {
-            case .Pending:
+            case .pending:
                 return UIColor.scHeaderColor()
-            case .Approve:
-                return UIColor.greenColor()
-            case .Cancel, .Reject:
-                return UIColor.redColor()
+            case .approve:
+                return UIColor.green
+            case .cancel, .reject:
+                return UIColor.red
             }
         }
     }
@@ -35,11 +35,11 @@ class Booking {
     var locationFrom: String!
     var locationTo: String!
     
-    var status : BookingStatus = BookingStatus.Pending
+    var status : BookingStatus = BookingStatus.pending
     var allCar : Bool
-    var date: NSDate!
+    var date: Date!
     
-    init(_ info : [String : AnyObject]) {
+    init(_ info : [String : Any]) {
         id = RConverter.string(info["BookingID"])
         travelId = RConverter.string(info["TravelID"])
         seats = RConverter.string(info["Seats"])
@@ -57,7 +57,7 @@ class Booking {
     }
     
     //reset info whenever change
-    func resetInfo(info: [String : AnyObject]) {
+    func resetInfo(_ info: [String : Any]) {
         id = RConverter.string(info["BookingID"])
         travelId = RConverter.string(info["TravelID"])
         seats = RConverter.string(info["Seats"])
@@ -80,17 +80,17 @@ class Booking {
 extension Booking {
     
     //Cancel Api call
-    func cancelAPICall(block: WSBlock) {
+    func cancelAPICall(_ block: @escaping WSBlock) {
         wsCall.cancelBooking(self.id, block: block)
     }
     
     //Approve booking Api call
-    func approveAPICall(block: WSBlock) {
+    func approveAPICall(_ block: @escaping WSBlock) {
         wsCall.approveBooking(self.id, block: block)
     }
     
     //Decline booking Api call
-    func rejectAPICall(block: WSBlock) {
+    func rejectAPICall(_ block: @escaping WSBlock) {
         wsCall.declineBooking(self.id, block: block)
     }
 }

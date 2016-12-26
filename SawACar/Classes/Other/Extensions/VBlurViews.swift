@@ -13,14 +13,14 @@ class VBlurView: ConstrainedView {
     @IBInspectable var cornerRadius: CGFloat = 0.0
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+        self.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //always fill the view
         blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubview(toBack: blurEffectView)
         
         self.layer.cornerRadius = cornerRadius * _widthRatio
         self.clipsToBounds = true
@@ -32,14 +32,14 @@ class VBlurView: ConstrainedView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+        self.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //always fill the view
         blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubview(toBack: blurEffectView)
         
         self.layer.cornerRadius = cornerRadius * _widthRatio
         self.clipsToBounds = true
@@ -51,14 +51,14 @@ class VBlurViewLight: ConstrainedView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        self.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //always fill the view
         blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubview(toBack: blurEffectView)
         
         self.layer.cornerRadius = cornerRadius * _widthRatio
         self.clipsToBounds = true
@@ -70,14 +70,14 @@ class VBlurViewLight: ConstrainedView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        self.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //always fill the view
         blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubview(toBack: blurEffectView)
         
         self.layer.cornerRadius = cornerRadius * _widthRatio
         self.clipsToBounds = true
@@ -92,14 +92,14 @@ class VBlurViewDark: ConstrainedView {
    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Dark)
+        self.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //always fill the view
         blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubview(toBack: blurEffectView)
         
         self.layer.cornerRadius = cornerRadius * _widthRatio
         self.clipsToBounds = true
@@ -111,14 +111,14 @@ class VBlurViewDark: ConstrainedView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor.clearColor()
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Dark)
+        self.backgroundColor = UIColor.clear
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         //always fill the view
         blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(blurEffectView)
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubview(toBack: blurEffectView)
         
         self.layer.cornerRadius = cornerRadius * _widthRatio
         self.clipsToBounds = true

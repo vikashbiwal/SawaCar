@@ -14,7 +14,7 @@ class LoginVC: ParentVC {
     
     @IBOutlet var txtEmail: UITextField!
     @IBOutlet var txtpassword: UITextField!
-    let user: User = {return User()}()
+    lazy var user: LoggedInUser = {return LoggedInUser()}()
     var profileImage : UIImage?
     
 
@@ -23,19 +23,19 @@ class LoginVC: ParentVC {
 
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(SignUpVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
 
         _defaultCenter.removeObserver(self)
     }
    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .Default
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .default
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,15 +54,15 @@ class LoginVC: ParentVC {
 
 //MARK: IBActions
 extension LoginVC {
-    @IBAction func signUpBtnClicked(sender: UIButton?) {
-        self.performSegueWithIdentifier("SBSegue_SignUP", sender: nil)
+    @IBAction func signUpBtnClicked(_ sender: UIButton?) {
+        self.performSegue(withIdentifier: "SBSegue_SignUP", sender: nil)
     }
     
-    @IBAction func loginBtnclicked(sender: UIButton?) {
+    @IBAction func loginBtnclicked(_ sender: UIButton?) {
         self.loginWithEmailWS()
     }
     
-    @IBAction func loginWithFacebookBtnClicked(sender: UIButton?) {
+    @IBAction func loginWithFacebookBtnClicked(_ sender: UIButton?) {
         self.loginWithFacebook()
     }
 }
@@ -71,14 +71,14 @@ extension LoginVC {
 //MARK: Notifications
 extension LoginVC {
     //Keyboard Notifications
-    func keyboardWillShow(nf: NSNotification)  {
+    func keyboardWillShow(_ nf: Notification)  {
         let userinfo = nf.userInfo!
-        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:keyboarFrame.size.height , right: 0)
         }
     }
     
-    func keyboardWillHide(nf: NSNotification)  {
+    func keyboardWillHide(_ nf: Notification)  {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:0 , right: 0)
     }
     
@@ -86,7 +86,7 @@ extension LoginVC {
 
 //MARK: UITextfield delegate
 extension LoginVC {
-    override func textFieldShouldReturn(textField: UITextField) -> Bool {
+    override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField === txtEmail {
             txtpassword.becomeFirstResponder()
         } else {
@@ -116,7 +116,7 @@ extension LoginVC {
                         if let info = json as? [String : AnyObject] {
                             let access_token = info["access_token"] as! String
                             wsCall.addAccesTokenToHeader(access_token) //set the access token to api request header
-                            archiveObject(info, key: kAuthorizationInfoKey)
+                            archiveObject(info as AnyObject, key: kAuthorizationInfoKey)
                             self.resetInput()
                             self.getMyInfoAPICall()
                             
@@ -138,12 +138,13 @@ extension LoginVC {
     //Get user's profile info
     func getMyInfoAPICall() {
         self.showCentralGraySpinner()
-        wsCall.getLoggedInUserInfo { (response, flag) in
+        
+        user.getInfo { (response, flag) in
             if response.isSuccess {
                 if let json = response.json as? [String : AnyObject] {
-                    me = User(info: json)
-                    archiveObject(json, key: kLoggedInUserKey)
-                    self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
+                    me = LoggedInUser(info: json)
+                    archiveObject(json as AnyObject, key: kLoggedInUserKey)
+                    self.performSegue(withIdentifier: "SBSegueToUserType", sender: nil)
                 }
                 
             } else {
@@ -158,17 +159,17 @@ extension LoginVC {
         self.showCentralGraySpinner()
         let fbManager = FBSDKLoginManager()
         fbManager.logOut()
-        fbManager.logInWithReadPermissions(_fbLoginReadPermissions, fromViewController: self) { (result, error) in
+        fbManager.logIn(withReadPermissions: _fbLoginReadPermissions, from: self) { (result, error) in
             if let  _ =  error {
                 //login error
                 self.hideCentralGraySpinner()
-            } else if result.isCancelled {
+            } else if (result?.isCancelled)! {
                 //cancel
                 self.hideCentralGraySpinner()
             } else {
                 //succes
                 let request = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : _fbUserInfoRequestParam])
-                request.startWithCompletionHandler({ (con, result, error) in
+                _ = request?.start(completionHandler: { (con, result, error) in
                     if let _ = error {
                         self.hideCentralGraySpinner()
                     }
@@ -193,32 +194,31 @@ extension LoginVC {
     
     
     
-    func loginWithFacebookWSCall(fbInfo : [String : AnyObject])  {
+    func loginWithFacebookWSCall(_ fbInfo : [String : AnyObject])  {
         print(fbInfo)
         let gender = fbInfo["gender"] as! String == "male" ? true : false
-        let params: [String : AnyObject] = ["FacebookID" : fbInfo["id"] as! String,
-                                            "Email" : fbInfo["email"] as! String,
-                                            "FirstName" : fbInfo["first_name"] as! String,
-                                            "LastName" : fbInfo["last_name"] as! String,
-                                            "Gender" : gender,
-                                            "FCMToken": _FCMToken]
+        let params: [String : AnyObject] = ["FacebookID" : fbInfo["id"] as! String as AnyObject,
+                                            "Email" : fbInfo["email"] as! String as AnyObject,
+                                            "FirstName" : fbInfo["first_name"] as! String as AnyObject,
+                                            "LastName" : fbInfo["last_name"] as! String as AnyObject,
+                                            "Gender" : gender as AnyObject,
+                                            "FCMToken": _FCMToken as AnyObject]
         
         wsCall.loginWithFacebook(params) { (response, statusCode) in
             if response.isSuccess {
-                if let json = response.json {
-                    var info = json["Object"] as! [String : AnyObject]
-                    me = User(info: info)
+                if let json = response.json as? [String : Any] {
+                    me = LoggedInUser(info: json)
                     //Navigate to home
-                    if let image  = self.profileImage {
-                        self.showCentralGraySpinner()
-                        me.updateProfileImage(image.mediumQualityJPEGNSData, block: {(path) in
-                            self.hideCentralGraySpinner()
-                            info["Photo"] = path ?? ""
-                            archiveObject(info, key: kLoggedInUserKey)
-                            self.performSegueWithIdentifier("SBSegueToUserType", sender: nil)
-                        })
+                    if let _  = self.profileImage {
+                        //self.showCentralGraySpinner()
+//                        me.updateProfileImage(image.mediumQualityJPEGNSData, block: {(path) in
+//                            self.hideCentralGraySpinner()
+//                            init["Photo"] = path  ?? ""
+//                            archiveObject(info , key: kLoggedInUserKey)
+//                            self.performSegue(withIdentifier: "SBSegueToUserType", sender: nil)
+//                        })
                     }
-                    archiveObject(info, key: kLoggedInUserKey)
+                    //archiveObject(info , key: kLoggedInUserKey)
                 } else {
                     showToastErrorMessage("", message: response.message)
                 }
@@ -230,9 +230,9 @@ extension LoginVC {
     }
     
     //Download Facebook Profile Image to store in SawACar api.
-    func donwloadFbProfileImage(url: String) {
-        if let url = NSURL(string:  url) {
-            if let imgdata = NSData(contentsOfURL: url) {
+    func donwloadFbProfileImage(_ url: String) {
+        if let url = URL(string:  url) {
+            if let imgdata = try? Data(contentsOf: url) {
                 if let img = UIImage(data: imgdata) {
                     self.profileImage = img
                 }

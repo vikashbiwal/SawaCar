@@ -17,69 +17,69 @@ class VAuthorization {
 
 //MARK: Camera and Photo Libarary Authorization Status
 extension VAuthorization {
-    class func checkAuthorizationStatusForPhotoLibarary(block: (Bool) -> Void) {
+    class func checkAuthorizationStatusForPhotoLibarary(_ block: @escaping (Bool) -> Void) {
         let status = PHPhotoLibrary.authorizationStatus();
         
-        if status == PHAuthorizationStatus.Authorized {
+        if status == PHAuthorizationStatus.authorized {
             // Access has been granted.
             block(true)
-        } else if (status == PHAuthorizationStatus.Denied) {
+        } else if (status == PHAuthorizationStatus.denied) {
             // Access has been denied.
             block(false)
-        } else if (status == PHAuthorizationStatus.NotDetermined) {
+        } else if (status == PHAuthorizationStatus.notDetermined) {
             // Access has not been determined.
             PHPhotoLibrary.requestAuthorization({ (status) in
-                if status == .Authorized {
+                if status == .authorized {
                     // Access has been granted.
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         block(true)
                     })
 
                 } else {
                     // Access has been denied.
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         block(false)
                     })
                 }
             })
-        } else if status == .Restricted {
+        } else if status == .restricted {
             // Restricted access - normally won't happen.
             block(false)
         }
     }
     
-    class func checkAuthorizationStatusForCamera(block: (Bool) -> Void) {
+    class func checkAuthorizationStatusForCamera(_ block: @escaping (Bool) -> Void) {
         let cameraMediaType = AVMediaTypeVideo
-        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatusForMediaType(cameraMediaType)
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: cameraMediaType)
         
         switch cameraAuthorizationStatus {
             
         // The client is authorized to access the hardware supporting a media type.
-        case .Authorized:
+        case .authorized:
             block(true)
             break
             
             // The client is not authorized to access the hardware for the media type. The user cannot change
         // the client's status, possibly due to active restrictions such as parental controls being in place.
-        case .Restricted:
+        case .restricted:
             block(false)
             break
             
         // The user explicitly denied access to the hardware supporting a media type for the client.
-        case .Denied:
+        case .denied:
             block(false)
             break
             
         // Indicates that the user has not yet made a choice regarding whether the client can access the hardware.
-        case .NotDetermined:
+        case .notDetermined:
             // Prompting user for the permission to use the camera.
-            AVCaptureDevice.requestAccessForMediaType(cameraMediaType) { granted in
+            AVCaptureDevice.requestAccess(forMediaType: cameraMediaType) { granted in
                 if granted {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         block(true)
                     })
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         block(false)
                     })
                 }
@@ -89,69 +89,69 @@ extension VAuthorization {
         
     }
     
-    class func showCameraAccessDeniedAlert(inVC : UIViewController) {
-        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your camera. To enable access go to: device's Settings > Privacy > Camera.", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let SettingAction = UIAlertAction(title: "Settings", style: .Destructive, handler: { (action) in
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+    class func showCameraAccessDeniedAlert(_ inVC : UIViewController) {
+        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your camera. To enable access go to: device's Settings > Privacy > Camera.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let SettingAction = UIAlertAction(title: "Settings", style: .destructive, handler: { (action) in
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
         })
         alert.addAction(cancelAction)
         alert.addAction(SettingAction)
-        inVC.presentViewController(alert, animated: true, completion: nil)
+        inVC.present(alert, animated: true, completion: nil)
     }
     
-    class func showPhotosAccessDeniedAlert(inVC : UIViewController) {
-        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your photos or videos. To enable access go to: device's Settings > Privacy > Photos.", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let SettingAction = UIAlertAction(title: "Settings", style: .Destructive, handler: { (action) in
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+    class func showPhotosAccessDeniedAlert(_ inVC : UIViewController) {
+        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your photos or videos. To enable access go to: device's Settings > Privacy > Photos.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let SettingAction = UIAlertAction(title: "Settings", style: .destructive, handler: { (action) in
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
         })
         alert.addAction(cancelAction)
         alert.addAction(SettingAction)
-        inVC.presentViewController(alert, animated: true, completion: nil)
+        inVC.present(alert, animated: true, completion: nil)
     }
 
 }
 
 //MARK: Authorization Status for Contacts
 extension VAuthorization {
-    class func checkAuthorizationStatusForConatacts(block: (Bool) -> Void) {
+    class func checkAuthorizationStatusForConatacts(_ block: @escaping (Bool) -> Void) {
         let status = ABAddressBookGetAuthorizationStatus()
         switch status {
-        case .Authorized:
+        case .authorized:
             block(true)
             break
-        case .Restricted:
+        case .restricted:
             block(false)
             break
-        case .Denied:
+        case .denied:
             block(false)
             break
-        case .NotDetermined:
-            ABAddressBookRequestAccessWithCompletion(nil) { (granted:Bool, err:CFError!) in
-                dispatch_async(dispatch_get_main_queue()) {
-                    if granted {
-                        // Access has been granted.
-                        block(true)
-                    } else {
-                        // Access has been denied.
-                        block(false)
-                    }
-                }
-            }
+        case .notDetermined:
+//            ABAddressBookRequestAccessWithCompletion(nil) { (granted:Bool, err:CFError!) in
+//                DispatchQueue.main.async {
+//                    if granted {
+//                        // Access has been granted.
+//                        block(true)
+//                    } else {
+//                        // Access has been denied.
+//                        block(false)
+//                    }
+//                }
+//            }
             break
         }
     }
     
-    class func showContactsAccessDeniedAlert(inVC : UIViewController) {
-        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your contacts. To enable access go to: device's Settings > Privacy > Contacts.", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let SettingAction = UIAlertAction(title: "Settings", style: .Destructive, handler: { (action) in
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+    class func showContactsAccessDeniedAlert(_ inVC : UIViewController) {
+        let alert = UIAlertController(title: nil, message: "SawACar does not have access to your contacts. To enable access go to: device's Settings > Privacy > Contacts.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let SettingAction = UIAlertAction(title: "Settings", style: .destructive, handler: { (action) in
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
         })
         alert.addAction(cancelAction)
         alert.addAction(SettingAction)
-        inVC.presentViewController(alert, animated: true, completion: nil)
+        inVC.present(alert, animated: true, completion: nil)
     }
     
 

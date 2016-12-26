@@ -10,7 +10,7 @@ import UIKit
 
 //MARK: Enum for Mode of user in Application
 enum UserMode: Int {
-    case Driver, Passenger
+    case driver, passenger
 }
 
 //MARK: User
@@ -43,10 +43,6 @@ class User :NSObject,  NSCopying {
     var nationality: Country!
     var accountType: AccountType!
     
-    var password    : String! = ""
-    var confPass    : String! = ""
-    var oldPassword : String! = ""
-    var userMode    : UserMode = .Passenger //Default mode.
     
     var EmailVerifiedString : String { get {return self.isEmailVerified ? "Verified" : "Not Verified"}}
     var MobileVerifiedString: String {get {return self.isMobileVerified ? "Verified" : "Not Verified"}}
@@ -76,7 +72,7 @@ class User :NSObject,  NSCopying {
     }
     
     // inialize user from json got from server
-    init(info: [String : AnyObject]) {
+    init(info: [String : Any]) {
         Id                = RConverter.string(info["ID"])
         firstname         = RConverter.string(info["FirstName"])
         lastname          = RConverter.string(info["LastName"])
@@ -115,7 +111,7 @@ class User :NSObject,  NSCopying {
     }
     
     // update user info after successfully updated from server.
-    func resetUserInfo(info: [String : AnyObject]) {
+    func resetUserInfo(_ info: [String : Any]) {
         Id                = RConverter.string(info["ID"])
         firstname         = RConverter.string(info["FirstName"])
         lastname          = RConverter.string(info["LastName"])
@@ -154,7 +150,7 @@ class User :NSObject,  NSCopying {
     
     
     //MARK: Conform NSCoying Protocol
-    func copyWithZone(zone: NSZone) -> AnyObject {
+    func copy(with zone: NSZone?) -> Any {
         let copy = User()
         copy.Id = self.Id
         copy.firstname = self.firstname
@@ -197,52 +193,119 @@ class User :NSObject,  NSCopying {
 
 }
 
+//MARK: Logged in User
+final class LoggedInUser: User {
+    var password    : String! = ""
+    var confPass    : String! = ""
+    var oldPassword : String! = ""
+    var userMode    : UserMode = .passenger //Default mode.
+   
+    //MARK: Conform NSCoying Protocol
+    override func copy(with zone: NSZone?) -> Any {
+        let copy = LoggedInUser()
+        copy.Id = self.Id
+        copy.firstname = self.firstname
+        copy.lastname = self.lastname
+        copy.fullname = self.fullname
+        copy.gender = self.gender
+        copy.bio = self.bio
+        copy.email = self.email
+        copy.mobile = self.mobile
+        copy.mobileCountryCode = self.mobileCountryCode
+        copy.language = self.language
+        copy.photo = self.photo
+        copy.isMobileVerified = self.isMobileVerified
+        copy.isEmailVerified = self.isEmailVerified
+        copy.isTermsAccepted = self.isTermsAccepted
+        copy.isFacebookVerified = self.isFacebookVerified
+        copy.rating = self.rating
+        copy.numberOfTravels = self.numberOfTravels
+        copy.numberOfContacts = self.numberOfContacts
+        copy.birthDate = self.birthDate
+        copy.createDate = self.createDate
+        copy.lastLoginTime = self.lastLoginTime
+        copy.preference = self.preference
+        copy.social = self.social
+        copy.country = self.country
+        copy.nationality = self.nationality
+        copy.accountType = self.accountType
+        return copy
+    }
+
+}
+
 //MARK: User WS Actions like - Login, Sign up, update profile
-extension User {
+extension LoggedInUser {
     //MARK: SignUP
-    func singUp(block: WSBlock) {
+    func singUp(_ block: @escaping WSBlock) {
         wsCall.signUp(singUpParameters(), block: block)
     }
     
     //MARK: Login
-    func login(block: WSBlock) {
+    func login(_ block:@escaping WSBlock) {
         wsCall.login(loginParameters(), block: block)
     }
     
+    //MARK: GetMy Info
+    func getInfo(_ block:@escaping WSBlock) {
+       wsCall.getLoggedInUserInfo(block)
+    }
+    
     //MARK: Refresh Access_token
-    func refreshAccessToken(block: WSBlock) {
-        wsCall.login(refreshTokenParameters(), block: block)
+    func refreshAccessToken(_ block: @escaping (Bool)->Void) {
+        wsCall.login(refreshTokenParameters()) { (response, flag) in
+            if response.isSuccess {
+                if let json = response.json {
+                    if let info = json as? [String : Any] {
+                        let access_token = info["access_token"] as! String
+                        wsCall.addAccesTokenToHeader(access_token) //set the access token to api request header
+                        archiveObject(info, key: kAuthorizationInfoKey)
+                        block(true)
+                    } else {
+                        showToastErrorMessage("Login Error", message: response.message)
+                        block(false)
+                    }
+                } else {
+                    showToastErrorMessage("Login Error", message: response.message)
+                    block(false)
+                }
+                
+            } else {
+                block(false)
+                showToastErrorMessage("Login Error", message: response.message)
+            }
+        }
     }
 
     //MARK: user update Profile information
-    func updateProfileInfo(block: WSBlock) {
+    func updateProfileInfo(_ block:@escaping WSBlock) {
         wsCall.updateUserInformation(updateProfileInfoParams(), block: block)
     }
     
     //MARK: user update Social information
-    func updateSocialInfo(block: WSBlock) {
+    func updateSocialInfo(_ block:@escaping WSBlock) {
         wsCall.updateSocialInfo(updateSocialInfoParams(), block: block)
     }
     
     //MARK: user update User Preference
-    func updateUserPreference(block: WSBlock) {
+    func updateUserPreference(_ block:@escaping WSBlock) {
         wsCall.updateUserPreference(updateUserPreferenceParams(), block: block)
     }
 
 
     //MARK: updateProfile image of user
-    func updateProfileImage(imgData: NSData, block: ((String?)-> Void)?)  {
+    func updateProfileImage(_ imgData: Data, block: @escaping (String?)-> Void)  {
         wsCall.uploadProfileImage(forUpdate: imgData) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
+                if let json = response.json as? [String : Any] {
                     let imgName = json["PhotoPath"] as! String
                     self.photo = kWSDomainURL + imgName
-                    block?(imgName)
+                    block(imgName)
                 } else {
-                    block?(nil)
+                    block(nil)
                 }
             } else {
-                block?(nil)
+                block(nil)
             }
         }
     }
@@ -262,7 +325,7 @@ extension User {
                       "PhoneNumber"    : mobile,
                       "FCMToken"       : _FCMToken,
                       "Photo"          : photo]
-        return params
+        return params as [String : AnyObject]
     }
     
     //Login Params
@@ -301,11 +364,11 @@ extension User {
                       "LivingCountryID"       : country.Id,
                       "Bio"             : bio,
                       "AccountTypeID"   : accountType.Id]
-        return params 
+        return params as [String : AnyObject] 
     }
     
     //Update Social Links Pramas
-    func updateSocialInfoParams()-> [String : AnyObject] {
+    func updateSocialInfoParams()-> [String : Any] {
          let params = ["UserID"         : Id,
                        "Whatsapp"       : social.Whatsapp,
                        "Viber"          : social.Viber,
@@ -316,33 +379,37 @@ extension User {
                        "Twitter"        : social.Twitter,
                        "Snapchat"       : social.Snapchat,
                        "Instagram"      : social.Instagram]
-        return params
+        return params as [String : Any]
     }
     
     //Update user preference params
-    func updateUserPreferenceParams() -> [String : AnyObject] {
-        let params = ["UserID"                  : Id,
-                      "PreferencesShowMobile"   : preference.showMobile,
-                      "PreferencesShowEmail"    : preference.showEmail,
-                      "PreferencesSmoking"      : preference.smoking,
-                      "PreferencesMusic"        : preference.music,
-                      "PreferencesFood"         : preference.food,
-                      "PreferencesKids"         : preference.kids,
-                      "PreferencesPets"         : preference.pets,
-                      "PreferencesPrayingStop"  : preference.prayingStop,
-                      "PreferencesQuran"        : preference.quran]
-        //"DefaultLanguage"         : preference.communicationLanguage,
-        //"SpokenLanguages"         : preference.speackingLanguage]
-//        "IsMonitoringAccepted"    : preference.acceptMonitring,
-//        "IsTravelRequestReceiver" : preference.IsTravelRequestReceiver,
-//        "IsVisibleInSearch"       : preference.visibleInSearch,
-
-        return params as! [String : AnyObject]
+    func updateUserPreferenceParams() -> [String : Any] {
+        var params: [String : Any] = ["UserID"                  : Id ,
+                                            "PreferencesShowMobile"   : preference.showMobile   ? "true" : "false" ,
+                                            "PreferencesShowEmail"    : preference.showEmail    ? "true" : "false",
+                                            "PreferencesSmoking"      : preference.smoking      ? "true" : "false",
+                                            "PreferencesMusic"        : preference.music        ? "true" : "false",
+                                            "PreferencesFood"         : preference.food         ? "true" : "false",
+                                            "PreferencesKids"         : preference.kids         ? "true" : "false",
+                                            "PreferencesPets"         : preference.pets         ? "true" : "false",
+                                            "PreferencesPrayingStop"  : preference.prayingStop  ? "true" : "false",
+                                            "PreferencesQuran"        : preference.quran        ? "true" : "false"]
+        
+        let spokenLangIds = preference.speakingLanguages.map { (lang) -> String in
+            return lang.id
+        }
+        params["LanguageID"] = preference.defaultLanguage?.id  ?? ""
+        params["SpokenLanguages"] = spokenLangIds
+        //        "IsMonitoringAccepted"    : preference.acceptMonitring,
+        //        "IsTravelRequestReceiver" : preference.IsTravelRequestReceiver,
+        //        "IsVisibleInSearch"       : preference.visibleInSearch,
+        
+        return params
     }
 }
 
 //MARK: Validation for user Registration, login, Edit user
-extension User {
+extension LoggedInUser {
     //MARK: Signup validation
     //Validate Personal Info
     func validatePersonalInfo() -> (isValid :Bool, message: String) {
@@ -524,7 +591,7 @@ struct UserPreference {
      //Default initializer
     }
     
-    init(info: [String : AnyObject]) {
+    init(info: [String : Any]) {
         showEmail       = RConverter.boolean(info["PreferencesShowEmail"])
         showMobile      = RConverter.boolean(info["PreferencesShowMobile"])
         visibleInSearch = RConverter.boolean(info["IsVisibleInSearch"])
@@ -577,7 +644,7 @@ struct UserSocial {
          Instagram   = ""
     }
     
-    init(info: [String : AnyObject]) {
+    init(info: [String : Any]) {
         Whatsapp    = RConverter.string(info["Whatsapp"])
         Viber       = RConverter.string(info["Viber"])
         Line        = RConverter.string(info["Line"])

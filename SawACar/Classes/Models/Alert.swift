@@ -22,7 +22,7 @@ class Alert {
     
     var activated = true
     
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         id           = RConverter.string(info["AlertID"])
         userId       = RConverter.string(info["UserID"])
         activated    = RConverter.boolean(info["Activated"])

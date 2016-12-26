@@ -17,7 +17,7 @@ class InteractiveNavigationController: UINavigationController, UIGestureRecogniz
         self.delegate = weakSelf!
     }
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool{
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool{
         if self.viewControllers.count > 1{
             return true
         }else{
@@ -25,7 +25,7 @@ class InteractiveNavigationController: UINavigationController, UIGestureRecogniz
         }
     }
     
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         // Add every non interactive view controller so controller dont go back automatically.
         // Currently ManUpTabBarController should not be back interactive
 //        if viewController is ManUpTabBarController {

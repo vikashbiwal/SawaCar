@@ -10,38 +10,30 @@ import UIKit
 
 class DocumentAccess: NSObject {
     
+     static let obj = DocumentAccess()
+    
     // MARK: Variable
-    static var obj: DocumentAccess {
-        struct Static {
-            static var onceToken: dispatch_once_t = 0
-            static var instance: DocumentAccess? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = DocumentAccess()
-        }
-        return Static.instance!
+    
+    fileprivate var fileManager: FileManager {
+        return FileManager.default
     }
     
-    private var fileManager: NSFileManager {
-        return NSFileManager.defaultManager()
-    }
-    
-    private lazy var media: NSString = {
+    fileprivate lazy var media: NSString = {
         return self.cachePath("media")!
-    }()
+    }() as NSString
     
-    private lazy var temporaryMedia: NSString = {
+    fileprivate lazy var temporaryMedia: NSString = {
         return self.temporaryPath("temp_media")!
-    }()
+    }() as NSString
     
     // MARK: Paths For Directory
-    private func cachePath(foldername: String) -> String? {
-        var paths =  NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+    fileprivate func cachePath(_ foldername: String) -> String? {
+        var paths =  NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         let docDirectory = paths[0] as NSString
-        let cPath = docDirectory.stringByAppendingPathComponent(foldername)
-        if !fileManager.fileExistsAtPath(cPath) {
+        let cPath = docDirectory.appendingPathComponent(foldername)
+        if !fileManager.fileExists(atPath: cPath) {
             do {
-                try fileManager.createDirectoryAtPath(cPath, withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: cPath, withIntermediateDirectories: true, attributes: nil)
                 return cPath
             } catch  let error as NSError {
                 jprint("Error in creating temporary path: \(error.localizedDescription)")
@@ -51,12 +43,12 @@ class DocumentAccess: NSObject {
         return cPath
     }
     
-    private func temporaryPath(foldername: String) -> String? {
+    fileprivate func temporaryPath(_ foldername: String) -> String? {
         let tempDirectory = NSTemporaryDirectory() as NSString
-        let tPath = tempDirectory.stringByAppendingPathComponent(foldername)
-        if !fileManager.fileExistsAtPath(tPath) {
+        let tPath = tempDirectory.appendingPathComponent(foldername)
+        if !fileManager.fileExists(atPath: tPath) {
             do {
-                try fileManager.createDirectoryAtPath(tPath, withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: tPath, withIntermediateDirectories: true, attributes: nil)
                 return tPath
             } catch  let error as NSError {
                 jprint("Error in creating temporary path: \(error.localizedDescription)")
@@ -67,13 +59,13 @@ class DocumentAccess: NSObject {
         }
     }
     
-    private func documentPath(foldername: String) -> String? {
-        var paths =  NSSearchPathForDirectoriesInDomains(.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+    fileprivate func documentPath(_ foldername: String) -> String? {
+        var paths =  NSSearchPathForDirectoriesInDomains(.cachesDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
         let cacheDirectory = paths[0] as NSString
-        let dPath = cacheDirectory.stringByAppendingPathComponent(foldername)
-        if !fileManager.fileExistsAtPath(dPath) {
+        let dPath = cacheDirectory.appendingPathComponent(foldername)
+        if !fileManager.fileExists(atPath: dPath) {
             do {
-                try fileManager.createDirectoryAtPath(dPath, withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: dPath, withIntermediateDirectories: true, attributes: nil)
                 return dPath
             } catch  let error as NSError {
                 jprint("Error in creating document path: \(error.localizedDescription)")
@@ -85,34 +77,34 @@ class DocumentAccess: NSObject {
     }
     
     // MARK: Store Media To Cache
-    func setMedia(medData: NSData, forName filename: String) -> Bool {
-        let fullpath = media.stringByAppendingPathComponent(filename)
-        return fileManager.createFileAtPath(fullpath, contents: medData, attributes: nil)
+    func setMedia(_ medData: Data, forName filename: String) -> Bool {
+        let fullpath = media.appendingPathComponent(filename)
+        return fileManager.createFile(atPath: fullpath, contents: medData, attributes: nil)
     }
     
     // This will check if media exist at path and return if true.
-    func mediaForName(filename: String) -> NSURL? {
-        let fullpath = media.stringByAppendingPathComponent(filename)
-        if fileManager.fileExistsAtPath(fullpath) {
-            return NSURL(fileURLWithPath: fullpath)
+    func mediaForName(_ filename: String) -> URL? {
+        let fullpath = media.appendingPathComponent(filename)
+        if fileManager.fileExists(atPath: fullpath) {
+            return URL(fileURLWithPath: fullpath)
         } else {
             return nil
         }
     }
     
     // This will give media url with filename given.
-    func mediaUrlForName(filename: String) -> NSURL {
-        let path = media.stringByAppendingPathComponent(filename)
-        return NSURL(fileURLWithPath: path)
+    func mediaUrlForName(_ filename: String) -> URL {
+        let path = media.appendingPathComponent(filename)
+        return URL(fileURLWithPath: path)
     }
     
-    subscript(filename: String) -> NSURL? {
+    subscript(filename: String) -> URL? {
         return mediaForName(filename)
     }
     
-    func removeMediaForName(filename: String) -> Bool {
-        let fullpath = media.stringByAppendingPathComponent(filename)
-        do { try fileManager.removeItemAtPath(fullpath)
+    func removeMediaForName(_ filename: String) -> Bool {
+        let fullpath = media.appendingPathComponent(filename)
+        do { try fileManager.removeItem(atPath: fullpath)
              return true
         } catch let error as NSError {
             jprint("Error in removing media: \(error.localizedDescription)")
@@ -122,23 +114,23 @@ class DocumentAccess: NSObject {
     
     // MARK: Store Image to Cache
     /* we will append _thumb next to its name that way we can store both thumb and full image */
-    func imageForName(filename: String, isthumb: Bool) -> UIImage? {
-        let fullpath = media.stringByAppendingPathComponent(filename + (isthumb ? "_thumb" : ""))
+    func imageForName(_ filename: String, isthumb: Bool) -> UIImage? {
+        let fullpath = media.appendingPathComponent(filename + (isthumb ? "_thumb" : ""))
         return UIImage(contentsOfFile: fullpath)
     }
     
-    func setImage(img: UIImage, isthumb: Bool, forName name: String) -> Bool {
-        let fullpath = media.stringByAppendingPathComponent(name + (isthumb ? "_thumb" : ""))
-        return fileManager.createFileAtPath(fullpath, contents: UIImageJPEGRepresentation(img, 1), attributes: nil)
+    func setImage(_ img: UIImage, isthumb: Bool, forName name: String) -> Bool {
+        let fullpath = media.appendingPathComponent(name + (isthumb ? "_thumb" : ""))
+        return fileManager.createFile(atPath: fullpath, contents: UIImageJPEGRepresentation(img, 1), attributes: nil)
     }
     
     // MARK : Randome Names
-    func randomMediaName(exten: String? = nil) -> String {
-        let dateFormat = NSDateFormatter()
+    func randomMediaName(_ exten: String? = nil) -> String {
+        let dateFormat = DateFormatter()
         dateFormat.dateFormat = "yyyyMMddhhmmssSSSS"
-        var strDate = dateFormat.stringFromDate(NSDate())
+        var strDate = dateFormat.string(from: Date())
         if let extensn = exten {
-            strDate.appendContentsOf(".\(extensn)")
+            strDate.append(".\(extensn)")
         }
         return strDate
     }

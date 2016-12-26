@@ -23,7 +23,7 @@ class RequestARideVC: ParentVC {
         setRoundCircleUI()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
@@ -36,21 +36,21 @@ class RequestARideVC: ParentVC {
 
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
-        inputView1.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView1.layer.borderColor = UIColor.white.cgColor
         inputView1.layer.cornerRadius = 3.0
         inputView1.clipsToBounds  = true
         
         inputView2.layer.borderWidth = 1.0
-        inputView2.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView2.layer.borderColor = UIColor.white.cgColor
         inputView2.layer.cornerRadius = 3.0
         inputView2.clipsToBounds  = true
         
     }
 
     //MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "requestRideStep1Tostep2Segue" {
-            let nextVc = segue.destinationViewController as! RequestARideStep2VC
+            let nextVc = segue.destination as! RequestARideStep2VC
             nextVc.tRequest = self.tRequest
         }
     }
@@ -58,37 +58,37 @@ class RequestARideVC: ParentVC {
 
 //MARK: IBActions
 extension RequestARideVC {
-    @IBAction func fromBtnDidClicked(sender: UIButton) {
-        navigateToLocationPicker(.From)
+    @IBAction func fromBtnDidClicked(_ sender: UIButton) {
+        navigateToLocationPicker(.from)
     }
     
-    @IBAction func toBtnDidClicked(sender: UIButton) {
-        navigateToLocationPicker(.To)
+    @IBAction func toBtnDidClicked(_ sender: UIButton) {
+        navigateToLocationPicker(.to)
     }
     
-    @IBAction func goNextBtnClicked(sender: UIButton) {
+    @IBAction func goNextBtnClicked(_ sender: UIButton) {
 
         if self.validateLoction() {
-            self.performSegueWithIdentifier("requestRideStep1Tostep2Segue", sender: nil)
+            self.performSegue(withIdentifier: "requestRideStep1Tostep2Segue", sender: nil)
         }
     } 
     
-    @IBAction func searchRideBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("toFindARideVCSegue", sender: nil)
+    @IBAction func searchRideBtnClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "toFindARideVCSegue", sender: nil)
     }
     
-    @IBAction func searchDriverBtnClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("FindDriverSegue", sender: nil)
+    @IBAction func searchDriverBtnClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "FindDriverSegue", sender: nil)
     }
 }
 
 //MARK: Others
 extension RequestARideVC {
-    func navigateToLocationPicker(type: LocationSelectionForType)  {
-        let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
+    func navigateToLocationPicker(_ type: LocationSelectionForType)  {
+        let loctionPicker = _generalStoryboard.instantiateViewController(withIdentifier: "SBID_MapViewcontroller") as! MapViewController
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
-                if type == .From {
+                if type == .from {
                     self.txtFrom.text = place.name
                     self.tRequest.fromLocation = place
                 } else {
@@ -97,7 +97,7 @@ extension RequestARideVC {
                 }
             }
         }
-        self.presentViewController(loctionPicker, animated: true, completion: nil)
+        self.present(loctionPicker, animated: true, completion: nil)
     }
     
     //Fuction valiation

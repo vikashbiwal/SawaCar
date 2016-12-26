@@ -15,11 +15,11 @@ class VKeyboardAccessoryView: UIView {
         
     }
     
-    @IBAction func doneBtnClicked(sender: UIButton) {
-        actionBlock(.Done)
+    @IBAction func doneBtnClicked(_ sender: UIButton) {
+        actionBlock(.done)
     }
     
-    @IBAction func cancelBtnClicked(sender: UIButton) {
-        actionBlock(.Cancel)
+    @IBAction func cancelBtnClicked(_ sender: UIButton) {
+        actionBlock(.cancel)
     }
 }

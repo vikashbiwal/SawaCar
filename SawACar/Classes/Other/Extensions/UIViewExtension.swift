@@ -29,25 +29,25 @@ extension UIView {
         clipsToBounds = true
     }
     
-    func fadeAlpha(toAlpha: CGFloat, duration time: NSTimeInterval) {
-        UIView.animateWithDuration(time) { () -> Void in
+    func fadeAlpha(_ toAlpha: CGFloat, duration time: TimeInterval) {
+        UIView.animate(withDuration: time, animations: { () -> Void in
             self.alpha = toAlpha
-        }
+        }) 
     }
     
     // Will add mask to given image
-    func mask(maskImage: UIImage) {
+    func mask(_ maskImage: UIImage) {
         let mask: CALayer = CALayer()
-        mask.frame = CGRectMake( 0, 0, maskImage.size.width, maskImage.size.height)
-        mask.contents = maskImage.CGImage
+        mask.frame = CGRect( x: 0, y: 0, width: maskImage.size.width, height: maskImage.size.height)
+        mask.contents = maskImage.cgImage
         layer.mask = mask
         layer.masksToBounds = true
     }
     
-    func addMask(maskImage: UIImage) {
+    func addMask(_ maskImage: UIImage) {
         let mask = CALayer()
-        mask.frame = CGRectMake( 0, 0, maskImage.size.width, maskImage.size.height)
-        mask.contents = maskImage.CGImage
+        mask.frame = CGRect( x: 0, y: 0, width: maskImage.size.width, height: maskImage.size.height)
+        mask.contents = maskImage.cgImage
         layer.addSublayer(mask)
     }
     
@@ -58,10 +58,10 @@ extension UIView {
     // Will take screen shot of whole screen and return image. It's working on main thread and may lag UI.
     func takeScreenShot() -> UIImage {
         UIGraphicsBeginImageContext(self.bounds.size)
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
         let rec = self.bounds
-        self.drawViewHierarchyInRect(rec, afterScreenUpdates: true)
-        self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        self.drawHierarchy(in: rec, afterScreenUpdates: true)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return img!
@@ -69,8 +69,8 @@ extension UIView {
     
     // It is same API as takescreen shot. But it will not lag the main thread.
     func captureView() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0.0);
-        self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0.0);
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return img!
@@ -78,13 +78,13 @@ extension UIView {
     
     // To give parellex effect on any view.
     func ch_addMotionEffect() {
-        let axis_x_motion: UIInterpolatingMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: UIInterpolatingMotionEffectType.TiltAlongHorizontalAxis)
-        axis_x_motion.minimumRelativeValue = NSNumber(int: -10)
-        axis_x_motion.maximumRelativeValue = NSNumber(int: 10)
+        let axis_x_motion: UIInterpolatingMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: UIInterpolatingMotionEffectType.tiltAlongHorizontalAxis)
+        axis_x_motion.minimumRelativeValue = NSNumber(value: -10 as Int32)
+        axis_x_motion.maximumRelativeValue = NSNumber(value: 10 as Int32)
         
-        let axis_y_motion: UIInterpolatingMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: UIInterpolatingMotionEffectType.TiltAlongVerticalAxis)
-        axis_y_motion.minimumRelativeValue = NSNumber(int: -10)
-        axis_y_motion.maximumRelativeValue = NSNumber(int: 10)
+        let axis_y_motion: UIInterpolatingMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: UIInterpolatingMotionEffectType.tiltAlongVerticalAxis)
+        axis_y_motion.minimumRelativeValue = NSNumber(value: -10 as Int32)
+        axis_y_motion.maximumRelativeValue = NSNumber(value: 10 as Int32)
         
         let motionGroup : UIMotionEffectGroup = UIMotionEffectGroup()
         motionGroup.motionEffects = [axis_x_motion, axis_y_motion]

@@ -46,38 +46,38 @@ class RatingsViewController: ParentVC {
 //MARK: IBActions
 extension RatingsViewController {
     
-    @IBAction func menuButtonTapped(sender: UIButton) {
-        btnGroupUsers.selected = false
-        btnSingleUser.selected = false
-        sender.selected = true
-        let indexPath = NSIndexPath(forItem: sender.tag, inSection: 0)
-        collView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+    @IBAction func menuButtonTapped(_ sender: UIButton) {
+        btnGroupUsers.isSelected = false
+        btnSingleUser.isSelected = false
+        sender.isSelected = true
+        let indexPath = IndexPath(item: sender.tag, section: 0)
+        collView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
 
 //MARK: CollectionView DataSource and Delegate
 extension RatingsViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CVGenericeCell
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //TODO
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 375 * _widthRatio, height: 553 * _widthRatio)
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffSet = scrollView.contentOffset
         self.lblScrollLeadingSpace.constant = contentOffSet.x / 2
         self.menuContainerView.layoutIfNeeded()
@@ -90,27 +90,27 @@ extension RatingsViewController : UICollectionViewDelegateFlowLayout, UICollecti
 //MARK: TableView DataSource and Delegate
 extension RatingsViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row % 3 == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("travelRatingCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "travelRatingCell") as! TVGenericeCell
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("carRatingCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "carRatingCell") as! TVGenericeCell
             return cell
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return (indexPath.row % 3 == 0 ? 120 : 100) * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     

@@ -10,9 +10,9 @@ import Foundation
 
 //Reference Controller - ProfileScreen
 enum UserPreferenceType: Int {
-    case ShowEmail, ShowMobile, VisibleInSearch, SpecialOrder, AcceptMonitring
-    case CommunicationLanguage, SpeackingLanguage
-    case Children, Pets, StopForPray, FoodAndDrink, Music, Quran, Smoking
+    case showEmail, showMobile, visibleInSearch, specialOrder, acceptMonitring
+    case communicationLanguage, speackingLanguage
+    case children, pets, stopForPray, foodAndDrink, music, quran, smoking
 }
 
 class SignupTextField: JPWidthTextField {
@@ -31,12 +31,12 @@ class SettingSwitch: VkUISwitch {
 //Reference Controller - Add Travel screen
 //Enum TravelSteper used for define number of Seat, Passenger, car and etc.
 enum TravelPreferenceType {
-    case NumberOfSeat, PassengerPrice, CarPrice, NumberOfLuggage, Tracking, OnlyWomen, None
+    case numberOfSeat, passengerPrice, carPrice, numberOfLuggage, tracking, onlyWomen, none
 }
 
 //TravelSwitch : used for handle Tracking, and isOnlyWomen value.
 class TravelSwitch: VkUISwitch {
-    var type: TravelPreferenceType = .None
+    var type: TravelPreferenceType = .none
 }
 
 // --------------------------------------------
@@ -44,10 +44,10 @@ class TravelSwitch: VkUISwitch {
 //Reference Controller - Add Signup / profile Screen
 //Do not change order of items
 enum TextFieldType: Int {
-    case FirstName = 101, LastName, Email, Password, ConfirmPass, MobileNo, OldPassword
-    case Nationality, Country, AccountType, Gender, BirthDate
-    case WhatsApp, Line, Tango, Facebook, Twitter, Telegram
-    case None = -1
+    case firstName = 101, lastName, email, password, confirmPass, mobileNo, oldPassword
+    case nationality, country, accountType, gender, birthDate
+    case whatsApp, line, tango, facebook, twitter, telegram
+    case none = -1
 }
 
 

@@ -31,9 +31,9 @@ class DriverSearchResultVC: ParentVC {
     }
     
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DriverDetailSegue" {
-            let detailVc = segue.destinationViewController as! DriverDetailViewController
+            let detailVc = segue.destination as! DriverDetailViewController
             detailVc.driver = sender as! User
         }
     }
@@ -42,25 +42,25 @@ class DriverSearchResultVC: ParentVC {
 //MARK: TableViewDataSource
 extension DriverSearchResultVC : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return drivers.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("driverCell") as! DriverCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "driverCell") as! DriverCell
         let driver = drivers[indexPath.row]
         cell.setInfo(forDriver: driver)
         return cell
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 170 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let driver = drivers[indexPath.row]
-        self.performSegueWithIdentifier("DriverDetailSegue", sender: driver)
+        self.performSegue(withIdentifier: "DriverDetailSegue", sender: driver)
     }
     
 }
@@ -70,15 +70,15 @@ extension DriverSearchResultVC {
     
     //Find drivers api call
     func findDriverAPICall() {
-        if !refreshControl.refreshing {
+        if !refreshControl.isRefreshing {
             self.showCentralGraySpinner()
         }
         let params = ["AccountTypeID" : searchParamObj.accountTypeId,
                       "CountryID" :  searchParamObj.countryId ]
         wsCall.findDrivers(params) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let objects = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let objects = json["Object"] as? [[String : Any]] {
                         self.drivers.removeAll()
                         for object in objects {
                             let driver = User(info: object)
@@ -114,13 +114,13 @@ class DriverCell: TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView?.layer.cornerRadius = 5 * _widthRatio
-        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().cgColor
         cardView?.layer.borderWidth = 2.0
     }
     
     //set driver info
     func setInfo(forDriver driver: User) {
-        imgView.setImageWithURL(NSURL(string: driver.photo)!, placeholderImage: _userPlaceholderImage)
+        imgView.setImageWith(URL(string: driver.photo)!, placeholderImage: _userPlaceholderImage)
         lblDriverName.text = driver.fullname
         ratingView.value = CGFloat(driver.rating)
         lblAccountType.text = driver.accountType.name

@@ -61,7 +61,7 @@ class DContainerVC: ParentVC {
         findTabbar()
         setSliderMenus()
         setShutterBlurView()
-        _defaultCenter.addObserver(self, selector: #selector(DContainerVC.setUserInfo), name: kProfileUpdateNotificationKey, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(DContainerVC.setUserInfo), name: NSNotification.Name(rawValue: kProfileUpdateNotificationKey), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,14 +85,14 @@ class DContainerVC: ParentVC {
     func setShutterBlurView() {
         transparentControl = VBlurViewLight(frame: self.view.bounds)
         let button = UIButton(frame: self.view.bounds)
-        button.addTarget(self, action: #selector(self.shutterAction(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(self.shutterAction(_:)), for: .touchUpInside)
         transparentControl.addSubview(button)
         transparentControl.alpha = 0
     }
 
     //set constant vc in tabbar which not changebale
     func setTabbarConstantVCIDs() {
-        if me.userMode == .Driver {
+        if me.userMode == .driver {
             tabbarConstantVCIDs = [_ProfileVCID, _DBookingsVCID, _DMyOffersVCID, _DMyRidesVCID]
         } else {
             tabbarConstantVCIDs = [_ProfileVCID, _PBookingsVCID, _POffersMeVCID, _PMyRequestsVCID]
@@ -100,7 +100,7 @@ class DContainerVC: ParentVC {
     }
     //func for set all slider menu items for driver and passenger
     func setSliderMenus() {
-        if me.userMode == .Driver {
+        if me.userMode == .driver {
             Menus = [Menu(title: "home".localizedString(),                 imgName: "ic_home", selected: true, id: _DOfferRideVCID),
                      Menu(title: "booking_to_my_travel".localizedString(), imgName: "ic_booking_to_my_trip", id: _DBookingsVCID),
                      Menu(title: "my_offers".localizedString(),            imgName: "ic_myoffer",     id: _DMyOffersVCID),
@@ -144,23 +144,23 @@ class DContainerVC: ParentVC {
     //MARK:
     //Set user info to view on slider top view
     func setUserInfo()  {
-        let userModeIconName = me.userMode == .Driver ?  "ic_need_a_ride_small" : "ic_have_car_small" 
+        let userModeIconName = me.userMode == .driver ?  "ic_need_a_ride_small" : "ic_have_car_small" 
         imgVProfile.image = UIImage(named: userModeIconName)
         
-        let profileUrl = NSURL(string: me.photo)
-        btnProfile.setImageForState(.Normal, withURL: profileUrl!, placeholderImage: me.placeholderImage)
+        let profileUrl = URL(string: me.photo)
+        btnProfile.setImageFor(UIControlState(), with: profileUrl!, placeholderImage: me.placeholderImage)
         lblName.text = me.fullname
         lblEmail.text = me.email
     }
     
     //Change User Mode Driver to Passenger and via versa.
     func changeUserMode() {
-        if me.userMode == .Driver {
-            me.userMode = .Passenger
-            _userDefault.setValue(UserMode.Passenger.rawValue, forKey: UserModeKey)
+        if me.userMode == .driver {
+            me.userMode = .passenger
+            _userDefault.setValue(UserMode.passenger.rawValue, forKey: UserModeKey)
         } else {
-            me.userMode = .Driver
-            _userDefault.setValue(UserMode.Driver.rawValue, forKey: UserModeKey)
+            me.userMode = .driver
+            _userDefault.setValue(UserMode.driver.rawValue, forKey: UserModeKey)
 
         }
         tabbarController.setViewControllersInTabbar()
@@ -171,7 +171,7 @@ class DContainerVC: ParentVC {
         shutterActioinBlock()
     }
     
-    func setCurrentVCInTabbar(vc: UIViewController) {
+    func setCurrentVCInTabbar(_ vc: UIViewController) {
         let nav = tabbarController.viewControllers![4] as! UINavigationController
         nav.viewControllers = [vc]
         tabbarController.selectedIndex = 4
@@ -204,34 +204,34 @@ extension DContainerVC {
             
         }
         
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.containerViewLeadignSpace.constant = x
             self.menuContainerLeadingSpace.constant = mx
             self.transparentControl.alpha = self.isShutterOpened ? 1 : 0
             self.view.layoutIfNeeded()
-        }) { (res) in
+        }, completion: { (res) in
             if !self.isShutterOpened {
                 self.transparentControl.removeFromSuperview()
             }
-        }
+        }) 
     }
 }
 
 //MARK: IBActions
 extension DContainerVC {
-    @IBAction func userModeChangeBtnClicked(sender: UIButton) {
-        let sheet = UIAlertController(title: nil , message: "kChagneModeConfirmMsg".localizedString(), preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
-        let OkAction = UIAlertAction(title: "yes".localizedString(), style: .Default, handler: {(action) in
+    @IBAction func userModeChangeBtnClicked(_ sender: UIButton) {
+        let sheet = UIAlertController(title: nil , message: "kChagneModeConfirmMsg".localizedString(), preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .cancel, handler: nil)
+        let OkAction = UIAlertAction(title: "yes".localizedString(), style: .default, handler: {(action) in
             self.changeUserMode()
         })
         sheet.addAction(cancelAction)
         sheet.addAction(OkAction)
-        self.presentViewController(sheet, animated: true, completion: nil)
+        self.present(sheet, animated: true, completion: nil)
     }
     
     //Navigate to Profile view screen.
-    @IBAction func userProfileBtnClicked(sender: UIButton) {
+    @IBAction func userProfileBtnClicked(_ sender: UIButton) {
         tabbarController.selectedIndex = 0
         resetSelectedMenu()
         shutterActioinBlock()
@@ -242,16 +242,16 @@ extension DContainerVC {
 //MARK: Tableview Datasource and delegate
 extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Menus.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var identifier = "cell"
         if [4, 6].contains(indexPath.row) {
             identifier = "sectionLastCell"
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier) as! TVGenericeCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! TVGenericeCell
         let menu = Menus[indexPath.row]
         cell.lblTitle.text = menu.title
         cell.imgView.image = UIImage(named: menu.imgName)
@@ -259,11 +259,11 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menu = Menus[indexPath.row]
         if tabbarConstantVCIDs.contains(menu.Id) { //this section is used for constant viewcontrollers in tabbar
             if !menu.selected {
@@ -280,7 +280,7 @@ extension DContainerVC : UITableViewDelegate, UITableViewDataSource {
                 resetSelectedMenu()
                 menu.selected = true
                 tableView.reloadData()
-                let VC = _driverStoryboard.instantiateViewControllerWithIdentifier(menu.Id)
+                let VC = _driverStoryboard.instantiateViewController(withIdentifier: menu.Id)
                 if VC is CarListVC {
                     let vc = VC as! CarListVC
                     vc.isComeFromSliderMenu = true //used for change back btn action
@@ -297,16 +297,16 @@ extension DContainerVC {
    
     //Logout action
     func logoutAction() {
-        let sheet = UIAlertController(title: nil , message: "kLogoutConfirmMsg".localizedString(), preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
-        let OkAction = UIAlertAction(title: "log_out".localizedString(), style: .Destructive, handler: {(action) in
+        let sheet = UIAlertController(title: nil , message: "kLogoutConfirmMsg".localizedString(), preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .cancel, handler: nil)
+        let OkAction = UIAlertAction(title: "log_out".localizedString(), style: .destructive, handler: {(action) in
             me = nil
-            _userDefault.removeObjectForKey(kLoggedInUserKey)
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            _userDefault.removeObject(forKey: kLoggedInUserKey)
+            self.navigationController?.popToRootViewController(animated: true)
         })
         sheet.addAction(cancelAction)
         sheet.addAction(OkAction)
-        self.presentViewController(sheet, animated: true, completion: nil)
+        self.present(sheet, animated: true, completion: nil)
     }
     
 }

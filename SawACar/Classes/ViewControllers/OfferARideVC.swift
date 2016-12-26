@@ -34,25 +34,25 @@ class OfferARideVC: ParentVC {
     }
     
     func notificationSetup() {
-        _defaultCenter.addObserver(self, selector: #selector(OfferARideVC.resetTravelObj), name: kTravelAddedNotificationKey, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(OfferARideVC.resetTravelObj), name: NSNotification.Name(rawValue: kTravelAddedNotificationKey), object: nil)
     }
     
     //MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SBSegue_toAddTravel" {
-            let addTravelVC = segue.destinationViewController as! AddTravelStep1VC
+            let addTravelVC = segue.destination as! AddTravelStep1VC
             addTravelVC.travel  = self.travel
         }
     }
 
     func setRoundCircleUI()  {
         inputView1.layer.borderWidth = 1.0
-        inputView1.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView1.layer.borderColor = UIColor.white.cgColor
         inputView1.layer.cornerRadius = 3.0
         inputView1.clipsToBounds  = true
         
         inputView2.layer.borderWidth = 1.0
-        inputView2.layer.borderColor = UIColor.whiteColor().CGColor
+        inputView2.layer.borderColor = UIColor.white.cgColor
         inputView2.layer.cornerRadius = 3.0
         inputView2.clipsToBounds  = true
        
@@ -68,17 +68,17 @@ class OfferARideVC: ParentVC {
 
 //MARK: IBActions
 extension OfferARideVC {
-    @IBAction func fromBtnDidClicked(sender: UIButton) {
-        goForPickLocation(.From)
+    @IBAction func fromBtnDidClicked(_ sender: UIButton) {
+        goForPickLocation(.from)
     }
     
-    @IBAction func toBtnDidClicked(sender: UIButton) {
-        goForPickLocation(.To)
+    @IBAction func toBtnDidClicked(_ sender: UIButton) {
+        goForPickLocation(.to)
     }
     
-    @IBAction func gotoAddTravelBtnClicked(sender: UIButton) {
+    @IBAction func gotoAddTravelBtnClicked(_ sender: UIButton) {
         if self.validateLoction() {
-            self.performSegueWithIdentifier("SBSegue_toAddTravel", sender: nil)
+            self.performSegue(withIdentifier: "SBSegue_toAddTravel", sender: nil)
         }
     }
     
@@ -86,11 +86,11 @@ extension OfferARideVC {
 }
 
 extension OfferARideVC {
-    func goForPickLocation(type: LocationSelectionForType)  {
-        let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
+    func goForPickLocation(_ type: LocationSelectionForType)  {
+        let loctionPicker = _generalStoryboard.instantiateViewController(withIdentifier: "SBID_MapViewcontroller") as! MapViewController
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
-                if type == .From {
+                if type == .from {
                     self.txtFrom.text = place.name
                     self.travel.locationFrom = place
                 } else {
@@ -99,7 +99,7 @@ extension OfferARideVC {
                 }
             }
         }
-        self.presentViewController(loctionPicker, animated: true, completion: nil)
+        self.present(loctionPicker, animated: true, completion: nil)
     }
     
     //Fuction valiation 

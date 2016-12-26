@@ -25,50 +25,50 @@ class VPickerView: ConstrainedView, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     //MARK: UIPickerView DataSource and Delegate
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return Items.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return Items[row]
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedItem = (Items[row], row)
     }
     
     //MARK: Show and Hide action
     func showWithAnnimation() {
         pickerView.reloadAllComponents()
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.pickerViewBottomSpace.constant = 0
             self.alpha = 1
             self.layoutIfNeeded()
-        }
+        }) 
     }
     
     func hideWithAnimation() {
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.pickerViewBottomSpace.constant = -(260 *  _widthRatio)
             self.alpha = 0
             self.layoutIfNeeded()
-        }) { (res) in
+        }, completion: { (res) in
             self.removeFromSuperview()
-        }
+        }) 
     }
     
-    @IBAction func doneBtnClicked(sender: UIButton) {
+    @IBAction func doneBtnClicked(_ sender: UIButton) {
         if let item = selectedItem {
-            actionBlock(.Done, item.value, item.idx)
+            actionBlock(.done, item.value, item.idx)
         }
         hideWithAnimation()
     }
     
-    @IBAction func cancelBtnClicked(sender: UIButton) {
+    @IBAction func cancelBtnClicked(_ sender: UIButton) {
         hideWithAnimation()
     }
 }

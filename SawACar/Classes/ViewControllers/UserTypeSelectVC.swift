@@ -41,7 +41,7 @@ class UserTypeSelectVC: ParentVC {
        
         btnHaveACar.layer.cornerRadius = btnHaveACar.frame.size.height / 2
         btnHaveACar.clipsToBounds = true
-        btnHaveACar.layer.borderColor = UIColor.lightGrayColor().CGColor
+        btnHaveACar.layer.borderColor = UIColor.lightGray.cgColor
         btnHaveACar.layer.borderWidth = 1
     }
 
@@ -50,15 +50,15 @@ class UserTypeSelectVC: ParentVC {
 //MARK: IBActions
 extension UserTypeSelectVC {
 
-    @IBAction func clickedAtINeedRideBtn(sender: UIButton) {
-        me.userMode = UserMode.Passenger // set Current User Mode to Passenger
-        _userDefault.setValue(UserMode.Passenger.rawValue, forKey: UserModeKey)
-        self.performSegueWithIdentifier("SBSegue_ToContainer", sender: nil)
+    @IBAction func clickedAtINeedRideBtn(_ sender: UIButton) {
+        me.userMode = UserMode.passenger // set Current User Mode to Passenger
+        _userDefault.setValue(UserMode.passenger.rawValue, forKey: UserModeKey)
+        self.performSegue(withIdentifier: "SBSegue_ToContainer", sender: nil)
     }
 
-    @IBAction func clickedAtIHaveCarBtn(sender: UIButton) {
-        me.userMode = UserMode.Driver // set Current User Mode to Driver
-        _userDefault.setValue(UserMode.Driver.rawValue, forKey: UserModeKey)
-        self.performSegueWithIdentifier("SBSegue_ToContainer", sender: nil)
+    @IBAction func clickedAtIHaveCarBtn(_ sender: UIButton) {
+        me.userMode = UserMode.driver // set Current User Mode to Driver
+        _userDefault.setValue(UserMode.driver.rawValue, forKey: UserModeKey)
+        self.performSegue(withIdentifier: "SBSegue_ToContainer", sender: nil)
     }
 }

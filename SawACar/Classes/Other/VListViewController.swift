@@ -62,7 +62,7 @@ class VListViewController: ParentVC, UISearchBarDelegate {
     //MARK: SetupUI
     func setupRefreshControl()  {
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(self.getItemsAPICall), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(self.getItemsAPICall), for: .valueChanged)
         tableView.addSubview(refreshControl)
         tableView.tableFooterView = UIView()
     }
@@ -73,17 +73,17 @@ class VListViewController: ParentVC, UISearchBarDelegate {
     }
     
     //MARK: Other
-    func filterList(text: String)  {
-        let valuetocompare = text.lowercaseString
+    func filterList(_ text: String)  {
+        let valuetocompare = text.lowercased()
         let arr = listItems.filter { (item) -> Bool in
-            return item.name.lowercaseString.hasPrefix(valuetocompare) || item.code.lowercaseString.hasPrefix(valuetocompare)
+            return item.name.lowercased().hasPrefix(valuetocompare) || item.code.lowercased().hasPrefix(valuetocompare)
         }
         self.filteredItems = arr
         tableView.reloadData()
     }
     
     //MARK: SearchBar Delegate
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.characters.count > 0 {
             filterList(searchText)
         } else {
@@ -93,17 +93,17 @@ class VListViewController: ParentVC, UISearchBarDelegate {
     }
 
     //MARK: IBActions
-    @IBAction func doneBtnClicked(sender: UIButton) {
+    @IBAction func doneBtnClicked(_ sender: UIButton) {
         let selectedItems = filteredItems.filter { (item) -> Bool in
             return item.selected
         }
         completionBlock(selectedItems)
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func cancelBtnTapped(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelBtnTapped(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
 }
@@ -111,49 +111,49 @@ class VListViewController: ParentVC, UISearchBarDelegate {
 //MARK: TableView DataSource and Delegate
 extension VListViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredItems.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "cell")
+            cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         }
         
         let item = filteredItems[indexPath.row]
         
         cell!.textLabel!.text = item.name
         if  item.selected {
-            cell!.accessoryType = .Checkmark
+            cell!.accessoryType = .checkmark
             item.selected = true
         } else {
-            cell!.accessoryType = .None
+            cell!.accessoryType = .none
             item.selected = false
         }
         return cell!
         
     }
         
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = filteredItems[indexPath.row]
         
         if enableMultipleChoice {
             item.selected = !item.selected
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         } else {
             completionBlock([item])
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
         if !enableMultipleChoice {
             let item  = filteredItems[indexPath.row]
             item.selected = !item.selected
-            cell?.accessoryType = .None
+            cell?.accessoryType = .none
         }
     }
 
@@ -166,7 +166,7 @@ extension VListViewController {
         wsCall.callAPI(withName: apiName) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json {
-                    if let objects = json as? [[String : AnyObject]] {
+                    if let objects = json as? [[String : Any]] {
                         for obj in objects {
                             let listItem = ListItem()
                             listItem.Id = RConverter.string(obj[self.keyForId])
@@ -195,5 +195,5 @@ class ListItem : Equatable {
     var name: String = ""
     var code: String! = ""
     var selected = false
-    var obj: AnyObject!
+    var obj: Any?
 }

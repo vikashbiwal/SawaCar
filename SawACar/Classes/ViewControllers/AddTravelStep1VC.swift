@@ -28,9 +28,9 @@ class AddTravelStep1VC: ParentVC {
     }
     
     //MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SBID_AddTravelToPublish" {
-            let vc = segue.destinationViewController as! AddTravelStep2VC
+            let vc = segue.destination as! AddTravelStep2VC
             vc.travel = self.travel
         }
     }
@@ -38,53 +38,53 @@ class AddTravelStep1VC: ParentVC {
 
 //MARK: Tableview datasource and delegate
 extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cellIdentifier = ""
         if indexPath.row == 0 {
-            let cell =  tableView.dequeueReusableCellWithIdentifier("locationCell") as! TVGenericeCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "locationCell") as! TVGenericeCell
             cell.lblTitle.text = travel.locationFrom!.name + " >> " + travel.locationTo!.name
             return cell
             
         } else if indexPath.row == 1 {
             cellIdentifier = "stopoverCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! StopoverCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! StopoverCell
             let stopers = [travel.locationStop1, travel.locationStop2, travel.locationStop3]
             cell.setStoppersInfo(stopers)
             return cell
             
         } else if indexPath.row == 2 {
             cellIdentifier = "rideDateTimeCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TravelDateTimeCell
             cell.setDepartureInfoFor(travel)
 
             return cell
             
         } else if indexPath.row == 3 {
             cellIdentifier = "regularTravelCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TravelDateTimeCell
             cell.setRegularTravelInfo(travel)
             return cell
             
         } else if indexPath.row == 4 {
             cellIdentifier = "roundTravelCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! TravelDateTimeCell
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TravelDateTimeCell
             cell.setRoundTravelInfo(travel)
             return cell
             
         } else {
             cellIdentifier = "buttonCell"
-            let cell =  tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
+            let cell =  tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
             return cell
             
         }
 
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 75 * _widthRatio
         } else if indexPath.row == 1 {
@@ -105,11 +105,11 @@ extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
 
 //MARK: IBActions and TableViewCell's actions
 extension AddTravelStep1VC {
-    @IBAction func stopoversBtnClicked(sender: UIButton) {
+    @IBAction func stopoversBtnClicked(_ sender: UIButton) {
         goForPickLocation(sender.tag)
     }
     
-    @IBAction func stopoverDeleteBtnClicked(sender: UIButton ) {
+    @IBAction func stopoverDeleteBtnClicked(_ sender: UIButton ) {
         if sender.tag == 1 {
             travel.locationStop1 = nil
         } else if sender.tag == 2 {
@@ -120,47 +120,47 @@ extension AddTravelStep1VC {
         tableView.reloadData()
     }
     
-    @IBAction func travelDateTimeBtnClicked(sender: UIButton) {
+    @IBAction func travelDateTimeBtnClicked(_ sender: UIButton) {
         dateSelectedForIndex = sender.tag
         var type : DatePickerForType
         
         switch sender.tag {
         case 1:
-            type = .RegularTravelDate
+            type = .regularTravelDate
         case 2:
-            type = .RoundTravelDate
+            type = .roundTravelDate
         case 3:
-            type = .RoundTravelTime
+            type = .roundTravelTime
         case 4:
-            type = .DepartureDate
+            type = .departureDate
         case 5:
-            type = .DepartureTime
+            type = .departureTime
         default:
-            type = .Date
+            type = .date
         }
         
         showDatePickerView(forType: type)
     }
     
-    @IBAction func repeatTypeBtnClicked(sender: UIButton) {
+    @IBAction func repeatTypeBtnClicked(_ sender: UIButton) {
         showRepeatTypeList()
     }
     
-    @IBAction func regularTravelToggleBtnClicked(sender: UIButton) {
+    @IBAction func regularTravelToggleBtnClicked(_ sender: UIButton) {
         travel.isRegularTravel = !travel.isRegularTravel
-        sender.selected = !sender.selected
-        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 0)], withRowAnimation: .Automatic)
+        sender.isSelected = !sender.isSelected
+        self.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
     }
     
-    @IBAction func roundTravelToggleBtnclicked(sender: UIButton) {
+    @IBAction func roundTravelToggleBtnclicked(_ sender: UIButton) {
         travel.isRoundTravel = !travel.isRoundTravel
-        sender.selected = !sender.selected
-        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 4, inSection: 0)], withRowAnimation: .Automatic)
+        sender.isSelected = !sender.isSelected
+        self.tableView.reloadRows(at: [IndexPath(row: 4, section: 0)], with: .automatic)
     }
     
-    @IBAction func continueBtnClicked(sender: UIButton) {
+    @IBAction func continueBtnClicked(_ sender: UIButton) {
         if validateTravel() {
-            self.performSegueWithIdentifier("SBID_AddTravelToPublish", sender: nil)
+            self.performSegue(withIdentifier: "SBID_AddTravelToPublish", sender: nil)
         }
     }
 }
@@ -168,8 +168,8 @@ extension AddTravelStep1VC {
 //MARK: Other Important Methods
 extension AddTravelStep1VC {
     //MARK: Navigation for Pick stopover Locations
-    func goForPickLocation(forStoper: Int)  {
-        let loctionPicker = _generalStoryboard.instantiateViewControllerWithIdentifier("SBID_MapViewcontroller") as! MapViewController
+    func goForPickLocation(_ forStoper: Int)  {
+        let loctionPicker = _generalStoryboard.instantiateViewController(withIdentifier: "SBID_MapViewcontroller") as! MapViewController
         loctionPicker.completionBlcok = {(place) in
             if let place = place {
                 if forStoper == 1 {
@@ -181,25 +181,25 @@ extension AddTravelStep1VC {
                 } else {
                     self.travel.locationStop3 = place
                 }
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Automatic)
+                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
             }
         }
-        self.presentViewController(loctionPicker, animated: true, completion: nil)
+        self.present(loctionPicker, animated: true, completion: nil)
     }
     
     
     //MARK: Repeat Type selector function
     func showRepeatTypeList() {
-        let sheet = UIAlertController(title: "Repeat_Type".localizedString(), message: nil, preferredStyle: .ActionSheet)
-        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .Cancel, handler: nil)
+        let sheet = UIAlertController(title: "Repeat_Type".localizedString(), message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "cancel".localizedString(), style: .cancel, handler: nil)
         
-        let dayTypeAction = UIAlertAction(title: "Day".localizedString(), style: .Default) { (action) in
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
+        let dayTypeAction = UIAlertAction(title: "Day".localizedString(), style: .default) { (action) in
+            let cell = self.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TravelDateTimeCell
             cell?.lblDate.text = "Day".localizedString()
             self.travel.repeatType = 1
         }
-        let monthTypeAction = UIAlertAction(title: "Month".localizedString(), style: .Default) { (action) in
-            let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
+        let monthTypeAction = UIAlertAction(title: "Month".localizedString(), style: .default) { (action) in
+            let cell = self.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TravelDateTimeCell
             cell?.lblDate.text = "Month".localizedString()
             self.travel.repeatType = 2
         }
@@ -207,7 +207,7 @@ extension AddTravelStep1VC {
         sheet.addAction(dayTypeAction)
         sheet.addAction(monthTypeAction)
         sheet.addAction(cancelAction)
-        self.presentViewController(sheet, animated: true, completion: nil)
+        self.present(sheet, animated: true, completion: nil)
         
     }
     
@@ -250,7 +250,7 @@ extension AddTravelStep1VC {
    
     //load picker view from nib file
     func loadDatePickerView() {
-        let nibViews = NSBundle.mainBundle().loadNibNamed("VDatePickerView", owner: nil, options: nil)!
+        let nibViews = Bundle.main.loadNibNamed("VDatePickerView", owner: nil, options: nil)!
         self.datePickerView = nibViews[0] as! VDatePickerView
         self.datePickerSelectionBlockSetup()
         self.view.addSubview(datePickerView)
@@ -259,12 +259,12 @@ extension AddTravelStep1VC {
     func showDatePickerView(forType type: DatePickerForType) {
         print(dateSelectedForIndex)
         //if [1, 2, 4].contains(dateSelectedForIndex)
-        if [DatePickerForType.DepartureDate, DatePickerForType.RegularTravelDate, DatePickerForType.RoundTravelDate].contains(type) {
-            datePickerView.minDate = NSDate()
-            datePickerView.dateMode = UIDatePickerMode.Date
+        if [DatePickerForType.departureDate, DatePickerForType.regularTravelDate, DatePickerForType.roundTravelDate].contains(type) {
+            datePickerView.minDate = Date()
+            datePickerView.dateMode = UIDatePickerMode.date
             
-        }  else if [DatePickerForType.DepartureTime, DatePickerForType.RoundTravelTime].contains(type) {//Departure Time
-            datePickerView.dateMode = UIDatePickerMode.Time
+        }  else if [DatePickerForType.departureTime, DatePickerForType.roundTravelTime].contains(type) {//Departure Time
+            datePickerView.dateMode = UIDatePickerMode.time
             
         }
         
@@ -276,34 +276,34 @@ extension AddTravelStep1VC {
     func datePickerSelectionBlockSetup() {
         datePickerView.dateSelectionBlock = {[weak self](dt, forType) in
             if let selff = self {
-                if forType == .RegularTravelDate {//Repeat End date
-                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as? TravelDateTimeCell
-                    cell?.lblTime.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                if forType == .regularTravelDate {//Repeat End date
+                    let cell = selff.tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TravelDateTimeCell
+                    cell?.lblTime.text = dateFormator.stringFromDate(dt, style: DateFormatter.Style.medium)
                     selff.travel.repeatEndDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
                     
-                } else if forType == .RoundTravelDate {//Departure Date
-                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0)) as? TravelDateTimeCell
-                    cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                } else if forType == .roundTravelDate {//Departure Date
+                    let cell = selff.tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TravelDateTimeCell
+                    cell?.lblDate.text = dateFormator.stringFromDate(dt, style: DateFormatter.Style.medium)
                     selff.travel.roundDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
                     
-                } else if forType == .RoundTravelTime {//Departure Time
-                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 4, inSection: 0)) as? TravelDateTimeCell
+                } else if forType == .roundTravelTime {//Departure Time
+                    let cell = selff.tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as? TravelDateTimeCell
                     let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
-                    let timeArr = timeString.componentsSeparatedByString(":")
+                    let timeArr = timeString.components(separatedBy: ":")
                     
                     cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
                     selff.travel.roundHour = timeArr[0]
                     selff.travel.roundMinute = timeArr[1]
                     
-                } else if forType == .DepartureDate {//Ride Date
-                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
-                    cell?.lblDate.text = dateFormator.stringFromDate(dt, style: NSDateFormatterStyle.MediumStyle)
+                } else if forType == .departureDate {//Ride Date
+                    let cell = selff.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TravelDateTimeCell
+                    cell?.lblDate.text = dateFormator.stringFromDate(dt, style: DateFormatter.Style.medium)
                     selff.travel.departureDate = dateFormator.stringFromDate(dt, format: "dd/MM/yyyy")
                     
-                } else if forType == .DepartureTime {//Ride Time
-                    let cell = selff.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as? TravelDateTimeCell
+                } else if forType == .departureTime {//Ride Time
+                    let cell = selff.tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TravelDateTimeCell
                     let timeString = dateFormator.stringFromDate(dt, format: "HH:mm")//24hourFormat
-                    let timeArr = timeString.componentsSeparatedByString(":")
+                    let timeArr = timeString.components(separatedBy: ":")
                     
                     cell?.lblTime.text = dateFormator.stringFromDate(dt, format: "hh:mm a")
                     selff.travel.departureHour = timeArr[0]

@@ -10,31 +10,31 @@ import UIKit
 
 extension UIFont {
     
-    class func muAvenirBook(size: CGFloat) -> UIFont {
+    class func muAvenirBook(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Avenir-Book", size: size)!
     }
     
-    class func muAvenirBlack(size: CGFloat) -> UIFont {
+    class func muAvenirBlack(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Avenir-Black", size: size)!
     }
     
-    class func muAvenirMedium(size: CGFloat) -> UIFont {
+    class func muAvenirMedium(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Avenir-Medium", size: size)!
     }
     
-    class func muAvenirHeavy(size: CGFloat) -> UIFont {
+    class func muAvenirHeavy(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Avenir-Heavy", size: size)!
     }
     
-    class func muAvenirLight(size: CGFloat) -> UIFont {
+    class func muAvenirLight(_ size: CGFloat) -> UIFont {
         return UIFont(name: "Avenir-Light", size: size)!
     }
     
-    class func muHelveticaNeueLight(size: CGFloat) -> UIFont {
+    class func muHelveticaNeueLight(_ size: CGFloat) -> UIFont {
         return UIFont(name: "HelveticaNeue-Light", size: size)!
     }
     
-    class func muHelveticaNeue(size: CGFloat) -> UIFont {
+    class func muHelveticaNeue(_ size: CGFloat) -> UIFont {
         return UIFont(name: "HelveticaNeue", size: size)!
     }
     

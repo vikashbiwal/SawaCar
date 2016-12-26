@@ -20,7 +20,7 @@ class TVGenericeCell: ConstrainedTableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -52,39 +52,39 @@ class WeekDaysTblCell: TVGenericeCell, UICollectionViewDataSource, UICollectionV
     var weekDays = [Day("Mon"), Day("Tue"), Day("Wed"), Day("Thu"), Day("Fri"), Day("Sat"), Day("Sun")]
     
     //MARK: CollectionView datasource and delegate
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return weekDays.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CVGenericeCell
         let day = weekDays[indexPath.row]
-        let (backColor, textColor) = day.selected ? (UIColor.scHeaderColor(), UIColor.whiteColor()): (UIColor.groupTableViewBackgroundColor(), UIColor.lightGrayColor())
+        let (backColor, textColor) = day.selected ? (UIColor.scHeaderColor(), UIColor.white): (UIColor.groupTableViewBackground, UIColor.lightGray)
         cell.lblTitle.backgroundColor = backColor
         cell.lblTitle.textColor = textColor
         
         cell.lblTitle.text = day.name
-        cell.lblTitle.layer.borderColor = UIColor.scHeaderColor().CGColor
+        cell.lblTitle.layer.borderColor = UIColor.scHeaderColor().cgColor
         cell.lblTitle.layer.borderWidth = 1.0
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 42 * _widthRatio, height: 42 * _widthRatio)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
         return 7 * _widthRatio
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let day = weekDays[indexPath.row]
         day.selected = !day.selected
-        collectionView.reloadItemsAtIndexPaths([indexPath])
+        collectionView.reloadItems(at: [indexPath])
     }
     //class that represent a day
     class Day {
@@ -120,52 +120,52 @@ class StopoverCell: TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         firstStopView?.layer.borderWidth  = 1.0
-        firstStopView?.layer.borderColor  = UIColor.lightGrayColor().CGColor
+        firstStopView?.layer.borderColor  = UIColor.lightGray.cgColor
         
         secondStopView?.layer.borderWidth = 1.0
-        secondStopView?.layer.borderColor = UIColor.lightGrayColor().CGColor
+        secondStopView?.layer.borderColor = UIColor.lightGray.cgColor
 
         thirdStopView?.layer.borderWidth  = 1.0
-        thirdStopView?.layer.borderColor  = UIColor.lightGrayColor().CGColor
+        thirdStopView?.layer.borderColor  = UIColor.lightGray.cgColor
         
-        firstStopView?.backgroundColor    = UIColor.whiteColor()
-        secondStopView?.backgroundColor   = UIColor.whiteColor()
-        thirdStopView?.backgroundColor    = UIColor.whiteColor()
+        firstStopView?.backgroundColor    = UIColor.white
+        secondStopView?.backgroundColor   = UIColor.white
+        thirdStopView?.backgroundColor    = UIColor.white
     }
     
     //set Stopover location info 
-    func setStoppersInfo(stopers : [GLocation?]) {
+    func setStoppersInfo(_ stopers : [GLocation?]) {
         if let location1 = stopers[0] {
             lblStop1.text = location1.name
-            btnClose1.hidden = false
-            icn_downArrow1.hidden = true
+            btnClose1.isHidden = false
+            icn_downArrow1.isHidden = true
         } else {
             lblStop1.text = "Stop".localizedString() +  "1"
-            btnClose1.hidden = true
-            icn_downArrow1.hidden = false
+            btnClose1.isHidden = true
+            icn_downArrow1.isHidden = false
         }
         
         if let location2 = stopers[1] {
             lblStop2.text = location2.name
-            btnClose2.hidden = false
-            icn_downArrow2.hidden = true
+            btnClose2.isHidden = false
+            icn_downArrow2.isHidden = true
 
         } else {
             lblStop2.text = "Stop".localizedString() + "2"
-            btnClose2.hidden = true
-            icn_downArrow2.hidden = false
+            btnClose2.isHidden = true
+            icn_downArrow2.isHidden = false
 
         }
         
         if let location3 = stopers[2] {
             lblStop3.text = location3.name
-            btnClose3.hidden = false
-            icn_downArrow3.hidden = true
+            btnClose3.isHidden = false
+            icn_downArrow3.isHidden = true
 
         } else {
             lblStop3.text = "Stop".localizedString() + "3"
-            btnClose3.hidden = true
-            icn_downArrow3.hidden = false
+            btnClose3.isHidden = true
+            icn_downArrow3.isHidden = false
 
         }
     }
@@ -184,11 +184,11 @@ class TravelDateTimeCell: TVGenericeCell {
     }
     
     //Set info for regular travel
-    func setRegularTravelInfo(travel: Travel) {
-        self.checkBoxBtn.selected = travel.isRegularTravel
+    func setRegularTravelInfo(_ travel: Travel) {
+        self.checkBoxBtn.isSelected = travel.isRegularTravel
         
         if let date = travel.repeateEndDate() {
-            let repeatEndTime = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            let repeatEndTime = dateFormator.stringFromDate(date, style: DateFormatter.Style.medium)
             self.lblTime.text = repeatEndTime
         } else {
             self.lblTime.text = "Select".localizedString()
@@ -198,12 +198,12 @@ class TravelDateTimeCell: TVGenericeCell {
     }
     
     //set info for Round travel.
-    func setRoundTravelInfo(travel: Travel) {
-        self.checkBoxBtn.selected = travel.isRoundTravel
+    func setRoundTravelInfo(_ travel: Travel) {
+        self.checkBoxBtn.isSelected = travel.isRoundTravel
         
         //round date
         if let date = travel.roundTravelDate() {
-            let roundDate = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            let roundDate = dateFormator.stringFromDate(date, style: DateFormatter.Style.medium)
             self.lblDate.text = roundDate
         } else {
             self.lblDate.text = "Select".localizedString()
@@ -219,10 +219,10 @@ class TravelDateTimeCell: TVGenericeCell {
     }
     
     //Set departure time for travel
-    func setDepartureInfoFor(travel: Travel) {
+    func setDepartureInfoFor(_ travel: Travel) {
         //departure date
         if let date = travel.departurDate() {
-            let roundDate = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            let roundDate = dateFormator.stringFromDate(date, style: DateFormatter.Style.medium)
             self.lblDate.text = roundDate
         } else {
             self.lblDate.text = "Select".localizedString()
@@ -242,7 +242,7 @@ class TravelDateTimeCell: TVGenericeCell {
     func setDateAndTime(ForRideRequest request: TravelRequest) {
         //Ride date
         if let date = request.departurDate() {
-            let dateString = dateFormator.stringFromDate(date, style: NSDateFormatterStyle.MediumStyle)
+            let dateString = dateFormator.stringFromDate(date, style: DateFormatter.Style.medium)
             self.lblDate.text = dateString
             self.lblTime.text = dateFormator.stringFromDate(date, format: "hh:mm a")
 
@@ -268,12 +268,12 @@ class SteperCell: TVGenericeCell {
     @IBOutlet var btnDecreaseCount: IndexPathButton!
     @IBOutlet var btnIncreaseCount: IndexPathButton!
     @IBOutlet var txtField: IndexPathTextField!
-    var steperForType: TravelPreferenceType = .None
+    var steperForType: TravelPreferenceType = .none
     weak var delegate: AddTravelStep2VC?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let customViews = NSBundle.mainBundle().loadNibNamed("CustomViews", owner: nil, options: nil)
+        let customViews = Bundle.main.loadNibNamed("CustomViews", owner: nil, options: nil)
         let av = customViews![0] as! VKeyboardAccessoryView
         
         av.actionBlock = {(action) in
@@ -339,16 +339,16 @@ class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UI
     }
     
     //MARK: CollectionView DataSource and Delegate
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Rules.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CVGenericeCell
         let rule = Rules[indexPath.row]
         if driverRules.contains(rule) {
             let image = RulesImages[rule]
@@ -360,7 +360,7 @@ class TVDriverRulesCell : TVGenericeCell, UICollectionViewDelegateFlowLayout, UI
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = 50 * _widthRatio
         return CGSize(width: width, height: width)
     }
@@ -376,26 +376,26 @@ class TVTravelPassengersCell : TVGenericeCell, UICollectionViewDelegateFlowLayou
     }
     
     //MARK: CollectionView DataSource and Delegate
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return passengers.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CVGenericeCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CVGenericeCell
         let booking = passengers[indexPath.row]
-        cell.imgView.setImageWithURL(NSURL(string: booking.userPhoto)!, placeholderImage: _userPlaceholderImage)
+        cell.imgView.setImageWith(URL(string: booking.userPhoto)!, placeholderImage: _userPlaceholderImage)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = 40 * _widthRatio
         return CGSize(width: width, height: width)
     }
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5 * _widthRatio
     }
 }
@@ -419,12 +419,12 @@ class TVTravelCell : TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView?.layer.cornerRadius = 5 * _widthRatio
-        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().cgColor
         cardView?.layer.borderWidth = 2.0
     }
     
     //set ride info 
-    func setRideInfo(ride: Travel) {
+    func setRideInfo(_ ride: Travel) {
         lblTravelDate.text = dateFormator.dateString(ride.departureDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd MMM")//ride.departureDate
         lblTravelTime.text = dateFormator.dateString(ride.departureTime, fromFomat: "HH:mm", toFromat: "hh:mm a")
         
@@ -437,7 +437,7 @@ class TVTravelCell : TVGenericeCell {
         lblCarPrice.text     = ride.currency!.symbol + " " + ride.passengerPrice.value.ToString()
         ratingView.value     = CGFloat(ride.driver.rating)
         
-        imgvDriver.setImageWithURL(NSURL(string: ride.driver.photoURl)!, placeholderImage: _userPlaceholderImage)
+        imgvDriver.setImageWith(URL(string: ride.driver.photoURl)!, placeholderImage: _userPlaceholderImage)
     }
 }
 
@@ -460,11 +460,11 @@ class TblRideRequestCell: TVGenericeCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView?.layer.cornerRadius = 5 * _widthRatio
-        cardView?.layer.borderColor = UIColor.scTravelCardColor().CGColor
+        cardView?.layer.borderColor = UIColor.scTravelCardColor().cgColor
         cardView?.layer.borderWidth = 2.0 
     }
     
-    func setInfoFor(request: TravelRequest) {
+    func setInfoFor(_ request: TravelRequest) {
         lblLocationFrom.text = request.fromLocation.name
         lblLocationTo.text = request.toLocation.name
         lblTravelDate.text = dateFormator.stringFromDate(request.departurDate()!, format: "dd MMM")
@@ -472,7 +472,7 @@ class TblRideRequestCell: TVGenericeCell {
         lblOfferCount.text = request.offers.count.ToString() + " " + (request.offers.count > 1 ? "Offers" : "Offer").localizedString()
         lblPrice.text = request.currency!.symbol + " " + request.suggestedPrice.ToString()
         lblRequesterName.text = request.passanger.name
-        imgvRequester.setImageWithURL(NSURL(string: request.passanger.photoURl)!, placeholderImage: _userPlaceholderImage)
+        imgvRequester.setImageWith(URL(string: request.passanger.photoURl)!, placeholderImage: _userPlaceholderImage)
     }
 }
 

@@ -41,12 +41,12 @@ class DRideRequestDetailVC: ParentVC {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         addObservations()
     }
     
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         _defaultCenter.removeObserver(self)
     }
 
@@ -58,12 +58,12 @@ class DRideRequestDetailVC: ParentVC {
     }
     
     //Reset comment box UI
-    func resetCommentBox(onMessageSent: Bool = false) {
+    func resetCommentBox(_ onMessageSent: Bool = false) {
         let commentText = txtComment.text.trimmedString()
         if onMessageSent || commentText.isEmpty  {
             chatTextViewHeightConstraint.constant = 35
             txtComment.text = ""
-            lblCommentPlaceholder.hidden = false
+            lblCommentPlaceholder.isHidden = false
         }
     }
 }
@@ -73,21 +73,21 @@ extension DRideRequestDetailVC {
     
     func addObservations() {
         //Add Keybaord observeration
-        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        _defaultCenter.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     //Keyboard Notifications
-    func keyboardWillShow(nf: NSNotification)  {
+    func keyboardWillShow(_ nf: Notification)  {
         let userinfo = nf.userInfo!
-        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+        if let keyboarFrame = (userinfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             //tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:keyboarFrame.size.height , right: 0)
             chatBoxBottomConstraint.constant = keyboarFrame.size.height
             self.view.layoutIfNeeded()
         }
     }
     
-    func keyboardWillHide(nf: NSNotification)  {
+    func keyboardWillHide(_ nf: Notification)  {
         //Reset comment textview
         chatBoxBottomConstraint.constant = 0
         self.resetCommentBox()
@@ -100,12 +100,12 @@ extension DRideRequestDetailVC {
     
     //Add/Cancel Offer button action
     //This action will show a window to add an offer
-    @IBAction func addOfferBtnClicked(sendeer: UIButton) {
+    @IBAction func addOfferBtnClicked(_ sendeer: UIButton) {
         self.showAddOfferView()
     }
     
     //Accept offer button action
-    @IBAction func acceptOfferBtnClicked(sender: UIButton) {
+    @IBAction func acceptOfferBtnClicked(_ sender: UIButton) {
         let offer = travelRequest.offers[sender.tag]
         offer.acceptOffer(travelRequest.id) { (response, flag) in
             //TODO
@@ -113,7 +113,7 @@ extension DRideRequestDetailVC {
     }
     
     //Reject offer button action
-    @IBAction func rejectOfferBtnClicked(sender: UIButton) {
+    @IBAction func rejectOfferBtnClicked(_ sender: UIButton) {
         let offer = travelRequest.offers[sender.tag]
         offer.rejectOffer(travelRequest.id) { (response, flag) in
             //TODO
@@ -121,32 +121,32 @@ extension DRideRequestDetailVC {
     }
 
     //Action for calling to passanger
-    @IBAction func callBtnClicked(sender: UIButton) {
+    @IBAction func callBtnClicked(_ sender: UIButton) {
         if !travelRequest.passanger.mobileNumber.isEmpty {
             let mobileNumber = travelRequest.passanger.mobileNumber
-            if let url = NSURL(string: "tel://\(mobileNumber)") {
-                if UIApplication.sharedApplication().canOpenURL(url) {
-                    UIApplication.sharedApplication().openURL(url)
+            if let url = URL(string: "tel://\(mobileNumber)") {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.openURL(url)
                 }
             }
         }
     }
     
     //This action navigate the driver at chat screen for chating with passanger
-    @IBAction func chatBtnClicked(sender: UIButton) {
+    @IBAction func chatBtnClicked(_ sender: UIButton) {
         //TODO
     }
     
     //Edit request button clicked
-    @IBAction func editTravelBtnClicked(sender: UIButton) {//navigate to request a ride screen for edit the request.
-        let requestRideVC = _driverStoryboard.instantiateViewControllerWithIdentifier("SBID_RequestARideVC") as! RequestARideStep2VC
+    @IBAction func editTravelBtnClicked(_ sender: UIButton) {//navigate to request a ride screen for edit the request.
+        let requestRideVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_RequestARideVC") as! RequestARideStep2VC
         requestRideVC.tRequest = travelRequest
         requestRideVC.isEditRequestMode = true
         self.navigationController?.pushViewController(requestRideVC, animated: true)
     }
     
     //Comment send button clicked
-    @IBAction func sendCommentBtnClicked(sender: UIButton) {
+    @IBAction func sendCommentBtnClicked(_ sender: UIButton) {
       //TODO - sent message api call
         self.resetCommentBox(true)
         txtComment.resignFirstResponder()
@@ -156,9 +156,9 @@ extension DRideRequestDetailVC {
 //MARK: TextViewDelegate functions
 extension DRideRequestDetailVC : UITextViewDelegate {
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         let text = textView.text
-        lblCommentPlaceholder.hidden = !text.isEmpty
+        lblCommentPlaceholder.isHidden = !(text?.isEmpty)!
         let contentHieght = textView.contentSize.height
         chatTextViewHeightConstraint.constant =  contentHieght > 100  ? 100 : contentHieght
     }
@@ -168,78 +168,78 @@ extension DRideRequestDetailVC : UITextViewDelegate {
 // MARK: TableView Datasource and Delegate
 extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section]
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == kSectionForLocation  {
             return nil
             
         } else if section == kSectionForOffers {
-            if  me.userMode == .Driver {
+            if  me.userMode == .driver {
                 return nil
                 
             } else {//.Passanger
-                let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! TVGenericeCell
                 let offersCount = travelRequest.offers.count
                 cell.lblTitle.text = offersCount.ToString() + " " +  (offersCount > 1 ? "Offers" : "Offer").localizedString()
                 return cell.contentView
             }
             
         } else { //section == kSectionForComments
-            let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! TVGenericeCell
             cell.lblTitle.text = "Comments".localizedString()
             return cell.contentView
         }
     }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == kSectionForLocation {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("RideLocationInfoCell") as! TVRideRequestLocationCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "RideLocationInfoCell") as! TVRideRequestLocationCell
                 cell.SetLocationInfo(travelRequest)
                 return cell
                 
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("RidePriceInfoCell") as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "RidePriceInfoCell") as! TVGenericeCell
                 cell.lblTitle.text = travelRequest.currency!.symbol + " " + travelRequest.suggestedPrice.ToString()
                 return cell
                 
             }
             
         } else if indexPath.section == kSectionForOffers {
-            if me.userMode == .Driver {
-                let cell = tableView.dequeueReusableCellWithIdentifier("offerInfoCell") as! TravelRequestOfferInfoCell
+            if me.userMode == .driver {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "offerInfoCell") as! TravelRequestOfferInfoCell
                 let offersCount = travelRequest.offers.count
                 cell.lblTitle.text = offersCount.ToString() + " " +  (offersCount > 1 ? "Offers" : "Offer").localizedString()
                 cell.offers = travelRequest.offers
                 cell.travelRequest = travelRequest
                 cell.tableview.reloadData()
                 let titleText = offerOfDriverIsExist(me.Id) ? "CancelYourOffer".localizedString() : "AddYourOffer".localizedString()
-                cell.btnAddOffer.setTitle(titleText, forState: .Normal)
-                cell.noOffersView.hidden = !travelRequest.offers.isEmpty
+                cell.btnAddOffer.setTitle(titleText, for: UIControlState())
+                cell.noOffersView.isHidden = !travelRequest.offers.isEmpty
                 return cell
                 
             } else {//offerCellForPassanger
-                let cell = tableView.dequeueReusableCellWithIdentifier("offerCellForPassanger") as! TravelRequestOfferInfoCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "offerCellForPassanger") as! TravelRequestOfferInfoCell
                 cell.offers = travelRequest.offers
                 cell.travelRequest = travelRequest
                 cell.tableview.reloadData()
-                cell.noOffersView.hidden = !travelRequest.offers.isEmpty
+                cell.noOffersView.isHidden = !travelRequest.offers.isEmpty
                 return cell
             }
             
         } else { //Section for Comments
-            let cell = tableView.dequeueReusableCellWithIdentifier("commentContainerCell") as! CommnetsContainerCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "commentContainerCell") as! CommnetsContainerCell
             cell.comments = []//[Message([:]), Message([:])]
             cell.tableView.reloadData()
 
@@ -247,17 +247,17 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == kSectionForOffers) && (me.userMode == .Passenger) {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == kSectionForOffers) && (me.userMode == .passenger) {
            return 30
         } else if section == kSectionForComments {
             return 30
         } else {
-            return CGFloat.min
+            return CGFloat.leastNormalMagnitude
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == kSectionForLocation {
             if indexPath.row == 0 {
                 return 150 * _widthRatio
@@ -265,7 +265,7 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
                 return 25 * _widthRatio
             }
         } else if indexPath.section == kSectionForOffers {
-            return me.userMode == .Driver ?  250 * _widthRatio : 150 * _widthRatio
+            return me.userMode == .driver ?  250 * _widthRatio : 150 * _widthRatio
             
         } else if indexPath.section == kSectionForComments {
             return 130 * _widthRatio
@@ -275,14 +275,14 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.min
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if tableViewDragging {
             let offset = scrollView.contentOffset
             mapViewHeightConstraint.constant = -offset.y
@@ -290,11 +290,11 @@ extension DRideRequestDetailVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         tableViewDragging = true
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         tableViewDragging = false
     }
     
@@ -305,27 +305,27 @@ extension DRideRequestDetailVC {
     
     //Func to show add offer popup view screen.
     func showAddOfferView() {
-        let alert = UIAlertController(title: "AddYourOffer".localizedString(), message: nil, preferredStyle: .Alert)
+        let alert = UIAlertController(title: "AddYourOffer".localizedString(), message: nil, preferredStyle: .alert)
         
         //Add a textfield for price
-        alert.addTextFieldWithConfigurationHandler { (textField) in
+        alert.addTextField { (textField) in
             textField.placeholder = "Price".localizedString() + " (\(self.travelRequest.currency!.code))" //Currency code should be replace with request's currency code.
-            textField.keyboardType  = UIKeyboardType.NumberPad
+            textField.keyboardType  = UIKeyboardType.numberPad
         }
         
         //Add a textfield for date
-        alert.addTextFieldWithConfigurationHandler { (textField) in
+        alert.addTextField { (textField) in
             textField.placeholder = "Date".localizedString()
             //add datepicker as inputview for the textfield
             let datePicker = AlertTextDatePicker()
             datePicker.textfild = textField
-            datePicker.minimumDate = NSDate()
-            datePicker.datePickerMode = .Date
+            datePicker.minimumDate = Date()
+            datePicker.datePickerMode = .date
             textField.inputView = datePicker
-            datePicker.addTarget(self, action: #selector(self.datePickerDidChangeDate(_:)), forControlEvents: .ValueChanged)
+            datePicker.addTarget(self, action: #selector(self.datePickerDidChangeDate(_:)), for: .valueChanged)
         }
 
-        let addAction = UIAlertAction(title: "Add".localizedString(), style: .Destructive) { (action) in
+        let addAction = UIAlertAction(title: "Add".localizedString(), style: .destructive) { (action) in
             let price = alert.textFields![0].text!
             let date  = alert.textFields![1].text!
             if !price.isEmpty && !date.isEmpty {
@@ -335,15 +335,15 @@ extension DRideRequestDetailVC {
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel".localizedString(), style: .Default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localizedString(), style: .default, handler: nil)
         alert.addAction(cancelAction)
         alert.addAction(addAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     
     //datepicker's value change event.
-    func datePickerDidChangeDate(sender: UIDatePicker) {
+    func datePickerDidChangeDate(_ sender: UIDatePicker) {
         if let dp = sender as? AlertTextDatePicker {
             let dateString = dateFormator.stringFromDate(dp.date, format: "dd/MM/yyyy")
             dp.textfild?.text = dateString
@@ -351,7 +351,7 @@ extension DRideRequestDetailVC {
     }
     
     //Func for checking that a user has added an offer on the request
-    func offerOfDriverIsExist(driverId: String)-> Bool {
+    func offerOfDriverIsExist(_ driverId: String)-> Bool {
         let result =   travelRequest.offers.filter { (offer) -> Bool in
             return offer.userID == driverId
         }
@@ -362,29 +362,29 @@ extension DRideRequestDetailVC {
     //MARK: MapView - Marker pin and path line setup.
     func setMarkerAndPathOnMap() {
         let cameraPositionCoordinates = CLLocationCoordinate2D(latitude: travelRequest.fromLocation!.lat, longitude: travelRequest.fromLocation!.long)
-        let cameraPosition = GMSCameraPosition.cameraWithTarget(cameraPositionCoordinates, zoom: 8)
-        gMapView.animateToCameraPosition(cameraPosition)
+        let cameraPosition = GMSCameraPosition.camera(withTarget: cameraPositionCoordinates, zoom: 8)
+        gMapView.animate(to: cameraPosition)
         
         let path = GMSMutablePath()
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(travelRequest.fromLocation.lat, travelRequest.fromLocation.long)
-        marker.groundAnchor = CGPointMake(0.5, 0.5)
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         marker.title = travelRequest.fromLocation.name
         marker.map = gMapView
-        path.addCoordinate(CLLocationCoordinate2DMake(travelRequest.fromLocation.lat, travelRequest.fromLocation.long))
+        path.add(CLLocationCoordinate2DMake(travelRequest.fromLocation.lat, travelRequest.fromLocation.long))
         
         
         let marker2 = GMSMarker()
         marker2.position = CLLocationCoordinate2DMake(travelRequest.toLocation.lat, travelRequest.toLocation.long)
-        marker2.groundAnchor = CGPointMake(0.5, 0.5)
+        marker2.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         marker2.title = travelRequest.toLocation.name
         marker2.map = gMapView
-        path.addCoordinate(CLLocationCoordinate2DMake(travelRequest.toLocation.lat, travelRequest.toLocation.long))
+        path.add(CLLocationCoordinate2DMake(travelRequest.toLocation.lat, travelRequest.toLocation.long))
         
         
         let rectangle = GMSPolyline(path: path)
         rectangle.strokeWidth = 2.0
-        rectangle.strokeColor = UIColor.greenColor()
+        rectangle.strokeColor = UIColor.green
         rectangle.map = gMapView
     }
     
@@ -397,8 +397,8 @@ extension DRideRequestDetailVC {
     func getTravelRequestDetailAPICall() {
         TravelRequest.getTravelRequestDetailAPICall(travelRequest.id) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let trObject = json["Object"] as? [String : AnyObject] {
+                if let json = response.json as? [String : Any] {
+                    if let trObject = json["Object"] as? [String : Any] {
                         self.travelRequest.reset(withInfo: trObject)
                         //self.travelRequest = TravelRequest(trObject)
                         self.tableView.reloadData()
@@ -426,7 +426,7 @@ class TVRideRequestLocationCell : TVGenericeCell {
     }
     
     //set location info for travel request
-    func SetLocationInfo(travelRequest: TravelRequest) {
+    func SetLocationInfo(_ travelRequest: TravelRequest) {
         lblLocationFrom.text = travelRequest.fromLocation.address
         lblLocatonTo.text = travelRequest.toLocation.address
         lblRideDate.text = dateFormator.stringFromDate(travelRequest.departurDate()!, format: "MMM dd, yyyy")
@@ -452,22 +452,22 @@ class TravelRequestOfferInfoCell: TVGenericeCell, UITableViewDataSource, UITable
 
     //Offer sender list tableview delegate
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return me.userMode == .Passenger ? 75 * _widthRatio : 50 * _widthRatio
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return me.userMode == .passenger ? 75 * _widthRatio : 50 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return offers.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("offerCell") as! OfferCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "offerCell") as! OfferCell
         let offer = offers[indexPath.row]
         cell.lblTitle.text = offer.userName
         cell.lblSubTitle.text = travelRequest.currency!.symbol + " " + offer.price
-        cell.imgView.setImageWithURL(NSURL(string: offer.userPhoto)!, placeholderImage: _userPlaceholderImage)
+        cell.imgView.setImageWith(URL(string: offer.userPhoto)!, placeholderImage: _userPlaceholderImage)
        
-        if me.userMode == .Passenger {
+        if me.userMode == .passenger {
             cell.setOfferActionButton(offer)
             cell.btnAccept.tag = indexPath.row
             cell.btnReject.tag = indexPath.row
@@ -475,8 +475,8 @@ class TravelRequestOfferInfoCell: TVGenericeCell, UITableViewDataSource, UITable
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
@@ -492,16 +492,16 @@ class CommnetsContainerCell: TVGenericeCell, UITableViewDataSource, UITableViewD
     }
 
     //Comments tableview delegate
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return  65 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentCell") as! TVGenericeCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell") as! TVGenericeCell
         return cell
     }
 
@@ -527,36 +527,36 @@ class OfferCell: TVGenericeCell {
     }
     
     //Set action button and status for an offer
-    func setOfferActionButton(offer: TravelRequestOffer) {
+    func setOfferActionButton(_ offer: TravelRequestOffer) {
  
         var actionHidden = false
         var statusText = ""
-        var statusColor = UIColor.grayColor()
+        var statusColor = UIColor.gray
         
         switch offer.status {
-        case .Pending:
+        case .pending:
             actionHidden = false
             statusText = ""
-        case .Accepted:
+        case .accepted:
             actionHidden = true
             statusText = "Accepted"
-            statusColor = UIColor.greenColor()
-        case .Cancel:
+            statusColor = UIColor.green
+        case .cancel:
             actionHidden = true
             statusText = "Cancelled"
-             statusColor = UIColor.blackColor()
-        case .Declined:
+             statusColor = UIColor.black
+        case .declined:
             actionHidden = true
             statusText = "Rejected"
-            statusColor = UIColor.redColor()
+            statusColor = UIColor.red
         default:
             actionHidden = true
         }
         
         lblStatus.text = statusText
         lblStatus.textColor = statusColor
-        btnAccept.hidden = actionHidden
-        btnReject.hidden = actionHidden
+        btnAccept.isHidden = actionHidden
+        btnReject.isHidden = actionHidden
     }
     
 }

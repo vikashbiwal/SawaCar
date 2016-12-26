@@ -11,7 +11,7 @@ import Foundation
 class TravelRequestOffer {
     
     enum TravelRequestOfferStatus: Int {
-        case Pending = 1, Accepted, Declined, Cancel, None = 0
+        case pending = 1, accepted, declined, cancel, none = 0
     }
     
     var id:             String
@@ -23,9 +23,9 @@ class TravelRequestOffer {
     var userPhoto:      String
     var status:         TravelRequestOfferStatus
  
-    var date: NSDate? {return dateFormator.dateFromString(dateString, fomat: "dd/MM/yyyy HH:mm:ss")}
+    var date: Date? {return dateFormator.dateFromString(dateString, fomat: "dd/MM/yyyy HH:mm:ss")}
     
-    init(_ info : [String : AnyObject]) {
+    init(_ info : [String : Any]) {
         id          = RConverter.string(info["OfferID"])
         dateString  = RConverter.string(info["OfferDate"])
         price       = RConverter.string(info["Price"])
@@ -45,17 +45,17 @@ class TravelRequestOffer {
 extension TravelRequestOffer {
     
     //Cancel offer by the driver which added on the travel request
-    func cancelOffer(travelRequestID: String, block: WSBlock) {
+    func cancelOffer(_ travelRequestID: String, block: @escaping WSBlock) {
         wsCall.cancelOffer(travelRequestID, userID: me.Id, block: block)
     }
     
     //Accept offer by the passanger on the travel request
-    func acceptOffer(travelRequestId: String, block: WSBlock) {
+    func acceptOffer(_ travelRequestId: String, block: @escaping WSBlock) {
         wsCall.acceptOffer(travelRequestId, userID: me.Id, block: block)
     }
     
     //Reject offer. Api should be call by the passanger
-    func rejectOffer(travelRequestId: String, block: WSBlock) {
+    func rejectOffer(_ travelRequestId: String, block: @escaping WSBlock) {
         wsCall.rejectOffer(travelRequestId, userID: self.userID, block: block)
     }
 }

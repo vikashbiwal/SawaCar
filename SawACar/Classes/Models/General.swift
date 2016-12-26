@@ -14,7 +14,7 @@ class Language {
     var name = ""
     var code = ""
     
-    init(_ info : [String : AnyObject]) {
+    init(_ info : [String : Any]) {
         id = RConverter.string(info["ID"])
         name = RConverter.string(info["Name"])
         code = RConverter.string(info["Code"])
@@ -35,7 +35,7 @@ class Country {
         name     = ""
     }
     
-    init(info: [String : AnyObject]) {
+    init(info: [String : Any]) {
         Id       = RConverter.string(info["CountryID"]);
         code     = RConverter.string(info["CountryCode"])
         dialCode = RConverter.string(info["CountryDialCode"])
@@ -59,7 +59,7 @@ class Currency {
         symbol  = ""
     }
 
-    init(_ info : [String : AnyObject]) {
+    init(_ info : [String : Any]) {
         Id      = RConverter.string(info["CurrencyID"])
         code    = RConverter.string(info["CurrencyCode"])
         name    = RConverter.string(info["CurrencyName"])
@@ -81,7 +81,7 @@ class AccountType {
         name = ""
     }
 
-    init(info: [String : AnyObject]) {
+    init(info: [String : Any]) {
         if let _ = info["AccountTypeID"] { //field with user info
             Id = RConverter.string(info["AccountTypeID"])
         } else { //field with acount type List api
@@ -99,7 +99,7 @@ class AccountType {
 class Company {
     var Id: String!
     var name: String!
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         Id = RConverter.string(info["CompanyID"])
         if let _ = info["CompanyName"] {
             name =  RConverter.string(info["CompanyName"])
@@ -113,7 +113,7 @@ class Company {
 class Color {
     var Id: String!
     var name: String!
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         Id = RConverter.string(info["ColorID"])
         if let _ = info["ColorName"] {
             name =  RConverter.string(info["ColorName"])
@@ -127,7 +127,7 @@ class Color {
 class TravelType {
     var Id: String!
     var name: String!
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         Id = RConverter.string(info["TravelTypeID"])
         name =  RConverter.string(info["Name"])
 
@@ -145,8 +145,8 @@ class Menu {
     var title: String!
     var imgName: String!
     var selected = false
-    var type: MenuType = .None
-    init(title: String, imgName: String, selected: Bool  = false, type: MenuType = .None, id: String = "") {
+    var type: MenuType = .none
+    init(title: String, imgName: String, selected: Bool  = false, type: MenuType = .none, id: String = "") {
         self.title = title
         self.imgName = imgName
         self.selected = selected
@@ -155,5 +155,5 @@ class Menu {
     }
 }
 enum MenuType {
-    case  Profile , ChangePass, SocialLink , Details, Settings, None
+    case  profile , changePass, socialLink , details, settings, none
 }

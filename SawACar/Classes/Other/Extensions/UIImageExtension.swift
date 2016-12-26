@@ -13,25 +13,25 @@ import ImageIO
 
 public extension UIImage {
     
-    func mask(maskImage: UIImage) -> UIImage? {
+    func mask(_ maskImage: UIImage) -> UIImage? {
         var maskedImage: UIImage? = nil
-        let maskRef = maskImage.CGImage as CGImageRef!
-        let mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
-            CGImageGetHeight(maskRef),
-            CGImageGetBitsPerComponent(maskRef),
-            CGImageGetBitsPerPixel(maskRef),
-            CGImageGetBytesPerRow(maskRef),
-            CGImageGetDataProvider(maskRef)!, nil, false) as CGImageRef!
+        let maskRef = maskImage.cgImage as CGImage!
+        let mask = CGImage(maskWidth: (maskRef?.width)!,
+            height: (maskRef?.height)!,
+            bitsPerComponent: (maskRef?.bitsPerComponent)!,
+            bitsPerPixel: (maskRef?.bitsPerPixel)!,
+            bytesPerRow: (maskRef?.bytesPerRow)!,
+            provider: (maskRef?.dataProvider!)!, decode: nil, shouldInterpolate: false) as CGImage!
         
-        let maskedImageRef = CGImageCreateWithMask(self.CGImage!, mask)
+        let maskedImageRef = self.cgImage!.masking(mask!)
         
-        maskedImage = UIImage(CGImage: maskedImageRef!)
+        maskedImage = UIImage(cgImage: maskedImageRef!)
         
         return maskedImage
     }
     
-    class func createImageWithColor(color: UIColor, size: CGSize) -> UIImage {
-        let rect = CGRectMake(0, 0, size.width, size.height)
+    class func createImageWithColor(_ color: UIColor, size: CGSize) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
         UIRectFill(rect)
@@ -40,16 +40,16 @@ public extension UIImage {
         return image
     }
     
-    func resize(size:CGSize)-> UIImage {
+    func resize(_ size:CGSize)-> UIImage {
         
-        let scale  = UIScreen.mainScreen().scale
+        let scale  = UIScreen.main.scale
         let newSize = CGSize(width: size.width  , height: size.height  )
         
         UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextSetInterpolationQuality(context!, CGInterpolationQuality.High)
-        self.drawInRect(CGRect(origin: CGPointZero, size: newSize))
+        context!.interpolationQuality = CGInterpolationQuality.high
+        self.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

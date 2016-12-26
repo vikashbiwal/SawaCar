@@ -29,9 +29,9 @@ class InboxViewController: ParentVC {
     }
     
     //MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toChatVCSegue" {
-            let chatVC = segue.destinationViewController as! ChatingViewController
+            let chatVC = segue.destination as! ChatingViewController
             chatVC.contact = (sender as! Message).contact
         }
     }
@@ -41,36 +41,36 @@ class InboxViewController: ParentVC {
 //MARK: IBActions
 extension InboxViewController {
     
-    @IBAction func searchIconBtnTapped(sender: UIButton) {
+    @IBAction func searchIconBtnTapped(_ sender: UIButton) {
         searchBox.becomeFirstResponder()
-        UIView.animateWithDuration(0.3) { 
+        UIView.animate(withDuration: 0.3, animations: { 
             self.searchBarTopSpace.constant = 0
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
-    @IBAction func newChatBtnTapped(sender: UIButton) {
-        self.performSegueWithIdentifier("InboxToContactsSegue", sender: nil)
+    @IBAction func newChatBtnTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "InboxToContactsSegue", sender: nil)
     }
 }
 
 //SearchBar delegatation
 extension InboxViewController : UISearchBarDelegate {
    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBox.resignFirstResponder()
         searchBar.showsCancelButton = false
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.searchBarTopSpace.constant = -44
             self.view.layoutIfNeeded()
-        }
+        }) 
     }
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let text = searchText.trimmedString()
         if text.isEmpty {
             filteredInbox = inbox
@@ -88,25 +88,25 @@ extension InboxViewController : UISearchBarDelegate {
 
 extension InboxViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredInbox.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("messageCell") as! MessageCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell") as! MessageCell
         let message  = filteredInbox[indexPath.row]
         cell.setInfo(forInbox: message)
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let message = inbox[indexPath.row]
-        self.performSegueWithIdentifier("toChatVCSegue", sender: message)
+        self.performSegue(withIdentifier: "toChatVCSegue", sender: message)
     }
     
 }
@@ -122,8 +122,8 @@ extension InboxViewController {
         let params = ["UserID" : me.Id]
         wsCall.getInboxMessages(params) { (response, flag) in
             if response.isSuccess {
-                if let json = response.json {
-                    if let objects = json["Object"] as? [[String : AnyObject]] {
+                if let json = response.json as? [String : Any] {
+                    if let objects = json["Object"] as? [[String : Any]] {
                         self.inbox.removeAll()
                         for item in objects {
                             let message = Message(item)
@@ -156,7 +156,7 @@ class MessageCell: TVGenericeCell {
         lblTitle.text = message.contact.name
         lblSubTitle.text = (message.senderId == me.Id ? "You : " : "") + message.text
         lblTime.text = message.dateString
-        imgView.setImageWithURL(NSURL(string: message.contact.photo)!, placeholderImage: _userPlaceholderImage)
+        imgView.setImageWith(URL(string: message.contact.photo)!, placeholderImage: _userPlaceholderImage)
     }
     
     func setInfo(forMessage message: Message) {

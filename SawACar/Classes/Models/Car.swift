@@ -38,7 +38,7 @@ class Car: Equatable {
         
     }
     
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         id = RConverter.string(info["CarID"])
         name = RConverter.string(info["CarName"])
         userId = RConverter.string(info["UserID"])
@@ -56,7 +56,7 @@ class Car: Equatable {
         
     }
     
-    func setInfo(info: [String : AnyObject]) {
+    func setInfo(_ info: [String : Any]) {
         id = RConverter.string(info["CarID"])
         name = RConverter.string(info["CarName"])
         userId = RConverter.string(info["UserID"])
@@ -73,7 +73,7 @@ class Car: Equatable {
         seatCounter.max = seatCounter.value
     }
     
-    class func  CreateCarFromTravel(info: [String : AnyObject])-> Car {
+    class func  CreateCarFromTravel(_ info: [String : Any])-> Car {
         let car = Car()
         car.id = RConverter.string(info["CarID"])
         car.name = RConverter.string(info["CarFullName"])

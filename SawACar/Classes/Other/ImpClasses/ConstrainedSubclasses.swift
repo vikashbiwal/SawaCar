@@ -15,7 +15,7 @@ class JPWidthTextField: UITextField {
     override func awakeFromNib() {
         super.awakeFromNib()
         if let afont = font {
-            font = afont.fontWithSize(afont.pointSize * _widthRatio)
+            font = afont.withSize(afont.pointSize * _widthRatio)
         }
     }
 }
@@ -24,7 +24,7 @@ class JPWidthButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         if let afont = titleLabel?.font {
-            titleLabel?.font = afont.fontWithSize(afont.pointSize * _widthRatio)
+            titleLabel?.font = afont.withSize(afont.pointSize * _widthRatio)
         }
     }
 }
@@ -33,7 +33,7 @@ class JPHeightButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         if let afont = titleLabel?.font {
-            titleLabel?.font = afont.fontWithSize(afont.pointSize * _heighRatio)
+            titleLabel?.font = afont.withSize(afont.pointSize * _heighRatio)
         }
     }
 }
@@ -41,21 +41,21 @@ class JPHeightButton: UIButton {
 class JPWidthLabel: UILabel {
     override func awakeFromNib() {
         super.awakeFromNib()
-        font = font.fontWithSize(font.pointSize * _widthRatio)
+        font = font.withSize(font.pointSize * _widthRatio)
     }
 }
 
 class JPHeightLabel: UILabel {
     override func awakeFromNib() {
         super.awakeFromNib()
-        font = font.fontWithSize(font.pointSize * _heighRatio)
+        font = font.withSize(font.pointSize * _heighRatio)
     }
 }
 
 class JPWidthRoundLabel: UILabel {
     override func awakeFromNib() {
         super.awakeFromNib()
-        font = font.fontWithSize(font.pointSize * _widthRatio)
+        font = font.withSize(font.pointSize * _widthRatio)
         self.layer.cornerRadius = (self.bounds.size.height * _widthRatio)/2
         self.layer.masksToBounds = true
     }
@@ -64,7 +64,7 @@ class JPWidthRoundLabel: UILabel {
 class JPHeightRoundLabel: UILabel {
     override func awakeFromNib() {
         super.awakeFromNib()
-        font = font.fontWithSize(font.pointSize * _heighRatio)
+        font = font.withSize(font.pointSize * _heighRatio)
         self.layer.cornerRadius = (self.bounds.size.height * _heighRatio)/2
         self.layer.masksToBounds = true
     }
@@ -78,10 +78,10 @@ class KPIconButton: UIButton {
             let imgsize = img.frame.size
             let verPad = ((btnsize.height - (imgsize.height * _widthRatio)) / 2)
             self.imageEdgeInsets = UIEdgeInsetsMake(verPad, 0, verPad, 0)
-            self.imageView?.contentMode = .ScaleAspectFit
+            self.imageView?.contentMode = .scaleAspectFit
         }
         if let afont = titleLabel?.font {
-            titleLabel?.font = afont.fontWithSize(afont.pointSize * _widthRatio)
+            titleLabel?.font = afont.withSize(afont.pointSize * _widthRatio)
         }
     }
 }
@@ -188,28 +188,28 @@ class ConstrainedTableViewCell: UITableViewCell {
     
     // This will show and hide spinner. In middle of container View
     // You can pass any view here, Spinner will be placed there runtime and removed on hide.
-    func showSpinnerIn(container: UIView, control: UIButton) {
+    func showSpinnerIn(_ container: UIView, control: UIButton) {
         container.addSubview(activityIndicator)
-        let xConstraint = NSLayoutConstraint(item: activityIndicator, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: container, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: -10)
-        let yConstraint = NSLayoutConstraint(item: activityIndicator, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: container, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: -10)
+        let xConstraint = NSLayoutConstraint(item: activityIndicator, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: container, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: -10)
+        let yConstraint = NSLayoutConstraint(item: activityIndicator, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: container, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: -10)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activateConstraints([xConstraint, yConstraint])
+        NSLayoutConstraint.activate([xConstraint, yConstraint])
         activityIndicator.alpha = 0.0
         layoutIfNeeded()
-        userInteractionEnabled = false
+        isUserInteractionEnabled = false
         activityIndicator.startAnimating()
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.activityIndicator.alpha = 1.0
             control.alpha = 0.0
-        }
+        }) 
     }
     
-    func hideSpinnerIn(container: UIView, control: UIButton) {
-        userInteractionEnabled = true
+    func hideSpinnerIn(_ container: UIView, control: UIButton) {
+        isUserInteractionEnabled = true
         activityIndicator.stopAnimating()
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.activityIndicator.alpha = 0.0
             control.alpha = 1.0
-        }
+        }) 
     }
 }

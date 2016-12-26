@@ -25,7 +25,7 @@ class DriverDetailViewController: ParentVC {
     let kCarDetailSection = 2
    
     var sectionTitles = ["Verification".localizedString(), "Why Travel With Me?".localizedString()]
-    var varificationItems = []
+    var varificationItems = [[String : Any]] ()
     var travelWithMeItems = [[String : String]]()
     
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ class DriverDetailViewController: ParentVC {
         lblDriverName.text = driver.fullname
         lblCountryName.text = driver.country.name
         ratingView.value = CGFloat(driver.rating)
-        driverImageView.setImageWithURL(NSURL(string: driver.photo)!, placeholderImage: _userPlaceholderImage)
+        driverImageView.setImageWith(URL(string: driver.photo)!, placeholderImage: _userPlaceholderImage)
         
         setVarificationItems()
         setWhyTravelWithMeItems()
@@ -57,15 +57,15 @@ class DriverDetailViewController: ParentVC {
     func setVarificationItems() {
         let emailVerification = ["text": "Email \(driver.isEmailVerified ? "" : "Not") Verified",
                                  "isVerified" : driver.isEmailVerified,
-                                 "iconName" : "ic_message"]
+                                 "iconName" : "ic_message"] as [String : Any]
         
         let mobileVerification = ["text" : "Mobile \(driver.isMobileVerified ? "" : "Not") Verified",
                                   "isVerified" : driver.isMobileVerified,
-                                  "iconName" : "ic_call_white"]
+                                  "iconName" : "ic_call_white"] as [String : Any]
         
         let termsVerification = ["text" : "Terms & Conditions \(driver.isTermsAccepted ? "" : "Not") Verified",
                                  "isVerified" : driver.isTermsAccepted,
-                                 "iconName" : "ic_lock_white"]
+                                 "iconName" : "ic_lock_white"] as [String : Any]
         
         varificationItems = [emailVerification, mobileVerification, termsVerification]
     }
@@ -90,15 +90,15 @@ class DriverDetailViewController: ParentVC {
 //MARK: IBActions
 extension DriverDetailViewController {
    
-    @IBAction func callButtonTapped(sender: UIButton) {
-        if let url = NSURL(string: "tel://\(driver.mobile)") {
-            if UIApplication.sharedApplication().canOpenURL(url) {
-                UIApplication.sharedApplication().openURL(url)
+    @IBAction func callButtonTapped(_ sender: UIButton) {
+        if let url = URL(string: "tel://\(driver.mobile)") {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
             }
         }
     }
     
-    @IBAction func messageButtonTapped(sender: UIButton) {
+    @IBAction func messageButtonTapped(_ sender: UIButton) {
         //TODO
     }
 }
@@ -106,11 +106,11 @@ extension DriverDetailViewController {
 //MARK: TableViewDataSource
 extension DriverDetailViewController : UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == kVarificationSection {
             return varificationItems.count
             
@@ -125,9 +125,9 @@ extension DriverDetailViewController : UITableViewDataSource, UITableViewDelegat
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == kVarificationSection {
-            let cell = tableView.dequeueReusableCellWithIdentifier("varificationCell") as! TVGenericeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "varificationCell") as! TVGenericeCell
             let item = varificationItems[indexPath.row]
             cell.lblTitle.text = item["text"] as? String
             cell.imgView.image = UIImage(named: item["iconName"] as! String)
@@ -136,13 +136,13 @@ extension DriverDetailViewController : UITableViewDataSource, UITableViewDelegat
             
         } else if indexPath.section == kTravelWithMeSection {//activityCell
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCellWithIdentifier("activityCell") as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "activityCell") as! TVGenericeCell
                 cell.lblTitle.text = driver.createDate
                 cell.lblSubTitle.text = driver.lastLoginTime
                 return cell
                 
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("otherActivityCell") as! TVGenericeCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "otherActivityCell") as! TVGenericeCell
                 let item = travelWithMeItems[indexPath.row]
                 cell.lblTitle.text = item["title"]
                 cell.lblSubTitle.text = item["Text"]
@@ -156,11 +156,11 @@ extension DriverDetailViewController : UITableViewDataSource, UITableViewDelegat
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
    
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == kVarificationSection {
             return 35 * _widthRatio
             
@@ -176,25 +176,25 @@ extension DriverDetailViewController : UITableViewDataSource, UITableViewDelegat
         }
     }
 
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.min
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30 * _widthRatio
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! TVGenericeCell
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! TVGenericeCell
         cell.lblTitle.text = sectionTitles[section]
         return cell.contentView
     }
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y <= -(150 * _widthRatio) {
             topViewHeightConstraint.constant =  -scrollView.contentOffset.y
         }

@@ -11,17 +11,18 @@ import CoreLocation
 import MapKit
 
 enum LocationPermission: Int {
-    case Accepted;
-    case Denied;
-    case Error;
+    case accepted;
+    case denied;
+    case error;
 }
 
 class UserLocation: NSObject  {
     
+    static let  sharedInstance = UserLocation()
     // MARK: - Variables
     var locationManger: CLLocationManager = {
         let lm = CLLocationManager()
-        lm.activityType = .Other
+        lm.activityType = .other
         lm.desiredAccuracy = kCLLocationAccuracyBest
         return lm
     }()
@@ -32,19 +33,9 @@ class UserLocation: NSObject  {
     weak var controller: UIViewController!
     
     // MARK: - Init
-    class var sharedInstance: UserLocation {
-        struct Static {
-            static var onceToken: dispatch_once_t = 0
-            static var instance: UserLocation? = nil
-        }
-        dispatch_once(&Static.onceToken) {
-            Static.instance = UserLocation()
-        }
-        return Static.instance!
-    }
     
     // MARk: - Func
-    func fetchUserLocationForOnce(controller: UIViewController, block: LocationBlock?) {
+    func fetchUserLocationForOnce(_ controller: UIViewController, block: LocationBlock?) {
         self.controller = controller
         locationManger.delegate = self
         completionBlock = block
@@ -56,19 +47,19 @@ class UserLocation: NSObject  {
     func checkAuthorizationStatus() -> Bool {
         let status = CLLocationManager.authorizationStatus()
         // If status is denied or only granted for when in use
-        if status == CLAuthorizationStatus.Denied || status == CLAuthorizationStatus.Restricted {
+        if status == CLAuthorizationStatus.denied || status == CLAuthorizationStatus.restricted {
             let title = "Location services are off"
             let msg = "To use location you must turn on 'WhenInUse' in the location services settings"
-            UIAlertController.actionWithMessage(msg, title: title, type: .Alert, buttons: ["Settings"], controller: controller, block: { (tapped) -> () in
+            UIAlertController.actionWithMessage(msg, title: title, type: .alert, buttons: ["Settings"], controller: controller, block: { (tapped) -> () in
                 if tapped == "Settings" {
-                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                    UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
                 }
             })
             return false
-        } else if status == CLAuthorizationStatus.NotDetermined {
+        } else if status == CLAuthorizationStatus.notDetermined {
             locationManger.requestWhenInUseAuthorization()
             return false
-        } else if status == CLAuthorizationStatus.AuthorizedAlways || status == CLAuthorizationStatus.AuthorizedWhenInUse {
+        } else if status == CLAuthorizationStatus.authorizedAlways || status == CLAuthorizationStatus.authorizedWhenInUse {
             return true
         }
         return false
@@ -79,7 +70,7 @@ class UserLocation: NSObject  {
 // MARK: - Location manager Delegation
 extension UserLocation: CLLocationManagerDelegate {
   
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let lastLocation = locations.last!
         jprint(":: Location object got ::")
         self.completionBlock?(lastLocation,nil)
@@ -87,10 +78,10 @@ extension UserLocation: CLLocationManagerDelegate {
         completionBlock = nil
     }
     
-    func addressFromlocation(location: CLLocation, block: (String)->()){
+    func addressFromlocation(_ location: CLLocation, block: @escaping (String)->()){
         let geoLocation = CLGeocoder()
         geoLocation.reverseGeocodeLocation(location, completionHandler: { (placeMarks, error) -> Void in
-            if let pmark = placeMarks where pmark.count > 0 {
+            if let pmark = placeMarks, pmark.count > 0 {
                 let place :CLPlacemark = pmark.last! as CLPlacemark
                 if let addr = place.addressDictionary {
                     jprint("The address dictionary : \(place.addressDictionary)")
@@ -110,12 +101,12 @@ extension UserLocation: CLLocationManagerDelegate {
         })
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManger.delegate = nil
-        self.completionBlock?(nil,error)
+        self.completionBlock?(nil,error as NSError?)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if checkAuthorizationStatus() {
             locationManger.startUpdatingLocation()
         }

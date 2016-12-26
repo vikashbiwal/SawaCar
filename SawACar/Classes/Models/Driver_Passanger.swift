@@ -19,7 +19,7 @@ class Driver  {
      //
     }
     
-    init(_ info: [String : AnyObject]) {
+    init(_ info: [String : Any]) {
         id = RConverter.string(info["DriverID"])
         name = RConverter.string(info["DriverFullName"])
         photoURl = kWSDomainURL + RConverter.string(info["DriverPhoto"])
@@ -39,7 +39,7 @@ class Passanger  {
         //
     }
     
-    init(travelRequester info: [String : AnyObject]) {
+    init(travelRequester info: [String : Any]) {
         id = RConverter.string(info["RequesterID"])
         name = RConverter.string(info["RequesterFullName"])
         photoURl = kWSDomainURL + RConverter.string(info["RequesterPhoto"])
@@ -48,7 +48,7 @@ class Passanger  {
         mobileNumber = RConverter.string(info["RequesterMobileNumber"])
     }
     
-    init(passanger info: [String : AnyObject]) {
+    init(passanger info: [String : Any]) {
         
     }
 }

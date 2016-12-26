@@ -25,8 +25,8 @@ class ValidationToast: UIView {
     @IBOutlet weak var animatingView: UIView!
     
     // MARK: - Initialisers
-    class func instanceWithMessageFromNib(message: String, inView view: UIView, withColor color: UIColor, automaticallyAnimateIn shouldAnimate: Bool) -> ValidationToast {
-        let toast = UINib(nibName: "ValidationToast", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! ValidationToast
+    class func instanceWithMessageFromNib(_ message: String, inView view: UIView, withColor color: UIColor, automaticallyAnimateIn shouldAnimate: Bool) -> ValidationToast {
+        let toast = UINib(nibName: "ValidationToast", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! ValidationToast
         toast.animatingViewBottomConstraint.constant = 20
         toast.layoutIfNeeded()
         toast.setToastMessage(message)
@@ -47,53 +47,53 @@ class ValidationToast: UIView {
     }
     
     // This will show alert message on status bar.
-    class func showStatusMessage(message: String, inView view: UIView? = nil, withColor color: UIColor = UIColor.redColor()) -> ValidationToast {
-        let toast = UINib(nibName: "ValidationToast", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! ValidationToast
+    class func showStatusMessage(_ message: String, inView view: UIView? = nil, withColor color: UIColor = UIColor.red) -> ValidationToast {
+        let toast = UINib(nibName: "ValidationToast", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! ValidationToast
         toast.animatingViewBottomConstraint.constant = 20
         toast.layoutIfNeeded()
         toast.setToastMessage(message)
         toast.animatingView.backgroundColor = color
-        var f = CGRectZero
+        var f = CGRect.zero
         if let vw = view {
             vw.window!.addSubview(toast)
             f = vw.frame
         } else {
             _appDelegator.window?.addSubview(toast)
-            f = UIScreen.mainScreen().bounds
+            f = UIScreen.main.bounds
         }
         f.size.height = 20
         f.origin = CGPoint.zero
         toast.frame = f
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+        UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.slide)
         toast.animateIn(0.2, delay: 0.2, completion: { () -> () in
             toast.animateOut(0.2, delay: 1.5, completion: { () -> () in
-                UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+                UIApplication.shared.setStatusBarHidden(false, with: UIStatusBarAnimation.slide)
                 toast.removeFromSuperview()
             })
         })
         return toast
     }
     
-    class func showBarMessage(message: String, title: String, inView view: UIView?, withColor color: UIColor = UIColor.whiteColor()) -> ValidationToast {
-        let toast = UINib(nibName: "ValidationToastBar", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! ValidationToast
+    class func showBarMessage(_ message: String, title: String, inView view: UIView?, withColor color: UIColor = UIColor.white) -> ValidationToast {
+        let toast = UINib(nibName: "ValidationToastBar", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! ValidationToast
         toast.animatingViewBottomConstraint.constant = 44
         toast.layoutIfNeeded()
         toast.setToastMessage(message)
         toast.setToastTitle(title)
         toast.animatingView.backgroundColor = color
-        var f = CGRectZero
+        var f = CGRect.zero
         if let vw = view {
             vw.window!.addSubview(toast)
             f = vw.frame
         } else {
             _appDelegator.window?.addSubview(toast)
-            f = UIScreen.mainScreen().bounds
+            f = UIScreen.main.bounds
         }
 //        var f = view.frame
         f.size.height = 64
         f.origin = CGPoint.zero
         toast.frame = f
-        toast.animateIn(0.2, delay: 0.2, completion: { () -> () in
+        toast.animateIn(0.2, delay: 0.5, completion: { () -> () in
             toast.animateOut(0.2, delay: 2.0, completion: { () -> () in
                 toast.removeFromSuperview()
             })
@@ -102,9 +102,9 @@ class ValidationToast: UIView {
     }
     
     // MARK: - Toast Functions
-    private func setToastMessage(message: String) {
+    fileprivate func setToastMessage(_ message: String) {
         let font = UIFont(name: "Avenir-Book", size: (14.0 * _widthRatio))!
-        let color = UIColor.whiteColor()
+        let color = UIColor.white
         let mutableString = NSMutableAttributedString(string: message)
         let range = NSMakeRange(0, message.characters.count)
         mutableString.addAttribute(NSFontAttributeName, value: font, range: range)
@@ -112,9 +112,9 @@ class ValidationToast: UIView {
         messageLabel.attributedText = mutableString
     }
     
-    private func setToastTitle(message: String) {
+    fileprivate func setToastTitle(_ message: String) {
         let font = UIFont(name: "Avenir-Book", size: 15.0)!
-        let color = UIColor.redColor()
+        let color = UIColor.red
         let mutableString = NSMutableAttributedString(string: message)
         let range = NSMakeRange(0, message.characters.count)
         mutableString.addAttribute(NSFontAttributeName, value: font, range: range)
@@ -122,18 +122,18 @@ class ValidationToast: UIView {
         titleLabel.attributedText = mutableString
     }
     
-    func animateIn(duration: NSTimeInterval, delay: NSTimeInterval, completion: (() -> ())?) {
+    func animateIn(_ duration: TimeInterval, delay: TimeInterval, completion: (() -> ())?) {
         animatingViewBottomConstraint.constant = 0
-        UIView.animateWithDuration(duration, delay: delay, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: delay, options: UIViewAnimationOptions.curveEaseOut, animations: { () -> Void in
             self.layoutIfNeeded()
             }) { (completed) -> Void in
                 completion?()
         }
     }
     
-    func animateOut(duration: NSTimeInterval, delay: NSTimeInterval, completion: (() -> ())?) {
+    func animateOut(_ duration: TimeInterval, delay: TimeInterval, completion: (() -> ())?) {
         animatingViewBottomConstraint.constant = 44
-        UIView.animateWithDuration(duration, delay: delay, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: delay, options: UIViewAnimationOptions.curveEaseOut, animations: { () -> Void in
             self.layoutIfNeeded()
             }) { (completed) -> Void in
                 completion?()
@@ -142,11 +142,11 @@ class ValidationToast: UIView {
     
 }
 
-func showToastMessage(title: String, message: String) {
+func showToastMessage(_ title: String, message: String) {
     ValidationToast.showBarMessage(message, title: title, inView: nil, withColor: UIColor.colorWithRGB(r: 117, g: 189, b: 95))
 }
 
-func showToastErrorMessage(title: String, message: String) {
-    ValidationToast.showBarMessage(message, title: title, inView: nil, withColor: UIColor.redColor())
+func showToastErrorMessage(_ title: String, message: String) {
+    ValidationToast.showBarMessage(message, title: title, inView: nil, withColor: UIColor.red)
 }
 

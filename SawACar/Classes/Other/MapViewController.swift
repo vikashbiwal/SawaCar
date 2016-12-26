@@ -16,7 +16,7 @@ class MapViewController: ParentVC, UISearchBarDelegate {
     @IBOutlet var gMapview: GMSMapView!
     @IBOutlet var searchField: UISearchBar!
     
-    var completionBlcok: ((add: GLocation?) -> Void)!
+    var completionBlcok: ((_ add: GLocation?) -> Void)!
     var selectedPlace : GLocation?
     
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ class MapViewController: ParentVC, UISearchBarDelegate {
 
     //SetGoogle mapView
     func setGoogleMapView() {
-        gMapview.myLocationEnabled = true
+        gMapview.isMyLocationEnabled = true
        // self.view = mapView
     }
 
@@ -37,13 +37,13 @@ class MapViewController: ParentVC, UISearchBarDelegate {
     }
     
     //MARK: IBActions
-    @IBAction func btnSearchAddTap(sender: UIButton){
-        self.performSegueWithIdentifier("locationPickerSegue", sender: nil)
+    @IBAction func btnSearchAddTap(_ sender: UIButton){
+        self.performSegue(withIdentifier: "locationPickerSegue", sender: nil)
     }
     
-    @IBAction func doneBtnClicked(sender: UIButton) {
-        completionBlcok(add: selectedPlace)
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func doneBtnClicked(_ sender: UIButton) {
+        completionBlcok(selectedPlace)
+        self.dismiss(animated: true, completion: nil)
     }
     
     //MARK: - MapView
@@ -52,10 +52,10 @@ class MapViewController: ParentVC, UISearchBarDelegate {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "locationPickerSegue" {
         
-            let searchCon = segue.destinationViewController as! LocationPickerViewController
+            let searchCon = segue.destination as! LocationPickerViewController
             searchCon.selectionBlock = {[unowned self] (loc) -> () in
                 self.searchField.text = loc.address
                 self.selectedPlace = loc
@@ -69,8 +69,8 @@ class MapViewController: ParentVC, UISearchBarDelegate {
                 marker.position = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
                 marker.title = loc.address
                 marker.map = self.gMapview
-                let camera = GMSCameraPosition.cameraWithLatitude(coord.latitude, longitude: coord.longitude, zoom: 6.0)
-                self.gMapview.animateToCameraPosition(camera)
+                let camera = GMSCameraPosition.camera(withLatitude: coord.latitude, longitude: coord.longitude, zoom: 6.0)
+                self.gMapview.animate(to: camera)
             }
         }
     }
