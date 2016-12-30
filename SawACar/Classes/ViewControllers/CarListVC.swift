@@ -145,7 +145,7 @@ extension CarListVC {
 
     func getUserCarsAPICall() {
         self.showCentralGraySpinner()
-        wsCall.getCarOfUser(me.Id) { (response, flag) in
+        wsCall.getCarOfUser(["UserID" : me.Id]) { (response, flag) in
             if response.isSuccess {
 //                let carsObject = response.json!["Object"] as! [[String : AnyObject]]
 //                for item in carsObject {
@@ -165,7 +165,7 @@ extension CarListVC {
     
     func deleteCarAPICall(_ car: Car) {
         self.showCentralGraySpinner()
-        wsCall.deleteCar(car.id) { (response, flag) in
+        wsCall.deleteCar(["CarID" : car.id]) { (response, flag) in
             if response.isSuccess {
                 self.Cars.removeElement(car)
                 self.tableView.reloadData()

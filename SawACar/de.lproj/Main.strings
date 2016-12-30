@@ -1,0 +1,111 @@
+
+/* Class = "UIButton"; normalTitle = "I have a car"; ObjectID = "0D0-CJ-qR1"; */
+"0D0-CJ-qR1.normalTitle" = "I have a car";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "3Ax-Ir-X2Q"; */
+"3Ax-Ir-X2Q.normalTitle" = "Done";
+
+/* Class = "UITextField"; placeholder = "Email Address"; ObjectID = "3J7-dQ-lMN"; */
+"3J7-dQ-lMN.placeholder" = "Email Address";
+
+/* Class = "UILabel"; text = "Countries"; ObjectID = "5Ok-1q-4iX"; */
+"5Ok-1q-4iX.text" = "Countries";
+
+/* Class = "UIButton"; normalTitle = "Forgot Password?"; ObjectID = "6bV-ao-RNZ"; */
+"6bV-ao-RNZ.normalTitle" = "Forgot Password?";
+
+/* Class = "UILabel"; text = "Forgot Password"; ObjectID = "7IY-gd-1MC"; */
+"7IY-gd-1MC.text" = "Forgot Password";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "8ms-EI-4ln"; */
+"8ms-EI-4ln.placeholder" = "Password";
+
+/* Class = "UITextField"; placeholder = "Enter your mobile number"; ObjectID = "9k1-ri-s03"; */
+"9k1-ri-s03.placeholder" = "Enter your mobile number";
+
+/* Class = "UILabel"; text = "Login"; ObjectID = "A5q-dd-bhM"; */
+"A5q-dd-bhM.text" = "Login";
+
+/* Class = "UILabel"; text = "Male"; ObjectID = "CcZ-bP-Q1X"; */
+"CcZ-bP-Q1X.text" = "Male";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "DsR-JR-RWX"; */
+"DsR-JR-RWX.placeholder" = "Password";
+
+/* Class = "UITextField"; placeholder = "Nationality"; ObjectID = "FIQ-Uz-i4Z"; */
+"FIQ-Uz-i4Z.placeholder" = "Nationality";
+
+/* Class = "UIButton"; normalTitle = "Create your account"; ObjectID = "G0P-XO-P8l"; */
+"G0P-XO-P8l.normalTitle" = "Create your account";
+
+/* Class = "UIButton"; normalTitle = "Send an email"; ObjectID = "Gh9-w4-676"; */
+"Gh9-w4-676.normalTitle" = "Send an email";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "GnA-eD-yVu"; */
+"GnA-eD-yVu.normalTitle" = "Cancel";
+
+/* Class = "UILabel"; text = "Female"; ObjectID = "I48-ei-qjq"; */
+"I48-ei-qjq.text" = "Female";
+
+/* Class = "UIButton"; normalTitle = "Login with facebook"; ObjectID = "JqQ-7h-lXG"; */
+"JqQ-7h-lXG.normalTitle" = "Login with facebook";
+
+/* Class = "UIButton"; normalTitle = "Login as guest"; ObjectID = "O1l-AP-w6p"; */
+"O1l-AP-w6p.normalTitle" = "Login as guest";
+
+/* Class = "UILabel"; text = "What is your gender?"; ObjectID = "OLS-dj-QYg"; */
+"OLS-dj-QYg.text" = "What is your gender?";
+
+/* Class = "UILabel"; text = "OR"; ObjectID = "OtH-7K-dhq"; */
+"OtH-7K-dhq.text" = "OR";
+
+/* Class = "UILabel"; text = "Enter your email address, and we'll send you a link so you can reset your password."; ObjectID = "RB6-O0-uQe"; */
+"RB6-O0-uQe.text" = "Enter your email address, and we'll send you a link so you can reset your password.";
+
+/* Class = "UIButton"; normalTitle = "Login with facebook"; ObjectID = "RvU-ZJ-2JA"; */
+"RvU-ZJ-2JA.normalTitle" = "Login with facebook";
+
+/* Class = "UILabel"; text = "Sign Up"; ObjectID = "Rwn-da-TLZ"; */
+"Rwn-da-TLZ.text" = "Sign Up";
+
+/* Class = "UILabel"; text = "Sign Up"; ObjectID = "XQ2-c3-E5T"; */
+"XQ2-c3-E5T.text" = "Sign Up";
+
+/* Class = "UILabel"; text = "+91"; ObjectID = "deB-nA-Fpm"; */
+"deB-nA-Fpm.text" = "+91";
+
+/* Class = "UILabel"; text = "Don't have an account?"; ObjectID = "ee3-CR-qFx"; */
+"ee3-CR-qFx.text" = "Don't have an account?";
+
+/* Class = "UITextField"; placeholder = "Search Address"; ObjectID = "g0v-vV-JA8"; */
+"g0v-vV-JA8.placeholder" = "Search Address";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "guh-PZ-Ok9"; */
+"guh-PZ-Ok9.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "Email Address"; ObjectID = "kT4-qe-gmQ"; */
+"kT4-qe-gmQ.placeholder" = "Email Address";
+
+/* Class = "UIButton"; normalTitle = "I need a ride"; ObjectID = "lYn-yT-kYB"; */
+"lYn-yT-kYB.normalTitle" = "I need a ride";
+
+/* Class = "UILabel"; text = "What do you want?"; ObjectID = "lbS-ag-qWm"; */
+"lbS-ag-qWm.text" = "What do you want?";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "m4f-Pq-idW"; */
+"m4f-Pq-idW.normalTitle" = "Done";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mcO-3R-s80"; */
+"mcO-3R-s80.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "Email Address"; ObjectID = "nZV-Ya-YZF"; */
+"nZV-Ya-YZF.placeholder" = "Email Address";
+
+/* Class = "UITextField"; placeholder = "First Name"; ObjectID = "od7-fl-7m0"; */
+"od7-fl-7m0.placeholder" = "First Name";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "qi4-LT-zkd"; */
+"qi4-LT-zkd.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "yln-bn-1wa"; */
+"yln-bn-1wa.normalTitle" = "Login";

@@ -456,7 +456,7 @@ extension AddTravelStep2VC {
             return
         }
         
-        wsCall.getCarOfUser(me.Id) { (response, flag) in
+        wsCall.getCarOfUser(["UserID" : me.Id]) { (response, flag) in
             if response.isSuccess {
                 if let json = response.json as? [String :Any] {
                     let carsObject = json["Object"] as! [[String : Any]]

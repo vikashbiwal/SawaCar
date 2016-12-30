@@ -201,7 +201,6 @@ extension DContainerVC {
             x = shutterMaxXValue * _widthRatio
             mx = 0
             tabbarController.view.addSubview(transparentControl)
-            
         }
         
         UIView.animate(withDuration: 0.3, animations: {
@@ -302,7 +301,7 @@ extension DContainerVC {
         let OkAction = UIAlertAction(title: "log_out".localizedString(), style: .destructive, handler: {(action) in
             me = nil
             _userDefault.removeObject(forKey: kLoggedInUserKey)
-            self.navigationController?.popToRootViewController(animated: true)
+           _ = self.navigationController?.popToRootViewController(animated: true)
         })
         sheet.addAction(cancelAction)
         sheet.addAction(OkAction)

@@ -25,7 +25,7 @@ class ParentVC: UIViewController  {
     // MARK: - Actions
     // Navigate to Previous View Controller with navigation popview method
     @IBAction func parentBackAction(_ sender:UIButton? ){
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // Navigate to Previous View Controller with dismiss view method
@@ -40,7 +40,7 @@ class ParentVC: UIViewController  {
     
     // Navigate to Root view controller
     @IBAction func parentBackToRootViewController(_ sender: UIButton?){
-        self.navigationController?.popToRootViewController(animated: true)
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     override func viewDidLoad() {

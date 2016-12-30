@@ -23,12 +23,19 @@ let kClientSecret = "21#@hf:2016^%*&f4#$SFD$#^%*(1R^1F"
 let kGrantTypePassword = "password"
 let kGrantTypeRefreshToken = "refresh_token"
 
+//============================================================================================
+//MARK: API Names
+//============================================================================================
 
 struct APIName {
     static let GetAllCountries = "api/Countries/Get"
     static let GetActiveCountries = "api/Countries/GetActiveCountry"
     static let GetAccountTypes = "api/accountTypes/get"
     static let GetLanguages = "api/General/GetLanguages"
+    static let GetAllCurrency = "api/Currencies/Get"
+    static let GetCurrencyByCode = "api/Currencies/GetByCode/"
+    static let GetColors = "api/ColorMultiLinguals/GetColors"
+    
     static let CheckEmailAvailability = "api/users/IsEmailAvailableToSignUp"
     static let Authentication = "token"
     static let RegisterFcmDeviceToken = "api/FcmDevices/RegisterFcmDeviceToken"
@@ -37,14 +44,25 @@ struct APIName {
     static let PostUserPhoto = "api/upload/PostUserPhoto"
     static let UpdateUserPhoto = "api/upload/UpdateMyPhoto"
     static let GetMyInfo = "api/users/GetMyInfo/"
+    
     static let UpdatePersonalnfo = "api/users/UpdateUserPersonalnfo"
     static let UpdateSocialMedia = "api/users/UpdateUserSocialMedia"
     static let UpdatePhoneNumber = "api/users/UpdateUserPhoneNumber"
     static let UpdatePreferences = "api/users/UpdateUserPreferences"
     static let ChangePassword    = "api/users/ChangePassword"
+   
+    static let GetCarType = "api/VichelType/GetCarType"
+    static let GetCarCompanies = "api/VichelCompany/GetCarCompany"
+    static let GetUserCars = "api/Cars/GetMy"
+    static let AddCar = "api/Cars/Post"
+    static let UpdateCar = "api/Cars/UpdateCar"
+    static let DeleteCar = "api/Cars/Delete"
 }
 
+//===================================================================================================================================
 //MARK: General APIs
+//===================================================================================================================================
+
 extension Webservice {
     
     func callAPI(withName apiName: String, block: @escaping WSBlock) {
@@ -54,55 +72,58 @@ extension Webservice {
     }
     
     func getAllCoutries(_ block: @escaping WSBlock) {
-        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAllCountries)=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAllCountries) =======")
        _ = GET_REQUEST(APIName.GetAllCountries, param: nil, block: block)
     }
     
     func getActiveCountries(_ block: @escaping WSBlock) {
-        jprint("=======WS =\(kWSDomainURL)\(APIName.GetActiveCountries)=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetActiveCountries) =======")
         _ = GET_REQUEST(APIName.GetActiveCountries, param: nil, block: block)
     }
     
     func GetAllCurrencies(_ block: @escaping WSBlock) {
-        jprint("=======WS = GetAllCurrencies=======")
-         _ = GET_REQUEST(urlWithMethod("GetAllCurrencies"), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAllCurrency) =======")
+         _ = GET_REQUEST(APIName.GetAllCurrency, param: nil, block: block)
     }
     
     func GetCurrency(_ code: String, block: @escaping WSBlock) {
-        jprint("=======WS = GetCurrencyByCode=======")
-        _ = GET_REQUEST(urlWithMethod("GetCurrencyByCode&Code=" + code), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetCurrencyByCode) =======")
+        _ = GET_REQUEST(APIName.GetCurrencyByCode + code, param: nil, block: block)
     }
 
     func getAccountTypes(_ block: @escaping WSBlock) {
-        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAccountTypes)=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetAccountTypes) =======")
         _ = GET_REQUEST(APIName.GetAccountTypes, param: nil, block: block)
     }
 
     func getLanguages(_ block: @escaping WSBlock) {
-        jprint("=======WS = GetLanguages=======")
-        _ = GET_REQUEST(urlWithMethod("GetLanguages"), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetLanguages) =======")
+        _ = GET_REQUEST(APIName.GetLanguages, param: nil, block: block)
     }
     
     func getColors(_ block: @escaping WSBlock) {
-        jprint("=======WS = GetAllColors=======")
-        _ = GET_REQUEST(urlWithMethod("GetAllColors"), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetColors) =======")
+        _ = GET_REQUEST(APIName.GetColors, param: nil, block: block)
     }
 
 }
 
+//===================================================================================================================================
 //MARK: User Management - APIs -  Login, Signup, UpdateProfile, UpdatePhoto, GetUserInfo, etc.
+//===================================================================================================================================
+
 extension Webservice {
     
     func checkEmailAvailability(_ email: String, block: @escaping WSBlock) {
         //parameters : Email
-        jprint("=======WS =\(kWSDomainURL)\(APIName.CheckEmailAvailability)=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.CheckEmailAvailability) =======")
         POST_REQUEST(APIName.CheckEmailAvailability, param: ["Email" : email], block: block)
     }
     
     func signUp(_ params: [String : Any], block: @escaping WSBlock) {
         //parameters  -  Email, FirstName, LastName, Password, Gender, Birthday,
         //NationalityID, CountryID, MobileCountryCode, MobileNumber
-        jprint("=======WS =\(kWSDomainURL)\(APIName.SignUp)=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.SignUp) =======")
         POST_REQUEST(APIName.SignUp, param: params, block: block)
     }
     
@@ -114,14 +135,14 @@ extension Webservice {
          RegisterationToken = your device token,
          username, 
          password */
-        jprint("=======WS =\(kWSDomainURL)\(APIName.Authentication)=======")
+        jprint("=======WS =\(kWSDomainURL)\(APIName.Authentication) =======")
         POST_REQUEST(APIName.Authentication, param: params , block: block)
     }
     
     func loginWithFacebook(_ params: [String : Any], block: @escaping WSBlock) {
         //parameters - Email, FacebookID, FirstName, LastName, Gender
         jprint("=======WS = LoginWithFacebook=======")
-        POST_REQUEST(urlWithMethod("LoginWithFacebook"), param: params , block: block)
+        POST_REQUEST("", param: params , block: block)
     }
     
     func registerFCMToken(_ params: [String : Any], block: @escaping WSBlock) {
@@ -142,11 +163,6 @@ extension Webservice {
         _ = GET_REQUEST(APIName.GetMyInfo, param: nil, block: block)
     }
 
-    func GetUserInformation(_ userId: String, block : @escaping WSBlock)  {
-        //parameters - UserID
-        jprint("=======WS = GetUserInformation=======")
-        POST_REQUEST(urlWithMethod("GetUserInformation"), param: ["UserID" : userId], block: block)
-    }
     
     func uploadProfileImage(forSignup imgData: Data,   block : @escaping WSBlock)  {
         //parameters - UserID, upload
@@ -199,49 +215,49 @@ extension Webservice {
     }
 }
 
+//===================================================================================================================================
 //MARK: Car APIs: AddCar, DeleteCar, UpdateCar, GetUserCars, GetAllCarCompanies
+//===================================================================================================================================
+
 extension Webservice {
     func getCarCompanies(_ block: @escaping WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetAllCarCompanies
-        jprint("=======WS = GetAllCarCompanies=======")
-        _ = GET_REQUEST(urlWithMethod("GetAllCarCompanies"), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetCarCompanies)=======")
+        _ = GET_REQUEST(APIName.GetCarCompanies, param: nil, block: block)
     }
     
-    func getCarOfUser(_ userId: String, block: @escaping WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=GetUserCars&UserID=128
-        jprint("=======WS = GetUserCars=======")
-        _ = GET_REQUEST(urlWithMethod("GetUserCars&UserID=" + userId), param: nil, block: block)
+    func getCarOfUser(_ params: [String : Any], block: @escaping WSBlock) {
+        jprint("=======WS =\(kWSDomainURL)\(APIName.GetUserCars)=======")
+        _ = GET_REQUEST(APIName.GetUserCars, param: params, block: block)
     }
 
     func addCar(_ params: [String : Any], block: @escaping WSBlock)  {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=AddCar
         //Parameters: UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
-        jprint("=======WS = AddCar=======")
-        POST_REQUEST(urlWithMethod("AddCar"), param:params, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.AddCar)=======")
+        POST_REQUEST(APIName.AddCar, param:params, block: block)
     }
     
     func updateCar(_ params: [String : Any], block: @escaping WSBlock)  {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateCar
         //Parameters: CarID, UserID, CompanyID, Model, ColorID, Seats, Details, Photo, ProductionYear, Insurance
-        jprint("=======WS = UpdateCar=======")
-        POST_REQUEST(urlWithMethod("UpdateCar"), param:params, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.UpdateCar)=======")
+        PUT_REQUEST(APIName.UpdateCar, param:params, block: block)
     }
 
     func updateCarImage(_ imgData: Data, carId: String, block: @escaping WSBlock) {
-       //http://sawacar.com/Services/Sawacar.ashx?Method=UpdateCarImage&CarID=39
         jprint("=======WS = UpdateCarImage=======")
         uploadImage(imgData, relativepath: urlWithMethod("UpdateCarImage&CarID=\(carId)"), param: nil, block: block)
     }
     
-    func deleteCar(_ carId: String, block: @escaping WSBlock) {
-        //http://sawacar.com/Services/Sawacar.ashx?Method=DeleteCar&CarID=89
-        jprint("=======WS = DeleteCar=======")
-        _ = GET_REQUEST(urlWithMethod("DeleteCar&CarID=" + carId), param: nil, block: block)
+    func deleteCar(_ params: [String : Any], block: @escaping WSBlock) {
+        jprint("=======WS =\(kWSDomainURL)\(APIName.DeleteCar)=======")
+        DELETE_REQUEST(APIName.DeleteCar, param: params, block: block)
     }
     
 }
 
+//====================================================================
 //MARK: Travel APIs - AddTravel, GetTravel, UpdateTravel, DeleteTravel
+//====================================================================
+
 extension Webservice {
     func addTravel(_ params: [String : Any], block: @escaping WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravel
@@ -282,7 +298,10 @@ extension Webservice {
     }
 }
 
+//===================================================================================================================================
 //MARK: Booking On Travels - APIs - BookTravel, CancelBooking, ApproveBooking, DeclineBooking, GetUserBookings, GetUserTravelBookings
+//===================================================================================================================================
+
 extension Webservice {
     
     func bookTravel(_ params: [String: String], block: @escaping WSBlock) {
@@ -325,7 +344,10 @@ extension Webservice {
     }
 }
 
+//=======================================================================================================================
 //MARK: TravelRequest APIs - AddTravelRequest, UpdateTravelRequest, DeleteTravelRequest, GetTravelRequest, GetTravelTypes
+//=======================================================================================================================
+
 extension Webservice {
     func addTravelRequest(_ params: [String : Any], block: @escaping WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelRequest
@@ -370,7 +392,10 @@ extension Webservice {
     }
 }
 
+//================================================================================================================================
 //MARK: Offer on TravelRequest APIs - AddOffer, ApproveOffer, DeclineOffer, CancelOffer, GetUserOffers, GetUserTravelRequestOffers
+//================================================================================================================================
+
 extension Webservice {
     
     func addOfferOnTravelRequest(_ params: [String :  String], block: @escaping WSBlock) {
@@ -414,7 +439,10 @@ extension Webservice {
     }
 }
 
+//=========================================================================================================
 //MARK: Alert APIs - AddTravelAlert, AddTravelRequestAlert, GetUserTravelAlerts, GetUserTravelRequestAlerts
+//=========================================================================================================
+
 extension Webservice {
     func addAlertByPassengerOnTravel(_ params : [String : Any], block: @escaping WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravelAlert
@@ -443,7 +471,10 @@ extension Webservice {
     }
 }
 
+//============================================================================================
 //MARK: Message/Comment APIs -
+//============================================================================================
+
 extension Webservice {
     func getInboxMessages(_ params: [String : Any], block: @escaping WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=GetInboxMessages
@@ -471,8 +502,10 @@ extension Webservice {
 
 }
 
-
+//============================================================================================
 //MARK: Ratings APIs -
+//============================================================================================
+
 extension Webservice {
     
     //Api for getting ratings which you have gave for other users and cars.
@@ -500,7 +533,10 @@ extension Webservice {
     }
 }
 
+//============================================================================================
 //MARK: Webservice Inialization and AFNetworking setup
+//============================================================================================
+
 class Webservice: NSObject {
     var manager : AFHTTPSessionManager!
     lazy var downloadManager: AFURLSessionManager = AFURLSessionManager()
