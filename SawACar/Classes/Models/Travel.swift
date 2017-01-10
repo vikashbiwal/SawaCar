@@ -39,7 +39,7 @@ class Travel: NSObject, NSCopying {
     var seatLeft:Int = 0
     var rating: Int = 0
     
-    var car: Car? {
+    var car: Vehicle? {
         didSet {
             self.travelSeat.max = car!.seatCounter.value
             self.travelSeat.value = car!.seatCounter.value
@@ -111,7 +111,7 @@ class Travel: NSObject, NSCopying {
         roundMinute     = RConverter.string(info["RoundMinute"])
         
         driver      = Driver(info)
-        car         = Car.CreateCarFromTravel(info)
+        car         = Vehicle.CreateCarFromTravel(info)
         currency    = Currency(info)
         
         carPrice.value        = RConverter.integer(info["CarPrice"])
@@ -170,7 +170,7 @@ class Travel: NSObject, NSCopying {
         roundMinute     = RConverter.string(info["RoundMinute"])
         
         driver      = Driver(info)
-        car         = Car.CreateCarFromTravel(info)
+        car         = Vehicle.CreateCarFromTravel(info)
         currency    = Currency(info)
         
         carPrice.value        = RConverter.integer(info["CarPrice"])
@@ -248,22 +248,24 @@ extension Travel {
         }
         let fromLocation = ["Latitude" : self.locationFrom!.lat.ToString(),
                             "Longitude" : self.locationFrom!.long.ToString(),
-                            "Address" : self.locationFrom!.address]
+                            "City" : self.locationFrom!.address,
+                            "Country": self.locationFrom!.countryName]
         let toLocation = ["Latitude" : self.locationTo!.lat.ToString(),
                           "Longitude" : self.locationTo!.long.ToString(),
-                          "Address" : self.locationTo!.address]
+                          "City" : self.locationFrom!.address,
+                          "Country": self.locationFrom!.countryName]
         if !inEditMode {
-            parameters["LocationFrom"]      = fromLocation
-            parameters["LocationTo"]        = toLocation
+            parameters["FromLocation"]      = fromLocation
+            parameters["ToLocation"]        = toLocation
         }
         
         let DepartureDate  = inEditMode ? dateFormator.dateString(self.departureDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd/MM/yyyy") :  self.departureDate
-        parameters["DepartureDate"]     = DepartureDate
-        parameters["DepartureHour"]     = self.departureHour
-        parameters["DepartureMinute"]   = self.departureMinute
-        parameters["Tracking"]          = self.trackingEnable
-        parameters["LadiesOnly"]        = self.ladiesOnly
-        parameters["Seats"]             = self.travelSeat.value.ToString()
+        parameters["DepartureDate"]     = DepartureDate + " " + self.departureTime
+//        parameters["DepartureHour"]     = self.departureHour
+//        parameters["DepartureMinute"]   = self.departureMinute
+        //parameters["Tracking"]          = self.trackingEnable
+        parameters["LadiesOnly"]        = self.ladiesOnly ? "true" : "false"
+        parameters["SeatsNumber"]             = self.travelSeat.value.ToString()
         parameters["Luggages"]          = self.travelLuggage.value.ToString()
         parameters["PassengerPrice"]    = self.passengerPrice.value.ToString()
         parameters["CarPrice"]          = self.carPrice.value.ToString()
@@ -272,15 +274,15 @@ extension Travel {
         parameters["CurrencyID"]        = self.currency!.Id
         
         parameters["Details"]           = ""
-        parameters["DepartureFlexibility"] = "15"
+        parameters["departureFlexibilityMinutes"] = "10"
         
         if self.isRegularTravel {
             parameters["RepeatType"]    = self.repeatType.ToString()
             let RepeatEndDate  = inEditMode ? dateFormator.dateString(self.repeatEndDate, fromFomat: "dd/MM/yyyy hh:mm:ss", toFromat: "dd/MM/yyyy") :  self.repeatEndDate
             parameters["RepeatEndDate"] = RepeatEndDate
         } else {
-            parameters["RepeatType"]    = NSNull()
-            parameters["RepeatEndDate"] = NSNull()
+           // parameters["RepeatType"]    = NSNull()
+           // parameters["RepeatEndDate"] = NSNull()
         }
         
         if self.isRoundTravel {
@@ -289,37 +291,37 @@ extension Travel {
             parameters["RoundHour"]     = self.roundHour
             parameters["RoundMinute"]   = self.roundMinute
         } else {
-            parameters["RoundDate"]     = NSNull()
-            parameters["RoundHour"]     = NSNull()
-            parameters["RoundMinute"]   = NSNull()
+//            parameters["RoundDate"]     = NSNull()
+//            parameters["RoundHour"]     = NSNull()
+//            parameters["RoundMinute"]   = NSNull()
         }
         
-        if let stop1 = self.locationStop1 {
-            let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
-                                 "Longitude": stop1.long.ToString(),
-                                 "Address"  : stop1.address]
-            parameters["LocationStop1"] = LocationStop1
-        } else {
-            parameters["LocationStop1"] = NSNull()
-        }
-        
-        if let stop2 = self.locationStop2 {
-            let LocationStop2 = ["Latitude" : stop2.lat.ToString(),
-                                 "Longitude": stop2.long.ToString(),
-                                 "Address"  : stop2.address]
-            parameters["LocationStop2"] = LocationStop2
-        }  else {
-            parameters["LocationStop2"] = NSNull()
-        }
-        
-        if let stop3 = self.locationStop3 {
-            let LocationStop3 = ["Latitude" : stop3.lat.ToString(),
-                                 "Longitude": stop3.long.ToString(),
-                                 "Address"  : stop3.address]
-            parameters["LocationStop3"] = LocationStop3
-        }  else {
-            parameters["LocationStop3"] = NSNull()
-        }
+//        if let stop1 = self.locationStop1 {
+//            let LocationStop1 = ["Latitude" : stop1.lat.ToString(),
+//                                 "Longitude": stop1.long.ToString(),
+//                                 "Address"  : stop1.address]
+//            parameters["LocationStop1"] = LocationStop1
+//        } else {
+//            parameters["LocationStop1"] = NSNull()
+//        }
+//        
+//        if let stop2 = self.locationStop2 {
+//            let LocationStop2 = ["Latitude" : stop2.lat.ToString(),
+//                                 "Longitude": stop2.long.ToString(),
+//                                 "Address"  : stop2.address]
+//            parameters["LocationStop2"] = LocationStop2
+//        }  else {
+//            parameters["LocationStop2"] = NSNull()
+//        }
+//        
+//        if let stop3 = self.locationStop3 {
+//            let LocationStop3 = ["Latitude" : stop3.lat.ToString(),
+//                                 "Longitude": stop3.long.ToString(),
+//                                 "Address"  : stop3.address]
+//            parameters["LocationStop3"] = LocationStop3
+//        }  else {
+//            parameters["LocationStop3"] = NSNull()
+//        }
         
         return parameters
     }

@@ -12,9 +12,9 @@ class CarListVC: ParentVC {
 
     @IBOutlet var btnBack: UIButton!
     
-    var Cars = [Car]()
-    var selectedCar: Car?
-    var completionBlock: (Car)->Void = {_ in}
+    var Cars = [Vehicle]()
+    var selectedCar: Vehicle?
+    var completionBlock: (Vehicle)->Void = {_ in}
     var refreshControl : UIRefreshControl!
 
     var isComeFromSliderMenu = false
@@ -41,7 +41,7 @@ class CarListVC: ParentVC {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SBSegue_ToAddCar" {
             let vc = segue.destination as! AddCarVC
-            if let car = sender as? Car {
+            if let car = sender as? Vehicle {
                 vc.isEditMode = true
                 vc.car = car
             }
@@ -79,7 +79,7 @@ extension CarListVC : UITableViewDataSource, UITableViewDelegate {
         cell.lblTitle.text = car.name
         cell.lblColor.text = car.color?.name
         cell.lblSeats.text = car.seatCounter.max.ToString()
-        cell.imgView.setImageWith(URL(string: car.photo!)!, placeholderImage: UIImage(named: "carPlaceholder"))
+        cell.imgView.setImageWith(URL(string: car.photo)!, placeholderImage: UIImage(named: "carPlaceholder"))
         cell.btnCheck.isHidden = car == selectedCar ? false : true
         return cell
     }
@@ -128,7 +128,7 @@ extension CarListVC {
     }
     
     //Delete car
-    func deleteCar(_ car: Car) {
+    func deleteCar(_ car: Vehicle) {
         let sheet = UIAlertController(title: nil, message: "are_you_sure_delete".localizedString() +  "- '\(car.name)' ?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "No".localizedString(), style: .default, handler: nil)
         
@@ -145,13 +145,17 @@ extension CarListVC {
 
     func getUserCarsAPICall() {
         self.showCentralGraySpinner()
-        wsCall.getCarOfUser(["UserID" : me.Id]) { (response, flag) in
+        wsCall.getCarOfUser { (response, flag) in
             if response.isSuccess {
+                if let json = response.json {
+                    if let array = json as? [[String : Any]] {
+                        for item in array {
+                            let car = Vehicle(item)
+                            self.Cars.append(car)
+                        }
+                    }
+                }
 //                let carsObject = response.json!["Object"] as! [[String : AnyObject]]
-//                for item in carsObject {
-//                    let car = Car(item)
-//                    self.Cars.append(car)
-//                }
                 self.Cars.isEmpty ? self.showEmptyDataView() : self.emptyDataView.hide()
                 
                 self.tableView.reloadData()
@@ -163,7 +167,7 @@ extension CarListVC {
         }
     }
     
-    func deleteCarAPICall(_ car: Car) {
+    func deleteCarAPICall(_ car: Vehicle) {
         self.showCentralGraySpinner()
         wsCall.deleteCar(["CarID" : car.id]) { (response, flag) in
             if response.isSuccess {

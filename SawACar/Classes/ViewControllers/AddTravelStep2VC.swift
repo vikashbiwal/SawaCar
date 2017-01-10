@@ -8,7 +8,6 @@
 
 import UIKit
 
-typealias VCounterRange = (min: Int, value: Int, max: Int)
 
 class AddTravelStep2VC: ParentVC {
 
@@ -371,22 +370,30 @@ extension AddTravelStep2VC {
 extension AddTravelStep2VC {
     //navigate to select currency
     func openCurrencyListVC()  {
-        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.currency
+//        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+//        cListVC.listType = ListType.currency
+        
+        let cListVC = VListViewController.loadFromNib()
+        cListVC.keyForId = "CurrencyID"
+        cListVC.keyForTitle = "Currency"
+        cListVC.apiName = APIName.GetActiveCurrency
+        
         if let currency = travel.currency {
             cListVC.preSelectedIDs = [currency.Id]
         }
         cListVC.completionBlock = {(items) in
             if let item = items.first {
-                let currency = item.obj as! Currency
-                let indexPath = IndexPath(row: 1, section: 0)
-                let cell = self.tableView.cellForRow(at: indexPath) as? StopoverCell
-                cell?.lblStop1.text = currency.name + " (\(currency.code))"
-                self.travel.currency = currency
-                self.tableView.reloadData()
+                if let obj = item.obj as? [String : Any] {
+                    let currency = Currency(obj)
+                    let indexPath = IndexPath(row: 1, section: 0)
+                    let cell = self.tableView.cellForRow(at: indexPath) as? StopoverCell
+                    cell?.lblStop1.text = currency.name + " (\(currency.code))"
+                    self.travel.currency = currency
+                    self.tableView.reloadData()
+                }
             }
         }
-        self.navigationController?.pushViewController(cListVC, animated: true)
+        self.present(cListVC, animated: true, completion: nil)
     }
     
     //counter value with min, max, and current value
@@ -456,14 +463,14 @@ extension AddTravelStep2VC {
             return
         }
         
-        wsCall.getCarOfUser(["UserID" : me.Id]) { (response, flag) in
+        wsCall.getCarOfUser { (response, flag) in
             if response.isSuccess {
                 if let json = response.json as? [String :Any] {
                     let carsObject = json["Object"] as! [[String : Any]]
                     for item in carsObject {
-                        self.travel.car = Car(item)
+                        self.travel.car = Vehicle(item)
                         self.tableView.reloadData()
-                        break;
+                        break
                     }
                 }
             } else {

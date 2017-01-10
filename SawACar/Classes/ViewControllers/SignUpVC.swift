@@ -296,7 +296,7 @@ extension SignUpVC : UICollectionViewDataSource, UICollectionViewDelegateFlowLay
 
 //MARK: Country and Nationality Selection Operations
 extension SignUpVC {
-    //Method : Open country list controller for select user's nationality and country
+    //Method : Open country list controller for select user's nationality and country, and mobile country code
     func openCountryList(_ forAction : SignUpFormActionType)  {
         let cListVC = VListViewController.loadFromNib()
         cListVC.keyForTitle = "CountryName"

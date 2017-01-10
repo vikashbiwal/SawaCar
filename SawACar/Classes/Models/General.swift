@@ -45,26 +45,18 @@ class Country {
 
 //MARK: Currency
 class Currency {
-    var Id : String!
-    var code: String!
-    var name: String!
-    var country: String!
-    var symbol: String!
+    var Id  = ""
+    var code = ""
+    var name = ""
+    var country = ""
+    var symbol = ""
     
-    init() {
-        Id      = ""
-        code    = ""
-        name    = ""
-        country = ""
-        symbol  = ""
-    }
-
     init(_ info : [String : Any]) {
         Id      = RConverter.string(info["CurrencyID"])
-        code    = RConverter.string(info["CurrencyCode"])
-        name    = RConverter.string(info["CurrencyName"])
-        country = RConverter.string(info["CurrencyCountry"])
-        symbol  = RConverter.string(info["CurrencySymbol"])
+        code    = RConverter.string(info["Code"])
+        name    = RConverter.string(info["Currency"])
+        country = RConverter.string(info["Country"])
+        symbol  = RConverter.string(info["Symbol"])
     }
     
 }
@@ -97,10 +89,16 @@ class AccountType {
 
 //MARK: Company
 class Company {
-    var Id: String!
-    var name: String!
+    var Id = ""
+    var name = ""
+    
     init(_ info: [String : Any]) {
-        Id = RConverter.string(info["CompanyID"])
+        if let _ = info["CompanyID"] {
+            Id = RConverter.string(info["CompanyID"])
+        } else {
+            Id = RConverter.string(info["ID"])
+        }
+        
         if let _ = info["CompanyName"] {
             name =  RConverter.string(info["CompanyName"])
         } else {
@@ -111,15 +109,31 @@ class Company {
 
 //MARK: Color
 class Color {
-    var Id: String!
-    var name: String!
+    var Id = ""
+    var name = ""
+    
     init(_ info: [String : Any]) {
-        Id = RConverter.string(info["ColorID"])
+        if let _ = info["ColorID"] {
+            Id = RConverter.string(info["ColorID"])
+        } else {
+            Id = RConverter.string(info["ID"])
+        }
         if let _ = info["ColorName"] {
             name =  RConverter.string(info["ColorName"])
         } else {
             name =  RConverter.string(info["Name"])
         }
+    }
+}
+
+//MARK: VehicleType
+class VehicleType {
+    var Id: String = ""
+    var name: String = ""
+    
+    init(_ info : [String : Any]) {
+        Id = RConverter.string(info["ID"])
+        name = RConverter.string(info["Name"])
     }
 }
 

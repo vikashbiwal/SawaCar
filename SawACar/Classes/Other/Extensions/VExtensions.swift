@@ -10,6 +10,8 @@ import Foundation
 
 //MARK:============================= Extensions ===================================
 
+typealias VCounterRange = (min: Int, value: Int, max: Int)
+
 //MARK: String
 extension String {
   

@@ -88,11 +88,11 @@ extension AddTravelStep1VC: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             return 75 * _widthRatio
         } else if indexPath.row == 1 {
-            return 190 * _widthRatio
+            return 0 //190 * _widthRatio
         } else if indexPath.row == 2 {
             return 90 * _widthRatio
         } else if indexPath.row == 3 {
-            return (travel.isRegularTravel ? 145 : 65) * _widthRatio
+            return 0 //(travel.isRegularTravel ? 145 : 65) * _widthRatio
 
         } else if indexPath.row == 4 {
             return (travel.isRoundTravel ? 145 : 65) * _widthRatio

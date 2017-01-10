@@ -36,7 +36,8 @@ class ProfileViewController: ParentVC {
                  Menu(title: "details".localizedString(),         imgName: "ic_detail", type: .details),
                  Menu(title: "settings".localizedString(),        imgName: "ic_settings", type: .settings)]
     
-    var menuItems = [CellItem]()
+    var menuCellItems = [CellItem]()
+    
     lazy var dateFomator: DateFormatter = { //formator for birthdate
         let df = DateFormatter()
         df.dateFormat = "dd/MM/yyyy"
@@ -144,13 +145,13 @@ extension ProfileViewController {
         } else if sw.type == .smoking {
             user.preference.smoking = isOn
         }
-        menuItems[sw.tag].boolValue = isOn
+        menuCellItems[sw.tag].boolValue = isOn
     }
     
     //TextField text change action.
     @IBAction func cellTextfieldDidChangeText(_ txtfield: SignupTextField) {
         let value = txtfield.text?.trimmedString()
-        let cellItem = menuItems[txtfield.tag]
+        let cellItem = menuCellItems[txtfield.tag]
         if txtfield.type == .firstName {
             user.firstname = value
         } else if txtfield.type == .lastName {
@@ -269,12 +270,12 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuItems.count
+        return menuCellItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if selectedMenu.type == .profile || selectedMenu.type == .socialLink {
-            let item = menuItems[indexPath.row]
+            let item = menuCellItems[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: item.cellName) as! TVSignUpFormCell
             cell.lblTitle.text = item.title
             cell.txtField.text = item.stringValue
@@ -285,13 +286,15 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell.txtField.tag = indexPath.row
             cell.button?.tag = indexPath.row
             return cell
+            
         } else if selectedMenu.type == .changePass {
             if indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "passwordSaveBtnCell") as! TVSignUpFormCell
                 return cell
+                
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "passwordCell") as! TVSignUpFormCell
-                let item = menuItems[indexPath.row]
+                let item = menuCellItems[indexPath.row]
                 cell.txtField.placeholder = item.title
                 cell.txtField.text = item.stringValue
                 cell.txtField.type = item.textfieldType
@@ -301,23 +304,25 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 
         } else if selectedMenu.type == .details {
             let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell") as! TVSignUpFormCell
-            let item = menuItems[indexPath.row]
+            let item = menuCellItems[indexPath.row]
             cell.lblTitle.text = item.title
             cell.lblSubTitle.text = item.stringValue
             return cell
+            
         } else  { //Settings
             var cellIdentifier = "switchCell"
             if [0, 5, 7].contains(indexPath.row) {
                 cellIdentifier = "switchAndTitleCell"
             }
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! TblSwitchBtnCell
-            let item = menuItems[indexPath.row]
+            let item = menuCellItems[indexPath.row]
             cell.lblHeader?.text = item.strHeader
             cell.lblTitle.text = item.title
             if item.settingType == .communicationLanguage || item.settingType ==  .speackingLanguage {
                 cell.lblSubTitle.text = item.stringValue
                 cell.lblSubTitle.isHidden = false
                 cell.switchBtn.isHidden = true
+                
             } else {
                 cell.lblSubTitle.isHidden = true
                 cell.switchBtn.isHidden = false
@@ -346,7 +351,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if selectedMenu.type == .profile  {
             if isEditMode {
                 self.view.endEditing(true)
-                let item  = menuItems[indexPath.row]
+                let item  = menuCellItems[indexPath.row]
                 if item.textfieldType == .birthDate {
                     selectedIndexPath = indexPath
                     self.showDatePickerView()
@@ -366,7 +371,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else if selectedMenu.type == .settings {
             if isEditMode {
-                let item = menuItems[indexPath.row]
+                let item = menuCellItems[indexPath.row]
                 if item.settingType == .communicationLanguage || item.settingType == .speackingLanguage {
                     self.openLanguagesListVC(indexPath, type: item.settingType)
                 }
@@ -378,6 +383,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: CollectionView datasource and delegate
+//Top Horizontal menu
 extension ProfileViewController : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -616,59 +622,59 @@ extension ProfileViewController {
     //MARK: Set Menu Items and UI as per seleted menu
     func changeMenuItems(_ menu: Menu)  {
         if menu.type == .profile {
-            menuItems = [CellItem(title: "first_name".localizedString(), value: user.firstname, txtFieldType: .firstName),
-                         CellItem(title: "last_name".localizedString(), value: user.lastname, txtFieldType: .lastName),
-                         CellItem(title: "gender".localizedString(), value: user.gender, txtFieldType: .gender, enable: false)]
+            menuCellItems = [CellItem(title: "first_name".localizedString(), value: user.firstname, txtFieldType: .firstName),
+                             CellItem(title: "last_name".localizedString(), value: user.lastname, txtFieldType: .lastName),
+                             CellItem(title: "gender".localizedString(), value: user.gender, txtFieldType: .gender, enable: false)]
             
             let birthdDate = dateFormator.dateString(user.birthDate, fromFomat: "yyyy-MM-dd", style: DateFormatter.Style.medium)
-            menuItems += [CellItem(title: "birth_date".localizedString(), value: birthdDate, txtFieldType: .birthDate, enable: false)]
-           
-            menuItems +=   [CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile, txtFieldType: .mobileNo, keyboardType: .numberPad, cellName: "mobileCell"),
-                            CellItem(title: "nationality".localizedString(), value: user.nationality.name,  txtFieldType: .nationality, enable: false),
-                            CellItem(title: "country".localizedString(), value: user.country.name,      txtFieldType: .country, enable: false),
-                            CellItem(title: "account_type".localizedString(), value: user.accountType.name,  txtFieldType: .accountType, enable: false)]
+            menuCellItems += [CellItem(title: "birth_date".localizedString(), value: birthdDate, txtFieldType: .birthDate, enable: false)]
+            
+            menuCellItems +=   [CellItem(title: "+" + user.mobileCountryCode,  value: user.mobile, txtFieldType: .mobileNo, keyboardType: .numberPad, cellName: "mobileCell"),
+                                CellItem(title: "nationality".localizedString(), value: user.nationality.name,  txtFieldType: .nationality, enable: false),
+                                CellItem(title: "country".localizedString(), value: user.country.name,      txtFieldType: .country, enable: false),
+                                CellItem(title: "account_type".localizedString(), value: user.accountType.name,  txtFieldType: .accountType, enable: false)]
             
         } else if menu.type == .changePass {
-            menuItems = [CellItem(title: "old_password".localizedString(),    value: user.oldPassword,    txtFieldType: .oldPassword),
-                         CellItem(title: "password".localizedString(),        value: user.password,       txtFieldType: .password),
-                         CellItem(title: "confirm_password".localizedString(),value: user.confPass,       txtFieldType: .confirmPass),
-                         CellItem(title: "Update",          value: "Update",            txtFieldType: .none)]
+            menuCellItems = [CellItem(title: "old_password".localizedString(),    value: user.oldPassword,    txtFieldType: .oldPassword),
+                             CellItem(title: "password".localizedString(),        value: user.password,       txtFieldType: .password),
+                             CellItem(title: "confirm_password".localizedString(),value: user.confPass,       txtFieldType: .confirmPass),
+                             CellItem(title: "Update",          value: "Update",            txtFieldType: .none)]
             
         } else if menu.type == .socialLink {
-            menuItems = [CellItem(title: "WhatsApp".localizedString(),    value: user.social.Whatsapp,    txtFieldType: .whatsApp),
-                         CellItem(title: "Line".localizedString(),        value: user.social.Line,        txtFieldType: .line),
-                         CellItem(title: "Tango".localizedString(),       value: user.social.Tango,       txtFieldType: .tango),
-                         CellItem(title: "Telegram".localizedString(),    value: user.social.Telegram,    txtFieldType: .telegram),
-                         CellItem(title: "Facebook".localizedString(),    value: user.social.Facebook,    txtFieldType: .facebook),
-                         CellItem(title: "Twitter".localizedString(),     value: user.social.Twitter,     txtFieldType: .twitter)]
+            menuCellItems = [CellItem(title: "WhatsApp".localizedString(),    value: user.social.Whatsapp,    txtFieldType: .whatsApp),
+                             CellItem(title: "Line".localizedString(),        value: user.social.Line,        txtFieldType: .line),
+                             CellItem(title: "Tango".localizedString(),       value: user.social.Tango,       txtFieldType: .tango),
+                             CellItem(title: "Telegram".localizedString(),    value: user.social.Telegram,    txtFieldType: .telegram),
+                             CellItem(title: "Facebook".localizedString(),    value: user.social.Facebook,    txtFieldType: .facebook),
+                             CellItem(title: "Twitter".localizedString(),     value: user.social.Twitter,     txtFieldType: .twitter)]
             
         } else if menu.type == .details {
-            menuItems = [CellItem(title: "Member_Since".localizedString() + ":",       value: user.createDate,                 txtFieldType: .none),
-                         CellItem(title: "Last_Login".localizedString() + ":",         value: user.lastLoginTime,              txtFieldType: .none),
-                         CellItem(title: "Last_Activity_Date".localizedString() + ":", value: user.lastLoginTime,              txtFieldType: .none),
-                         CellItem(title: "Number_of_Travels".localizedString() + ":",  value: user.numberOfTravels.ToString(), txtFieldType: .none),
-                         CellItem(title: "Contacts".localizedString() + ":",           value: user.numberOfContacts.ToString(),txtFieldType: .none),
-                         CellItem(title: "Email".localizedString() + ":",              value: user.EmailVerifiedString,        txtFieldType: .none),
-                         CellItem(title: "Phone_Number".localizedString() + ":",       value: user.MobileVerifiedString,       txtFieldType: .none),
-                         CellItem(title: "Facebook".localizedString() + ":",           value: user.FacebookVeriedString,       txtFieldType: .none)]
+            menuCellItems = [CellItem(title: "Member_Since".localizedString() + ":",       value: user.createDate,                 txtFieldType: .none),
+                             CellItem(title: "Last_Login".localizedString() + ":",         value: user.lastLoginTime,              txtFieldType: .none),
+                             CellItem(title: "Last_Activity_Date".localizedString() + ":", value: user.lastLoginTime,              txtFieldType: .none),
+                             CellItem(title: "Number_of_Travels".localizedString() + ":",  value: user.numberOfTravels.ToString(), txtFieldType: .none),
+                             CellItem(title: "Contacts".localizedString() + ":",           value: user.numberOfContacts.ToString(),txtFieldType: .none),
+                             CellItem(title: "Email".localizedString() + ":",              value: user.EmailVerifiedString,        txtFieldType: .none),
+                             CellItem(title: "Phone_Number".localizedString() + ":",       value: user.MobileVerifiedString,       txtFieldType: .none),
+                             CellItem(title: "Facebook".localizedString() + ":",           value: user.FacebookVeriedString,       txtFieldType: .none)]
             
         } else  { //Settings
             
-            menuItems = [CellItem(title: "Show_email_to_others".localizedString(),    value: user.preference.showEmail,       settingType: .showEmail,        icon: "ic_show_email", header: "General".localizedString()),
-                         CellItem(title: "Show_mobile_to_others".localizedString(),   value: user.preference.showMobile,      settingType: .showMobile,       icon: "ic_show_mobile"),
-                         CellItem(title: "Visible_in_search".localizedString(),       value: user.preference.visibleInSearch, settingType: .visibleInSearch,  icon: "ic_visible_search"),
-                         CellItem(title: "Accept_special_order".localizedString(),    value: user.preference.specialOrder,    settingType: .specialOrder,     icon: "ic_accept_special"),
-                         CellItem(title: "Accept_Monitoring".localizedString(),       value: user.preference.acceptMonitring, settingType: .acceptMonitring,  icon: "ic_monitoring"),
-                         
-                         CellItem(title: "Communication_Language".localizedString(),  value: user.preference.defaultLanguage?.name ?? "",           settingType: .communicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString())]
+            menuCellItems = [CellItem(title: "Show_email_to_others".localizedString(),    value: user.preference.showEmail,       settingType: .showEmail,        icon: "ic_show_email", header: "General".localizedString()),
+                             CellItem(title: "Show_mobile_to_others".localizedString(),   value: user.preference.showMobile,      settingType: .showMobile,       icon: "ic_show_mobile"),
+                             CellItem(title: "Visible_in_search".localizedString(),       value: user.preference.visibleInSearch, settingType: .visibleInSearch,  icon: "ic_visible_search"),
+                             CellItem(title: "Accept_special_order".localizedString(),    value: user.preference.specialOrder,    settingType: .specialOrder,     icon: "ic_accept_special"),
+                             CellItem(title: "Accept_Monitoring".localizedString(),       value: user.preference.acceptMonitring, settingType: .acceptMonitring,  icon: "ic_monitoring"),
+                             
+                             CellItem(title: "Communication_Language".localizedString(),  value: user.preference.defaultLanguage?.name ?? "",           settingType: .communicationLanguage,    icon: "ic_communication_lang", header: "Language".localizedString())]
             
             let langs = user.preference.speakingLanguages.map({ (lang) -> String in
                 return lang.code
             })
-            menuItems +=       [ CellItem(title: "Speaking_Language".localizedString(),       value: langs.joined(separator: ", "),   settingType: .speackingLanguage,        icon: "ic_speaking_lang")]
+            menuCellItems +=       [ CellItem(title: "Speaking_Language".localizedString(),       value: langs.joined(separator: ", "),   settingType: .speackingLanguage,        icon: "ic_speaking_lang")]
             
             
-            menuItems +=       [CellItem(title: "Children".localizedString(),        value: user.preference.kids,        settingType: .children,     icon: "ic_childreb", header: "My_Rules".localizedString()),
+            menuCellItems +=       [CellItem(title: "Children".localizedString(),        value: user.preference.kids,        settingType: .children,     icon: "ic_childreb", header: "My_Rules".localizedString()),
                                 CellItem(title: "Pets".localizedString(),            value: user.preference.pets,        settingType: .pets,         icon: "ic_pets"),
                                 CellItem(title: "Stop_for_pray".localizedString(),   value: user.preference.prayingStop, settingType: .stopForPray,  icon: "ic_pray"),
                                 CellItem(title: "Food_and_Drinks".localizedString(), value: user.preference.food,        settingType: .foodAndDrink, icon: "ic_food_drink"),

@@ -12,6 +12,7 @@ private let extraGrayColor = UIColor.colorWithRGB(r: 103, g: 103, b: 103)
 class AddCarVC: ParentVC {
 
     @IBOutlet var lblCompanyName: UILabel!
+    @IBOutlet var lblVehicleType: UILabel!
     @IBOutlet var lblInsurance: UILabel!
     @IBOutlet var lblSeatCount: UILabel!
     @IBOutlet var lblProYear: UILabel!
@@ -25,10 +26,10 @@ class AddCarVC: ParentVC {
     @IBOutlet var btnInsurance: UIButton!
     @IBOutlet var imgVCar: UIImageView!
    
-    var completionBlock: (Car)-> Void = {_ in}
+    var completionBlock: (Vehicle)-> Void = {_ in}
     var isLoading = false
     var yearPicker: VPickerView!
-    var car = Car()
+    var car = Vehicle()
     var isEditMode = false
 
     override func viewDidLoad() {
@@ -89,6 +90,8 @@ class AddCarVC: ParentVC {
             lblCompanyName.text = car.company?.name
             txtModel.text = car.model
             txtDetail.text = car.details
+            txtPlateNumber.text = car.plateNumber
+            
             btnInsurance.isSelected = car.insurance
             lblSeatCount.text = car.seatCounter.value.ToString()
             lblColor.text = car.color?.name
@@ -99,6 +102,7 @@ class AddCarVC: ParentVC {
             lblSeatCount.textColor = extraGrayColor
             lblProYear.textColor = extraGrayColor
             lblDetailPlaceHolder.isHidden = !car.details.isEmpty
+            
         }
     }
 }
@@ -116,6 +120,10 @@ extension AddCarVC {
     
     @IBAction func carCompanyBtnClicked(_ sender: UIButton) {
         openCompanyListVC()
+    }
+    
+    @IBAction func vehicleTypeBtnClicked(_ sender: UIButton) {
+        
     }
     
     @IBAction func carColorBtnClicked(_ sender: UIButton) {
@@ -154,11 +162,11 @@ extension AddCarVC {
     
     @IBAction func txtFieldDidChangeText(_ sender: UITextField) {
         if sender === txtModel {
-            car.model = sender.text
+            car.model = sender.text!
         } else if sender === txtDetail {
-            car.details = sender.text
+            car.details = sender.text!
         } else if sender === txtPlateNumber {
-            car.plateNumber = sender.text
+            car.plateNumber = sender.text!
         }
     }
     
@@ -253,40 +261,73 @@ extension AddCarVC : UIImagePickerControllerDelegate, UINavigationControllerDele
 extension AddCarVC {
     //navigate to select Car Company
     func openCompanyListVC()  {
-        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.carCompany
+        //let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
+        let cListVC = VListViewController.loadFromNib()
+        cListVC.keyForId = "ID"
+        cListVC.keyForTitle = "Name"
+        cListVC.apiName = APIName.GetCarCompanies
+        
         if let company = car.company {
             cListVC.preSelectedIDs = [company.Id]
         }
         cListVC.completionBlock = {(items) in
             if let item = items.first {
-                let company = item.obj as! Company
-                self.lblCompanyName.text = company.name
-                self.car.company = company
-                self.lblCompanyName.textColor = extraGrayColor
+                if let obj = item.obj as? [String : Any] {
+                    let company = Company(obj)
+                    self.lblCompanyName.text = company.name
+                    self.car.company = company
+                    self.lblCompanyName.textColor = extraGrayColor
+                }
             }
         }
-        self.navigationController?.pushViewController(cListVC, animated: true)
+        
+        self.present(cListVC, animated: true, completion: nil)
     }
     
     func openColorListVC()  {
-        let cListVC = _driverStoryboard.instantiateViewController(withIdentifier: "SBID_ListVC") as! ListViewController
-        cListVC.listType = ListType.color
+        let cListVC = VListViewController.loadFromNib()
+        cListVC.keyForId = "ID"
+        cListVC.keyForTitle = "Name"
+        cListVC.apiName = APIName.GetColors
         if let color = car.color {
             cListVC.preSelectedIDs = [color.Id]
         }
 
         cListVC.completionBlock = {(items) in
             if let item = items.first {
-                let color = item.obj as! Color
-                self.lblColor.text = color.name
-                self.car.color = color
-                self.lblColor.textColor = extraGrayColor
+                if let obj = item.obj as? [String : Any] {
+                    let color = Color(obj)
+                    self.lblColor.text = color.name
+                    self.car.color = color
+                    self.lblColor.textColor = extraGrayColor
+                }
             }
         }
-        self.navigationController?.pushViewController(cListVC, animated: true)
+        self.present(cListVC, animated: true, completion: nil)
     }
     
+    func openVehicleTypeListVC()  {
+        let cListVC = VListViewController.loadFromNib()
+        cListVC.keyForId = "ID"
+        cListVC.keyForTitle = "Name"
+        cListVC.apiName = APIName.GetCarType
+        if let color = car.color {
+            cListVC.preSelectedIDs = [color.Id]
+        }
+        
+        cListVC.completionBlock = {(items) in
+            if let item = items.first {
+                if let obj = item.obj as? [String : Any] {
+                    let vehicleType = VehicleType(obj)
+                    self.lblVehicleType.text = vehicleType.name
+                    self.car.vehicleType = vehicleType
+                    self.lblVehicleType.textColor = extraGrayColor
+                }
+            }
+        }
+        self.present(cListVC, animated: true, completion: nil)
+    }
+
 }
 
 //MARK: API Calls
@@ -295,16 +336,14 @@ extension AddCarVC {
     //MARK: Add Car API
     func addCarAPICall() {
         self.showCentralGraySpinner()
-        let params = ["UserID" : me.Id,
-                      "CompanyID" : car.company!.Id,
+        let params = ["VichelCompanyID" : car.company!.Id,
                       "Model" : car.model,
                       "ColorID" : car.color!.Id,
-                      "Seats" : car.seatCounter.value.ToString(),
+                      "SeatsNumber" : car.seatCounter.value.ToString(),
                       "Details" : car.details,
                       "ProductionYear" : car.productionYear,
-                      "Insurance" : car.insurance,
-                      "Photo" : "",
-                      "PaletteNumber" : car.plateNumber] as [String : Any]
+                      "Insurance" : car.insurance ? "true" : "false",
+                      "PaletteNumber" : car.plateNumber] 
         
         wsCall.addCar(params) { (response, flag) in
             if response.isSuccess {
@@ -339,17 +378,15 @@ extension AddCarVC {
     
     func updateCarAPICall() {
         self.showCentralGraySpinner()
-        let params = ["CarID": car.id,
-                      "UserID" : me.Id,
-                      "CompanyID" : car.company!.Id,
+        let params = ["CarID" : car.id,
+                      "VichelCompanyID" : car.company!.Id,
                       "Model" : car.model,
                       "ColorID" : car.color!.Id,
-                      "Seats" : car.seatCounter.value.ToString(),
+                      "SeatsNumber" : car.seatCounter.value.ToString(),
                       "Details" : car.details,
                       "ProductionYear" : car.productionYear,
-                      "Insurance" : car.insurance,
-                      "Photo" : "",
-                      "PaletteNumber" : "GJ 1212"] as [String : Any]
+                      "Insurance" : car.insurance ? "true" : "false",
+                      "PaletteNumber" : car.plateNumber]
         
         wsCall.updateCar(params) { (response, flag) in
             if response.isSuccess {

@@ -292,8 +292,8 @@ class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDa
                         }
                         if let cordinate = data["geometry"] as? [String : Any] {
                             if let loc = cordinate["location"] as? [String : Any] {
-                                self.selectedAddress.lat =  Double(loc["lat"] as! String)!
-                                self.selectedAddress.long = Double(loc["lng"] as! String)!
+                                self.selectedAddress.lat =  RConverter.double(loc["lat"])
+                                self.selectedAddress.long = RConverter.double(loc["lng"])
                                 
                                 DispatchQueue.main.async(execute: {
                                     self.selectionBlock(self.selectedAddress)
@@ -321,8 +321,8 @@ class LocationPickerViewController: ParentVC, UITableViewDelegate, UITableViewDa
 
                         if let cordinate = data[0]["geometry"] as? [String : Any] {
                             if let loc = cordinate["location"] as? [String : Any] {
-                                self.selectedAddress.lat =  Double(loc["lat"] as! String)!
-                                self.selectedAddress.long = Double(loc["lng"] as! String)!
+                                self.selectedAddress.lat =  RConverter.double(loc["lat"])
+                                self.selectedAddress.long = RConverter.double(loc["lng"])
                                 
                                 DispatchQueue.main.async(execute: {
                                     self.selectionBlock(self.selectedAddress)

@@ -155,6 +155,7 @@ extension LoginVC {
     }
     
     //MARK: Login With Facebook
+    
     func loginWithFacebook() {
         self.showCentralGraySpinner()
         let fbManager = FBSDKLoginManager()
@@ -174,16 +175,17 @@ extension LoginVC {
                         self.hideCentralGraySpinner()
                     }
                     //getProfile image url from fb data
-                    let info = result as! [String : AnyObject]
-                    var imgageUrl = ""
-                    if let picture = info["picture"]  {
-                        if let data = picture["data"] as? NSDictionary {
-                            if let url = data["url"] as? String {
-                                imgageUrl = url
+                    if  let info = result as? [String : Any] {
+                        var imgageUrl = ""
+                        if let picture = info["picture"] as? [String : Any]  {
+                            if let data = picture["data"] as? [String : Any] {
+                                if let url = data["url"] as? String {
+                                    imgageUrl = url
+                                }
                             }
                         }
+                        self.donwloadFbProfileImage(imgageUrl)
                     }
-                    self.donwloadFbProfileImage(imgageUrl)
 
                     //Login APICall
                     self.loginWithFacebookWSCall(result as! [String : AnyObject])
@@ -193,7 +195,7 @@ extension LoginVC {
     }
     
     
-    
+    //Login with facebook api call
     func loginWithFacebookWSCall(_ fbInfo : [String : AnyObject])  {
         print(fbInfo)
         let gender = fbInfo["gender"] as! String == "male" ? true : false

@@ -10,36 +10,31 @@ import Foundation
 
 
 //MARK: Car Class
-class Car: Equatable {
-    var id:String!
-    var name: String!
-    var userId: String!
-    var model: String!
-    var plateNumber: String!
-    var seatCounter: VCounterRange = (1,1,9)
-    var photo: String!
-    var productionYear: String!
-    var details: String!
+class Vehicle: Equatable {
+    var id  = ""
+    var name = ""
+    var userId = ""
+    var ownerName = ""
+    var ownerPhoto = ""
+    var model = ""
+    var plateNumber = ""
+    var seatCounter:  VCounterRange = (1,1,9)
+    var photo = ""
+    var productionYear = ""
+    var details = ""
     var insurance: Bool = false
     var rating: Int = 0
     var isActive = true
     var company: Company?
     var color: Color?
+    var vehicleType: VehicleType!
     
     init() {
-        //code here
-        id = ""
-        name = ""
-        userId = ""
-        model = ""
-        productionYear = ""
-        photo = kWSDomainURL
-        details = ""
         
     }
     
     init(_ info: [String : Any]) {
-        id = RConverter.string(info["CarID"])
+        id = RConverter.string(info["ID"])
         name = RConverter.string(info["CarName"])
         userId = RConverter.string(info["UserID"])
         model = RConverter.string(info["Model"])
@@ -49,15 +44,22 @@ class Car: Equatable {
         rating = RConverter.integer(info["Rating"])
         isActive = RConverter.boolean(info["Active"])
         details = RConverter.string(info["Details"])
+        plateNumber = RConverter.string(info["PalleteNumber"])
+        
+        userId = RConverter.string(info["OwnerID"])
+        ownerName = RConverter.string(info["OwnerName"])
+        ownerPhoto = kUserImageBaseUrl + RConverter.string(info["OwnerPhoto"])
+        
         company = Company(info)
         color = Color(info)
-        seatCounter.value = RConverter.integer(info["Seats"])
-        seatCounter.max = seatCounter.value
+        vehicleType = VehicleType(info)
         
+        seatCounter.value = RConverter.integer(info["SeatsNumber"])
+        seatCounter.max = seatCounter.value
     }
     
     func setInfo(_ info: [String : Any]) {
-        id = RConverter.string(info["CarID"])
+        id = RConverter.string(info["ID"])
         name = RConverter.string(info["CarName"])
         userId = RConverter.string(info["UserID"])
         model = RConverter.string(info["Model"])
@@ -67,14 +69,22 @@ class Car: Equatable {
         rating = RConverter.integer(info["Rating"])
         isActive = RConverter.boolean(info["Active"])
         details = RConverter.string(info["Details"])
+        plateNumber = RConverter.string(info["PalleteNumber"])
+        
+        userId = RConverter.string(info["OwnerID"])
+        ownerName = RConverter.string(info["OwnerName"])
+        ownerPhoto = kUserImageBaseUrl + RConverter.string(info["OwnerPhoto"])
+        
         company = Company(info)
         color = Color(info)
-        seatCounter.value = RConverter.integer(info["Seats"])
+        vehicleType = VehicleType(info)
+        
+        seatCounter.value = RConverter.integer(info["SeatsNumber"])
         seatCounter.max = seatCounter.value
     }
     
-    class func  CreateCarFromTravel(_ info: [String : Any])-> Car {
-        let car = Car()
+    class func  CreateCarFromTravel(_ info: [String : Any])-> Vehicle {
+        let car = Vehicle()
         car.id = RConverter.string(info["CarID"])
         car.name = RConverter.string(info["CarFullName"])
         car.rating = RConverter.integer(info["CarRating"])
@@ -85,7 +95,11 @@ class Car: Equatable {
     }
     
     
-    
+    //conform Equatable Protocal for Car object
+    static func ==(lhs: Vehicle, rhs: Vehicle) -> Bool {
+        return lhs.id == rhs.id
+    }
+
     // func for validate add or edit car process
     func validateAddCarProcess()-> (isValid: Bool, message: String) {
         guard let _ = company else {
@@ -117,7 +131,3 @@ class Car: Equatable {
     
 }
 
-//conform Equatable Protocal for Car object
-func ==(lhs: Car, rhs: Car) -> Bool {
-    return lhs.id == rhs.id
-}

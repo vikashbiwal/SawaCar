@@ -28,35 +28,43 @@ let kGrantTypeRefreshToken = "refresh_token"
 //============================================================================================
 
 struct APIName {
-    static let GetAllCountries = "api/Countries/Get"
-    static let GetActiveCountries = "api/Countries/GetActiveCountry"
-    static let GetAccountTypes = "api/accountTypes/get"
-    static let GetLanguages = "api/General/GetLanguages"
-    static let GetAllCurrency = "api/Currencies/Get"
+    static let GetAllCountries = "api/Countries/Get/"
+    static let GetActiveCountries = "api/Countries/GetActiveCountry/"
+    static let GetAccountTypes = "api/accountTypes/get/"
+    static let GetLanguages = "api/General/GetLanguages/"
+    static let GetAllCurrency = "api/Currencies/Get/"
+    static let GetActiveCurrency = "api/Currencies/GetActive/"
     static let GetCurrencyByCode = "api/Currencies/GetByCode/"
-    static let GetColors = "api/ColorMultiLinguals/GetColors"
+    static let GetColors = "api/ColorMultiLinguals/GetColors/"
     
-    static let CheckEmailAvailability = "api/users/IsEmailAvailableToSignUp"
+    static let CheckEmailAvailability = "api/users/IsEmailAvailableToSignUp/"
     static let Authentication = "token"
-    static let RegisterFcmDeviceToken = "api/FcmDevices/RegisterFcmDeviceToken"
-    static let SignUp = "api/users/Signup"
-    static let ForgetPassword = "api/users/ForgetPassword"
-    static let PostUserPhoto = "api/upload/PostUserPhoto"
-    static let UpdateUserPhoto = "api/upload/UpdateMyPhoto"
+    static let RegisterFcmDeviceToken = "api/FcmDevices/RegisterFcmDeviceToken/"
+    static let SignUp = "api/users/Signup/"
+    static let ForgetPassword = "api/users/ForgetPassword/"
+    static let PostUserPhoto = "api/upload/PostUserPhoto/"
+    static let UpdateUserPhoto = "api/upload/UpdateMyPhoto/"
     static let GetMyInfo = "api/users/GetMyInfo/"
     
-    static let UpdatePersonalnfo = "api/users/UpdateUserPersonalnfo"
-    static let UpdateSocialMedia = "api/users/UpdateUserSocialMedia"
-    static let UpdatePhoneNumber = "api/users/UpdateUserPhoneNumber"
-    static let UpdatePreferences = "api/users/UpdateUserPreferences"
-    static let ChangePassword    = "api/users/ChangePassword"
+    static let UpdatePersonalnfo = "api/users/UpdateUserPersonalnfo/"
+    static let UpdateSocialMedia = "api/users/UpdateUserSocialMedia/"
+    static let UpdatePhoneNumber = "api/users/UpdateUserPhoneNumber/"
+    static let UpdatePreferences = "api/users/UpdateUserPreferences/"
+    static let ChangePassword    = "api/users/ChangePassword/"
    
-    static let GetCarType = "api/VichelType/GetCarType"
-    static let GetCarCompanies = "api/VichelCompany/GetCarCompany"
-    static let GetUserCars = "api/Cars/GetMy"
-    static let AddCar = "api/Cars/Post"
-    static let UpdateCar = "api/Cars/UpdateCar"
-    static let DeleteCar = "api/Cars/Delete"
+    static let GetCarType = "api/VichelType/GetCarType/"
+    static let GetCarCompanies = "api/VichelCompany/GetCarCompany/"
+    static let GetUserCars = "api/Cars/GetMy/"
+    static let AddCar = "api/Cars/Post/"
+    static let UpdateCar = "api/Cars/UpdateCar/"
+    static let UpdateCarImage = "api/cars/UpdateImageCar/"
+    static let DeleteCar = "api/Cars/Delete/"
+
+    static let AddTravel = "api/Travel/Post/"
+    static let UpdateTravel = ""
+    static let SearchTravels = "api/Travel/Search/"
+    static let GetMyTravels = "api/Travel/GetMyTravels/"
+    static let GetTravelByUser = "api/Travel/Get/"  //Append userID with url
 }
 
 //===================================================================================================================================
@@ -225,9 +233,9 @@ extension Webservice {
         _ = GET_REQUEST(APIName.GetCarCompanies, param: nil, block: block)
     }
     
-    func getCarOfUser(_ params: [String : Any], block: @escaping WSBlock) {
+    func getCarOfUser( block: @escaping WSBlock) {
         jprint("=======WS =\(kWSDomainURL)\(APIName.GetUserCars)=======")
-        _ = GET_REQUEST(APIName.GetUserCars, param: params, block: block)
+        _ = GET_REQUEST(APIName.GetUserCars, param: nil, block: block)
     }
 
     func addCar(_ params: [String : Any], block: @escaping WSBlock)  {
@@ -243,8 +251,8 @@ extension Webservice {
     }
 
     func updateCarImage(_ imgData: Data, carId: String, block: @escaping WSBlock) {
-        jprint("=======WS = UpdateCarImage=======")
-        uploadImage(imgData, relativepath: urlWithMethod("UpdateCarImage&CarID=\(carId)"), param: nil, block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.UpdateCarImage)=======")
+        uploadImage(imgData, relativepath: (APIName.UpdateCarImage +  carId), param: nil, block: block)
     }
     
     func deleteCar(_ params: [String : Any], block: @escaping WSBlock) {
@@ -261,12 +269,11 @@ extension Webservice {
 extension Webservice {
     func addTravel(_ params: [String : Any], block: @escaping WSBlock) {
         //http://sawacar.com/Services/Sawacar.ashx?Method=AddTravel
-        //Parameters: LocationFrom, LocationTo, LocationStop1, LocationStop2, LocationStop3
-        //DepartureDate, DepartureHour, DepartureMinute, DriverID, CarID, CurrencyID, CarPrice,
+        //Parameters: LocationFrom, LocationTo, DepartureDate, DriverID, CarID, CurrencyID, CarPrice,
         //PassengerPrice, Luggages, Seats, LadiesOnly, Tracking, Details, RepeatType, RepeatEndDate,
         //RoundDate, RoundHour, RoundMinute, DepartureFlexibility
-        jprint("=======WS = AddTravel=======")
-        POST_REQUEST(urlWithMethod("AddTravel"), param:params , block: block)
+        jprint("=======WS =\(kWSDomainURL)\(APIName.AddTravel)=======")
+        POST_REQUEST(APIName.AddTravel, param:params , block: block)
     }
     
     func updateTravel(_ params: [String : Any], block: @escaping WSBlock) {
