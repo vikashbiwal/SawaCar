@@ -549,9 +549,9 @@
 		036A89731CBB80E200DFB631 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				694A45381E08FC6900584F9F /* VListController */,
 				03FD10661CBB8AA400695AE2 /* Constants.swift */,
 				0349D8451D3E0C7E00B17976 /* AppMessages.swift */,
+				694A45381E08FC6900584F9F /* VListController */,
 				038F50E91D22859400E28B5D /* ValidationToast */,
 				031032301D0EB0AF0024531A /* DatePicker */,
 				034826C21CFC5B2E000B46AE /* Font */,

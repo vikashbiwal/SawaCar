@@ -62,6 +62,7 @@ class UserLocation: NSObject  {
         } else if status == CLAuthorizationStatus.authorizedAlways || status == CLAuthorizationStatus.authorizedWhenInUse {
             return true
         }
+        "".trimmedString()
         return false
     }
  
